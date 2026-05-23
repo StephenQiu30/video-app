@@ -6,9 +6,9 @@ import { useMutation } from '@tanstack/react-query'
 import { parseVideo, createTask, getGitHubAuthorizeUrl, type ParseResult } from '../lib/api'
 import { useAuth } from '../contexts/auth'
 import { PageContainer } from '../components/layout/PageContainer'
+import { ParserPanel, ParseResultPanel } from '../components/parser/ParserPanel'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input'
 import { readPendingUrl, savePendingUrl } from '../lib/pending-url'
 
@@ -124,13 +124,8 @@ export function HomePage() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>首屏解析器</CardTitle>
-          <CardDescription>支持登录后解析并创建下载任务，解析结果会保留标题、封面、平台与可用格式。</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="parse-form" onSubmit={onSubmit}>
+      <ParserPanel>
+          <form className="parse-form" aria-label="视频解析表单" onSubmit={onSubmit}>
             <label className="form-label" htmlFor="video-url">
               视频链接
             </label>
@@ -169,7 +164,7 @@ export function HomePage() {
             </p>
           )}
           {parseResult && (
-            <div className="parse-result">
+            <ParseResultPanel>
               {parseResult.cover_url && (
                 <img className="result-cover" src={parseResult.cover_url} alt={parseResult.title || '视频封面'} />
               )}
@@ -205,10 +200,9 @@ export function HomePage() {
                   </div>
                 </div>
               )}
-            </div>
+            </ParseResultPanel>
           )}
-        </CardContent>
-      </Card>
+      </ParserPanel>
     </PageContainer>
   )
 }
