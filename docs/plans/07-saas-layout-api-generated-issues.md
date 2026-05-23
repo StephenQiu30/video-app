@@ -45,17 +45,47 @@ downstream:
 
 | PR 组 | 仓库 | Issues | 说明 |
 | --- | --- | --- | --- |
-| PR-A | video-web | M3-W1 ~ M3-W4 | SaaS layout shell、路由、PageContainer、404 |
-| PR-B | video-web | M3-W5 ~ M3-W8 | 任务页、报告入口、账号页、响应式 |
-| PR-C | video-web | M3-W9 ~ M3-W11 | 异常状态、错误归一化、401/403/429/5xx |
-| PR-D | video-web | M3-W12 ~ M3-W15 | OpenAPI 生成 API、业务封装迁移、生成校验 |
-| PR-E | video-server | M3-S1 ~ M3-S3 | Swagger/OpenAPI 契约确认、导出脚本或文档、schema 缺口检查 |
+| PR-A | video-web | #55, #56, #57, #58 | SaaS layout shell、路由、PageContainer、404 |
+| PR-B | video-web | #59, #60, #61, #62 | 任务页、报告入口、账号页、响应式 |
+| PR-C | video-web | #63, #64, #65 | 异常状态、错误归一化、401/403/429/5xx |
+| PR-D | video-web | #66, #67, #68, #69 | OpenAPI 生成 API、业务封装迁移、生成校验 |
+| PR-E | video-server | #49, #50, #51 | Swagger/OpenAPI 契约确认、导出脚本或文档、schema 缺口检查 |
 
 PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的 OpenAPI 契约结论。
 
-## 4. video-web issues
+## 4. GitHub issue 映射
 
-### M3-W1 `[P1][frontend][layout] SaaS 顶部导航与 AppLayout 基线`
+### 4.1 video-web
+
+| 编号 | 标题 | PR 组 |
+| --- | --- | --- |
+| #55 | `[P1][frontend][layout] SaaS 顶部导航与 AppLayout 基线` | PR-A |
+| #56 | `[P1][frontend][layout] PageContainer 与 PageHeader 统一页面骨架` | PR-A |
+| #57 | `[P1][frontend][route] /tasks 路由替代 /workbench 并保留兼容重定向` | PR-A |
+| #58 | `[P1][frontend][state] 404 NotFoundPage 与未知路由回退` | PR-A |
+| #59 | `[P1][frontend][tasks] 任务页桌面列表与移动卡片响应式` | PR-B |
+| #60 | `[P1][frontend][report] 顶部报告入口跳转已完成任务筛选` | PR-B |
+| #61 | `[P1][frontend][account] 账号页展示用户资料与额度` | PR-B |
+| #62 | `[P1][frontend][parser] 解析页适配新 PageContainer 与 SaaS 视觉节奏` | PR-B |
+| #63 | `[P1][frontend][errors] Empty/Error/Loading/Forbidden 状态组件` | PR-C |
+| #64 | `[P1][frontend][api-contract] normalizeApiError 与 429/5xx 文案` | PR-C |
+| #65 | `[P1][frontend][auth] 401 统一清 token 并跳转登录` | PR-C |
+| #66 | `[P1][frontend][api-generated] OpenAPI 生成工具与目录基线` | PR-D |
+| #67 | `[P1][frontend][api-generated] request.ts 统一 baseURL/token/错误处理` | PR-D |
+| #68 | `[P1][frontend][api-generated] services/api.ts 业务封装迁移基线` | PR-D |
+| #69 | `[P1][frontend][ci] api:check 与生成文件同步校验` | PR-D |
+
+### 4.2 video-server
+
+| 编号 | 标题 | PR 组 |
+| --- | --- | --- |
+| #49 | `[P1][backend][api-contract] Swagger/OpenAPI 本地契约验收` | PR-E |
+| #50 | `[P1][backend][api-contract] OpenAPI response model 缺口检查` | PR-E |
+| #51 | `[P1][backend][docs] OpenAPI 导出与前端生成协作说明` | PR-E |
+
+## 5. video-web issues
+
+### M3-W1 #55 `[P1][frontend][layout] SaaS 顶部导航与 AppLayout 基线`
 
 - Epic：`epic:saas-layout`
 - 类型：`type:frontend`, `type:ui`, `type:architecture`
@@ -69,7 +99,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 未登录/已登录账号区测试通过。
   - 不引入 antd/Umi。
 
-### M3-W2 `[P1][frontend][layout] PageContainer 与 PageHeader 统一页面骨架`
+### M3-W2 #56 `[P1][frontend][layout] PageContainer 与 PageHeader 统一页面骨架`
 
 - Epic：`epic:saas-layout`
 - 类型：`type:frontend`, `type:ui`
@@ -82,7 +112,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 页面标题、描述、右侧操作测试覆盖。
   - 页面不再使用单个大卡片承载整页。
 
-### M3-W3 `[P1][frontend][route] /tasks 路由替代 /workbench 并保留兼容重定向`
+### M3-W3 #57 `[P1][frontend][route] /tasks 路由替代 /workbench 并保留兼容重定向`
 
 - Epic：`epic:saas-layout`
 - 类型：`type:frontend`, `type:core`
@@ -95,7 +125,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - `/workbench` 兼容重定向测试通过。
   - 未登录访问 `/tasks` 仍跳转 `/auth`。
 
-### M3-W4 `[P1][frontend][state] 404 NotFoundPage 与未知路由回退`
+### M3-W4 #58 `[P1][frontend][state] 404 NotFoundPage 与未知路由回退`
 
 - Epic：`epic:error-states`
 - 类型：`type:frontend`, `type:ui`
@@ -107,7 +137,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 单测覆盖未知路由。
   - E2E 覆盖 `/unknown-path`。
 
-### M3-W5 `[P1][frontend][tasks] 任务页桌面列表与移动卡片响应式`
+### M3-W5 #59 `[P1][frontend][tasks] 任务页桌面列表与移动卡片响应式`
 
 - Epic：`epic:task-experience`
 - 类型：`type:frontend`, `type:ui`, `type:core`
@@ -120,7 +150,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 核心字段：标题、状态、进度、格式、更新时间、详情入口。
   - 不在列表中堆叠下载/PDF 复杂操作。
 
-### M3-W6 `[P1][frontend][report] 顶部报告入口跳转已完成任务筛选`
+### M3-W6 #60 `[P1][frontend][report] 顶部报告入口跳转已完成任务筛选`
 
 - Epic：`epic:task-experience`
 - 类型：`type:frontend`, `type:report`, `type:core`
@@ -132,7 +162,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 已完成筛选 E2E 通过。
   - 空报告状态文案为“暂无可导出的报告”。
 
-### M3-W7 `[P1][frontend][account] 账号页展示用户资料与额度`
+### M3-W7 #61 `[P1][frontend][account] 账号页展示用户资料与额度`
 
 - Epic：`epic:account-quota`
 - 类型：`type:frontend`, `type:auth`, `type:ui`
@@ -145,7 +175,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 展示邮箱、显示名、任务额度、并发额度、最大文件大小、存储额度、保留时间。
   - 未登录访问跳转 `/auth`。
 
-### M3-W8 `[P1][frontend][parser] 解析页适配新 PageContainer 与 SaaS 视觉节奏`
+### M3-W8 #62 `[P1][frontend][parser] 解析页适配新 PageContainer 与 SaaS 视觉节奏`
 
 - Epic：`epic:conversion-parser`
 - 类型：`type:frontend`, `type:ui`
@@ -158,7 +188,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - pending URL 现有测试继续通过。
   - 解析、格式选择、创建任务链路不回退。
 
-### M3-W9 `[P1][frontend][errors] Empty/Error/Loading/Forbidden 状态组件`
+### M3-W9 #63 `[P1][frontend][errors] Empty/Error/Loading/Forbidden 状态组件`
 
 - Epic：`epic:error-states`
 - 类型：`type:frontend`, `type:ui`
@@ -171,7 +201,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
 - 验收：
   - 任务空态、报告空态、详情错误态复用统一组件。
 
-### M3-W10 `[P1][frontend][api-contract] normalizeApiError 与 429/5xx 文案`
+### M3-W10 #64 `[P1][frontend][api-contract] normalizeApiError 与 429/5xx 文案`
 
 - Epic：`epic:error-states`
 - 类型：`type:frontend`, `type:data`, `type:api-contract`
@@ -183,7 +213,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 单测覆盖后端统一错误 envelope。
   - 页面不直接解析 axios 原始错误。
 
-### M3-W11 `[P1][frontend][auth] 401 统一清 token 并跳转登录`
+### M3-W11 #65 `[P1][frontend][auth] 401 统一清 token 并跳转登录`
 
 - Epic：`epic:error-states`
 - 类型：`type:frontend`, `type:auth`, `type:data`
@@ -195,7 +225,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 401 后 localStorage token 被清理。
   - 页面跳转 `/auth`。
 
-### M3-W12 `[P1][frontend][api-generated] OpenAPI 生成工具与目录基线`
+### M3-W12 #66 `[P1][frontend][api-generated] OpenAPI 生成工具与目录基线`
 
 - Epic：`epic:api-generated`
 - 类型：`type:frontend`, `type:data`, `type:api-contract`, `type:devops`
@@ -208,7 +238,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 可从 `http://localhost:8000/openapi.json` 生成 client。
   - generated 目录禁止手改的说明写入文档。
 
-### M3-W13 `[P1][frontend][api-generated] request.ts 统一 baseURL/token/错误处理`
+### M3-W13 #67 `[P1][frontend][api-generated] request.ts 统一 baseURL/token/错误处理`
 
 - Epic：`epic:api-generated`
 - 类型：`type:frontend`, `type:data`
@@ -221,7 +251,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 单测覆盖 token header。
   - 单测覆盖 401 行为。
 
-### M3-W14 `[P1][frontend][api-generated] services/api.ts 业务封装迁移基线`
+### M3-W14 #68 `[P1][frontend][api-generated] services/api.ts 业务封装迁移基线`
 
 - Epic：`epic:api-generated`
 - 类型：`type:frontend`, `type:data`, `type:api-contract`
@@ -234,7 +264,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - 页面不直接依赖 generated 方法名。
   - 现有 API 测试迁移或保持兼容。
 
-### M3-W15 `[P1][frontend][ci] api:check 与生成文件同步校验`
+### M3-W15 #69 `[P1][frontend][ci] api:check 与生成文件同步校验`
 
 - Epic：`epic:api-generated`
 - 类型：`type:frontend`, `type:ci`, `type:devops`
@@ -246,9 +276,9 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - schema 与 generated 不一致时校验失败。
   - README 或 operations 文档说明联调方式。
 
-## 5. video-server issues
+## 6. video-server issues
 
-### M3-S1 `[P1][backend][api-contract] Swagger/OpenAPI 本地契约验收`
+### M3-S1 #49 `[P1][backend][api-contract] Swagger/OpenAPI 本地契约验收`
 
 - Epic：`epic:openapi-contract`
 - 类型：`type:backend`, `type:api-contract`, `type:docs`
@@ -260,7 +290,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
   - `curl http://localhost:8000/openapi.json` 可获得 JSON。
   - Swagger UI 可访问或有明确配置说明。
 
-### M3-S2 `[P1][backend][api-contract] OpenAPI response model 缺口检查`
+### M3-S2 #50 `[P1][backend][api-contract] OpenAPI response model 缺口检查`
 
 - Epic：`epic:openapi-contract`
 - 类型：`type:backend`, `type:api-contract`, `type:test`
@@ -271,7 +301,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
 - 验收：
   - 前端 codegen 不因关键接口缺少 schema 失败。
 
-### M3-S3 `[P1][backend][docs] OpenAPI 导出与前端生成协作说明`
+### M3-S3 #51 `[P1][backend][docs] OpenAPI 导出与前端生成协作说明`
 
 - Epic：`epic:openapi-contract`
 - 类型：`type:backend`, `type:docs`, `type:api-contract`
@@ -282,7 +312,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
 - 验收：
   - 文档包含本地端口 `8000` 与前端默认端口 `5173`。
 
-## 6. 任务自审
+## 7. 任务自审
 
 ### 6.1 是否过度设计
 
@@ -317,7 +347,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
 - generated API 与业务封装分层，避免页面绑定生成器命名。
 - Vite 默认 5173 写入验收标准，避免启动地址漂移。
 
-## 7. GitHub issue 标签建议
+## 8. GitHub issue 标签建议
 
 需要新增标签：
 
@@ -346,7 +376,7 @@ PR 顺序建议：PR-E 可与 PR-A 并行准备，但 PR-D 必须依赖 PR-E 的
 - `type:report`
 - `agent:ready`
 
-## 8. issue 创建后的确认项
+## 9. issue 创建后的确认项
 
 - 所有 issue 都绑定 milestone。
 - 所有 issue 至少包含 priority、type、workflow、agent:ready。
