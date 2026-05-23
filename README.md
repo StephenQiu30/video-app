@@ -1,17 +1,18 @@
 # 视频下载器前端（video-web）
 
-本仓库承接 API-First 视频下载器的前端交付，采用独立仓库 + React + TypeScript + React Router + TanStack Query 组织。
+本仓库承接 API-First 视频下载器的前端交付，采用独立仓库 + Ant Design Pro + Umi Max + React + TypeScript 组织。
 
 ## 一句话说明
 
-先在落地页完成链接解析，再通过授权后进入工作台进行任务管理，最后展示任务详情与下载链接。
+登录后在一体化后台中完成链接解析、下载任务管理、账号额度查看和管理员运维。
 
 ## 仓库结构
 
 - `src/`：前端源码
 - `public/`：静态资源
 - `docs/`：架构/计划/验收/运行文档
-- `tests/`：Playwright E2E 与单元测试入口
+- `config/`：Ant Design Pro / Umi Max 配置、路由和代理
+- `tests/`：Jest 测试入口；E2E 将在 M4 PR-E 重新接入
 - `package.json`：依赖与脚本
 
 ## 运行方式
@@ -24,7 +25,7 @@ cp .env.example .env
 npm run dev
 ```
 
-默认访问 `http://localhost:3000`，后端默认 `http://localhost:8000`。
+默认访问 `http://localhost:5173`，后端默认 `http://localhost:8000`。
 
 ### Docker 部署
 
@@ -43,18 +44,18 @@ WEB_HTTP_PORT=8080 npm run docker:up
 
 ## 主要脚本
 
-- `npm run dev`：启动开发服务
-- `npm run build`：类型校验 + 打包
-- `npm run lint`：ESLint
-- `npm run test`：Vitest 单元测试
-- `npm run test:e2e`：Playwright E2E（要求 `video-server` 可达）
+- `npm run dev`：启动 Umi Max 开发服务
+- `npm run build`：生产构建
+- `npm run lint`：Biome + TypeScript 类型检查
+- `npm run test`：Jest + Ant Design Pro 脚手架基线校验
+- `npm run test:e2e`：M4 PR-E 重新接入 Playwright 前的占位命令
 - `npm run docker:up`：构建并后台启动 Nginx 静态站点容器
 - `npm run docker:down`：停止 Docker 部署容器
 
 ## 关键约定
 
-- 路由：`/`（落地页）`/auth`（登录/回跳处理）`/workbench`（任务列表）`/tasks/:taskId`（任务详情）
-- API 基址：`VITE_API_BASE_URL`，接口统一挂载在 `/api/*`
+- 路由：`/parser`（解析下载）`/tasks`（下载任务）`/account`（账号中心）`/admin/*`（管理后台）
+- API 基址：`UMI_APP_API_BASE_URL`，接口统一挂载在 `/api/*`
 - 鉴权：`localStorage.video_web_access_token`
 - 测试优先：新行为要先有可重放的失败测试，再进入实现
 
