@@ -27,3 +27,4 @@ downstream:
 
 - 仅存放长期计划文档（执行计划、里程碑、任务拆解）。
 - 需要可执行拆分：每个任务包含 `epic / 优先级 / 类型 / 产出 / 验收`。
+- `07-saas-layout-api-generated-issues.md` 拆分 M3 SaaS 顶部布局、响应式任务体验、异常状态和 OpenAPI API 生成 issues。
