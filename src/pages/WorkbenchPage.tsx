@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { listTasks, type TaskRead } from '../lib/api'
 import { useAuth } from '../contexts/auth'
 import { PageContainer } from '../components/layout/PageContainer'
+import { EmptyState, ErrorState, LoadingState } from '../components/states/StateBlocks'
 import { TaskList } from '../components/tasks/TaskList'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -100,19 +101,16 @@ export function WorkbenchPage() {
             ))}
           </div>
 
-          {isLoading && <p>任务加载中...</p>}
+          {isLoading && <LoadingState title="任务加载中" />}
 
-          {!isLoading && isError && <p className="error-text">{(error as Error).message}</p>}
+          {!isLoading && isError && <ErrorState description={(error as Error).message} />}
 
           {!isLoading && tasks.length === 0 && !isError && !isReportFilter && (
-            <p className="empty-state">暂无任务，返回首页粘贴链接创建任务</p>
+            <EmptyState title="暂无任务，返回首页粘贴链接创建任务" actionLabel="返回解析页" actionTo="/" />
           )}
 
           {!isLoading && !isError && isReportFilter && visibleTasks.length === 0 && (
-            <div className="empty-state report-empty">
-              <p>暂无可导出的报告</p>
-              <Link to="/">返回解析页</Link>
-            </div>
+            <EmptyState title="暂无可导出的报告" description="已完成任务会在这里导出 PDF 报告。" actionLabel="返回解析页" actionTo="/" />
           )}
 
           <TaskList tasks={visibleTasks} />
