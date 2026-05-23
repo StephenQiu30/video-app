@@ -29,8 +29,11 @@ downstream:
 
 - `docs/plans/`：任务拆分、里程碑、执行顺序
 - `docs/design/`：前端架构、状态管理、交互组件约定
+- `docs/03-架构设计/`：架构文档入口（对齐阶段编号）
 - `docs/acceptance/`：验收标准、测试结果、残留风险
+- `docs/04-执行计划/`：执行计划文档入口（对齐阶段编号）
 - `docs/operations/`：联调、启动、发布、故障处理
 - `docs/superpowers/`：Superpowers 执行计划与复盘
+- `docs/05-测试验收/`：测试验收文档入口（对齐阶段编号）
 
 每个目录内必须附带 `README.md`，说明该目录放什么/不放什么。

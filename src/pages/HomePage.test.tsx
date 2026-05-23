@@ -22,6 +22,19 @@ describe('HomePage', () => {
     vi.clearAllMocks()
   })
 
+  it('解析失败时展示后端错误文案', async () => {
+    const parseVideoMock = vi.mocked(parseVideo)
+    const user = userEvent.setup()
+
+    parseVideoMock.mockRejectedValueOnce(new Error('解析失败，请检查链接内容'))
+
+    renderWithProviders(<HomePage />)
+    await user.type(screen.getByLabelText('视频链接'), 'https://v.douyin.com/bad')
+    await user.click(screen.getByRole('button', { name: '解析视频' }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('解析失败，请检查链接内容')
+  })
+
   it('解析视频成功后可生成任务创建请求', async () => {
     const parseVideoMock = vi.mocked(parseVideo)
     const createTaskMock = vi.mocked(createTask)
