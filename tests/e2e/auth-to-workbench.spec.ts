@@ -87,3 +87,27 @@ test('顶部报告入口跳转已完成任务筛选', async ({ page }) => {
   await expect(page.getByText('正在下载的视频')).toBeHidden()
   await expect(page.getByRole('button', { name: '已完成' })).toHaveAttribute('aria-pressed', 'true')
 })
+
+test('接口返回 401 后清理 token 并跳转登录页', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('video_web_access_token', 'expired-token')
+  })
+  await page.route('**/api/tasks*', (route) =>
+    route.fulfill({
+      status: 401,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        error: {
+          code: 'unauthorized',
+          message: '登录已失效',
+        },
+      }),
+    }),
+  )
+
+  await page.goto('/tasks')
+
+  await expect(page).toHaveURL(/\/auth/)
+  await expect(page.getByRole('heading', { name: '登录' })).toBeVisible()
+  await expect(page.evaluate(() => localStorage.getItem('video_web_access_token'))).resolves.toBeNull()
+})
