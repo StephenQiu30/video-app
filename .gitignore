@@ -10,3 +10,4 @@ test-results
 playwright/.cache
 .nyc_output
 *.log
+.superpowers/
