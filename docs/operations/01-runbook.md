@@ -35,7 +35,14 @@ cp .env.example .env
 npm run dev
 ```
 
-默认访问 `http://localhost:3000`，后端要求 `VITE_API_BASE_URL` 可用（默认 `http://localhost:8000`）。
+默认访问 `http://localhost:5173`。前端通过 `UMI_APP_API_BASE_URL` 访问后端，默认值为 `http://localhost:8000`。
+
+联调前建议先启动后端：
+
+```bash
+cd ../video-server
+npm run start
+```
 
 ## 3. Docker 部署
 
@@ -47,13 +54,19 @@ npm run docker:logs
 npm run docker:down
 ```
 
-部署容器使用 Nginx 托管 `dist/`，并通过 `try_files` 支持 React Router 的前端路由回退。
+默认访问 `http://localhost:3000`。部署容器使用 Nginx 托管 `dist/`，并通过 `try_files` 支持前端路由回退。构建时可通过 `UMI_APP_API_BASE_URL` 指定后端地址：
+
+```bash
+UMI_APP_API_BASE_URL=https://api.example.com WEB_HTTP_PORT=8080 npm run docker:up
+```
 
 ## 4. 问题排查
 
 - 401：检查 `/api/auth/github/callback` 回跳 token 是否写入 `localStorage`.
 - 空列表：检查 `/api/tasks` 鉴权头与 `token` 是否有效。
 - 无法下载：确认任务状态已 `SUCCEEDED`，再调用 `/tasks/:id/download-link`。
+- E2E 启动失败：先执行 `npx playwright install chromium`，再运行 `npm run test:e2e`。
+- 容器页面 404：确认 `nginx.conf` 中 `try_files $uri $uri/ /index.html;` 未被覆盖。
 
 ## 5. 证据命令
 

@@ -13,6 +13,7 @@
 - `docs/`：架构/计划/验收/运行文档
 - `config/`：Ant Design Pro / Umi Max 配置、路由和代理
 - `tests/`：Jest 测试入口；E2E 将在 M4 PR-E 重新接入
+- `e2e/`：Playwright 端到端测试
 - `package.json`：依赖与脚本
 
 ## 运行方式
@@ -26,6 +27,7 @@ npm run dev
 ```
 
 默认访问 `http://localhost:5173`，后端默认 `http://localhost:8000`。
+如需切换后端地址，设置 `UMI_APP_API_BASE_URL` 后重新启动前端。
 
 ### Docker 部署
 
@@ -48,8 +50,9 @@ WEB_HTTP_PORT=8080 npm run docker:up
 - `npm run build`：生产构建
 - `npm run lint`：Biome + TypeScript 类型检查
 - `npm run test`：Jest + Ant Design Pro 脚手架基线校验
-- `npm run test:e2e`：M4 PR-E 重新接入 Playwright 前的占位命令
+- `npm run test:e2e`：Playwright 端到端测试，使用稳定 API mock 覆盖登录、解析、任务和管理后台权限
 - `npm run docker:up`：构建并后台启动 Nginx 静态站点容器
+- `npm run docker:logs`：查看 Docker 部署容器日志
 - `npm run docker:down`：停止 Docker 部署容器
 
 ## 关键约定
