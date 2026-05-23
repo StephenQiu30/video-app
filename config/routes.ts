@@ -28,6 +28,12 @@ export default [
     component: './Tasks',
   },
   {
+    path: '/tasks/:taskId',
+    name: '任务详情',
+    hideInMenu: true,
+    component: './TaskDetail',
+  },
+  {
     path: '/account',
     name: '账号中心',
     icon: 'UserOutlined',

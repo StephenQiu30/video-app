@@ -27,14 +27,15 @@ for (const expectedText of [
   'listTasksApiTasksGet',
   'ProTable',
   'state',
-  '全部',
-  '排队中',
-  '下载中',
-  '已完成',
-  '失败',
 ]) {
   if (!tasksPage.includes(expectedText)) {
     failures.push(`tasks page missing ${expectedText}`);
+  }
+}
+const workspace = read('src/services/workspace.ts');
+for (const expectedText of ['全部', '排队中', '下载中', '已完成', '失败']) {
+  if (!workspace.includes(expectedText)) {
+    failures.push(`task state options missing ${expectedText}`);
   }
 }
 if (tasksPage.includes('示例任务')) {
