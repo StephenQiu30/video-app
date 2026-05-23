@@ -18,8 +18,19 @@ vi.mock('../lib/api', async () => {
 
 describe('HomePage', () => {
   beforeEach(() => {
+    window.sessionStorage.clear()
     window.localStorage.setItem('video_web_access_token', 'unit-test-token')
     vi.clearAllMocks()
+  })
+
+  it('展示首屏解析器与能力证明', () => {
+    renderWithProviders(<HomePage />)
+
+    expect(screen.getByRole('heading', { name: '万能视频解析下载器' })).toBeInTheDocument()
+    expect(screen.getByText('格式选择')).toBeInTheDocument()
+    expect(screen.getByText('任务队列')).toBeInTheDocument()
+    expect(screen.getByText('AI 摘要')).toBeInTheDocument()
+    expect(screen.getByText('PDF 报告')).toBeInTheDocument()
   })
 
   it('解析失败时展示后端错误文案', async () => {
@@ -43,7 +54,7 @@ describe('HomePage', () => {
     parseVideoMock.mockResolvedValueOnce({
       url: 'https://v.douyin.com/test',
       title: 'demo title',
-      cover_url: null,
+      cover_url: 'https://cdn.example.com/cover.jpg',
       duration_seconds: 120,
       source_site: 'douyin',
       extractor: 'douyin',
@@ -64,6 +75,10 @@ describe('HomePage', () => {
       id: 't-1',
       source_url: 'https://v.douyin.com/test',
       title: 'demo title',
+      cover_url: 'https://cdn.example.com/cover.jpg',
+      duration_seconds: 120,
+      format_id: '1080',
+      format_label: '1080P MP4',
       state: 'PENDING',
       progress: 0,
       failure_code: null,
@@ -86,6 +101,8 @@ describe('HomePage', () => {
     await user.click(screen.getByRole('button', { name: '解析视频' }))
 
     expect(await screen.findByText('解析完成，选择规格后可创建下载任务')).toBeInTheDocument()
+    expect(screen.getByText('douyin')).toBeInTheDocument()
+    expect(screen.getByAltText('demo title')).toHaveAttribute('src', 'https://cdn.example.com/cover.jpg')
     expect(parseVideoMock).toHaveBeenCalledWith('unit-test-token', 'https://v.douyin.com/test')
 
     await user.click(screen.getByRole('button', { name: '创建下载任务' }))
@@ -109,5 +126,20 @@ describe('HomePage', () => {
       'href',
       getGitHubAuthorizeUrl(),
     )
+  })
+
+  it('未登录点击解析会保存 pending URL 且不直接调用解析接口', async () => {
+    window.localStorage.removeItem('video_web_access_token')
+    const parseVideoMock = vi.mocked(parseVideo)
+    const user = userEvent.setup()
+
+    renderWithProviders(<HomePage />)
+    await user.type(screen.getByLabelText('视频链接'), 'https://www.bilibili.com/video/BV1xx411c7mD')
+    await user.click(screen.getByRole('button', { name: '解析视频' }))
+
+    expect(window.sessionStorage.getItem('video_web_pending_url')).toBe(
+      'https://www.bilibili.com/video/BV1xx411c7mD',
+    )
+    expect(parseVideoMock).not.toHaveBeenCalled()
   })
 })

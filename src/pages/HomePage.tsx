@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input'
+import { readPendingUrl, savePendingUrl } from '../lib/pending-url'
 
 type ParsedFormat = NonNullable<ParseResult['formats']>[number]
 
@@ -28,7 +29,7 @@ function parseStateDescription(state: 'idle' | 'parsing' | 'ready' | 'creating' 
 export function HomePage() {
   const { token } = useAuth()
   const navigate = useNavigate()
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState(() => readPendingUrl())
   const [formatId, setFormatId] = useState('')
   const [parseResult, setParseResult] = useState<ParseResult | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -83,7 +84,7 @@ export function HomePage() {
           : 'idle'
 
   const canSubmit = Boolean(url.trim()) && !parseMutation.isPending && !createMutation.isPending
-  const platform = parseResult?.source_site ? `来源：${parseResult.source_site}` : ''
+  const platform = parseResult?.source_site ?? ''
 
   const recommendedFormats = useMemo(() => {
     if (!parseResult) return [] as ParsedFormat[]
@@ -96,6 +97,11 @@ export function HomePage() {
       setErrorMessage('请输入分享链接')
       return
     }
+    if (!token) {
+      savePendingUrl(url.trim())
+      navigate('/auth')
+      return
+    }
     parseMutation.mutate({ url: url.trim() })
   }
 
@@ -103,10 +109,24 @@ export function HomePage() {
 
   return (
     <section className="page">
+      <div className="hero-parser">
+        <div className="hero-copy">
+          <Badge>国内短视频优先 · B站/抖音/快手/小红书</Badge>
+          <h1>万能视频解析下载器</h1>
+          <p>粘贴公开分享链接，完成解析、规格选择、任务排队、AI 摘要和 PDF 报告导出。</p>
+        </div>
+        <div className="capability-strip" aria-label="能力证明">
+          <span>格式选择</span>
+          <span>任务队列</span>
+          <span>AI 摘要</span>
+          <span>PDF 报告</span>
+        </div>
+      </div>
+
       <Card>
         <CardHeader>
-          <CardTitle>AI 风格视频下载工作台</CardTitle>
-          <CardDescription>粘贴国内外视频分享链接，解析视频后即可一键创建下载任务</CardDescription>
+          <CardTitle>首屏解析器</CardTitle>
+          <CardDescription>支持登录后解析并创建下载任务，解析结果会保留标题、封面、平台与可用格式。</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="parse-form" onSubmit={onSubmit}>
@@ -135,7 +155,12 @@ export function HomePage() {
           )}
 
           <p className="state-text">{parseStateDescription(uiState, errorMessage)}</p>
-          {platform && <p className="platform-tag">{platform}</p>}
+          {platform && (
+            <p className="platform-tag">
+              <span>来源：</span>
+              <Badge>{platform}</Badge>
+            </p>
+          )}
 
           {errorMessage && uiState === 'error' && (
             <p className="error-text" role="alert">
@@ -144,10 +169,14 @@ export function HomePage() {
           )}
           {parseResult && (
             <div className="parse-result">
+              {parseResult.cover_url && (
+                <img className="result-cover" src={parseResult.cover_url} alt={parseResult.title || '视频封面'} />
+              )}
               <div className="result-header">
                 <strong>标题：</strong>
                 <span>{parseResult.title || '未返回标题'}</span>
               </div>
+              {parseResult.compliance_note && <p className="helper-text">{parseResult.compliance_note}</p>}
               {parseResult.formats.length > 0 && (
                 <div className="format-group">
                   <p>选择规格：</p>
