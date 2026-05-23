@@ -1,22 +1,83 @@
-import { CloudDownloadOutlined, LinkOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
-import { PageContainer, ProCard, ProForm, ProFormText } from '@ant-design/pro-components';
-import { Button, Space, Tag, Typography } from 'antd';
-import React from 'react';
+import {
+  CloudDownloadOutlined,
+  LinkOutlined,
+  SafetyCertificateOutlined,
+} from '@ant-design/icons';
+import {
+  PageContainer,
+  ProCard,
+  ProForm,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { history } from '@umijs/max';
+import {
+  App,
+  Button,
+  Descriptions,
+  Empty,
+  Image,
+  Radio,
+  Space,
+  Tag,
+  Typography,
+} from 'antd';
+import React, { useState } from 'react';
+
+import { parseVideoApiParsePost } from '@/services/video/parse';
+import { createTaskApiTasksPost } from '@/services/video/tasks';
 
 const ParserPage: React.FC = () => {
+  const { message } = App.useApp();
+  const [parseResult, setParseResult] = useState<API.ParseResponse>();
+  const [sourceUrl, setSourceUrl] = useState('');
+  const [formatId, setFormatId] = useState<string>();
+  const [creating, setCreating] = useState(false);
+
+  const selectedFormat = parseResult?.formats.find(
+    (format) => format.format_id === formatId,
+  );
+
+  const createTask = async () => {
+    if (!parseResult) return;
+    setCreating(true);
+    try {
+      const task = await createTaskApiTasksPost({
+        url: parseResult.url || sourceUrl,
+        format_id: formatId,
+        format_label: selectedFormat?.label,
+        title: parseResult.title,
+        cover_url: parseResult.cover_url,
+        duration_seconds: parseResult.duration_seconds,
+      });
+      message.success('下载任务已创建');
+      history.push(`/tasks/${task.id}`);
+    } catch {
+      message.error('创建任务失败，请稍后重试');
+    } finally {
+      setCreating(false);
+    }
+  };
+
   return (
     <PageContainer
       title="解析下载"
       subTitle="粘贴公开视频链接，解析格式后创建下载任务"
-      extra={<Button type="primary" icon={<CloudDownloadOutlined />}>开始解析</Button>}
     >
       <ProCard className="video-page-card" split="vertical" gutter={24}>
-        <ProCard colSpan="62%" ghost>
-          <ProForm
+        <ProCard colSpan="54%" ghost>
+          <ProForm<{ url: string }>
             layout="vertical"
             submitter={{
               searchConfig: { submitText: '解析链接' },
               render: (_, dom) => dom.pop(),
+            }}
+            onFinish={async ({ url }) => {
+              setSourceUrl(url);
+              const result = await parseVideoApiParsePost({ url });
+              setParseResult(result);
+              setFormatId(result.formats[0]?.format_id);
+              message.success('解析完成');
+              return true;
             }}
           >
             <ProFormText
@@ -27,6 +88,7 @@ const ParserPage: React.FC = () => {
               rules={[{ required: true, message: '请输入视频链接' }]}
             />
           </ProForm>
+
           <Space wrap>
             <Tag color="blue">公开链接解析</Tag>
             <Tag color="green">格式选择</Tag>
@@ -34,10 +96,13 @@ const ParserPage: React.FC = () => {
             <Tag color="purple">PDF 报告</Tag>
           </Space>
         </ProCard>
-        <ProCard title="能力边界" colSpan="38%">
+
+        <ProCard title="能力边界" colSpan="46%">
           <Space orientation="vertical" size={12}>
             <Typography.Text>
-              <SafetyCertificateOutlined style={{ color: '#1677ff', marginRight: 8 }} />
+              <SafetyCertificateOutlined
+                style={{ color: '#1677ff', marginRight: 8 }}
+              />
               仅处理用户有权保存的公开或授权内容。
             </Typography.Text>
             <Typography.Text type="secondary">
@@ -45,6 +110,69 @@ const ParserPage: React.FC = () => {
             </Typography.Text>
           </Space>
         </ProCard>
+      </ProCard>
+
+      <ProCard
+        className="video-page-card"
+        title="解析结果"
+        style={{ marginTop: 16 }}
+        extra={
+          <Button
+            type="primary"
+            icon={<CloudDownloadOutlined />}
+            disabled={!parseResult}
+            loading={creating}
+            onClick={createTask}
+          >
+            创建下载任务
+          </Button>
+        }
+      >
+        {!parseResult ? (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="等待解析链接" />
+        ) : (
+          <Space align="start" size={24} wrap>
+            {parseResult.cover_url ? (
+              <Image
+                width={180}
+                src={parseResult.cover_url}
+                alt={parseResult.title || '视频封面'}
+                style={{ borderRadius: 8 }}
+              />
+            ) : null}
+
+            <Space orientation="vertical" size={16} style={{ minWidth: 320 }}>
+              <Descriptions column={1} size="small">
+                <Descriptions.Item label="标题">
+                  {parseResult.title || '-'}
+                </Descriptions.Item>
+                <Descriptions.Item label="平台">
+                  {parseResult.source_site || parseResult.platform_id || '-'}
+                </Descriptions.Item>
+                <Descriptions.Item label="合规提示">
+                  {parseResult.compliance_note || '请确认你有权保存该内容。'}
+                </Descriptions.Item>
+              </Descriptions>
+
+              <Radio.Group
+                value={formatId}
+                onChange={(event) => setFormatId(event.target.value)}
+              >
+                <Space wrap>
+                  {parseResult.formats.map((format) => (
+                    <Radio.Button
+                      key={format.format_id}
+                      value={format.format_id}
+                      disabled={!format.available}
+                    >
+                      {format.label}
+                    </Radio.Button>
+                  ))}
+                </Space>
+              </Radio.Group>
+            </Space>
+          </Space>
+        )}
       </ProCard>
     </PageContainer>
   );
