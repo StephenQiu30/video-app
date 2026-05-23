@@ -25,3 +25,4 @@ downstream:
 
 - 仅存放架构与设计决策文档。
 - 约定前端从 `src/lib/api.ts` 与 `@tanstack/react-query` 统一发起 API。
+- `03-saas-layout-api-generated-redesign.md` 定义 M3 SaaS 顶部布局、异常状态和 OpenAPI API 生成方案。
