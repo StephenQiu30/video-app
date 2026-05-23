@@ -130,8 +130,8 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
     })
   })
 
-  await page.goto('/workbench')
-  await expect(page.getByRole('heading', { name: '下载工作台' })).toBeVisible()
+  await page.goto('/tasks')
+  await expect(page.getByRole('heading', { name: '下载任务' })).toBeVisible()
 
   await page.goto('/')
   await page.getByLabel('视频链接').fill('https://v.douyin.com/abc')

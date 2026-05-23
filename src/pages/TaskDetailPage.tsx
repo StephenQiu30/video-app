@@ -12,6 +12,7 @@ import {
   type TaskEventRead,
 } from '../lib/api'
 import { useAuth } from '../contexts/auth'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -114,8 +115,20 @@ export function TaskDetailPage() {
     return events.slice(0, 30)
   }, [events])
 
-  if (isLoading) return <p className="page">任务加载中...</p>
-  if (isError) return <p className="error-text">加载失败：{error ? parseErrorMessage(error) : '未知错误'}</p>
+  if (isLoading) {
+    return (
+      <PageContainer title="任务详情">
+        <p>任务加载中...</p>
+      </PageContainer>
+    )
+  }
+  if (isError) {
+    return (
+      <PageContainer title="任务详情">
+        <p className="error-text">加载失败：{error ? parseErrorMessage(error) : '未知错误'}</p>
+      </PageContainer>
+    )
+  }
   if (!task) return null
 
   const canCancel = task.state === 'QUEUED' || task.state === 'STARTING' || task.state === 'DOWNLOADING'
@@ -125,7 +138,7 @@ export function TaskDetailPage() {
   const mindmap = parseMindmap(task.ai_mindmap)
 
   return (
-    <section className="page">
+    <PageContainer title="任务详情" description={`任务 ID：${task.id}`}>
       <Card>
         <CardHeader>
           <CardTitle>{task.title || task.source_url}</CardTitle>
@@ -138,8 +151,8 @@ export function TaskDetailPage() {
             <Progress value={task.progress} />
           </div>
           <div className="task-actions">
-            <Button type="button" onClick={() => navigate('/workbench')} variant="outline">
-              返回工作台
+            <Button type="button" onClick={() => navigate('/tasks')} variant="outline">
+              返回任务
             </Button>
             <Button type="button" onClick={() => cancelMut.mutate()} disabled={!canCancel || cancelMut.isPending}>
               {cancelMut.isPending ? '取消中...' : '取消'}
@@ -208,6 +221,6 @@ export function TaskDetailPage() {
           </ul>
         </CardContent>
       </Card>
-    </section>
+    </PageContainer>
   )
 }

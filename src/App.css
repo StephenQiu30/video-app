@@ -10,9 +10,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 18px;
   border-bottom: 1px solid var(--border);
-  padding: 18px 24px;
+  padding: 14px 24px;
   background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px);
   position: sticky;
   top: 0;
   z-index: 5;
@@ -23,6 +25,9 @@
   flex-direction: column;
   gap: 2px;
   font-weight: 600;
+  color: #0f2238;
+  min-width: max-content;
+  text-decoration: none;
 }
 
 .brand-sub {
@@ -32,12 +37,15 @@
 
 .header-nav {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 6px;
   font-size: 14px;
 }
 
 .header-nav a {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
   color: #0f2238;
   text-decoration: none;
@@ -46,6 +54,19 @@
 .header-nav a.active {
   background: #e8f2ff;
   color: #0b63ce;
+}
+
+.account-entry {
+  min-width: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.account-status {
+  color: #334b68;
+  font-size: 13px;
 }
 
 .app-main {
@@ -66,11 +87,45 @@
   width: 100%;
 }
 
+.page-container {
+  width: 100%;
+  display: grid;
+  gap: 18px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 4px 0 2px;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #0f2238;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  color: #4d6078;
+  line-height: 1.6;
+}
+
+.page-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .hero-parser {
   display: grid;
   gap: 18px;
   margin-bottom: 18px;
-  padding: 26px 0 8px;
+  padding: 18px 0 8px;
 }
 
 .hero-copy {
@@ -80,7 +135,7 @@
 }
 
 .hero-copy h1 {
-  font-size: clamp(34px, 5vw, 56px);
+  font-size: 48px;
   line-height: 1.04;
   letter-spacing: 0;
 }
@@ -269,6 +324,17 @@
   color: #60758f;
 }
 
+.not-found-page {
+  min-height: 50vh;
+  align-content: center;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .task-meta-row {
   display: flex;
   gap: 14px;
@@ -359,6 +425,40 @@
 }
 
 @media (max-width: 760px) {
+  .app-header {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 12px 16px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .header-nav {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 2px;
+  }
+
+  .account-entry {
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  .page-header {
+    display: grid;
+  }
+
+  .page-header h1 {
+    font-size: 26px;
+  }
+
+  .hero-copy h1 {
+    font-size: 36px;
+  }
+
   .parse-input-wrap {
     display: grid;
   }
