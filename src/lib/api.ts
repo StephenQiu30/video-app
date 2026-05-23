@@ -37,7 +37,10 @@ export type ParseResult = {
   cover_url: string | null
   duration_seconds: number | null
   source_site: string | null
+  platform_id?: string | null
+  platform_category?: string | null
   extractor: string | null
+  compliance_note?: string | null
   formats: Array<{
     format_id: string
     label: string
@@ -63,6 +66,8 @@ export type TaskRead = {
   id: string
   source_url: string
   title: string | null
+  cover_url?: string | null
+  duration_seconds?: number | null
   format_id?: string | null
   format_label?: string | null
   state: string

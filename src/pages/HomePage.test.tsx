@@ -54,7 +54,7 @@ describe('HomePage', () => {
     parseVideoMock.mockResolvedValueOnce({
       url: 'https://v.douyin.com/test',
       title: 'demo title',
-      cover_url: null,
+      cover_url: 'https://cdn.example.com/cover.jpg',
       duration_seconds: 120,
       source_site: 'douyin',
       extractor: 'douyin',

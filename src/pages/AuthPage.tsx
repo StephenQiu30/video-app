@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../contexts/auth'
 import { getGitHubAuthorizeUrl } from '../lib/api'
+import { hasPendingUrl } from '../lib/pending-url'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 
@@ -17,21 +18,22 @@ export function AuthPage() {
   const { setToken, token } = useAuth()
   const callbackToken = useSearchToken()
   const isProcessing = Boolean(token || callbackToken)
+  const nextPath = hasPendingUrl() ? '/' : '/workbench'
 
   useEffect(() => {
     if (token) {
-      navigate('/workbench', { replace: true })
+      navigate(nextPath, { replace: true })
       return
     }
 
     if (callbackToken) {
       setToken(callbackToken)
-      navigate('/workbench', { replace: true })
+      navigate(nextPath, { replace: true })
       return
     }
 
     return
-  }, [callbackToken, setToken, token, navigate])
+  }, [callbackToken, setToken, token, navigate, nextPath])
 
   return (
     <section className="page">
