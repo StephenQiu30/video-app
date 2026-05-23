@@ -27,6 +27,36 @@ function stateName(state: string) {
   return state.toUpperCase()
 }
 
+type MindmapView = {
+  title: string
+  points: string[]
+}
+
+function parseMindmap(value: unknown): MindmapView | null {
+  if (!value) return null
+  if (typeof value === 'object' && value !== null) {
+    const candidate = value as { title?: unknown; points?: unknown }
+    return {
+      title: typeof candidate.title === 'string' ? candidate.title : '关键要点',
+      points: Array.isArray(candidate.points) ? candidate.points.filter((item): item is string => typeof item === 'string') : [],
+    }
+  }
+  if (typeof value !== 'string') return null
+
+  try {
+    const parsed = JSON.parse(value) as unknown
+    return parseMindmap(parsed)
+  } catch {
+    return {
+      title: '关键要点',
+      points: value
+        .split(/\n+/)
+        .map((item) => item.replace(/^[-*]\s*/, '').trim())
+        .filter(Boolean),
+    }
+  }
+}
+
 export function TaskDetailPage() {
   const navigate = useNavigate()
   const { taskId = '' } = useParams()
@@ -92,6 +122,7 @@ export function TaskDetailPage() {
   const canRetry = task.state === 'FAILED' || task.state === 'CANCELED'
   const canDownload = task.state === 'SUCCEEDED' && !downloadUrl
   const canExportReport = task.state === 'SUCCEEDED' && !reportUrl
+  const mindmap = parseMindmap(task.ai_mindmap)
 
   return (
     <section className="page">
@@ -153,11 +184,11 @@ export function TaskDetailPage() {
           <div className="ai-summary-panel">
             {task.ai_summary ? <p>{task.ai_summary}</p> : <p className="task-meta">暂无摘要，任务完成后会自动生成。</p>}
             {task.ai_error && <p className="error-text">{task.ai_error}</p>}
-            {task.ai_mindmap && (
+            {mindmap && (
               <div className="mindmap">
-                <strong>{task.ai_mindmap.title}</strong>
+                <strong>{mindmap.title}</strong>
                 <ul>
-                  {task.ai_mindmap.points.map((point) => (
+                  {mindmap.points.map((point) => (
                     <li key={point}>{point}</li>
                   ))}
                 </ul>

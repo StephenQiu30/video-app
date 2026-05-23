@@ -85,10 +85,13 @@ export type TaskRead = {
   ai_summary: string | null
   ai_status: string | null
   ai_error: string | null
-  ai_mindmap?: {
+  ai_mindmap?:
+    | {
     title: string
     points: string[]
-  } | null
+  }
+    | string
+    | null
 }
 
 export type TaskEventRead = {
@@ -168,10 +171,14 @@ export const getTaskDownloadLink = async (token: string | null, taskId: string):
 
 export const getTaskReportLink = async (token: string | null, taskId: string): Promise<TaskReportLink> => {
   requireAuth(token)
-  const response = await api.get<TaskReportLink>(`/tasks/${taskId}/report-link`, {
+  const response = await api.get<Blob>(`/tasks/${taskId}/pdf`, {
     headers: authHeaders(token),
+    responseType: 'blob',
   })
-  return response.data
+  return {
+    url: URL.createObjectURL(response.data),
+    expires_in_seconds: 0,
+  }
 }
 
 export const cancelTask = async (token: string | null, taskId: string): Promise<TaskRead> => {

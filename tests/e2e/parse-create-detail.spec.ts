@@ -20,10 +20,10 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
     ai_summary: 'AI 已提炼视频重点，适合生成分享报告。',
     ai_status: 'SUCCEEDED',
     ai_error: null,
-    ai_mindmap: {
+    ai_mindmap: JSON.stringify({
       title: '报告要点',
       points: ['视频亮点', '下载规格', '分享建议'],
-    },
+    }),
   }
 
   await page.addInitScript(() => {
@@ -114,14 +114,11 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
       return
     }
 
-    if (route.request().url().endsWith('/report-link')) {
+    if (route.request().url().endsWith('/pdf')) {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          url: 'https://cdn.example.com/report.pdf',
-          expires_in_seconds: 900,
-        }),
+        contentType: 'application/pdf',
+        body: '%PDF-1.4',
       })
       return
     }
@@ -160,8 +157,5 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
   )
 
   await page.getByRole('button', { name: '导出 PDF 报告' }).click()
-  await expect(page.getByRole('link', { name: '打开 PDF 报告' })).toHaveAttribute(
-    'href',
-    'https://cdn.example.com/report.pdf',
-  )
+  await expect(page.getByRole('link', { name: '打开 PDF 报告' })).toHaveAttribute('href', /^blob:/)
 })
