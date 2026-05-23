@@ -17,9 +17,13 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
     attempt_no: 1,
     is_latest_attempt: true,
     retry_of_task_id: null,
-    ai_summary: null,
-    ai_status: null,
+    ai_summary: 'AI 已提炼视频重点，适合生成分享报告。',
+    ai_status: 'SUCCEEDED',
     ai_error: null,
+    ai_mindmap: {
+      title: '报告要点',
+      points: ['视频亮点', '下载规格', '分享建议'],
+    },
   }
 
   await page.addInitScript(() => {
@@ -110,6 +114,18 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
       return
     }
 
+    if (route.request().url().endsWith('/report-link')) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          url: 'https://cdn.example.com/report.pdf',
+          expires_in_seconds: 900,
+        }),
+      })
+      return
+    }
+
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -129,6 +145,9 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
 
   await expect(page).toHaveURL(/\/tasks\/t-e2e-01/)
   await expect(page.getByText('抖音样例视频')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'AI 摘要' })).toBeVisible()
+  await expect(page.getByText('AI 已提炼视频重点，适合生成分享报告。')).toBeVisible()
+  await expect(page.getByText('报告要点')).toBeVisible()
   await expect(page.getByText('事件流')).toBeVisible()
   await expect(page.getByText('下载完成')).toBeVisible()
 
@@ -138,5 +157,11 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
   await expect(page.getByRole('link', { name: '打开下载文件' })).toHaveAttribute(
     'href',
     'https://cdn.example.com/video.mp4',
+  )
+
+  await page.getByRole('button', { name: '导出 PDF 报告' }).click()
+  await expect(page.getByRole('link', { name: '打开 PDF 报告' })).toHaveAttribute(
+    'href',
+    'https://cdn.example.com/report.pdf',
   )
 })
