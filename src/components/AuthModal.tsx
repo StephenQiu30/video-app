@@ -2,7 +2,7 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { App, Modal, Typography } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { fetchCurrentUser, loginWithPassword } from '@/services/auth';
 
@@ -25,33 +25,58 @@ export type AuthModalProps = {
 
 const AuthModal: React.FC<AuthModalProps> = ({ open, onCancel, onSuccess }) => {
   const { message } = App.useApp();
+  const [submitting, setSubmitting] = useState(false);
   const { setInitialState } = useModel(
     '@@initialState',
   ) as unknown as InitialStateModel;
 
+  const handleCancel = () => {
+    if (submitting) {
+      return;
+    }
+    onCancel();
+  };
+
   return (
     <Modal
+      closable={!submitting}
       destroyOnHidden
       footer={null}
-      onCancel={onCancel}
+      keyboard={!submitting}
+      maskClosable={!submitting}
+      onCancel={handleCancel}
       open={open}
       title="登录"
       width={420}
     >
       <LoginForm
         contentStyle={{ minWidth: 0 }}
-        submitter={{ searchConfig: { submitText: '登录' } }}
+        submitter={{
+          searchConfig: { submitText: '登录' },
+          submitButtonProps: { loading: submitting },
+        }}
         onFinish={async (values) => {
+          setSubmitting(true);
+          let currentUser: API.UserRead;
           try {
             await loginWithPassword(values as API.UserLogin);
-            const currentUser = await fetchCurrentUser();
+            currentUser = await fetchCurrentUser();
             await setInitialState((state) => ({ ...state, currentUser }));
-            await onSuccess?.(currentUser);
-            return true;
           } catch {
             message.error('登录失败，请检查邮箱和密码');
+            setSubmitting(false);
             return false;
           }
+
+          setSubmitting(false);
+          onCancel();
+          try {
+            await onSuccess?.(currentUser);
+          } catch {
+            message.error('登录成功，但继续操作失败，请重试');
+          }
+
+          return true;
         }}
       >
         <ProFormText
