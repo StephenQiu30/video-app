@@ -24,3 +24,4 @@ downstream:
 
 - 记录前端本地运行与联调步骤。
 - 优先确保 dev server 与 video-server API 可达，问题先以 `operations` 文档更新，不在临时聊天中流失。
+- OpenAPI 生成与校验流程见 [openapi-generated-api.md](./openapi-generated-api.md)。

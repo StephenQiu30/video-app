@@ -1,0 +1,245 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Video Server API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/auth/me": {
+      "get": {
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "Current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/parse": {
+      "post": {
+        "operationId": "parseVideo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Parse result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParseResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "operationId": "listTasks",
+        "responses": {
+          "200": {
+            "description": "Task list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskRead"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createTask",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskRead"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{task_id}": {
+      "get": {
+        "operationId": "getTask",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskRead"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRead": {
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "is_active",
+          "is_admin",
+          "daily_task_quota",
+          "concurrent_task_quota",
+          "max_file_size_bytes",
+          "file_retention_hours",
+          "storage_quota_bytes",
+          "created_at"
+        ],
+        "properties": {
+          "id": { "type": "integer" },
+          "email": { "type": "string" },
+          "github_id": { "type": ["string", "null"] },
+          "avatar_url": { "type": ["string", "null"] },
+          "display_name": { "type": ["string", "null"] },
+          "is_active": { "type": "boolean" },
+          "is_admin": { "type": "boolean" },
+          "daily_task_quota": { "type": "integer" },
+          "concurrent_task_quota": { "type": "integer" },
+          "max_file_size_bytes": { "type": "integer" },
+          "file_retention_hours": { "type": "integer" },
+          "storage_quota_bytes": { "type": "integer" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ParseRequest": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": { "type": "string" }
+        }
+      },
+      "ParseResult": {
+        "type": "object",
+        "required": ["url", "formats"],
+        "properties": {
+          "url": { "type": "string" },
+          "title": { "type": ["string", "null"] },
+          "cover_url": { "type": ["string", "null"] },
+          "duration_seconds": { "type": ["integer", "null"] },
+          "source_site": { "type": ["string", "null"] },
+          "extractor": { "type": ["string", "null"] },
+          "formats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoFormat"
+            }
+          }
+        }
+      },
+      "VideoFormat": {
+        "type": "object",
+        "required": ["format_id", "label", "available"],
+        "properties": {
+          "format_id": { "type": "string" },
+          "label": { "type": "string" },
+          "ext": { "type": ["string", "null"] },
+          "resolution": { "type": ["string", "null"] },
+          "filesize": { "type": ["integer", "null"] },
+          "quality_label": { "type": ["string", "null"] },
+          "available": { "type": "boolean" },
+          "note": { "type": ["string", "null"] }
+        }
+      },
+      "TaskCreate": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": { "type": "string" },
+          "format_id": { "type": ["string", "null"] },
+          "title": { "type": ["string", "null"] },
+          "cover_url": { "type": ["string", "null"] },
+          "duration_seconds": { "type": ["integer", "null"] },
+          "format_label": { "type": ["string", "null"] }
+        }
+      },
+      "TaskRead": {
+        "type": "object",
+        "required": [
+          "id",
+          "source_url",
+          "state",
+          "progress",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "source_url": { "type": "string" },
+          "title": { "type": ["string", "null"] },
+          "cover_url": { "type": ["string", "null"] },
+          "duration_seconds": { "type": ["integer", "null"] },
+          "format_id": { "type": ["string", "null"] },
+          "format_label": { "type": ["string", "null"] },
+          "state": { "type": "string" },
+          "progress": { "type": "integer" },
+          "failure_code": { "type": ["string", "null"] },
+          "failure_reason": { "type": ["string", "null"] },
+          "output_filename": { "type": ["string", "null"] },
+          "object_size": { "type": ["integer", "null"] },
+          "expires_at": { "type": ["string", "null"], "format": "date-time" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "attempt_no": { "type": "integer" },
+          "is_latest_attempt": { "type": "boolean" },
+          "retry_of_task_id": { "type": ["string", "null"] },
+          "ai_summary": { "type": ["string", "null"] },
+          "ai_status": { "type": ["string", "null"] },
+          "ai_error": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}
