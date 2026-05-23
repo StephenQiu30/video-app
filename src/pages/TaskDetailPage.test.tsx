@@ -170,10 +170,10 @@ describe('TaskDetailPage', () => {
       ai_summary: '这是一段关于视频下载器工程化的摘要。',
       ai_status: 'SUCCEEDED',
       ai_error: null,
-      ai_mindmap: {
+      ai_mindmap: JSON.stringify({
         title: '工程化要点',
         points: ['解析能力', '任务可靠性', '报告导出'],
-      },
+      }),
     })
     vi.mocked(getTaskEvents).mockResolvedValue([
       {
@@ -185,7 +185,7 @@ describe('TaskDetailPage', () => {
       },
     ])
     vi.mocked(getTaskReportLink).mockResolvedValue({
-      url: 'https://example.com/report.pdf',
+      url: 'blob:http://localhost/report',
       expires_in_seconds: 900,
     })
 
@@ -202,7 +202,7 @@ describe('TaskDetailPage', () => {
 
     expect(await screen.findByRole('link', { name: '打开 PDF 报告' })).toHaveAttribute(
       'href',
-      'https://example.com/report.pdf',
+      'blob:http://localhost/report',
     )
   })
 
