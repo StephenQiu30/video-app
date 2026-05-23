@@ -1,30 +1,15 @@
-import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import { AccountPage } from './pages/AccountPage'
 import { AuthPage } from './pages/AuthPage'
 import { HomePage } from './pages/HomePage'
+import { NotFoundPage } from './pages/NotFoundPage'
 import { TaskDetailPage } from './pages/TaskDetailPage'
 import { WorkbenchPage } from './pages/WorkbenchPage'
+import { AppLayout } from './components/layout/AppLayout'
 import { useAuth } from './contexts/auth'
 
 import './App.css'
-
-function AppHeader() {
-  return (
-    <header className="app-header">
-      <div className="brand">
-        <span>万能视频下载器</span>
-        <span className="brand-sub">解析 · 队列 · AI 报告</span>
-      </div>
-      <nav className="header-nav">
-        <NavLink to="/" end>
-          解析
-        </NavLink>
-        <NavLink to="/workbench">工作台</NavLink>
-        <NavLink to="/auth">登录 / 注册</NavLink>
-      </nav>
-    </header>
-  )
-}
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { token } = useAuth()
@@ -38,33 +23,45 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <div className="app-shell">
-      <AppHeader />
-      <main className="app-main">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route
-            path="/workbench"
-            element={
-              <RequireAuth>
-                <WorkbenchPage />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/tasks/:taskId"
-            element={
-              <RequireAuth>
-                <TaskDetailPage />
-              </RequireAuth>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <footer className="app-footer">MVP API-First 视频下载器 · video-server + video-web</footer>
-    </div>
+    <AppLayout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route
+          path="/tasks"
+          element={
+            <RequireAuth>
+              <WorkbenchPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/workbench"
+          element={
+            <RequireAuth>
+              <Navigate to="/tasks" replace />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/tasks/:taskId"
+          element={
+            <RequireAuth>
+              <TaskDetailPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <RequireAuth>
+              <AccountPage />
+            </RequireAuth>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </AppLayout>
   )
 }
 

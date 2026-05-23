@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { listTasks, type TaskRead } from '../lib/api'
 import { useAuth } from '../contexts/auth'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -80,10 +81,10 @@ export function WorkbenchPage() {
   const visibleTasks = useMemo(() => tasks.filter((task) => matchesFilter(task, filter)), [filter, tasks])
 
   return (
-    <section className="page">
+    <PageContainer title="下载任务" description="查看解析后的下载队列、任务状态与报告出口。">
       <Card>
         <CardHeader>
-          <CardTitle>下载工作台</CardTitle>
+          <CardTitle>任务列表</CardTitle>
           <CardDescription>展示任务列表与实时状态</CardDescription>
         </CardHeader>
         <CardContent>
@@ -136,6 +137,6 @@ export function WorkbenchPage() {
           </div>
         </CardContent>
       </Card>
-    </section>
+    </PageContainer>
   )
 }

@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { parseVideo, createTask, getGitHubAuthorizeUrl, type ParseResult } from '../lib/api'
 import { useAuth } from '../contexts/auth'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -108,7 +109,7 @@ export function HomePage() {
   const onCreate = () => createMutation.mutate()
 
   return (
-    <section className="page">
+    <PageContainer className="parser-page">
       <div className="hero-parser">
         <div className="hero-copy">
           <Badge>国内短视频优先 · B站/抖音/快手/小红书</Badge>
@@ -208,6 +209,6 @@ export function HomePage() {
           )}
         </CardContent>
       </Card>
-    </section>
+    </PageContainer>
   )
 }

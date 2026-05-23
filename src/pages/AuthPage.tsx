@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/auth'
 import { getGitHubAuthorizeUrl } from '../lib/api'
 import { hasPendingUrl } from '../lib/pending-url'
+import { PageContainer } from '../components/layout/PageContainer'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 
@@ -18,7 +19,7 @@ export function AuthPage() {
   const { setToken, token } = useAuth()
   const callbackToken = useSearchToken()
   const isProcessing = Boolean(token || callbackToken)
-  const nextPath = hasPendingUrl() ? '/' : '/workbench'
+  const nextPath = hasPendingUrl() ? '/' : '/tasks'
 
   useEffect(() => {
     if (token) {
@@ -36,10 +37,10 @@ export function AuthPage() {
   }, [callbackToken, setToken, token, navigate, nextPath])
 
   return (
-    <section className="page">
+    <PageContainer title="登录" description="登录后可以创建解析任务、查看下载队列并导出报告。">
       <Card>
         <CardHeader>
-          <CardTitle>登录</CardTitle>
+          <CardTitle>GitHub 授权</CardTitle>
         </CardHeader>
         <CardContent>
             {!isProcessing ? (
@@ -54,6 +55,6 @@ export function AuthPage() {
           )}
         </CardContent>
       </Card>
-    </section>
+    </PageContainer>
   )
 }
