@@ -7,7 +7,7 @@ audience:
   - QA
   - Ops
 feature_area: ant-design-pro-admin-system
-purpose: "定义 video-web 从 Vite 自研布局迁移到 Ant Design Pro 官方技术栈后的用户工作台与管理后台一体化方案。"
+purpose: "定义 video-web 基于 Ant Design Pro 官方技术栈重建用户工作台与管理后台一体化系统的方案。"
 canonical_path: "docs/design/04-ant-design-pro-admin-system.md"
 status: draft
 version: "0.1.0"
@@ -19,9 +19,9 @@ inputs:
   - "Ant Design Pro 官方脚手架与 ProComponents 文档"
 outputs:
   - "Ant Design Pro 一体化后台架构设计"
-  - "页面、权限、菜单、API 生成和测试迁移边界"
+  - "页面、权限、菜单、API 生成和旧代码清理边界"
 triggers:
-  - "前端主框架迁移"
+  - "前端主框架重建"
   - "后台管理系统重构"
   - "用户工作台与管理员后台合并"
 downstream:
@@ -33,9 +33,9 @@ downstream:
 
 ## 1. 背景
 
-当前 `video-web` 已经具备解析下载、任务列表、账号信息、异常状态和 OpenAPI API 生成能力，但页面观感仍偏自研 MVP，后台系统的稳定感、信息密度和权限菜单能力不足。用户已确认下一阶段不继续修补当前 Vite 布局，而是采用 Ant Design Pro 官方默认技术栈，重建一个“用户工作台 + 管理后台一体化”的成熟后台系统。
+当前 `video-web` 已经具备解析下载、任务列表、账号信息、异常状态和 OpenAPI API 生成能力，但页面观感仍偏自研 MVP，后台系统的稳定感、信息密度和权限菜单能力不足。用户已确认下一阶段不继续修补当前 Vite 布局，也不兼容旧页面实现，而是采用 Ant Design Pro 官方默认技术栈，重建一个“用户工作台 + 管理后台一体化”的成熟后台系统。
 
-本设计覆盖框架迁移、页面结构、权限菜单、API 生成、测试门禁和 PR 拆分。目标是用官方脚手架建立干净基线，再按 feature 迁移业务，不保留无关演示页和中间产物。
+本设计覆盖框架重建、页面结构、权限菜单、API 生成、测试门禁、旧代码清理和 PR 拆分。目标是用官方脚手架建立干净基线，再按 feature 重新实现业务能力，不保留旧页面代码、旧自研组件、无关演示页和中间产物。
 
 ## 2. 目标
 
@@ -46,11 +46,13 @@ downstream:
 3. 精简官方脚手架，只保留项目需要的布局、登录、权限、菜单、请求、OpenAPI、测试和构建能力。
 4. 继续通过后端 `video-server` OpenAPI 契约生成前端 API client，避免手写 DTO 漂移。
 5. 使用蓝白色主题，减少装饰，界面风格接近成熟 SaaS 后台，而不是营销落地页。
-6. 每个实现阶段继续遵循 Red -> Green -> Refactor 和 feature PR 分组。
+6. 删除旧 Vite 页面、Radix UI 组件、自研 layout、自研视觉样式和旧路由兼容逻辑，避免新系统被旧界面影响。
+7. 每个实现阶段继续遵循 Red -> Green -> Refactor 和 feature PR 分组。
 
 ## 3. 非目标
 
 - 不继续要求 Vite 默认端口 `5173`；本阶段接受 Ant Design Pro 官方默认开发方式和端口。
+- 不兼容旧页面结构、旧组件 API、旧 CSS token、旧 `/workbench` 工作台入口或旧页面测试实现。
 - 不把官方示例页、示例 mock、演示图表和无关国际化内容带入正式项目。
 - 不在首轮实现计费、团队协作、消息通知、复杂审计日志或复杂配置中心。
 - 不重写后端接口；前端以现有 OpenAPI 契约和必要后端后续 issue 为边界。
@@ -64,7 +66,7 @@ downstream:
 | UI 体系 | Ant Design 5 | 基础组件、表单、反馈和主题能力 |
 | 高级组件 | ProComponents | `ProLayout`、`PageContainer`、`ProTable`、`ProForm`、`ProCard` |
 | 语言 | TypeScript | 保持严格类型边界 |
-| API 生成 | Ant Design Pro openapi 工作流优先 | 若无法适配后端契约，再保留 `@hey-api/openapi-ts` 作为兼容方案 |
+| API 生成 | Ant Design Pro openapi 工作流 | 使用官方脚手架约定的 OpenAPI 生成方式 |
 | 请求层 | Umi request / request interceptor | 统一 token、401、错误提示和响应封装 |
 | 测试 | 脚手架默认测试 + Playwright | 以脚手架默认能力为准，保留 E2E 验证 |
 | 样式 | Ant Design token + 少量全局样式 | 蓝白主题，避免自研大量 CSS |
@@ -91,12 +93,12 @@ downstream:
 | `/admin/system` | 系统状态 | `/health`、`/ready`、OpenAPI、Redis、存储、媒体工具状态 |
 | `/admin/platforms` | 平台能力 | B站、抖音、快手等平台支持状态与限制说明 |
 
-### 5.3 路由兼容
+### 5.3 路由边界
 
-- `/workbench` 重定向到 `/tasks`。
 - `/auth` 保留 OAuth token 回跳处理。
 - 未登录访问受保护页面跳转登录页。
 - 非管理员访问 `/admin/*` 展示 403 页面。
+- `/workbench` 不再作为兼容入口保留；旧链接访问时进入 404 或统一跳转到登录后首页，具体行为以 Ant Design Pro 路由实现为准。
 
 ## 6. 页面设计
 
@@ -166,7 +168,7 @@ downstream:
 5. 401 统一清理 token 并跳转登录页。
 6. 403 展示无权限页面，不自动退出登录。
 
-本地存储 key 可以沿用 `video_web_access_token`，迁移时保证旧 token 不导致白屏。
+本地存储 key 由新 Ant Design Pro 应用重新定义。旧 token 和旧本地状态不作为兼容目标；如果存在旧状态导致异常，新系统应清理并重新登录。
 
 ## 8. API 与 OpenAPI
 
@@ -176,13 +178,13 @@ downstream:
 - OpenAPI JSON：`http://localhost:8000/openapi.json`
 - 仓库导出脚本：`video-server/scripts/export_openapi.py`
 
-前端迁移原则：
+前端重建原则：
 
 1. 优先使用 Ant Design Pro 官方 openapi 生成工作流。
 2. 生成文件放入 `src/services/generated` 或脚手架约定的 `src/services/<api>` 目录。
 3. 生成文件禁止手工修改。
 4. 页面通过业务 service 或 model 调用 API，不在页面散落 fetch/axios。
-5. 若官方 openapi 工具对后端契约适配成本过高，保留 `@hey-api/openapi-ts`，但必须在 docs 中说明原因和命令。
+5. 不保留旧 `@hey-api/openapi-ts` 生成链路作为常规路径；如官方生成工具遇到阻塞，需要先修正后端契约或单独提交技术决策，不在实现中做双生成体系。
 
 首轮需要覆盖的接口：
 
@@ -200,24 +202,24 @@ downstream:
 - `GET /ready`
 - `GET /api/admin/metrics`
 
-## 9. 工程迁移策略
+## 9. 工程重建策略
 
-迁移采用“新脚手架基线 -> 精简 -> 业务迁移 -> 管理增强”的顺序，不在旧 Vite 项目上继续堆布局。
+重建采用“官方脚手架基线 -> 删除旧前端实现 -> 精简官方示例 -> 重新实现业务 -> 管理增强”的顺序。后续实现不得以现有 Vite 页面为视觉或结构参考，也不在旧 Vite 项目上继续堆布局。
 
 ### 9.1 保留资产
 
 - `AGENTS.md`
 - `docs/`
 - `docs/openapi/video-server.openapi.json`
-- 当前页面测试中有价值的业务断言
-- Playwright E2E 中的登录、解析、任务主链路思路
 - Docker 与运行文档中的部署边界
+- 后端 OpenAPI 契约和已确认的产品功能边界
 
 ### 9.2 替换资产
 
-- `src/` 应以 Ant Design Pro 脚手架为新基线重建。
-- `vite.config.ts`、Vite 入口、Radix UI 自研组件逐步移除。
-- 旧 `AppLayout`、`PageContainer`、自研卡片和按钮不迁移为主布局。
+- `src/` 以 Ant Design Pro 脚手架为新基线重建，旧 `src/` 页面和组件全部删除。
+- `vite.config.ts`、Vite 入口、Radix UI 依赖、自研 UI 组件、自研 layout 和旧 CSS 全部移除。
+- 旧 `AppLayout`、`PageContainer`、自研卡片、按钮、状态组件、页面测试和视觉样式不迁移、不适配、不作为参考。
+- 旧 `package.json` 脚本按 Ant Design Pro 官方脚手架重建，避免保留 Vite 时代的启动、构建和测试假象。
 
 ### 9.3 精简规则
 
@@ -282,7 +284,7 @@ npm run test:e2e
 
 | PR | 范围 | 关闭 issue 类型 |
 | --- | --- | --- |
-| PR-1 | Ant Design Pro 官方脚手架基线、精简、启动、基础测试门禁 | scaffold, chore, test |
+| PR-1 | Ant Design Pro 官方脚手架基线、删除旧前端实现、精简示例、启动、基础测试门禁 | scaffold, chore, test |
 | PR-2 | 登录、权限、请求层、OpenAPI 生成 | auth, api-contract |
 | PR-3 | 用户工作台：解析、任务、详情、账号 | feature, user-workspace |
 | PR-4 | 管理后台：用户管理、任务监控、系统状态、平台能力 | feature, admin |
@@ -294,6 +296,7 @@ npm run test:e2e
 
 - 本地可按 Ant Design Pro 官方命令启动。
 - 页面使用 Ant Design Pro 主布局，而不是旧 Vite 自研布局。
+- 旧 Vite/Radix/自研页面代码已删除，不参与构建。
 - 普通用户与管理员菜单根据 `/api/auth/me` 的 `is_admin` 区分。
 - 解析下载主链路可用。
 - 管理员页面至少具备只读可用能力。
@@ -306,9 +309,9 @@ npm run test:e2e
 
 | 风险 | 影响 | 处理 |
 | --- | --- | --- |
-| 官方脚手架依赖较重 | 迁移和 CI 时间增加 | 首轮精简示例页和无关依赖 |
-| Umi 与当前 Vite 测试体系不同 | 旧测试不能直接复用 | 迁移断言，不强搬旧测试代码 |
-| OpenAPI 官方生成工具适配后端契约失败 | API 生成延期 | 保留 `@hey-api/openapi-ts` 兼容路径 |
+| 官方脚手架依赖较重 | 重建和 CI 时间增加 | 首轮精简示例页和无关依赖 |
+| Umi 与当前 Vite 测试体系不同 | 旧测试不能直接复用 | 删除旧测试，实现 Ant Design Pro 新测试 |
+| OpenAPI 官方生成工具适配后端契约失败 | API 生成延期 | 优先修正契约或提交技术决策，不保留双生成体系 |
 | 管理员接口不足 | 管理页面只能部分只读 | 首轮只做已有接口能力，缺口拆后端 issue |
 | 大范围重建容易混入无关改动 | review 难度上升 | 按 PR 分组和 TDD commit 顺序推进 |
 
@@ -319,9 +322,10 @@ npm run test:e2e
 - 用户工作台 + 管理后台一体化。
 - 接受 Ant Design Pro 官方默认技术栈。
 - 使用官方脚手架创建后精简。
+- 不兼容旧页面代码，旧页面、旧组件和旧 Vite/Radix 体系全部删除。
 - 蓝白色后台系统风格，减少额外装饰。
 
-当前无阻塞性待确认问题。后续实施中若官方 openapi 工具与后端契约不兼容，再单独提交技术取舍说明。
+当前无阻塞性待确认问题。后续实施中若官方 openapi 工具与后端契约不兼容，应先提交技术取舍说明或后端契约修正，不在前端保留旧生成链路兜底。
 
 ## 15. 变更记录
 
