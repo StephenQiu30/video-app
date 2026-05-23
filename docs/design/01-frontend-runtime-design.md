@@ -1,0 +1,40 @@
+---
+layer: design
+doc_no: "DESIGN-001"
+audience:
+  - Dev
+purpose: "明确 video-web 运行时架构、鉴权流、任务流和 API 依赖边界。"
+canonical_path: "docs/design/01-frontend-runtime-design.md"
+status: draft
+version: "1.0.0"
+owner: "StephenQiu30"
+inputs:
+  - "video-server 接口契约"
+outputs:
+  - "数据流与组件边界定义"
+triggers:
+  - "API 字段变更"
+  - "路由结构变更"
+downstream:
+  - "docs/acceptance/01-mvp-acceptance-gates.md"
+---
+
+# 前端运行时设计
+
+## 数据流
+
+- `AuthContext` 保存 `token`，并持久化到 `localStorage`。
+- `src/lib/api.ts` 提供 request wrappers，统一在 header 中透传 `Authorization: Bearer <token>`。
+- 页面通过 `useQuery/useMutation` 进行任务读取与动作触发。
+
+## 页面关系
+
+- `HomePage`：输入 URL + parse + format 选择 + createTask
+- `AuthPage`：解析 `?token=` 并回落到工作台
+- `WorkbenchPage`：列任务 + 进入详情
+- `TaskDetailPage`：事件流 + 状态变化 + cancel/retry/download
+
+## 前后端边界
+
+- 鉴权、配额、下载签名均由后端返回。
+- 前端仅负责展示与用户操作，不做下载链接签名生成或任务执行决策。
