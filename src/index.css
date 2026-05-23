@@ -1,7 +1,7 @@
 :root {
-  --text: #1f2441;
-  --text-soft: #5b5670;
-  --border: #e8e1f5;
+  --text: #0f2238;
+  --text-soft: #4d6078;
+  --border: #dbe7f6;
   --bg: #f8fbff;
   --card-bg: #ffffff;
 }
@@ -32,7 +32,7 @@ body {
 }
 
 a {
-  color: #4f46e5;
+  color: #0b63ce;
 }
 
 h1,
@@ -64,7 +64,7 @@ p {
 }
 
 .btn-primary {
-  background: #4f46e5;
+  background: #0b63ce;
   color: #fff;
 }
 
@@ -73,8 +73,8 @@ p {
 }
 
 .btn-outline {
-  border-color: #c4c4cf;
-  background: #f7f7fb;
+  border-color: #b9cbe4;
+  background: #f7fbff;
 }
 
 .btn:disabled {
@@ -84,7 +84,7 @@ p {
 
 .input {
   width: 100%;
-  border: 1px solid #d7d8e0;
+  border: 1px solid #c9d7ea;
   background: #fff;
   border-radius: 10px;
   padding: 10px 12px;
@@ -92,14 +92,14 @@ p {
 }
 
 .input:focus-visible {
-  outline: 2px solid #b3b9ff;
+  outline: 2px solid #8ec5ff;
 }
 
 .card {
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 8px;
   background: var(--card-bg);
-  box-shadow: 0 8px 20px rgba(95, 64, 255, 0.08);
+  box-shadow: 0 10px 28px rgba(35, 80, 127, 0.08);
   padding: 18px;
 }
 
@@ -118,10 +118,10 @@ p {
 }
 
 .badge {
-  border-radius: 999px;
+  border-radius: 8px;
   padding: 4px 8px;
-  background: #eef2ff;
-  color: #3730a3;
+  background: #e8f2ff;
+  color: #084c9a;
   font-size: 12px;
   display: inline-flex;
 }
@@ -129,7 +129,7 @@ p {
 .progress-track {
   width: 100%;
   height: 8px;
-  background: #edf2ff;
+  background: #e8f2ff;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -137,7 +137,7 @@ p {
 .progress-bar {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #7c3aed, #2563eb);
+  background: #0b63ce;
 }
 
 .alert {
@@ -149,9 +149,9 @@ p {
 
 .alert-title {
   margin-bottom: 6px;
-  color: #86198f;
+  color: #9f1239;
 }
 
 .alert-description {
-  color: #581c87;
+  color: #7f1d1d;
 }

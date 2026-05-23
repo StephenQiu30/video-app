@@ -114,6 +114,18 @@ test('解析分享链接并创建任务后可进入详情页获取下载链接',
       return
     }
 
+    if (route.request().url().endsWith('/report-link')) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          url: 'https://cdn.example.com/report.pdf',
+          expires_in_seconds: 900,
+        }),
+      })
+      return
+    }
+
     await route.fulfill({
       status: 200,
       contentType: 'application/json',

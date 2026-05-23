@@ -12,12 +12,12 @@ function AppHeader() {
   return (
     <header className="app-header">
       <div className="brand">
-        <span>VideoWeb</span>
-        <span className="brand-sub">AI 工具化下载</span>
+        <span>万能视频下载器</span>
+        <span className="brand-sub">解析 · 队列 · AI 报告</span>
       </div>
       <nav className="header-nav">
         <NavLink to="/" end>
-          落地页
+          解析
         </NavLink>
         <NavLink to="/workbench">工作台</NavLink>
         <NavLink to="/auth">登录 / 注册</NavLink>
