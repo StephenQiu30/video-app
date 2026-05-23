@@ -10,6 +10,17 @@
 - 使用 TDD 的测试标签约定提交：`test:m1-*`、`impl:m1-*`、`docs:m1-*`、`feat:m1-*`、`chore:m1-*`（`m1` 为本轮起始编号）。
 - 采用 TypeScript 严格边界思路：最小接口、清晰职责、避免一次性大文件。
 - 遵循「能跑就行」到「能测」再到「好看」，优先保证交付闭环而非炫技。
+- 单个文件应保持清晰、可维护；当页面、组件或测试文件持续膨胀时，按职责拆分到更小模块。
+- 需求、任务和验收标准应尽量符合 SMART：具体、可衡量、可达成、相关且有阶段边界。
+
+## Test-First PR 提交规范
+- 功能 PR 先用测试定义需求、边界和验收标准，再提交最小实现。
+- 提交顺序优先为：`test:` → `impl:` → `refactor:` → `chore:`。
+- `test:` commit 只包含测试、fixtures、mocks、期望结果和测试辅助工具，不混入生产实现。
+- `impl:` commit 只包含让测试通过的最小实现，不夹带无关功能和大范围重构。
+- `refactor:` commit 必须在测试通过后进行，只清理命名、结构、重复逻辑或可读性。
+- `chore:` commit 只包含配置、格式化、锁文件或生成文件等非业务变更。
+- 文档、纯格式化、CI 配置修复和紧急修复可不强制 test-first，但 PR 中必须说明原因和验证方式。
 
 ## 路由与状态
 - 路由约定：
@@ -32,6 +43,7 @@
 - `docs/` 需按长期影响分类（PRD/plan/design/acceptance/operations）。
 - 临时调试与一次性记事不要写进 docs；应放测试脚本、Issue、PR 讨论和分支提交里。
 - 每个正式文档文件应包含明确的目标、边界、验收标准和剩余风险。
+- 新增正式文档优先复用 `docs/TEMPLATE.md` 的 frontmatter 与章节结构。
 
 ## 提交与交付
 - 使用中文提交摘要，格式建议：
@@ -41,3 +53,5 @@
   - `feat:m1-xx xxx`
   - `chore:m1-xx xxx`
 - 交付说明按「做了什么 / 怎么验证 / 还存在哪些风险」三点输出。
+- PR 描述必须覆盖 Test-first Evidence、Tests added、Commands run、Result、Agent Usage 和 Reviewer Checklist。
+- PR 合并前检查 CI、冲突、目标分支最新状态，并在需要合并到主分支前保留可回滚点。
