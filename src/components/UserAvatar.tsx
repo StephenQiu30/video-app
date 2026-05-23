@@ -6,15 +6,23 @@ import React from 'react';
 
 type InitialStateModel = {
   initialState?: {
-    currentUser?: API.CurrentUser;
+    currentUser?: API.UserRead;
   };
   setInitialState: (
-    updater: (state?: { currentUser?: API.CurrentUser }) => { currentUser?: API.CurrentUser },
+    updater: (state?: { currentUser?: API.UserRead }) => {
+      currentUser?: API.UserRead;
+    },
   ) => void;
 };
 
-const UserAvatar: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState') as unknown as InitialStateModel;
+type UserAvatarProps = {
+  onUserChange?: (currentUser?: API.UserRead) => void;
+};
+
+const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
+  const { initialState, setInitialState } = useModel(
+    '@@initialState',
+  ) as unknown as InitialStateModel;
   const currentUser = initialState?.currentUser;
 
   const menuItems: MenuProps['items'] = [
@@ -37,6 +45,7 @@ const UserAvatar: React.FC = () => {
     if (key === 'logout') {
       localStorage.removeItem('video_web_access_token');
       setInitialState((state) => ({ ...state, currentUser: undefined }));
+      onUserChange?.(undefined);
       history.push('/parser');
       return;
     }

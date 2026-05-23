@@ -5,10 +5,10 @@ const Settings: ProLayoutProps & {
 } = {
   navTheme: 'light',
   colorPrimary: '#1677ff',
-  layout: 'mix',
+  layout: 'top',
   contentWidth: 'Fluid',
   fixedHeader: true,
-  fixSiderbar: true,
+  fixSiderbar: false,
   colorWeak: false,
   title: '万能视频下载器',
   logo: '/logo.svg',

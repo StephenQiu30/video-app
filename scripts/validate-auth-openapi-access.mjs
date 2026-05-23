@@ -17,12 +17,16 @@ if (!schema.paths?.['/api/auth/me']) {
   failures.push('OpenAPI schema missing /api/auth/me');
 }
 
-if (!exists('src/services/video/loginUser.ts')) {
-  failures.push('generated official OpenAPI service missing loginUser.ts');
-}
-
-if (!exists('src/services/video/getCurrentUser.ts')) {
-  failures.push('generated official OpenAPI service missing getCurrentUser.ts');
+if (!exists('src/services/video/auth.ts')) {
+  failures.push('generated official OpenAPI service missing auth.ts');
+} else {
+  const generatedAuth = read('src/services/video/auth.ts');
+  if (!generatedAuth.includes('loginUserApiAuthLoginPost')) {
+    failures.push('generated official OpenAPI service missing login function');
+  }
+  if (!generatedAuth.includes('getMeApiAuthMeGet')) {
+    failures.push('generated official OpenAPI service missing current user function');
+  }
 }
 
 const routes = read('config/routes.ts');
@@ -55,7 +59,6 @@ if (!appRuntimeExists) {
   for (const expectedText of [
     'fetchCurrentUser',
     'TOKEN_STORAGE_KEY',
-    'video_web_access_token',
     '/user/login',
   ]) {
     if (!appRuntime.includes(expectedText)) {
