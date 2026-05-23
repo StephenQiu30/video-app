@@ -1,0 +1,157 @@
+:root {
+  --text: #1f2441;
+  --text-soft: #5b5670;
+  --border: #e8e1f5;
+  --bg: #f8fbff;
+  --card-bg: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  letter-spacing: 0;
+}
+
+a {
+  color: #4f46e5;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+.btn {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-md {
+  min-height: 36px;
+}
+
+.btn-sm {
+  min-height: 30px;
+}
+
+.btn-lg {
+  min-height: 42px;
+}
+
+.btn-primary {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-outline {
+  border-color: #c4c4cf;
+  background: #f7f7fb;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #d7d8e0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.input:focus-visible {
+  outline: 2px solid #b3b9ff;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 20px rgba(95, 64, 255, 0.08);
+  padding: 18px;
+}
+
+.card-header {
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.card-description {
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 12px;
+  display: inline-flex;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #edf2ff;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7c3aed, #2563eb);
+}
+
+.alert {
+  border: 1px solid #f5c2c7;
+  background: #ffeff1;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.alert-title {
+  margin-bottom: 6px;
+  color: #86198f;
+}
+
+.alert-description {
+  color: #581c87;
+}
