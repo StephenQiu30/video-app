@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach } from 'vitest'
 
 import { listTasks } from '../lib/api'
@@ -131,6 +132,75 @@ describe('WorkbenchPage', () => {
     expect(await screen.findByText('失败：1')).toBeInTheDocument()
     expect(await screen.findByText('成功：1')).toBeInTheDocument()
     expect(await screen.findByText('失败视频')).toBeInTheDocument()
+  })
+
+  it('可按任务状态筛选并展示封面与能力状态', async () => {
+    vi.mocked(listTasks).mockResolvedValueOnce([
+      {
+        id: 't-running',
+        source_url: 'https://v.douyin.com/running',
+        title: '正在下载的视频',
+        cover_url: 'https://cdn.example.com/running.jpg',
+        duration_seconds: 95,
+        state: 'DOWNLOADING',
+        progress: 42,
+        format_id: '1080',
+        format_label: '1080P MP4',
+        failure_code: null,
+        failure_reason: null,
+        output_filename: null,
+        object_size: null,
+        expires_at: null,
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+        attempt_no: 1,
+        is_latest_attempt: true,
+        retry_of_task_id: null,
+        ai_summary: null,
+        ai_status: 'PENDING',
+        ai_error: null,
+      },
+      {
+        id: 't-done',
+        source_url: 'https://www.bilibili.com/video/BV1xx411c7mD',
+        title: '已完成的视频',
+        cover_url: 'https://cdn.example.com/done.jpg',
+        duration_seconds: 360,
+        state: 'SUCCEEDED',
+        progress: 100,
+        format_id: '720',
+        format_label: '720P MP4',
+        failure_code: null,
+        failure_reason: null,
+        output_filename: 'done.mp4',
+        object_size: 1200000,
+        expires_at: '2026-01-02T00:00:00Z',
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+        attempt_no: 1,
+        is_latest_attempt: true,
+        retry_of_task_id: null,
+        ai_summary: '已生成摘要',
+        ai_status: 'SUCCEEDED',
+        ai_error: null,
+      },
+    ])
+
+    const user = userEvent.setup()
+    renderWithProviders(<WorkbenchPage />)
+
+    expect(await screen.findByAltText('正在下载的视频')).toHaveAttribute(
+      'src',
+      'https://cdn.example.com/running.jpg',
+    )
+    expect(screen.getByText('时长：01:35')).toBeInTheDocument()
+    expect(screen.getByText('AI：等待处理')).toBeInTheDocument()
+    expect(screen.getByText('报告：可导出')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: '已完成' }))
+
+    expect(screen.queryByText('正在下载的视频')).not.toBeInTheDocument()
+    expect(screen.getByText('已完成的视频')).toBeInTheDocument()
   })
 
   it('错误态能展示任务列表请求异常', async () => {
