@@ -16,7 +16,7 @@
     "biome:lint": "biome lint",
     "biome": "biome check --write",
     "openapi": "max openapi",
-    "test": "jest --passWithNoTests && node scripts/validate-ant-design-pro-scaffold.mjs && node scripts/validate-auth-openapi-access.mjs && node scripts/validate-user-workspace.mjs",
+    "test": "jest --passWithNoTests && node scripts/validate-ant-design-pro-scaffold.mjs && node scripts/validate-auth-openapi-access.mjs && node scripts/validate-user-workspace.mjs && node scripts/validate-admin-console.mjs",
     "test:update": "jest -u",
     "test:coverage": "jest --coverage",
     "test:e2e": "echo \"E2E will be reintroduced in M4 PR-E (#92)\"",
