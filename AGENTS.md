@@ -2,8 +2,9 @@
 
 ## 目标与边界
 - video-web 仅作为**独立前端仓库**运行，不承载 API 路由、后台任务执行和静态托管职责。
-- 前端与后端通过 `VITE_API_BASE_URL` 与 `/api/*` 路径通信；跨仓联调只在运行文档中定义端口与鉴权配置。
-- 功能以 MVP 为主：落地页 → 授权登录 → 工作台任务列表 → 任务详情/下载。
+- 前端与后端通过 `UMI_APP_API_BASE_URL` 与 `/api/*` 路径通信；跨仓联调只在运行文档中定义端口与鉴权配置。
+- 当前基线采用 Ant Design Pro 官方脚手架 + Umi Max，不兼容旧 Vite/Radix 页面代码。
+- 功能以解析下载优先：登录后进入一体化后台，覆盖解析下载、下载任务、账号中心和管理员运维。
 
 ## 开发原则
 - 采用测试优先（Red → Green → Refactor）。任何可验证行为应先有失败测试，再补最小实现。
@@ -24,19 +25,20 @@
 
 ## 路由与状态
 - 路由约定：
-  - `/` 落地页（无需鉴权）
-  - `/auth` 登录页（OAuth 回跳后入参 `token`）
-  - `/workbench` 工作台（必须鉴权）
-  - `/tasks/:taskId` 任务详情（必须鉴权）
-- 鉴权状态由 `AppProvider` 持久化 token 到 `localStorage.video_web_access_token`。
-- 所有请求层统一通过 `src/lib/api.ts` 和 `query` hooks / 手工 mutations。
+  - `/` 重定向到 `/parser`
+  - `/parser` 解析下载
+  - `/tasks` 下载任务
+  - `/account` 账号中心
+  - `/admin/*` 管理后台
+- 鉴权 token 持久化到 `localStorage.video_web_access_token`。
+- 请求层统一使用 Umi Max `request` 与后续 OpenAPI 生成服务，不再复用旧 `src/lib/api.ts`。
 
 ## TDD 与测试门禁
-- 新文件应优先新增最小单元测试覆盖：鉴权守卫、解析表单、任务列表、状态按钮。
+- 新文件应优先新增最小单元测试或脚本校验覆盖：鉴权守卫、解析表单、任务列表、状态按钮、脚手架基线。
 - 前端 CI 理想最小门禁：
   - `npm run lint`
   - `npm run test`
-  - `npm run test:e2e`
+- `npm run test:e2e` 将在 M4 PR-E 恢复为真实 Playwright 门禁；当前 PR-A 只允许占位命令，不允许保留旧 Vite E2E 假象。
 - 每个 issue 的实现结尾必须有验收证据（至少一次命令输出和关键日志）。
 
 ## 文档规范

@@ -2,6 +2,10 @@ node_modules
 dist
 coverage
 .vite
+.umi
+.umi-production
+.umi-test
+.idea
 .turbo
 .DS_Store
 .env

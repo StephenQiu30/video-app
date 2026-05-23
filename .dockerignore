@@ -3,6 +3,11 @@ dist
 coverage
 playwright-report
 test-results
+.umi
+.umi-production
+.umi-test
+.idea
+.superpowers
 .git
 .DS_Store
 .env
