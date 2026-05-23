@@ -188,6 +188,7 @@ test('未登录点击解析打开登录 Modal 且不调用解析接口', async (
   await page.getByRole('button', { name: '解析链接' }).click();
 
   await expect(page.getByRole('dialog', { name: /登录/ })).toBeVisible();
+  await page.waitForTimeout(500);
   expect(parseCalls).toBe(0);
 });
 

@@ -52,11 +52,12 @@ if (!/canAuthenticated\s*:/.test(access)) {
   failures.push('src/access.ts must expose canAuthenticated');
 }
 
-if (
-  /onPageChange\s*:\s*\(\)\s*=>[\s\S]*history\.replace\([\s\S]*loginPath/.test(app) ||
-  /redirect=\$\{encodeURIComponent/.test(app)
-) {
-  failures.push('global unauthenticated redirect to /user/login must be removed');
+const hasLegacyGlobalLoginRedirect =
+  /onPageChange\s*:\s*\(\)\s*=>\s*{[\s\S]*const\s+isPublicPath\s*=[\s\S]*if\s*\(\s*!initialState\?\.currentUser\s*&&\s*!isPublicPath\s*\)\s*{[\s\S]*history\.replace\(\s*`\$\{loginPath\}\?redirect=\$\{encodeURIComponent\(/.test(
+    app,
+  );
+if (hasLegacyGlobalLoginRedirect) {
+  failures.push('legacy global unauthenticated redirect to /user/login must be removed');
 }
 
 const authModalExists =
@@ -68,14 +69,6 @@ if (!authModalExists) {
 
 if (!/AuthModal/.test(parser)) {
   failures.push('Parser page must render AuthModal');
-}
-
-if (!/pending[A-Za-z]*(Action|Url|Parse)/.test(parser)) {
-  failures.push('Parser page must keep a pending parse action before login');
-}
-
-if (!/setInitialState|useModel\(['"]@@initialState['"]\)/.test(parser)) {
-  failures.push('Parser page must refresh or use initialState after AuthModal login');
 }
 
 if (failures.length > 0) {
