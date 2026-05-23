@@ -85,6 +85,10 @@ export type TaskRead = {
   ai_summary: string | null
   ai_status: string | null
   ai_error: string | null
+  ai_mindmap?: {
+    title: string
+    points: string[]
+  } | null
 }
 
 export type TaskEventRead = {
@@ -96,6 +100,11 @@ export type TaskEventRead = {
 }
 
 export type DownloadLink = {
+  url: string
+  expires_in_seconds: number
+}
+
+export type TaskReportLink = {
   url: string
   expires_in_seconds: number
 }
@@ -152,6 +161,14 @@ export const getTaskEvents = async (token: string | null, taskId: string): Promi
 export const getTaskDownloadLink = async (token: string | null, taskId: string): Promise<DownloadLink> => {
   requireAuth(token)
   const response = await api.get<DownloadLink>(`/tasks/${taskId}/download-link`, {
+    headers: authHeaders(token),
+  })
+  return response.data
+}
+
+export const getTaskReportLink = async (token: string | null, taskId: string): Promise<TaskReportLink> => {
+  requireAuth(token)
+  const response = await api.get<TaskReportLink>(`/tasks/${taskId}/report-link`, {
     headers: authHeaders(token),
   })
   return response.data

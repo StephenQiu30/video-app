@@ -7,6 +7,7 @@ import {
   getTask,
   getTaskDownloadLink,
   getTaskEvents,
+  getTaskReportLink,
   retryTask,
 } from '../lib/api'
 import { TaskDetailPage } from './TaskDetailPage'
@@ -20,6 +21,7 @@ vi.mock('../lib/api', async () => {
     getTask: vi.fn(),
     getTaskEvents: vi.fn(),
     getTaskDownloadLink: vi.fn(),
+    getTaskReportLink: vi.fn(),
   }
 })
 
@@ -142,6 +144,66 @@ describe('TaskDetailPage', () => {
     renderTaskDetailPage()
 
     expect(await screen.findByText('加载失败：任务加载失败')).toBeInTheDocument()
+  })
+
+  it('展示 AI 摘要、关键事件并可导出 PDF 报告', async () => {
+    vi.mocked(getTask).mockResolvedValue({
+      id: 't-detail',
+      source_url: 'https://www.bilibili.com/video/BV1xx411c7mD',
+      title: 'B站讲解视频',
+      cover_url: 'https://cdn.example.com/bili.jpg',
+      duration_seconds: 420,
+      state: 'SUCCEEDED',
+      progress: 100,
+      format_id: '1080',
+      format_label: '1080P MP4',
+      failure_code: null,
+      failure_reason: null,
+      output_filename: 'bili.mp4',
+      object_size: 8800000,
+      expires_at: '2026-01-01T00:00:00Z',
+      created_at: '2026-01-01T00:00:00Z',
+      updated_at: '2026-01-01T00:00:00Z',
+      attempt_no: 1,
+      is_latest_attempt: true,
+      retry_of_task_id: null,
+      ai_summary: '这是一段关于视频下载器工程化的摘要。',
+      ai_status: 'SUCCEEDED',
+      ai_error: null,
+      ai_mindmap: {
+        title: '工程化要点',
+        points: ['解析能力', '任务可靠性', '报告导出'],
+      },
+    })
+    vi.mocked(getTaskEvents).mockResolvedValue([
+      {
+        id: 1,
+        task_id: 't-detail',
+        state: 'AI_SUMMARY_DONE',
+        message: 'AI 摘要已生成',
+        created_at: '2026-01-01T00:01:00Z',
+      },
+    ])
+    vi.mocked(getTaskReportLink).mockResolvedValue({
+      url: 'https://example.com/report.pdf',
+      expires_in_seconds: 900,
+    })
+
+    renderTaskDetailPage()
+    const user = userEvent.setup()
+
+    expect(await screen.findByRole('heading', { name: 'AI 摘要' })).toBeInTheDocument()
+    expect(screen.getByText('这是一段关于视频下载器工程化的摘要。')).toBeInTheDocument()
+    expect(screen.getByText('工程化要点')).toBeInTheDocument()
+    expect(screen.getByText('报告导出')).toBeInTheDocument()
+    expect(screen.getByText('AI 摘要已生成')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: '导出 PDF 报告' }))
+
+    expect(await screen.findByRole('link', { name: '打开 PDF 报告' })).toHaveAttribute(
+      'href',
+      'https://example.com/report.pdf',
+    )
   })
 
   it('未登录时依赖组件层级重定向（通过 App 中间件）', () => {
