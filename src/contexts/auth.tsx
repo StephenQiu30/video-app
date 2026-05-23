@@ -1,12 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 type AppAuth = {
   token: string | null
   setToken: (next: string | null) => void
 }
 
-const AUTH_KEY = 'video_web_access_token'
+export const AUTH_KEY = 'video_web_access_token'
+export const AUTH_EXPIRED_EVENT = 'video_web_auth_expired'
 
 const AuthContext = createContext<AppAuth | null>(null)
 
@@ -24,6 +25,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       window.localStorage.removeItem(AUTH_KEY)
     }
   }
+
+  useEffect(() => {
+    const onAuthExpired = () => {
+      setTokenState(null)
+      window.localStorage.removeItem(AUTH_KEY)
+    }
+    window.addEventListener(AUTH_EXPIRED_EVENT, onAuthExpired)
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, onAuthExpired)
+  }, [])
 
   const value = useMemo(() => ({ token, setToken }), [token])
 

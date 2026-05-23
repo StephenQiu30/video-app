@@ -345,6 +345,43 @@
   color: #60758f;
 }
 
+.state-block {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+  justify-items: start;
+  border: 1px solid #dbe7f6;
+  border-radius: 8px;
+  padding: 18px;
+  background: #f8fbff;
+  color: #334b68;
+}
+
+.state-block strong {
+  color: #0f2238;
+}
+
+.state-block p {
+  margin: 0;
+}
+
+.error-state {
+  border-color: #fed7d7;
+  background: #fff5f5;
+}
+
+.loading-state {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #0b63ce;
+}
+
 .report-empty {
   display: grid;
   gap: 8px;

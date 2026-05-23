@@ -13,6 +13,7 @@ import {
 } from '../lib/api'
 import { useAuth } from '../contexts/auth'
 import { PageContainer } from '../components/layout/PageContainer'
+import { ErrorState, LoadingState } from '../components/states/StateBlocks'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -118,14 +119,14 @@ export function TaskDetailPage() {
   if (isLoading) {
     return (
       <PageContainer title="任务详情">
-        <p>任务加载中...</p>
+        <LoadingState title="任务加载中" />
       </PageContainer>
     )
   }
   if (isError) {
     return (
       <PageContainer title="任务详情">
-        <p className="error-text">加载失败：{error ? parseErrorMessage(error) : '未知错误'}</p>
+        <ErrorState description={`加载失败：${error ? parseErrorMessage(error) : '未知错误'}`} />
       </PageContainer>
     )
   }

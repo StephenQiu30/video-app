@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { AUTH_EXPIRED_EVENT, AUTH_KEY } from '../contexts/auth'
+
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000').replace(/\/$/, '')
 
 export const api = axios.create({
@@ -14,6 +16,64 @@ export type ApiError = {
     details?: unknown
   }
 }
+
+export type NormalizedApiError = {
+  code: string
+  message: string
+  details?: unknown
+  status?: number
+}
+
+function isApiErrorEnvelope(data: unknown): data is ApiError {
+  if (!data || typeof data !== 'object') return false
+  const candidate = data as { error?: unknown }
+  if (!candidate.error || typeof candidate.error !== 'object') return false
+  const error = candidate.error as { code?: unknown; message?: unknown }
+  return typeof error.code === 'string' && typeof error.message === 'string'
+}
+
+export function normalizeApiError(error: unknown): NormalizedApiError {
+  if (axios.isAxiosError(error)) {
+    const status = error.response?.status
+    const data = error.response?.data
+    if (isApiErrorEnvelope(data)) {
+      return {
+        code: data.error.code,
+        message: data.error.message,
+        details: data.error.details,
+        status,
+      }
+    }
+    if (status === 401) return { code: 'unauthorized', message: '登录已失效，请重新登录', status }
+    if (status === 403) return { code: 'forbidden', message: '没有访问权限', status }
+    if (status === 429) return { code: 'rate_limited', message: '请求太频繁，请稍后再试', status }
+    if (status && status >= 500) return { code: 'server_error', message: '服务暂时不可用，请稍后重试', status }
+    if (!error.response) return { code: 'network_error', message: '网络连接异常，请检查网络后重试' }
+    return { code: 'request_error', message: error.message || '请求失败，请稍后重试', status }
+  }
+
+  if (error instanceof TypeError) {
+    return { code: 'network_error', message: '网络连接异常，请检查网络后重试' }
+  }
+
+  if (error instanceof Error) {
+    return { code: 'unknown_error', message: error.message || '请求失败，请稍后重试' }
+  }
+
+  return { code: 'unknown_error', message: '请求失败，请稍后重试' }
+}
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const normalized = normalizeApiError(error)
+    if (normalized.status === 401 && typeof window !== 'undefined') {
+      window.localStorage.removeItem(AUTH_KEY)
+      window.dispatchEvent(new CustomEvent(AUTH_EXPIRED_EVENT, { detail: normalized }))
+    }
+    return Promise.reject(new Error(normalized.message))
+  },
+)
 
 export type UserRead = {
   id: number
