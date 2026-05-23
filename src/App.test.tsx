@@ -16,4 +16,10 @@ describe('路由鉴权', () => {
 
     expect(await screen.findByRole('link', { name: 'GitHub 登录' })).toBeInTheDocument()
   })
+
+  it('未登录访问任务详情页会跳转到登录页', async () => {
+    renderWithProviders(<App />, { initialEntries: ['/tasks/abc'] })
+
+    expect(await screen.findByRole('heading', { name: '登录' })).toBeInTheDocument()
+  })
 })
