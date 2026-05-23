@@ -16,13 +16,30 @@
 
 ## 运行方式
 
+### 本机调试（推荐）
+
 ```bash
 npm install
 cp .env.example .env
 npm run dev
 ```
 
-默认访问 `http://localhost:5173`，后端默认 `http://localhost:8000/api`。
+默认访问 `http://localhost:3000`，后端默认 `http://localhost:8000`。
+
+### Docker 部署
+
+Docker 只作为部署方式使用，本机调试不需要 Docker：
+
+```bash
+cp .env.example .env
+npm run docker:up
+```
+
+默认访问 `http://localhost:3000`。如需修改容器暴露端口：
+
+```bash
+WEB_HTTP_PORT=8080 npm run docker:up
+```
 
 ## 主要脚本
 
@@ -31,6 +48,8 @@ npm run dev
 - `npm run lint`：ESLint
 - `npm run test`：Vitest 单元测试
 - `npm run test:e2e`：Playwright E2E（要求 `video-server` 可达）
+- `npm run docker:up`：构建并后台启动 Nginx 静态站点容器
+- `npm run docker:down`：停止 Docker 部署容器
 
 ## 关键约定
 
