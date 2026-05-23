@@ -18,10 +18,29 @@ describe('路由鉴权', () => {
     window.sessionStorage.clear()
   })
 
-  it('未登录访问工作台会重定向到登录页', async () => {
-    renderWithProviders(<App />, { initialEntries: ['/workbench'] })
+  it('顶部布局提供解析、任务、报告、账号入口', async () => {
+    renderWithProviders(<App />)
+
+    expect(await screen.findByRole('banner', { name: '应用顶部栏' })).toBeInTheDocument()
+    expect(screen.getByRole('navigation', { name: '主导航' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '解析' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: '任务' })).toHaveAttribute('href', '/tasks')
+    expect(screen.getByRole('link', { name: '报告' })).toHaveAttribute('href', '/tasks?state=SUCCEEDED')
+    expect(screen.getByRole('link', { name: '账号' })).toHaveAttribute('href', '/account')
+  })
+
+  it('未登录访问任务页会重定向到登录页', async () => {
+    renderWithProviders(<App />, { initialEntries: ['/tasks'] })
 
     expect(await screen.findByRole('heading', { name: '登录' })).toBeInTheDocument()
+  })
+
+  it('旧工作台地址在登录后兼容跳转到任务页', async () => {
+    window.localStorage.setItem('video_web_access_token', 'unit-token')
+
+    renderWithProviders(<App />, { initialEntries: ['/workbench'] })
+
+    expect(await screen.findByRole('heading', { name: '下载任务' })).toBeInTheDocument()
   })
 
   it('授权页访问时会展示回跳按钮', async () => {
@@ -43,5 +62,19 @@ describe('路由鉴权', () => {
 
     expect(await screen.findByRole('heading', { name: '万能视频解析下载器' })).toBeInTheDocument()
     expect(screen.getByLabelText('视频链接')).toHaveValue('https://v.douyin.com/pending')
+  })
+
+  it('登录回跳没有 pending URL 时进入任务页', async () => {
+    renderWithProviders(<App />, { initialEntries: ['/auth?token=unit-token'] })
+
+    expect(await screen.findByRole('heading', { name: '下载任务' })).toBeInTheDocument()
+  })
+
+  it('未知路由展示 404 页面并提供返回入口', async () => {
+    renderWithProviders(<App />, { initialEntries: ['/missing-page'] })
+
+    expect(await screen.findByRole('heading', { name: '页面不存在' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '返回解析页' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: '查看任务' })).toHaveAttribute('href', '/tasks')
   })
 })
