@@ -82,11 +82,36 @@ npm install
 
 | PR 组 | 范围 | 目标 | 依赖 |
 | --- | --- | --- | --- |
-| PR-A | 官方脚手架基线与旧代码删除 | 建立 Ant Design Pro 官方基线、删除 Vite/Radix/旧页面、跑通启动与基础测试 | 无 |
-| PR-B | 登录、权限、请求与 OpenAPI | 接入 JWT、OAuth 回跳、`/api/auth/me`、权限菜单、官方 OpenAPI 生成 | PR-A |
-| PR-C | 用户工作台主链路 | 解析下载、任务列表、任务详情、PDF 报告、账号中心 | PR-B |
-| PR-D | 管理后台页面 | 用户管理、任务监控、系统状态、平台能力 | PR-B |
-| PR-E | E2E、运行文档与浏览器验收 | Playwright、运行文档、Docker/部署说明、真实浏览器验证 | PR-C, PR-D |
+| PR-A | #75, #76, #77, #78 | 官方脚手架基线与旧代码删除 | 建立 Ant Design Pro 官方基线、删除 Vite/Radix/旧页面、跑通启动与基础测试 | 无 |
+| PR-B | #79, #80, #81, #82 | 登录、权限、请求与 OpenAPI | 接入 JWT、OAuth 回跳、`/api/auth/me`、权限菜单、官方 OpenAPI 生成 | PR-A |
+| PR-C | #83, #84, #85, #86, #87 | 用户工作台主链路 | 解析下载、任务列表、任务详情、PDF 报告、账号中心 | PR-B |
+| PR-D | #88, #89, #90, #91 | 管理后台页面 | 用户管理、任务监控、系统状态、平台能力 | PR-B |
+| PR-E | #92, #93, #94 | E2E、运行文档与浏览器验收 | Playwright、运行文档、Docker/部署说明、真实浏览器验证 | PR-C, PR-D |
+
+## 4.1 GitHub issue 编号映射
+
+| Issue | 任务 | PR 组 |
+| --- | --- | --- |
+| #75 | `[P0][frontend][scaffold] 使用 Ant Design Pro 官方脚手架新建项目基线` | PR-A |
+| #76 | `[P0][frontend][cleanup] 精简官方示例页与无关 mock` | PR-A |
+| #77 | `[P0][frontend][theme] 建立蓝白后台主题与基础布局` | PR-A |
+| #78 | `[P0][frontend][test] 建立 Ant Design Pro 测试与 CI 门禁` | PR-A |
+| #79 | `[P0][frontend][auth] 登录页与 JWT 登录主链路` | PR-B |
+| #80 | `[P0][frontend][auth] OAuth 回跳与 currentUser 初始化` | PR-B |
+| #81 | `[P0][frontend][access] 用户菜单与管理员菜单权限控制` | PR-B |
+| #82 | `[P0][frontend][api] 使用官方 OpenAPI 工作流生成 API client` | PR-B |
+| #83 | `[P1][frontend][parser] 解析下载页重设计` | PR-C |
+| #84 | `[P1][frontend][tasks] 下载任务 ProTable 列表` | PR-C |
+| #85 | `[P1][frontend][task-detail] 任务详情与操作区` | PR-C |
+| #86 | `[P1][frontend][pdf] PDF 报告入口与下载体验` | PR-C |
+| #87 | `[P1][frontend][account] 账号中心与额度展示` | PR-C |
+| #88 | `[P1][frontend][admin] 用户管理页面` | PR-D |
+| #89 | `[P1][frontend][admin] 任务监控页面` | PR-D |
+| #90 | `[P1][frontend][admin] 系统状态页面` | PR-D |
+| #91 | `[P1][frontend][admin] 平台能力页面` | PR-D |
+| #92 | `[P1][frontend][e2e] 用户工作台与管理员后台 E2E` | PR-E |
+| #93 | `[P1][frontend][ops] 运行文档与 Docker 部署说明更新` | PR-E |
+| #94 | `[P1][frontend][browser-qa] 前后端真实启动与浏览器验收` | PR-E |
 
 ## 5. Issue 拆分
 
