@@ -201,6 +201,94 @@ describe('WorkbenchPage', () => {
 
     expect(screen.queryByText('正在下载的视频')).not.toBeInTheDocument()
     expect(screen.getByText('已完成的视频')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '查看详情：已完成的视频' })).toHaveAttribute('href', '/tasks/t-done')
+  })
+
+  it('报告入口 query 会默认选中已完成任务筛选', async () => {
+    vi.mocked(listTasks).mockResolvedValueOnce([
+      {
+        id: 't-running',
+        source_url: 'https://v.douyin.com/running',
+        title: '正在下载的视频',
+        state: 'DOWNLOADING',
+        progress: 42,
+        format_id: '1080',
+        format_label: '1080P MP4',
+        failure_code: null,
+        failure_reason: null,
+        output_filename: null,
+        object_size: null,
+        expires_at: null,
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+        attempt_no: 1,
+        is_latest_attempt: true,
+        retry_of_task_id: null,
+        ai_summary: null,
+        ai_status: 'PENDING',
+        ai_error: null,
+      },
+      {
+        id: 't-done',
+        source_url: 'https://www.bilibili.com/video/BV1xx411c7mD',
+        title: '已完成的视频',
+        state: 'SUCCEEDED',
+        progress: 100,
+        format_id: '720',
+        format_label: '720P MP4',
+        failure_code: null,
+        failure_reason: null,
+        output_filename: 'done.mp4',
+        object_size: 1200000,
+        expires_at: '2026-01-02T00:00:00Z',
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+        attempt_no: 1,
+        is_latest_attempt: true,
+        retry_of_task_id: null,
+        ai_summary: '已生成摘要',
+        ai_status: 'SUCCEEDED',
+        ai_error: null,
+      },
+    ])
+
+    renderWithProviders(<WorkbenchPage />, { initialEntries: ['/tasks?state=SUCCEEDED'] })
+
+    expect(await screen.findByText('已完成的视频')).toBeInTheDocument()
+    expect(screen.queryByText('正在下载的视频')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '已完成' })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('报告入口没有已完成任务时展示报告空态', async () => {
+    vi.mocked(listTasks).mockResolvedValueOnce([
+      {
+        id: 't-running',
+        source_url: 'https://v.douyin.com/running',
+        title: '正在下载的视频',
+        state: 'DOWNLOADING',
+        progress: 42,
+        format_id: '1080',
+        format_label: '1080P MP4',
+        failure_code: null,
+        failure_reason: null,
+        output_filename: null,
+        object_size: null,
+        expires_at: null,
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+        attempt_no: 1,
+        is_latest_attempt: true,
+        retry_of_task_id: null,
+        ai_summary: null,
+        ai_status: 'PENDING',
+        ai_error: null,
+      },
+    ])
+
+    renderWithProviders(<WorkbenchPage />, { initialEntries: ['/tasks?state=SUCCEEDED'] })
+
+    expect(await screen.findByText('暂无可导出的报告')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '返回解析页' })).toHaveAttribute('href', '/')
   })
 
   it('错误态能展示任务列表请求异常', async () => {
