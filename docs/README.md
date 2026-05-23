@@ -36,3 +36,7 @@ downstream:
 - `docs/05-测试验收/`：测试验收文档入口（对齐阶段编号）
 
 每个目录内必须附带 `README.md`，说明该目录放什么/不放什么。
+
+## 重点设计文档
+
+- [design/04-ant-design-pro-admin-system.md](design/04-ant-design-pro-admin-system.md)：Ant Design Pro 官方脚手架迁移后的用户工作台与管理后台一体化方案。
