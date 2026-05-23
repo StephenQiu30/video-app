@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.vite
+.turbo
+.DS_Store
+.env
+playwright-report
+test-results
+playwright/.cache
+.nyc_output
+*.log
