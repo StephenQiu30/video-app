@@ -4,6 +4,18 @@ export default [
     redirect: '/parser',
   },
   {
+    path: '/user/login',
+    name: '登录',
+    layout: false,
+    component: './User/Login',
+  },
+  {
+    path: '/auth',
+    name: '登录回跳',
+    layout: false,
+    component: './AuthCallback',
+  },
+  {
     path: '/parser',
     name: '解析下载',
     icon: 'CloudDownloadOutlined',
