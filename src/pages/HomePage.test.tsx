@@ -27,6 +27,7 @@ describe('HomePage', () => {
     renderWithProviders(<HomePage />)
 
     expect(screen.getByRole('heading', { name: '万能视频解析下载器' })).toBeInTheDocument()
+    expect(screen.getByRole('form', { name: '视频解析表单' })).toBeInTheDocument()
     expect(screen.getByText('格式选择')).toBeInTheDocument()
     expect(screen.getByText('任务队列')).toBeInTheDocument()
     expect(screen.getByText('AI 摘要')).toBeInTheDocument()
@@ -101,6 +102,7 @@ describe('HomePage', () => {
     await user.click(screen.getByRole('button', { name: '解析视频' }))
 
     expect(await screen.findByText('解析完成，选择规格后可创建下载任务')).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: '解析结果' })).toBeInTheDocument()
     expect(screen.getByText('douyin')).toBeInTheDocument()
     expect(screen.getByAltText('demo title')).toHaveAttribute('src', 'https://cdn.example.com/cover.jpg')
     expect(parseVideoMock).toHaveBeenCalledWith('unit-test-token', 'https://v.douyin.com/test')
