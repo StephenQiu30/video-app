@@ -7,6 +7,7 @@ import {
   getTask,
   getTaskEvents,
   getTaskDownloadLink,
+  getTaskReportLink,
   retryTask,
   type TaskEventRead,
 } from '../lib/api'
@@ -32,6 +33,7 @@ export function TaskDetailPage() {
   const { token } = useAuth()
   const [errorText, setErrorText] = useState('')
   const [downloadUrl, setDownloadUrl] = useState('')
+  const [reportUrl, setReportUrl] = useState('')
 
   const { data: task, isLoading, isError, error } = useQuery({
     queryKey: ['task', taskId, token],
@@ -68,6 +70,15 @@ export function TaskDetailPage() {
     onError: (err) => setErrorText(parseErrorMessage(err)),
   })
 
+  const reportMut = useMutation({
+    mutationFn: async () => {
+      const result = await getTaskReportLink(token, taskId)
+      setReportUrl(result.url)
+      return result
+    },
+    onError: (err) => setErrorText(parseErrorMessage(err)),
+  })
+
   const latestEvents = useMemo(() => {
     if (!events.length) return []
     return events.slice(0, 30)
@@ -80,6 +91,7 @@ export function TaskDetailPage() {
   const canCancel = task.state === 'QUEUED' || task.state === 'STARTING' || task.state === 'DOWNLOADING'
   const canRetry = task.state === 'FAILED' || task.state === 'CANCELED'
   const canDownload = task.state === 'SUCCEEDED' && !downloadUrl
+  const canExportReport = task.state === 'SUCCEEDED' && !reportUrl
 
   return (
     <section className="page">
@@ -111,10 +123,23 @@ export function TaskDetailPage() {
             >
               {downloadMut.isPending ? '获取链接...' : canDownload ? '获取下载链接' : '不可下载'}
             </Button>
+            <Button
+              type="button"
+              onClick={() => reportMut.mutate()}
+              disabled={!canExportReport || reportMut.isPending}
+              variant="outline"
+            >
+              {reportMut.isPending ? '导出中...' : '导出 PDF 报告'}
+            </Button>
           </div>
           {downloadUrl && (
             <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
               打开下载文件
+            </a>
+          )}
+          {reportUrl && (
+            <a className="download-link" href={reportUrl} target="_blank" rel="noreferrer">
+              打开 PDF 报告
             </a>
           )}
           {errorText && (
@@ -123,6 +148,22 @@ export function TaskDetailPage() {
               <AlertDescription>{errorText}</AlertDescription>
             </Alert>
           )}
+
+          <h3 className="section-title">AI 摘要</h3>
+          <div className="ai-summary-panel">
+            {task.ai_summary ? <p>{task.ai_summary}</p> : <p className="task-meta">暂无摘要，任务完成后会自动生成。</p>}
+            {task.ai_error && <p className="error-text">{task.ai_error}</p>}
+            {task.ai_mindmap && (
+              <div className="mindmap">
+                <strong>{task.ai_mindmap.title}</strong>
+                <ul>
+                  {task.ai_mindmap.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
 
           <h3 className="section-title">事件流</h3>
           <ul className="events">
