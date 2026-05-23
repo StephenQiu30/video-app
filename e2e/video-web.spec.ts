@@ -44,38 +44,44 @@ const task = {
   updated_at: '2026-05-23T00:10:00Z',
 };
 
-async function mockApi(page: Page, user = adminUser) {
+async function mockApi(
+  page: Page,
+  user = adminUser,
+  options: { skipParse?: boolean } = {},
+) {
   await page.route('**/api/auth/login', async (route) => {
     await route.fulfill({ json: { access_token: 'e2e-token', token_type: 'bearer' } });
   });
   await page.route('**/api/auth/me', async (route) => {
     await route.fulfill({ json: user });
   });
-  await page.route('**/api/parse', async (route) => {
-    await route.fulfill({
-      json: {
-        url: task.source_url,
-        title: task.title,
-        cover_url: null,
-        duration_seconds: 60,
-        source_site: 'B站',
-        platform_id: 'bilibili',
-        platform_category: 'long_video',
-        compliance_note: '仅处理公开或授权内容。',
-        extractor: 'yt-dlp',
-        formats: [
-          {
-            format_id: 'best',
-            label: '推荐格式',
-            ext: 'mp4',
-            resolution: '1080p',
-            available: true,
-            kind: 'recommended',
-          },
-        ],
-      },
+  if (!options.skipParse) {
+    await page.route('**/api/parse', async (route) => {
+      await route.fulfill({
+        json: {
+          url: task.source_url,
+          title: task.title,
+          cover_url: null,
+          duration_seconds: 60,
+          source_site: 'B站',
+          platform_id: 'bilibili',
+          platform_category: 'long_video',
+          compliance_note: '仅处理公开或授权内容。',
+          extractor: 'yt-dlp',
+          formats: [
+            {
+              format_id: 'best',
+              label: '推荐格式',
+              ext: 'mp4',
+              resolution: '1080p',
+              available: true,
+              kind: 'recommended',
+            },
+          ],
+        },
+      });
     });
-  });
+  }
   await page.route('**/api/tasks/task-1/events', async (route) => {
     await route.fulfill({
       json: [
@@ -156,6 +162,78 @@ test('登录用户可以解析链接、创建任务并查看详情', async ({ pa
   await page.getByRole('button', { name: '创建下载任务' }).click();
   await expect(page).toHaveURL(/\/tasks\/task-1$/);
   await expect(page.getByText('下载完成')).toBeVisible();
+});
+
+test('未登录用户可以看到公开解析页输入框', async ({ page }) => {
+  await mockApi(page, normalUser);
+
+  await page.goto('/parser');
+
+  await expect(page).toHaveURL(/\/parser$/);
+  await expect(page.getByLabel('视频链接')).toBeVisible();
+  await expect(page.getByRole('button', { name: '解析链接' })).toBeVisible();
+});
+
+test('未登录点击解析打开登录 Modal 且不调用解析接口', async ({ page }) => {
+  let parseCalls = 0;
+  await mockApi(page, normalUser, { skipParse: true });
+  await page.route('**/api/parse', async (route) => {
+    parseCalls += 1;
+    await route.fulfill({ status: 500, json: { detail: 'parse must wait for login' } });
+  });
+
+  await page.goto('/parser');
+  await expect(page.getByLabel('视频链接')).toBeVisible();
+  await page.getByLabel('视频链接').fill(task.source_url);
+  await page.getByRole('button', { name: '解析链接' }).click();
+
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeVisible();
+  expect(parseCalls).toBe(0);
+});
+
+test('登录 Modal 成功后继续执行刚才的解析动作', async ({ page }) => {
+  let parseCalls = 0;
+  await mockApi(page, normalUser, { skipParse: true });
+  await page.route('**/api/parse', async (route) => {
+    parseCalls += 1;
+    await route.fulfill({
+      json: {
+        url: task.source_url,
+        title: task.title,
+        cover_url: null,
+        duration_seconds: 60,
+        source_site: 'B站',
+        platform_id: 'bilibili',
+        platform_category: 'long_video',
+        compliance_note: '仅处理公开或授权内容。',
+        extractor: 'yt-dlp',
+        formats: [
+          {
+            format_id: 'best',
+            label: '推荐格式',
+            ext: 'mp4',
+            resolution: '1080p',
+            available: true,
+            kind: 'recommended',
+          },
+        ],
+      },
+    });
+  });
+
+  await page.goto('/parser');
+  await expect(page.getByLabel('视频链接')).toBeVisible();
+  await page.getByLabel('视频链接').fill(task.source_url);
+  await page.getByRole('button', { name: '解析链接' }).click();
+
+  const loginDialog = page.getByRole('dialog', { name: /登录/ });
+  await expect(loginDialog).toBeVisible();
+  await loginDialog.getByPlaceholder('邮箱').fill('user@example.com');
+  await loginDialog.getByPlaceholder('密码').fill('password123');
+  await loginDialog.getByRole('button', { name: /登\s*录/ }).click();
+
+  await expect(page.getByText('推荐格式')).toBeVisible();
+  expect(parseCalls).toBe(1);
 });
 
 test('任务列表展示状态筛选、失败原因和详情入口', async ({ page }) => {
