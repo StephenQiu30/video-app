@@ -23,6 +23,7 @@
     "setup": "max setup",
     "tsc": "max setup && tsc --noEmit",
     "docker:up": "docker compose up -d --build web",
+    "docker:logs": "docker compose logs -f web",
     "docker:down": "docker compose down"
   },
   "browserslist": [
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.13",
+    "@playwright/test": "^1.60.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",

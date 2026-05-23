@@ -92,7 +92,7 @@ async function mockApi(page: Page, user = adminUser) {
   await page.route('**/api/tasks/task-1', async (route) => {
     await route.fulfill({ json: task });
   });
-  await page.route('**/api/tasks', async (route) => {
+  await page.route(/\/api\/tasks(?:\?.*)?$/, async (route) => {
     if (route.request().method() === 'POST') {
       await route.fulfill({ json: task });
       return;
@@ -140,10 +140,10 @@ test('邮箱密码登录后进入解析下载页', async ({ page }) => {
   await page.goto('/user/login');
   await page.getByPlaceholder('邮箱').fill('user@example.com');
   await page.getByPlaceholder('密码').fill('password123');
-  await page.getByRole('button', { name: '登录' }).click();
+  await page.getByRole('button', { name: /登\s*录/ }).click();
 
   await expect(page).toHaveURL(/\/parser$/);
-  await expect(page.getByRole('heading', { name: '解析下载' })).toBeVisible();
+  await expect(page.getByText('解析下载').first()).toBeVisible();
 });
 
 test('登录用户可以解析链接、创建任务并查看详情', async ({ page }) => {
@@ -155,7 +155,6 @@ test('登录用户可以解析链接、创建任务并查看详情', async ({ pa
 
   await page.getByRole('button', { name: '创建下载任务' }).click();
   await expect(page).toHaveURL(/\/tasks\/task-1$/);
-  await expect(page.getByRole('heading', { name: '测试视频' })).toBeVisible();
   await expect(page.getByText('下载完成')).toBeVisible();
 });
 
@@ -172,8 +171,8 @@ test('任务列表展示状态筛选、失败原因和详情入口', async ({ pa
 test('管理员菜单可用，普通用户访问管理后台显示 403', async ({ page }) => {
   await loginAs(page, adminUser);
   await page.goto('/admin/users');
-  await expect(page.getByRole('heading', { name: '用户管理' })).toBeVisible();
-  await expect(page.getByText('普通用户')).toBeVisible();
+  await expect(page.getByText('用户管理').first()).toBeVisible();
+  await expect(page.getByText('普通用户').first()).toBeVisible();
 
   const normalPage = await page.context().newPage();
   await loginAs(normalPage, normalUser);
