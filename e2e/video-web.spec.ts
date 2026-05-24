@@ -237,6 +237,77 @@ test('登录 Modal 成功后继续执行刚才的解析动作', async ({ page })
   expect(parseCalls).toBe(1);
 });
 
+test('取消登录后不会保留待解析动作', async ({ page }) => {
+  let parseCalls = 0;
+  await mockApi(page, normalUser, { skipParse: true });
+  await page.route('**/api/parse', async (route) => {
+    parseCalls += 1;
+    await route.fulfill({
+      status: 500,
+      json: { detail: 'parse must not continue after cancelled login' },
+    });
+  });
+
+  await page.goto('/parser');
+  await expect(page.getByLabel('视频链接')).toBeVisible();
+  await page.getByLabel('视频链接').fill(task.source_url);
+  await page.getByRole('button', { name: '解析链接' }).click();
+
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeVisible();
+  await page.locator('.ant-modal-close').click();
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeHidden();
+
+  await page.getByRole('button', { name: '登录' }).click();
+  const loginDialog = page.getByRole('dialog', { name: /登录/ });
+  await expect(loginDialog).toBeVisible();
+  await loginDialog.getByPlaceholder('邮箱').fill('user@example.com');
+  await loginDialog.getByPlaceholder('密码').fill('password123');
+  await loginDialog.getByRole('button', { name: /登\s*录/ }).click();
+
+  await expect(loginDialog).toBeHidden();
+  await page.waitForTimeout(500);
+  expect(parseCalls).toBe(0);
+  await expect(page.getByText('推荐格式')).toBeHidden();
+});
+
+test('取消登录后不会保留待创建任务动作', async ({ page }) => {
+  let taskCreateCalls = 0;
+  await loginAs(page, adminUser);
+  await page.route(/\/api\/tasks(?:\?.*)?$/, async (route) => {
+    if (route.request().method() === 'POST') {
+      taskCreateCalls += 1;
+      await route.fulfill({ json: task });
+      return;
+    }
+    await route.fulfill({ json: [task] });
+  });
+
+  await page.goto('/parser');
+  await page.getByLabel('视频链接').fill(task.source_url);
+  await page.getByRole('button', { name: '解析链接' }).click();
+  await expect(page.getByText('推荐格式')).toBeVisible();
+
+  await page.getByText('管理员').click();
+  await page.getByText('退出登录').click();
+  await page.getByRole('button', { name: '创建下载任务' }).click();
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeVisible();
+  expect(taskCreateCalls).toBe(0);
+
+  await page.locator('.ant-modal-close').click();
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeHidden();
+
+  await page.getByRole('button', { name: '登录' }).click();
+  const loginDialog = page.getByRole('dialog', { name: /登录/ });
+  await expect(loginDialog).toBeVisible();
+  await loginDialog.getByPlaceholder('邮箱').fill('user@example.com');
+  await loginDialog.getByPlaceholder('密码').fill('password123');
+  await loginDialog.getByRole('button', { name: /登\s*录/ }).click();
+
+  await expect(loginDialog).toBeHidden();
+  await page.waitForTimeout(500);
+  expect(taskCreateCalls).toBe(0);
+});
+
 test('任务列表展示状态筛选、失败原因和详情入口', async ({ page }) => {
   await loginAs(page, adminUser);
   await page.goto('/tasks');
