@@ -49,6 +49,7 @@ const ParserPage: React.FC = () => {
   const pendingParseInFlightRef = useRef(false);
   const pendingCreateRef = useRef(false);
   const pendingCreateInFlightRef = useRef(false);
+  const authSuccessStartedRef = useRef(false);
 
   const selectedFormat = parseResult?.formats.find(
     (format) => format.format_id === formatId,
@@ -68,6 +69,13 @@ const ParserPage: React.FC = () => {
       hash: location.hash,
     });
   }, [location.hash, location.pathname, location.search]);
+
+  const clearPendingAuthActions = () => {
+    pendingParseUrlRef.current = undefined;
+    pendingParseInFlightRef.current = false;
+    pendingCreateRef.current = false;
+    pendingCreateInFlightRef.current = false;
+  };
 
   const runParse = useCallback(
     async (url: string) => {
@@ -129,6 +137,7 @@ const ParserPage: React.FC = () => {
   };
 
   const handleAuthSuccess = async () => {
+    authSuccessStartedRef.current = true;
     clearLoginQuery();
 
     const url = pendingParseUrlRef.current;
@@ -169,6 +178,12 @@ const ParserPage: React.FC = () => {
   const handleAuthCancel = () => {
     setAuthModalOpen(false);
     clearLoginQuery();
+    queueMicrotask(() => {
+      if (!authSuccessStartedRef.current) {
+        clearPendingAuthActions();
+      }
+      authSuccessStartedRef.current = false;
+    });
   };
 
   return (
