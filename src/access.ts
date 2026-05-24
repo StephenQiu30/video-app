@@ -3,6 +3,7 @@ export default function access(
 ) {
   const { currentUser } = initialState ?? {};
   return {
+    canAuthenticated: Boolean(currentUser),
     canAdmin: currentUser?.is_admin === true,
   };
 }

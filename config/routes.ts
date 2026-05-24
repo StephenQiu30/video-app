@@ -25,18 +25,21 @@ export default [
     path: '/tasks',
     name: '下载任务',
     icon: 'UnorderedListOutlined',
+    access: 'canAuthenticated',
     component: './Tasks',
   },
   {
     path: '/tasks/:taskId',
     name: '任务详情',
     hideInMenu: true,
+    access: 'canAuthenticated',
     component: './TaskDetail',
   },
   {
     path: '/account',
     name: '账号中心',
     icon: 'UserOutlined',
+    access: 'canAuthenticated',
     component: './Account',
   },
   {
