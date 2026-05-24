@@ -7,8 +7,8 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=1 max build",
     "build": "max build",
-    "dev": "cross-env UMI_ENV=dev MOCK=none max dev",
-    "start": "cross-env UMI_ENV=dev MOCK=none max dev",
+    "dev": "cross-env PORT=5173 UMI_ENV=dev MOCK=none max dev",
+    "start": "cross-env PORT=5173 UMI_ENV=dev MOCK=none max dev",
     "start:no-mock": "cross-env MOCK=none max dev",
     "preview": "max preview --port 8000",
     "preview:build": "max build && max preview --port 8000",
