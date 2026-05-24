@@ -1,29 +1,36 @@
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import type { MenuProps } from 'antd';
-import { Avatar, Dropdown, Space } from 'antd';
+import { Avatar, Button, Dropdown, Space } from 'antd';
 import React from 'react';
 
+import type { getInitialState } from '@/app';
+import { authTokenStorage } from '@/services/auth';
+
+type InitialState = Awaited<ReturnType<typeof getInitialState>>;
+
 type InitialStateModel = {
-  initialState?: {
-    currentUser?: API.UserRead;
-  };
-  setInitialState: (
-    updater: (state?: { currentUser?: API.UserRead }) => {
-      currentUser?: API.UserRead;
-    },
-  ) => void;
+  initialState?: InitialState;
+  setInitialState: (updater: (state?: InitialState) => InitialState) => void;
 };
 
-type UserAvatarProps = {
-  onUserChange?: (currentUser?: API.UserRead) => void;
-};
-
-const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
+const UserAvatar: React.FC = () => {
   const { initialState, setInitialState } = useModel(
     '@@initialState',
   ) as unknown as InitialStateModel;
   const currentUser = initialState?.currentUser;
+
+  if (!currentUser) {
+    return (
+      <Button
+        type="text"
+        icon={<LoginOutlined />}
+        onClick={() => history.push('/parser?login=1')}
+      >
+        登录
+      </Button>
+    );
+  }
 
   const menuItems: MenuProps['items'] = [
     {
@@ -43,9 +50,8 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
 
   const onMenuClick: MenuProps['onClick'] = ({ key }) => {
     if (key === 'logout') {
-      localStorage.removeItem('video_web_access_token');
+      authTokenStorage.clear();
       setInitialState((state) => ({ ...state, currentUser: undefined }));
-      onUserChange?.(undefined);
       history.push('/parser');
       return;
     }
@@ -58,7 +64,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
     <Dropdown menu={{ items: menuItems, onClick: onMenuClick }} placement="bottomRight">
       <Space style={{ cursor: 'pointer' }}>
         <Avatar size="small" src={currentUser?.avatar_url} icon={<UserOutlined />} />
-        <span>{currentUser?.display_name || currentUser?.email || '演示用户'}</span>
+        <span>{currentUser.display_name || currentUser.email || '已登录用户'}</span>
       </Space>
     </Dropdown>
   );

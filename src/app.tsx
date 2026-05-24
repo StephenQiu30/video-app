@@ -19,6 +19,43 @@ import './global.less';
 
 const loginPath = '/user/login';
 const authCallbackPath = '/auth';
+const publicLoginPath = '/parser?login=1';
+const authenticationPaths = [loginPath, authCallbackPath];
+
+const isAuthenticationPath = (pathname: string) =>
+  authenticationPaths.includes(pathname);
+
+const AccessDeniedState: React.FC<{ currentUser?: API.UserRead }> = ({
+  currentUser,
+}) => {
+  React.useEffect(() => {
+    if (!currentUser) {
+      history.replace(publicLoginPath);
+    }
+  }, [currentUser]);
+
+  if (currentUser) {
+    return (
+      <div style={{ padding: 48, textAlign: 'center' }}>
+        <h2>无权限访问</h2>
+        <p>当前账号没有访问该页面的权限。</p>
+        <Button type="primary" onClick={() => history.push('/parser')}>
+          返回解析下载
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: 48, textAlign: 'center' }}>
+      <h2>需要登录</h2>
+      <p>请先登录后继续访问。</p>
+      <Button type="primary" onClick={() => history.replace(publicLoginPath)}>
+        前往登录
+      </Button>
+    </div>
+  );
+};
 
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
@@ -36,7 +73,7 @@ export async function getInitialState(): Promise<{
 
   const pathname = history.location.pathname;
   const token = authTokenStorage.get();
-  const shouldSkipFetch = [loginPath, authCallbackPath].includes(pathname);
+  const shouldSkipFetch = isAuthenticationPath(pathname);
 
   if (!token || shouldSkipFetch) {
     return {
@@ -52,10 +89,7 @@ export async function getInitialState(): Promise<{
   };
 }
 
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-  setInitialState,
-}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [],
     avatarProps: {
@@ -72,37 +106,9 @@ export const layout: RunTimeLayoutConfig = ({
       }
       return dom;
     },
-    onPageChange: () => {
-      const { location } = history;
-      const isPublicPath = [loginPath, authCallbackPath].includes(
-        location.pathname,
-      );
-      if (!initialState?.currentUser && !isPublicPath) {
-        history.replace(
-          `${loginPath}?redirect=${encodeURIComponent(
-            location.pathname + location.search + location.hash,
-          )}`,
-        );
-      }
-    },
-    unAccessible: (
-      <div style={{ padding: 48, textAlign: 'center' }}>
-        <h2>无权限访问</h2>
-        <p>当前账号没有访问该页面的权限。</p>
-        <Button type="primary" onClick={() => history.push('/parser')}>
-          返回解析下载
-        </Button>
-      </div>
-    ),
+    unAccessible: <AccessDeniedState currentUser={initialState?.currentUser} />,
     ...initialState?.settings,
     onMenuHeaderClick: () => history.push('/parser'),
-    rightContentRender: () => (
-      <UserAvatar
-        onUserChange={(currentUser) =>
-          setInitialState((state) => ({ ...state, currentUser }))
-        }
-      />
-    ),
   };
 };
 
@@ -125,9 +131,10 @@ export const request: RequestConfig = {
       (response) => response,
       (error: any) => {
         if (error?.response?.status === 401) {
+          authTokenStorage.clear();
           localStorage.removeItem(TOKEN_STORAGE_KEY);
-          if (!history.location.pathname.startsWith(loginPath)) {
-            history.replace(loginPath);
+          if (!isAuthenticationPath(history.location.pathname)) {
+            window.location.assign(publicLoginPath);
           }
         }
         return Promise.reject(error);

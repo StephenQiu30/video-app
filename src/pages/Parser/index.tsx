@@ -9,7 +9,7 @@ import {
   ProForm,
   ProFormText,
 } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { history, useLocation, useModel } from '@umijs/max';
 import {
   App,
   Button,
@@ -21,24 +21,75 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import AuthModal from '@/components/AuthModal';
 import { parseVideoApiParsePost } from '@/services/video/parse';
 import { createTaskApiTasksPost } from '@/services/video/tasks';
 
+type InitialStateModel = {
+  initialState?: {
+    currentUser?: API.UserRead;
+  };
+};
+
 const ParserPage: React.FC = () => {
   const { message } = App.useApp();
+  const location = useLocation();
+  const { initialState } = useModel(
+    '@@initialState',
+  ) as unknown as InitialStateModel;
+  const currentUser = initialState?.currentUser;
   const [parseResult, setParseResult] = useState<API.ParseResponse>();
   const [sourceUrl, setSourceUrl] = useState('');
   const [formatId, setFormatId] = useState<string>();
   const [creating, setCreating] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const pendingParseUrlRef = useRef<string | undefined>(undefined);
+  const pendingParseInFlightRef = useRef(false);
+  const pendingCreateRef = useRef(false);
+  const pendingCreateInFlightRef = useRef(false);
+  const authSuccessStartedRef = useRef(false);
 
   const selectedFormat = parseResult?.formats.find(
     (format) => format.format_id === formatId,
   );
 
-  const createTask = async () => {
+  const clearLoginQuery = useCallback(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (!searchParams.has('login')) {
+      return;
+    }
+
+    searchParams.delete('login');
+    const nextSearch = searchParams.toString();
+    history.replace({
+      pathname: location.pathname,
+      search: nextSearch ? `?${nextSearch}` : '',
+      hash: location.hash,
+    });
+  }, [location.hash, location.pathname, location.search]);
+
+  const clearPendingAuthActions = () => {
+    pendingParseUrlRef.current = undefined;
+    pendingParseInFlightRef.current = false;
+    pendingCreateRef.current = false;
+    pendingCreateInFlightRef.current = false;
+  };
+
+  const runParse = useCallback(
+    async (url: string) => {
+      const result = await parseVideoApiParsePost({ url });
+      setParseResult(result);
+      setFormatId(result.formats[0]?.format_id);
+      message.success('解析完成');
+    },
+    [message],
+  );
+
+  const createDownloadTask = useCallback(async () => {
     if (!parseResult) return;
+
     setCreating(true);
     try {
       const task = await createTaskApiTasksPost({
@@ -56,6 +107,83 @@ const ParserPage: React.FC = () => {
     } finally {
       setCreating(false);
     }
+  }, [formatId, message, parseResult, selectedFormat?.label, sourceUrl]);
+
+  useEffect(() => {
+    const loginRequested =
+      new URLSearchParams(location.search).get('login') === '1';
+    if (!loginRequested) {
+      return;
+    }
+
+    if (currentUser) {
+      clearLoginQuery();
+      return;
+    }
+
+    setAuthModalOpen(true);
+  }, [clearLoginQuery, currentUser, location.search]);
+
+  const handleParseSubmit = async ({ url }: { url: string }) => {
+    setSourceUrl(url);
+    if (!currentUser) {
+      pendingParseUrlRef.current = url;
+      setAuthModalOpen(true);
+      return true;
+    }
+
+    await runParse(url);
+    return true;
+  };
+
+  const handleAuthSuccess = async () => {
+    authSuccessStartedRef.current = true;
+    clearLoginQuery();
+
+    const url = pendingParseUrlRef.current;
+    if (url && !pendingParseInFlightRef.current) {
+      pendingParseUrlRef.current = undefined;
+      pendingParseInFlightRef.current = true;
+
+      try {
+        await runParse(url);
+      } finally {
+        pendingParseInFlightRef.current = false;
+      }
+      return;
+    }
+
+    if (pendingCreateRef.current && !pendingCreateInFlightRef.current) {
+      pendingCreateRef.current = false;
+      pendingCreateInFlightRef.current = true;
+      try {
+        await createDownloadTask();
+      } finally {
+        pendingCreateInFlightRef.current = false;
+      }
+    }
+  };
+
+  const createTask = async () => {
+    if (!parseResult) return;
+    if (!currentUser) {
+      pendingCreateRef.current = true;
+      setAuthModalOpen(true);
+      return;
+    }
+
+    await createDownloadTask();
+  };
+
+  const handleAuthCancel = () => {
+    setAuthModalOpen(false);
+    clearLoginQuery();
+    queueMicrotask(() => {
+      if (!authSuccessStartedRef.current) {
+        clearPendingAuthActions();
+      }
+      authSuccessStartedRef.current = false;
+    });
   };
 
   return (
@@ -71,14 +199,7 @@ const ParserPage: React.FC = () => {
               searchConfig: { submitText: '解析链接' },
               render: (_, dom) => dom.pop(),
             }}
-            onFinish={async ({ url }) => {
-              setSourceUrl(url);
-              const result = await parseVideoApiParsePost({ url });
-              setParseResult(result);
-              setFormatId(result.formats[0]?.format_id);
-              message.success('解析完成');
-              return true;
-            }}
+            onFinish={handleParseSubmit}
           >
             <ProFormText
               name="url"
@@ -174,6 +295,11 @@ const ParserPage: React.FC = () => {
           </Space>
         )}
       </ProCard>
+      <AuthModal
+        open={authModalOpen}
+        onCancel={handleAuthCancel}
+        onSuccess={handleAuthSuccess}
+      />
     </PageContainer>
   );
 };
