@@ -20,6 +20,10 @@ import './global.less';
 const loginPath = '/user/login';
 const authCallbackPath = '/auth';
 const publicLoginPath = '/parser?login=1';
+const authenticationPaths = [loginPath, authCallbackPath];
+
+const isAuthenticationPath = (pathname: string) =>
+  authenticationPaths.includes(pathname);
 
 const AccessDeniedState: React.FC<{ currentUser?: API.UserRead }> = ({
   currentUser,
@@ -69,7 +73,7 @@ export async function getInitialState(): Promise<{
 
   const pathname = history.location.pathname;
   const token = authTokenStorage.get();
-  const shouldSkipFetch = [loginPath, authCallbackPath].includes(pathname);
+  const shouldSkipFetch = isAuthenticationPath(pathname);
 
   if (!token || shouldSkipFetch) {
     return {
@@ -129,10 +133,8 @@ export const request: RequestConfig = {
         if (error?.response?.status === 401) {
           authTokenStorage.clear();
           localStorage.removeItem(TOKEN_STORAGE_KEY);
-          if (history.location.pathname !== '/parser') {
-            history.replace(publicLoginPath);
-          } else if (history.location.search !== '?login=1') {
-            history.replace(publicLoginPath);
+          if (!isAuthenticationPath(history.location.pathname)) {
+            window.location.assign(publicLoginPath);
           }
         }
         return Promise.reject(error);
