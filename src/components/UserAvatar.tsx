@@ -4,24 +4,17 @@ import type { MenuProps } from 'antd';
 import { Avatar, Button, Dropdown, Space } from 'antd';
 import React from 'react';
 
+import type { getInitialState } from '@/app';
 import { authTokenStorage } from '@/services/auth';
 
+type InitialState = Awaited<ReturnType<typeof getInitialState>>;
+
 type InitialStateModel = {
-  initialState?: {
-    currentUser?: API.UserRead;
-  };
-  setInitialState: (
-    updater: (state?: { currentUser?: API.UserRead }) => {
-      currentUser?: API.UserRead;
-    },
-  ) => void;
+  initialState?: InitialState;
+  setInitialState: (updater: (state?: InitialState) => InitialState) => void;
 };
 
-type UserAvatarProps = {
-  onUserChange?: (currentUser?: API.UserRead) => void;
-};
-
-const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
+const UserAvatar: React.FC = () => {
   const { initialState, setInitialState } = useModel(
     '@@initialState',
   ) as unknown as InitialStateModel;
@@ -59,7 +52,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ onUserChange }) => {
     if (key === 'logout') {
       authTokenStorage.clear();
       setInitialState((state) => ({ ...state, currentUser: undefined }));
-      onUserChange?.(undefined);
       history.push('/parser');
       return;
     }

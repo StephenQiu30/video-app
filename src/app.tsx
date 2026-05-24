@@ -21,10 +21,26 @@ const loginPath = '/user/login';
 const authCallbackPath = '/auth';
 const publicLoginPath = '/parser?login=1';
 
-const AccessDeniedRedirect: React.FC = () => {
+const AccessDeniedState: React.FC<{ currentUser?: API.UserRead }> = ({
+  currentUser,
+}) => {
   React.useEffect(() => {
-    history.replace(publicLoginPath);
-  }, []);
+    if (!currentUser) {
+      history.replace(publicLoginPath);
+    }
+  }, [currentUser]);
+
+  if (currentUser) {
+    return (
+      <div style={{ padding: 48, textAlign: 'center' }}>
+        <h2>无权限访问</h2>
+        <p>当前账号没有访问该页面的权限。</p>
+        <Button type="primary" onClick={() => history.push('/parser')}>
+          返回解析下载
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: 48, textAlign: 'center' }}>
@@ -69,10 +85,7 @@ export async function getInitialState(): Promise<{
   };
 }
 
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-  setInitialState,
-}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [],
     avatarProps: {
@@ -89,16 +102,9 @@ export const layout: RunTimeLayoutConfig = ({
       }
       return dom;
     },
-    unAccessible: <AccessDeniedRedirect />,
+    unAccessible: <AccessDeniedState currentUser={initialState?.currentUser} />,
     ...initialState?.settings,
     onMenuHeaderClick: () => history.push('/parser'),
-    rightContentRender: () => (
-      <UserAvatar
-        onUserChange={(currentUser) =>
-          setInitialState((state) => ({ ...state, currentUser }))
-        }
-      />
-    ),
   };
 };
 
