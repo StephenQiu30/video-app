@@ -9,7 +9,7 @@ import {
   ProForm,
   ProFormText,
 } from '@ant-design/pro-components';
-import { history, useModel } from '@umijs/max';
+import { history, useLocation, useModel } from '@umijs/max';
 import {
   App,
   Button,
@@ -35,6 +35,7 @@ type InitialStateModel = {
 
 const ParserPage: React.FC = () => {
   const { message } = App.useApp();
+  const location = useLocation();
   const { initialState } = useModel(
     '@@initialState',
   ) as unknown as InitialStateModel;
@@ -46,18 +47,27 @@ const ParserPage: React.FC = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const pendingParseUrlRef = useRef<string | undefined>(undefined);
   const pendingParseInFlightRef = useRef(false);
+  const pendingCreateRef = useRef(false);
+  const pendingCreateInFlightRef = useRef(false);
 
   const selectedFormat = parseResult?.formats.find(
     (format) => format.format_id === formatId,
   );
 
-  useEffect(() => {
-    const loginRequested =
-      new URLSearchParams(history.location.search).get('login') === '1';
-    if (loginRequested && !currentUser) {
-      setAuthModalOpen(true);
+  const clearLoginQuery = useCallback(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (!searchParams.has('login')) {
+      return;
     }
-  }, [currentUser]);
+
+    searchParams.delete('login');
+    const nextSearch = searchParams.toString();
+    history.replace({
+      pathname: location.pathname,
+      search: nextSearch ? `?${nextSearch}` : '',
+      hash: location.hash,
+    });
+  }, [location.hash, location.pathname, location.search]);
 
   const runParse = useCallback(
     async (url: string) => {
@@ -69,40 +79,8 @@ const ParserPage: React.FC = () => {
     [message],
   );
 
-  const handleParseSubmit = async ({ url }: { url: string }) => {
-    setSourceUrl(url);
-    if (!currentUser) {
-      pendingParseUrlRef.current = url;
-      setAuthModalOpen(true);
-      return true;
-    }
-
-    await runParse(url);
-    return true;
-  };
-
-  const handleAuthSuccess = async () => {
-    const url = pendingParseUrlRef.current;
-    if (!url || pendingParseInFlightRef.current) {
-      return;
-    }
-
-    pendingParseUrlRef.current = undefined;
-    pendingParseInFlightRef.current = true;
-
-    try {
-      await runParse(url);
-    } finally {
-      pendingParseInFlightRef.current = false;
-    }
-  };
-
-  const createTask = async () => {
+  const createDownloadTask = useCallback(async () => {
     if (!parseResult) return;
-    if (!currentUser) {
-      setAuthModalOpen(true);
-      return;
-    }
 
     setCreating(true);
     try {
@@ -121,6 +99,76 @@ const ParserPage: React.FC = () => {
     } finally {
       setCreating(false);
     }
+  }, [formatId, message, parseResult, selectedFormat?.label, sourceUrl]);
+
+  useEffect(() => {
+    const loginRequested =
+      new URLSearchParams(location.search).get('login') === '1';
+    if (!loginRequested) {
+      return;
+    }
+
+    if (currentUser) {
+      clearLoginQuery();
+      return;
+    }
+
+    setAuthModalOpen(true);
+  }, [clearLoginQuery, currentUser, location.search]);
+
+  const handleParseSubmit = async ({ url }: { url: string }) => {
+    setSourceUrl(url);
+    if (!currentUser) {
+      pendingParseUrlRef.current = url;
+      setAuthModalOpen(true);
+      return true;
+    }
+
+    await runParse(url);
+    return true;
+  };
+
+  const handleAuthSuccess = async () => {
+    clearLoginQuery();
+
+    const url = pendingParseUrlRef.current;
+    if (url && !pendingParseInFlightRef.current) {
+      pendingParseUrlRef.current = undefined;
+      pendingParseInFlightRef.current = true;
+
+      try {
+        await runParse(url);
+      } finally {
+        pendingParseInFlightRef.current = false;
+      }
+      return;
+    }
+
+    if (pendingCreateRef.current && !pendingCreateInFlightRef.current) {
+      pendingCreateRef.current = false;
+      pendingCreateInFlightRef.current = true;
+      try {
+        await createDownloadTask();
+      } finally {
+        pendingCreateInFlightRef.current = false;
+      }
+    }
+  };
+
+  const createTask = async () => {
+    if (!parseResult) return;
+    if (!currentUser) {
+      pendingCreateRef.current = true;
+      setAuthModalOpen(true);
+      return;
+    }
+
+    await createDownloadTask();
+  };
+
+  const handleAuthCancel = () => {
+    setAuthModalOpen(false);
+    clearLoginQuery();
   };
 
   return (
@@ -234,7 +282,7 @@ const ParserPage: React.FC = () => {
       </ProCard>
       <AuthModal
         open={authModalOpen}
-        onCancel={() => setAuthModalOpen(false)}
+        onCancel={handleAuthCancel}
         onSuccess={handleAuthSuccess}
       />
     </PageContainer>
