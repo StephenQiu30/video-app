@@ -5,19 +5,19 @@ audience:
   - QA
   - Dev
 purpose: "定义 video-web MVP 验收门禁和测试证据挂载方式。"
-canonical_path: "docs/acceptance/01-mvp-acceptance-gates.md"
+canonical_path: "docs/acceptance/01-MVP验收门禁.md"
 status: draft
 version: "1.0.0"
 owner: "StephenQiu30"
 inputs:
-  - "docs/plans/05-mvp-task-micro-breakdown.md"
+  - "docs/plans/05-MVP任务微拆分.md"
 outputs:
   - "验收通过/阻塞证据"
 triggers:
   - "阶段任务完成后"
   - "PR 合入前"
 downstream:
-  - "docs/operations/01-runbook.md"
+  - "docs/operations/01-联调运行手册.md"
 ---
 
 # MVP 验收门禁

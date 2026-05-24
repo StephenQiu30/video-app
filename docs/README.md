@@ -23,20 +23,20 @@ downstream:
   - "docs/operations"
 ---
 
-# video-web Docs 根目录
+# video-web 文档中心
 
 ## 目录说明
 
 - `docs/plans/`：任务拆分、里程碑、执行顺序
 - `docs/design/`：前端架构、状态管理、交互组件约定
-- `docs/03-架构设计/`：架构文档入口（对齐阶段编号）
 - `docs/acceptance/`：验收标准、测试结果、残留风险
-- `docs/04-执行计划/`：执行计划文档入口（对齐阶段编号）
 - `docs/operations/`：联调、启动、发布、故障处理
-- `docs/05-测试验收/`：测试验收文档入口（对齐阶段编号）
+- `docs/openapi/`：OpenAPI 契约快照与生成说明
 
-每个目录内必须附带 `README.md`，说明该目录放什么/不放什么。
+目录统一使用英文领域名，Markdown 文档统一使用中文文件名；机器消费的契约文件可保留英文命名。
+
+每个长期目录内保留 `README.md` 作为标准入口文件名，说明该目录放什么/不放什么。
 
 ## 重点设计文档
 
-- [design/04-ant-design-pro-admin-system.md](design/04-ant-design-pro-admin-system.md)：Ant Design Pro 官方脚手架迁移后的用户工作台与管理后台一体化方案。
+- [design/04-AntDesignPro一体化后台设计.md](design/04-AntDesignPro一体化后台设计.md)：Ant Design Pro 官方脚手架迁移后的用户工作台与管理后台一体化方案。

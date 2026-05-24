@@ -7,19 +7,19 @@ audience:
   - QA
 feature_area: saas-layout-openapi
 purpose: "拆分 video-web SaaS 顶部布局、响应式任务体验、异常状态和 OpenAPI 生成 API 的小粒度 GitHub issues。"
-canonical_path: "docs/plans/07-saas-layout-api-generated-issues.md"
+canonical_path: "docs/plans/07-SaaS布局与OpenAPI生成任务拆分.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
-  - "docs/design/03-saas-layout-api-generated-redesign.md"
+  - "docs/design/03-SaaS布局与OpenAPI生成设计.md"
 outputs:
   - "M3 issue 拆分与 PR 分组"
 triggers:
   - "开始 M3 SaaS 布局与 API 契约生成工作"
 downstream:
   - "GitHub Issues"
-  - "docs/acceptance/02-issue-pr-映射.md"
+  - "docs/acceptance/02-任务与合并请求映射.md"
 ---
 
 # M3 SaaS 布局与 OpenAPI API 生成任务拆分

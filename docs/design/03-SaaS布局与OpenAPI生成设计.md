@@ -7,14 +7,14 @@ audience:
   - QA
 feature_area: saas-layout-openapi
 purpose: "定义 video-web 解析下载优先的 SaaS 顶部布局、响应式页面、异常机制与 OpenAPI 生成 API 方案。"
-canonical_path: "docs/design/03-saas-layout-api-generated-redesign.md"
+canonical_path: "docs/design/03-SaaS布局与OpenAPI生成设计.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
   - "AGENTS.md"
   - "video-server Swagger/OpenAPI 契约"
-  - "docs/design/02-conversion-first-parser-ai-pdf-redesign.md"
+  - "docs/design/02-首屏解析器-AI-PDF重设计.md"
 outputs:
   - "SaaS 顶部布局与页面功能设计"
   - "异常状态与错误处理边界"
@@ -24,8 +24,8 @@ triggers:
   - "任务页、报告入口或账号页改造"
   - "后端接口契约变更"
 downstream:
-  - "docs/plans/07-saas-layout-api-generated-issues.md"
-  - "docs/acceptance/02-issue-pr-映射.md"
+  - "docs/plans/07-SaaS布局与OpenAPI生成任务拆分.md"
+  - "docs/acceptance/02-任务与合并请求映射.md"
 ---
 
 # SaaS 顶部布局与 OpenAPI API 生成设计

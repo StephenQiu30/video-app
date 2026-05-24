@@ -8,13 +8,13 @@ audience:
   - Ops
 feature_area: conversion-parser-ai-pdf
 purpose: "定义 video-web 首屏解析器、能力证明、AI 摘要与 PDF 报告入口的前端重构设计。"
-canonical_path: "docs/design/02-conversion-first-parser-ai-pdf-redesign.md"
+canonical_path: "docs/design/02-首屏解析器-AI-PDF重设计.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
   - "video-server API 契约"
-  - "docs/design/01-frontend-runtime-design.md"
+  - "docs/design/01-前端运行架构设计.md"
   - "AGENTS.md"
 outputs:
   - "首屏解析器与能力证明设计"
@@ -24,8 +24,8 @@ triggers:
   - "首页、工作台或任务详情页重构"
   - "AI 摘要、思维导图或 PDF 报告能力接入"
 downstream:
-  - "docs/plans/06-conversion-first-parser-ai-pdf-issues.md"
-  - "docs/acceptance/01-mvp-acceptance-gates.md"
+  - "docs/plans/06-首屏解析器-AI-PDF任务拆分.md"
+  - "docs/acceptance/01-MVP验收门禁.md"
 ---
 
 # 首屏解析器与能力证明重构设计
@@ -162,18 +162,18 @@ downstream:
 
 ### 5.1 输入文档
 
-1. `docs/design/01-frontend-runtime-design.md`
+1. `docs/design/01-前端运行架构设计.md`
 2. `AGENTS.md`
 3. `video-server` API 契约
 
 ### 5.2 输出文档
 
-1. `docs/plans/06-conversion-first-parser-ai-pdf-issues.md`
+1. `docs/plans/06-首屏解析器-AI-PDF任务拆分.md`
 
 ### 5.3 下游文档
 
-1. `docs/acceptance/01-mvp-acceptance-gates.md`
-2. `docs/operations/01-runbook.md`
+1. `docs/acceptance/01-MVP验收门禁.md`
+2. `docs/operations/01-联调运行手册.md`
 
 ## 6. 验收门禁
 

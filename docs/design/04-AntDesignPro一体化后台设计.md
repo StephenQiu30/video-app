@@ -8,13 +8,13 @@ audience:
   - Ops
 feature_area: ant-design-pro-admin-system
 purpose: "定义 video-web 基于 Ant Design Pro 官方技术栈重建用户工作台与管理后台一体化系统的方案。"
-canonical_path: "docs/design/04-ant-design-pro-admin-system.md"
+canonical_path: "docs/design/04-AntDesignPro一体化后台设计.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
   - "AGENTS.md"
-  - "docs/design/03-saas-layout-api-generated-redesign.md"
+  - "docs/design/03-SaaS布局与OpenAPI生成设计.md"
   - "video-server OpenAPI 契约"
   - "Ant Design Pro 官方脚手架与 ProComponents 文档"
 outputs:
@@ -25,8 +25,8 @@ triggers:
   - "后台管理系统重构"
   - "用户工作台与管理员后台合并"
 downstream:
-  - "docs/plans/08-ant-design-pro-admin-system-issues.md"
-  - "docs/acceptance/02-issue-pr-映射.md"
+  - "docs/plans/08-AntDesignPro一体化后台任务拆分.md"
+  - "docs/acceptance/02-任务与合并请求映射.md"
 ---
 
 # Ant Design Pro 一体化后台系统设计

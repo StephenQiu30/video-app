@@ -1,5 +1,5 @@
 ---
-layer: PRD
+layer: template
 doc_no: "00"
 audience:
   - PM
@@ -8,7 +8,7 @@ audience:
   - Ops
 feature_area: example-feature
 purpose: "用一句话说明本文档要定义的产品边界、技术边界或验收边界。"
-canonical_path: "docs/prd/00-example.md"
+canonical_path: "docs/TEMPLATE.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"

@@ -7,12 +7,12 @@ audience:
   - QA
 feature_area: conversion-parser-ai-pdf
 purpose: "将首屏解析器、能力证明、工作台、任务详情、AI 与 PDF 体验拆分为小 issue，并明确目标 PR 分组。"
-canonical_path: "docs/plans/06-conversion-first-parser-ai-pdf-issues.md"
+canonical_path: "docs/plans/06-首屏解析器-AI-PDF任务拆分.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
-  - "docs/design/02-conversion-first-parser-ai-pdf-redesign.md"
+  - "docs/design/02-首屏解析器-AI-PDF重设计.md"
 outputs:
   - "GitHub issue 拆分建议"
   - "Milestone 与 PR 分组"
@@ -27,7 +27,7 @@ downstream:
 
 ## 1. 背景
 
-本计划承接 `docs/design/02-conversion-first-parser-ai-pdf-redesign.md`，用于把前端产品化重构拆成小 issue，并按功能 PR 聚合交付。
+本计划承接 `docs/design/02-首屏解析器-AI-PDF重设计.md`，用于把前端产品化重构拆成小 issue，并按功能 PR 聚合交付。
 
 ## 2. 目标
 
@@ -164,7 +164,7 @@ downstream:
 - E2E 覆盖未登录解析转化。
 - E2E 覆盖登录后解析、创建任务、进入详情。
 - E2E 覆盖 PDF 报告入口可见和失败提示。
-- 更新 `docs/acceptance/01-mvp-acceptance-gates.md`。
+- 更新 `docs/acceptance/01-MVP验收门禁.md`。
 - `npm run lint`、`npm run test`、`npm run build`、`npm run test:e2e` 通过。
 
 ## 7. 跨仓后端候选 Issue

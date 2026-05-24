@@ -42,7 +42,7 @@
 - 每个 issue 的实现结尾必须有验收证据（至少一次命令输出和关键日志）。
 
 ## 文档规范
-- `docs/` 需按长期影响分类（PRD/plan/design/acceptance/operations）。
+- `docs/` 需按长期影响分类（plans/design/acceptance/operations/openapi）。
 - 临时调试与一次性记事不要写进 docs；应放测试脚本、Issue、PR 讨论和分支提交里。
 - 每个正式文档文件应包含明确的目标、边界、验收标准和剩余风险。
 - 新增正式文档优先复用 `docs/TEMPLATE.md` 的 frontmatter 与章节结构。

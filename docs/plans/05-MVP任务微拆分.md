@@ -6,7 +6,7 @@ audience:
   - QA
   - PM
 purpose: "将 MVP 前端重构拆分为可执行的小任务，明确优先级与类型，支持逐条打标签建 issue。"
-canonical_path: "docs/plans/05-mvp-task-micro-breakdown.md"
+canonical_path: "docs/plans/05-MVP任务微拆分.md"
 status: draft
 version: "1.0.0"
 owner: "StephenQiu30"
@@ -19,8 +19,8 @@ triggers:
   - "新一轮执行开始"
   - "出现未覆盖功能风险"
 downstream:
-  - "docs/acceptance/01-mvp-acceptance-gates.md"
-  - "docs/design/01-frontend-runtime-design.md"
+  - "docs/acceptance/01-MVP验收门禁.md"
+  - "docs/design/01-前端运行架构设计.md"
 ---
 
 # MVP 前端任务微拆分（video-web）

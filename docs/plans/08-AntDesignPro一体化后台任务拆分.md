@@ -8,12 +8,12 @@ audience:
   - Ops
 feature_area: ant-design-pro-admin-system
 purpose: "拆分 Ant Design Pro 官方脚手架重建 video-web 用户工作台与管理后台一体化系统的小粒度 issues、PR 分组和审查门禁。"
-canonical_path: "docs/plans/08-ant-design-pro-admin-system-issues.md"
+canonical_path: "docs/plans/08-AntDesignPro一体化后台任务拆分.md"
 status: draft
 version: "0.1.0"
 owner: "StephenQiu30"
 inputs:
-  - "docs/design/04-ant-design-pro-admin-system.md"
+  - "docs/design/04-AntDesignPro一体化后台设计.md"
   - "video-server OpenAPI 契约"
   - "Ant Design Pro 官方脚手架文档"
 outputs:
@@ -24,7 +24,7 @@ triggers:
   - "开始 M4 Ant Design Pro 一体化后台重建"
 downstream:
   - "GitHub Issues"
-  - "docs/acceptance/02-issue-pr-映射.md"
+  - "docs/acceptance/02-任务与合并请求映射.md"
 ---
 
 # M4 Ant Design Pro 一体化后台任务拆分与审查
