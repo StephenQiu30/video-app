@@ -308,6 +308,23 @@ test('取消登录后不会保留待创建任务动作', async ({ page }) => {
   expect(taskCreateCalls).toBe(0);
 });
 
+test('未登录访问任务列表会引导到公开登录 Modal', async ({ page }) => {
+  let taskListCalls = 0;
+  await mockApi(page, normalUser);
+  await page.route(/\/api\/tasks(?:\?.*)?$/, async (route) => {
+    taskListCalls += 1;
+    await route.fulfill({ status: 401, json: { detail: 'not authenticated' } });
+  });
+
+  await page.goto('/tasks');
+
+  await expect(page).toHaveURL(/\/parser\?login=1$/);
+  await expect(page.getByRole('dialog', { name: /登录/ })).toBeVisible();
+  await expect(page.getByLabel('视频链接')).toBeVisible();
+  await page.waitForTimeout(500);
+  expect(taskListCalls).toBe(0);
+});
+
 test('任务列表展示状态筛选、失败原因和详情入口', async ({ page }) => {
   await loginAs(page, adminUser);
   await page.goto('/tasks');
