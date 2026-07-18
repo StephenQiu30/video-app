@@ -18,9 +18,18 @@
 
 ## 当前实施范围
 
-1. 当前唯一候选是 `docs/plans/001-链接探测与清晰度目录计划.md`，但必须等待 `video-server` Plan 001 完成并提交 accepted OpenAPI 后才能进入 `ready`。
-2. Web Plan 001 仅覆盖链接输入、探测状态、真实媒体信息、清晰度选择和刷新恢复；不得用手写 fixture 绕过服务端契约依赖。
-3. 实际下载、AI 内容区、思维导图和 PDF 分属后续 Plan；当前只能展示诚实的后续能力说明。
+1. 当前首个候选是 `docs/plans/000-邮箱登录与会话外壳计划.md`，但必须等待 `video-server` 冻结并提交 accepted 认证 OpenAPI 后才能进入 `ready`。
+2. Web Plan 000 只实现邮箱注册、验证、登录、退出、密码重置、会话恢复、跨站请求伪造（CSRF）门禁和受保护路由；Web 不签发、解析或持久化服务端会话秘密。
+3. `docs/plans/001-链接探测与清晰度目录计划.md` 保持 `review`，只有 Web Plan 000 `done`、其 Acceptance 全部 passed，且 Server 认证与来源解析 OpenAPI 均 accepted 后才能进入 `ready`。
+4. Web Plan 001 仅覆盖链接输入、探测状态、真实媒体信息、清晰度选择和刷新恢复；不得用手写 fixture 绕过服务端契约依赖。
+5. 实际下载、AI 内容区、思维导图和 PDF 分属后续 Plan；当前只能展示诚实的后续能力说明。
+
+## 身份边界
+
+1. 浏览器通过同源 Backend for Frontend（BFF）消费 Server 的 PostgreSQL DatabaseStrategy 会话；安装令牌和浏览器持有的 Bearer token 不属于现行设计。
+2. Server 必须使用 `__Host-video_session` Cookie，保持 `HttpOnly`、`Secure`、`SameSite=Lax`、`Path=/` 和无 `Domain`；BFF 不把 Cookie 值转换为 JSON、页面属性或客户端状态。
+3. 不安全方法同时通过精确 Origin、Fetch Metadata 与 Server 签名的 double-submit CSRF header 校验；Web 只在内存中保存 header 值，不写入 URL 或 Web Storage。
+4. 验证和重置链接的一次性 token 只能位于 URL fragment；页面读取后必须先用 `history.replaceState` 清除 fragment，再 POST 交换。禁止 query string、浏览器历史残留、日志、分析、持久客户端存储或第三方请求。
 
 ## Codex 资产
 
