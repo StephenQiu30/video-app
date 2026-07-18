@@ -1,39 +1,31 @@
 # video-web
 
-`video-web` 是“授权视频下载与 AI 知识化工作台”的 Web 客户端。用户可以粘贴自己有权处理的视频链接，查看来源真实提供的清晰度，并在后续阶段完成下载、AI 摘要、思维导图和 PDF 导出。
+`video-web` 是待重新设计的 Web 仓库。
 
-## 当前阶段
+## 当前状态
 
-项目正在从全新设计基线开始实施。现行事实链位于 `docs/`：
+- 现有产品设计、PRD、Plan 和 Acceptance 已清除。
+- 当前没有已确认的用户体验、页面范围、技术选型、API 消费或状态模型。
+- 当前没有应用源码、依赖、测试、schema、fixture 或业务运行配置。
+- 仓库只保留项目治理文件与文档分类骨架。
 
-1. Design：体验方向、前端架构和 API/无障碍契约。
-2. PRD：Web MVP 用户故事、状态、非目标与验收指标。
-3. Plan：按依赖顺序拆分的单一闭环实施计划。
-4. Acceptance：实现前冻结的验收方法和实现后补充的证据。
+## 重新设计门禁
 
-当前首个 Web 切片是：
+后续工作固定遵循：
 
-```text
-邮箱注册/验证 -> 登录 -> PostgreSQL 会话恢复 -> 安全退出/找回 -> 受保护工作台外壳
-```
+`Design → PRD → Plan → Acceptance`
 
-该切片等待 `video-server` 提交 accepted 认证 OpenAPI；链接探测、实际下载、AI 内容区、思维导图和 PDF 随后依次实现。
+下一轮必须先在 Design 中确认产品目标、用户旅程、页面与状态边界、前后端职责、技术架构、安全、可访问性与风险。Design accepted 前不创建 PRD、Plan 或业务实现。
 
-## 体验原则
+## 项目规范
 
-- 不承诺绕过 DRM、登录、付费墙、下载禁用或平台限制。
-- 不伪造分辨率、进度、完成状态或尚未实现的功能。
-- Web 不保存密码或签发身份 token；只通过同源 BFF 使用 Server 的 HttpOnly 会话/CSRF Cookie。
-- 服务端资源是任务事实来源，页面刷新不能丢失已创建任务。
-- 思维导图必须同时提供语义化文字大纲，核心流程满足 WCAG 2.2 AA。
-- Git 历史仅用于追溯，不构成现行需求或架构依据。
+本仓库按 [stephen-codex](https://github.com/StephenQiu30/stephen-codex) 当前 `main` 整理：
 
-## 仓库入口
+- `AGENTS.md`：长期协作、交付与 Git 规则。
+- `AGENTS.local.md`：本仓库边界与重新设计门禁。
+- `WORKFLOW.md`：Symphony/Linear 编排契约。
+- `.codex/`：Agent 角色与核心流程。
+- `docs/`：正式文档分类骨架。
+- `.github/`：PR 模板与基础 CI。
 
-- `AGENTS.md`：Codex 长期工程规范。
-- `AGENTS.local.md`：Web 产品边界与当前实施门禁。
-- `WORKFLOW.md`：Codex 编排与交付流程。
-- `docs/README.md`：执行文档索引和状态。
-- `.codex/`：项目级 Codex Subagent 与 Skill。
-
-工程运行和验证命令将在 Plan 000 的 TDD 基线落地后补充。
+文档入口见 [`docs/README.md`](docs/README.md)。当前不提供安装、运行或部署命令。

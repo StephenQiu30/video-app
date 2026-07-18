@@ -1,29 +1,26 @@
 # Contributing
 
-`video-web` 按 `Design -> PRD -> Plan -> Acceptance -> Implementation` 推进。
+感谢你愿意改进 `video-web`。
 
-## 贡献门禁
+## 贡献范围
 
-1. 先阅读 `AGENTS.md`、`AGENTS.local.md`、`WORKFLOW.md` 和 `docs/README.md`。
-2. 需求必须映射到已接受 PRD 的 Requirement ID，不能在实现中引入隐性范围。
-3. 只有 `status: ready` 的 Plan 可以实施，每次只推进一个依赖就绪的 Plan。
-4. Acceptance 必须先冻结验收项，再通过失败测试驱动最小实现。
-5. 完成时逐项附上测试、截图、响应或运行证据；未验证项保持 `failed` 或 `blocked`。
+1. 修正 `AGENTS.md`、`AGENTS.local.md` 与 `WORKFLOW.md` 中的项目规范。
+2. 优化 `.codex/agents/` 角色或 `.codex/skills/` 核心流程。
+3. 按 `Design → PRD → Plan → Acceptance` 更新正式文档。
+4. 在 Plan ready 后交付其明确授权的最小实现与验证。
 
-## 当前允许的实现
+## 贡献原则
 
-首个候选是 Plan 000：邮箱注册/验证/登录/找回、Server HttpOnly 会话与 CSRF、受保护路由和跨主体缓存隔离。它只有在 `video-server` Plan 000 的认证 OpenAPI accepted 且本 Plan 进入 `ready` 后才允许实现；链接探测 Plan 001 继续等待。
+1. 遵循 MVP，不引入当前没有使用场景的复杂流程。
+2. 保持 Design、PRD、Plan、Acceptance、TDD 与实际改动一致。
+3. README 与文档只描述仓库真实存在的结构和能力。
+4. 单个文件长期目标不超过 200 行；确需更长时按职责拆分。
 
-以下能力必须等待对应 Plan 就绪：
+## 提交流程
 
-- 链接探测、实际下载任务、进度和资产交付。
-- AI 转录、总结和思维导图。
-- PDF 导出、历史库和数据生命周期交互。
-- DRM、登录态、付费墙、地区限制或下载禁用绕过始终不在范围内。
-
-## 工程要求
-
-1. 遵循 `AGENTS.md` 的提交类型、TDD 顺序、文件体量和 PR 门禁。
-2. 组件必须覆盖加载、空、失败和恢复状态；禁止用假数据冒充后端能力。
-3. 交互必须支持键盘、可见焦点、减少动画和移动端布局。
-4. 不引入 `.planning`、临时状态文件、兼容旧实现的双轨结构或未清理生成物。
+1. 提交前检查真实 Git 根、分支、状态与改动范围。
+2. 功能改动遵循 `test:` → `impl:`/`feat:` → 可选 `refactor:`/`docs:`/`chore:`。
+3. `test:` 只包含测试、fixture、mock、期望结果和测试辅助工具；实现提交只包含最小实现。
+4. 不提交 secret、缓存、日志、构建产物、临时文件或过程记录。
+5. 使用中文提交信息、PR 标题与描述，并填写 Test-first Evidence、验证命令、结果和 Agent 使用情况。
+6. PR 合并前为准确落地提交创建并推送 annotated pre-merge tag。
