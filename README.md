@@ -1,11 +1,12 @@
 # video-web
 
-`video-web` 是待重新设计的 Web 仓库。
+`video-web` 是正在重新设计的视频下载与内容提取 Web 仓库。
 
 ## 当前状态
 
-- 现有产品设计、PRD、Plan 和 Acceptance 已清除。
-- 当前没有已确认的用户体验、页面范围、技术选型、API 消费或状态模型。
+- 旧产品设计、PRD、Plan 和 Acceptance 已清除。
+- 5 份 Web Design 已确认，5 份对应 PRD 已进入可规划状态，5 份执行 Plan 已就绪。
+- 当前尚未开始应用实现，也没有 Acceptance 结果。
 - 当前没有应用源码、依赖、测试、schema、fixture 或业务运行配置。
 - 仓库只保留项目治理文件与文档分类骨架。
 
@@ -15,7 +16,7 @@
 
 `Design → PRD → Plan → Acceptance`
 
-下一轮必须先在 Design 中确认产品目标、用户旅程、页面与状态边界、前后端职责、技术架构、安全、可访问性与风险。Design accepted 前不创建 PRD、Plan 或业务实现。
+当前文档链已经推进到 [执行 Plan](docs/plans/README.md)。只有在用户明确要求开始实现后，才按依赖顺序执行 Ready Plan；实现完成并通过验证后再创建 Acceptance。
 
 ## 项目规范
 
