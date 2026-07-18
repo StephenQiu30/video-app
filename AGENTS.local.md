@@ -1,22 +1,22 @@
 # AGENTS.local.md
 
-本文件记录 `video-web` 的局部协作规则，与 `AGENTS.md` 中的长期规范配合使用。
+本文件记录 `video-web` 在全面重置后的局部边界，与 `AGENTS.md` 的通用 Codex 规范配合使用。
 
-## 仓库边界
+## 空仓边界
 
-1. 本仓库只承载 React + TypeScript 前端，不实现后端 API、Worker、数据库迁移或对象存储逻辑。
-2. 后端联调只通过 `UMI_APP_API_BASE_URL` 指向 `video-server`，不要在前端仓库复制后端配置。
-3. 前端正式文档放入 `docs/` 对应分类目录，临时任务进度和一次性排查记录放在 issue、PR 或测试输出中。
+1. 当前没有已批准的产品范围、技术栈、架构、接口、数据模型或运行命令。
+2. 当前没有产品源码、测试、部署或运行时实现；不要把 Git 历史和已删除文件解释为现行需求。
+3. 不得为了兼容旧实现恢复历史目录、依赖、配置、接口或文档。
 
-## 常用验证
+## 新设计门禁
 
-1. `npm run lint`
-2. `npm run test`
-3. `npm run build`
-4. `npm run test:e2e`（M4 PR-E 恢复真实 Playwright 前为占位命令）
+1. 新工作按 `PRD -> Design -> Plan -> Acceptance -> Implementation` 建立新的事实链。
+2. PRD 和 Design 未批准前，不选择技术栈，不创建产品脚手架，不写产品实现。
+3. Implementation 阶段遵循 `AGENTS.md` 的 SDD、TDD、RAG 与验证要求。
 
-## 提交边界
+## Codex 资产
 
-1. UI、测试、文档和配置变更应按职责拆分提交。
-2. 功能 PR 优先按 `test:`、`impl:`、`refactor:`、`chore:` 顺序组织。
-3. `dist/`、`coverage/`、`playwright-report/`、`test-results/`、日志和本地缓存不提交。
+1. Subagent 位于 `.codex/agents/`。
+2. Skill 位于 `.codex/skills/`。
+3. 编排规则位于 `WORKFLOW.md`。
+4. 当前空仓没有产品验证命令；新的验证方式必须由新设计明确引入。
