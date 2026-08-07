@@ -10,9 +10,9 @@ services:
       args:
         VIDEO_API_BASE_URL: ${VIDEO_API_BASE_URL:-}
     environment:
-      VIDEO_API_UPSTREAM: ${VIDEO_API_UPSTREAM:?VIDEO_API_UPSTREAM is required}
+      VIDEO_API_UPSTREAM: ${VIDEO_API_UPSTREAM:-host.docker.internal:19090}
     ports:
-      - "${WEB_BIND:-127.0.0.1}:${WEB_PORT:-8000}:8080"
+      - "127.0.0.1:8101:8080"
     extra_hosts:
       - host.docker.internal:host-gateway
     healthcheck:

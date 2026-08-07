@@ -7,7 +7,7 @@ export function rootContainer(container: ReactNode) {
       theme={{
         token: {
           colorPrimary: '#1677ff',
-          borderRadius: 8,
+          borderRadius: 6,
         },
       }}
     >

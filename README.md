@@ -29,4 +29,4 @@
 - `docs/`：正式文档分类骨架。
 - `.github/`：PR 模板与基础 CI。
 
-文档入口见 [`docs/README.md`](docs/README.md)。本地开发使用 `npm ci` 后执行 `npm run dev`；质量门禁见 [`package.json`](package.json) scripts。容器默认环境和 `prod` 覆盖分别由 [`docker-compose.yml`](docker-compose.yml) 与 [`docker-compose-prod.yml`](docker-compose-prod.yml) 提供，镜像继续使用标准 Ant Design Pro/Umi 构建流程，部署命令见 [`docs/operations/001-Docker部署操作.md`](docs/operations/001-Docker部署操作.md)。
+文档入口见 [`docs/README.md`](docs/README.md)。本地开发使用 `npm ci` 后执行 `npm run dev`；质量门禁见 [`package.json`](package.json) scripts。容器默认环境和 `prod` 覆盖分别由 [`docker-compose.yml`](docker-compose.yml) 与 [`docker-compose-prod.yml`](docker-compose-prod.yml) 提供，镜像继续使用标准 Ant Design Pro/Umi 构建流程。默认无需创建 `.env`，直接执行 `docker compose up -d --build` 即可启动 Web 容器，固定访问地址为 `http://localhost:8101`；部署命令见 [`docs/operations/001-Docker部署操作.md`](docs/operations/001-Docker部署操作.md)。
