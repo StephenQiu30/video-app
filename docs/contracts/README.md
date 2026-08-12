@@ -2,11 +2,11 @@
 
 ## 唯一来源
 
-- REST：`video-server` 运行实例的 `/openapi.json`。
+- REST：评审后从 `video-server /openapi.json` 导出的 App 专用冻结快照。
 - 实时状态：`video-server` 版本化 WebSocket 事件 schema。
 - 文件：服务端授权的短期下载 URL 与完整性元数据。
 
-本仓库不复制 FastAPI schema、不手写平行 DTO，也不把服务端实现文档当作 App 验收证据。正式实现时使用 OpenAPI Generator 的 `dart-dio` 产物，并通过固定命令验证生成无漂移。
+本仓库不手写 FastAPI 平行 DTO，也不把服务端实现文档当作 App 验收证据。移动端快照只在契约冻结时进入 `contracts/openapi/video-server.openapi.json`，使用 `./tool/openapi/generate.sh` 与 OpenAPI Generator 7.22.0 `dart-dio` 生成到 `packages/video_server_api/`，并由 CI 验证无漂移。
 
 ## 原生客户端前置契约
 
@@ -26,5 +26,5 @@
 
 - Flutter 工程与目录基座。
 - 主题、路由壳层、错误模型和无凭据健康检查。
-- 基于冻结 OpenAPI fixture 的生成管道测试。
+- OpenAPI 生成配置与“缺少移动契约时 fail closed”的入口。
 - 不接触真实用户会话的 Widget 与可访问性测试。

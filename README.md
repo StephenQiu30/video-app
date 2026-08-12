@@ -1,49 +1,56 @@
 # 帧取 App
 
-本仓库是“帧取”的 Flutter 原生客户端仓库。服务端和浏览器 Web 平台已经由 [`video-server`](https://github.com/StephenQiu30/video-server) 统一实现；本仓库不再建设第二套 Web 平台。
+本仓库是“帧取”的 Flutter 原生客户端，首期使用一套 Dart 代码交付 iOS 与 Android。服务端和浏览器 Web 平台由 [`video-server`](https://github.com/StephenQiu30/video-server) 统一实现，本仓库不建设 Flutter Web、第二套管理后台或客户端媒体执行器。
 
-当前仓库只保存 Flutter App 的规范与空目录骨架，没有业务源码、`pubspec.yaml`、Android/iOS 工程或可运行产物。开始实现前，需要先完成并确认 [`Design → PRD → Plan → Acceptance`](docs/README.md) 链路。
+## 当前状态
 
-## 产品定位
+Flutter 技术选型与可构建工程骨架已经建立：
 
-- 首期平台：iOS 与 Android。
-- 客户端技术：Flutter / Dart，共享业务与界面代码。
-- 服务能力：通过 `video-server` 的 HTTPS REST/OpenAPI 与 WebSocket 契约访问解析、下载、历史、文件获取和 AI 分析能力。
-- 明确排除：Flutter Web、内嵌 Web 平台、App 内运行 yt-dlp/FFmpeg、客户端 Provider 凭据、DRM 绕过和管理后台。
-- 后续可能：macOS/Windows 桌面端，但必须另立 Design 与验收，不进入首期范围。
+- Flutter 3.44.7 stable / Dart 3.12.2。
+- Android API 24+、iOS 13+，Application ID 与 Bundle ID 均为 `com.stephenqiu.framegrab`。
+- Material 3 深浅主题、中文/英文本地化与类型安全路由骨架。
+- Riverpod、go_router、Dio、OpenAPI Generator 与 flutter_secure_storage 的职责、版本和安全边界已冻结，但尚未实现业务会话或 API 调用。
+- 单元测试、Widget 测试以及 Android/iOS 构建 CI。
 
-## 工具链基线
+当前 UI 只是非业务占位和视觉 token 验证，不宣称下载业务已接通。后续实现以 `video-server/frontend/src/app/globals.css` 的语义色、6px 圆角和内容优先层级为视觉来源，再适配移动端导航、触控和系统语义。`video-server` 仍使用浏览器 HttpOnly Cookie；原生契约冻结前不进入业务实现，详见 [`docs/contracts/README.md`](docs/contracts/README.md)。
 
-当前开发机已验证：
+## 本地开发
 
-- Flutter 3.44.7 stable
-- Dart 3.12.2
+检查环境并安装依赖：
 
-正式建立工程时应在 CI 与贡献文档中固定一致版本。应用仓库必须提交 `pubspec.lock`，不维护第二套包管理或并行客户端工程。
-
-## 目录骨架
-
-```text
-assets/                       图片、图标和字体
-integration_test/             真机/模拟器端到端测试
-lib/
-├── app/                      启动、路由和应用级装配
-├── core/                     配置、网络、路由、安全和主题基础设施
-├── features/                 按用户能力组织的纵向模块
-│   ├── account/
-│   ├── analysis/
-│   ├── auth/
-│   ├── download/
-│   ├── history/
-│   └── providers/
-└── shared/                   真正跨功能复用的模型与组件
-test/                         单元与 Widget 测试
-tool/                         受版本控制的生成和校验入口
-docs/                         App 专属 Design、PRD、Plan、Acceptance 与契约说明
+```bash
+flutter doctor -v
+flutter pub get
+./tool/check.sh
 ```
 
-目录目前只用 `.gitkeep` 保留结构，不表示对应能力已经实现。Android 与 iOS 平台工程应在基座计划获批后由 `flutter create --platforms=android,ios` 生成，不手工拼装。
+iOS 或 Android 模拟器运行当前非业务占位页：
 
-## 当前阻塞
+```bash
+flutter run
+```
 
-`video-server` 现有浏览器鉴权以 HttpOnly Cookie 为中心。原生 App 在实现登录前，需要服务端先冻结可安全轮换、可撤销且使用系统安全存储的原生会话契约；详见 [`docs/contracts/README.md`](docs/contracts/README.md)。
+## 工程结构
+
+```text
+android/                      Android Kotlin 壳层
+ios/                          iOS Swift 壳层
+lib/
+├── app/                      应用装配与类型安全路由
+├── core/                     配置、网络、安全存储与主题
+├── features/                 按用户能力组织的纵向模块
+├── l10n/                     ARB 与生成的本地化代码
+└── shared/                   两个以上功能稳定复用的组件或模型
+test/                         单元与 Widget 测试
+integration_test/             后续真机/模拟器关键流程
+tool/                         质量门禁与 OpenAPI 生成入口
+docs/                         Design、PRD、Plan、Acceptance 与契约边界
+```
+
+## 核心边界
+
+- App 只负责原生交互、会话、生命周期、状态展示和授权文件落地。
+- 解析、下载、Provider、AI、对象存储和任务事实全部留在 `video-server`。
+- REST 客户端必须从冻结的 App 专用 OpenAPI 快照生成，不维护手写平行 DTO。
+- Access Token 只驻留内存；未来的 Refresh Credential 只进入 Keychain/Keystore。
+- 不记录完整媒体 URL、Token、预签名 URL、用户媒体或 AI 原始响应。

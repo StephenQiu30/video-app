@@ -1,0 +1,14 @@
+{
+  "@@locale": "zh",
+  "appTitle": "帧取",
+  "foundationEyebrow": "移动客户端 / 技术基座",
+  "foundationTitle": "把视频，\n带回本地。",
+  "foundationDescription": "面向 iOS 与 Android 的 Flutter 工程骨架已建立。当前只固化技术选型与视觉基线，尚未进入业务实现。",
+  "platformLabel": "目标平台",
+  "platformValue": "Android API 24+ / iOS 13+",
+  "technologySelectionLabel": "选型范围",
+  "technologySelectionValue": "架构、路由、状态、网络、契约与安全存储",
+  "contractBoundaryLabel": "实现状态",
+  "contractBoundaryValue": "业务页面、原生会话与服务 API 尚未实现",
+  "foundationFootnote": "该页面仅用于验证 Flutter 工程、路由、本地化和来自 Web 端的视觉 token，不代表任何业务能力已完成。"
+}

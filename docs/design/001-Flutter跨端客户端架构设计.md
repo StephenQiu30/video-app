@@ -1,6 +1,6 @@
 # 001 Flutter 跨端客户端架构设计
 
-- 状态：Proposed
+- 状态：Accepted
 - 日期：2026-08-12
 - 已确认决策：使用 Flutter；首期面向 iOS 与 Android；不重复建设 Web 平台
 
@@ -39,7 +39,8 @@ App 只负责输入、展示、原生会话、生命周期和文件落地。所�
 
 - 首期只生成 `android/` 与 `ios/` 工程。
 - 共享 Dart 层承载全部业务逻辑；平台代码只处理权限、安全存储、文件选择/保存、系统分享和生命周期桥接。
-- 最低 Android/iOS 版本、Bundle ID、Application ID、签名与商店信息在 Plan Ready 前冻结。
+- Android 最低 API 24，iOS 最低 13；组织 ID 为 `com.stephenqiu`，Application ID 与 Bundle ID 均为 `com.stephenqiu.framegrab`，显示名称为“帧取”。商店发布前必须再次确认标识所有权。
+- Android 使用 Kotlin、JVM target 17；iOS 使用 Swift 与 Flutter 3.44 默认 Swift Package Manager 集成。发布签名只由可信发布环境注入，不回退到 Android debug key。
 - 桌面端必须先证明交互、文件系统、窗口生命周期、自动更新和发布签名差异，不因 Flutter 可编译就自动宣称支持。
 
 ## 4. 代码架构
@@ -52,18 +53,28 @@ lib/
 └── shared/       两个以上功能稳定复用的模型与 Widget
 ```
 
-每个 feature 内部可按 `presentation/application/domain/data` 拆分，但只有真实复杂度出现时才创建层级。依赖方向为 `presentation → application/domain ← data`；feature 不直接导入其他 feature 的内部文件。
+每个 feature 以 `presentation → view model/application → repository → service` 为主依赖方向；只有多 repository 编排或复杂规则出现时才增加独立 domain/use-case 层。该结构落实 Flutter 官方推荐的 UI/Data 分层、repository 与依赖注入，不为形式创建空层。feature 不直接导入其他 feature 的内部文件。
 
 ## 5. 技术决策
 
-- 状态与依赖：Riverpod，一套单向状态模型。
-- 路由：go_router，统一深链接、认证守卫和恢复路径。
-- 网络：Dio，统一 TLS、超时、取消、幂等、错误和会话轮换。
-- 契约：OpenAPI Generator `dart-dio`，生成目录只读。
-- 安全存储：flutter_secure_storage；Access Token 仅驻留内存。
-- 序列化：优先生成模型；不再维护手写平行 DTO。
+| 职责 | 选择 | 基线 | 许可证 | 决策 |
+| --- | --- | --- | --- | --- |
+| SDK | Flutter / Dart | 3.44.7 / 3.12.2 | BSD-3-Clause | stable 单一工具链，提交 `.metadata` 与 `pubspec.lock` |
+| 状态与 DI | flutter_riverpod | 3.4.2 | MIT | 单向状态、可覆盖依赖和可测试异步流程；不并行引入 Bloc/GetX/Provider |
+| 路由 | go_router / go_router_builder | 17.5.0 / 4.4.0 | BSD-3-Clause | Flutter 团队维护，生成类型安全深链接；不维护第二套路由器 |
+| HTTP | Dio | 5.11.0 | MIT | 单实例、统一超时/取消/拦截器；禁止业务页面直接请求和生产请求体日志 |
+| 契约 | OpenAPI Generator `dart-dio` | 7.22.0 | Apache-2.0 | 使用稳定生成器和冻结快照；生成包只读，不手写平行 DTO |
+| Secret | flutter_secure_storage | 10.3.1 | BSD-3-Clause | Android 独立 namespace + Keystore、iOS 本机不迁移 Keychain；只保存获批 Refresh Credential |
+| 本地化 | Flutter gen-l10n / intl | SDK / 0.20.2 | BSD-3-Clause | ARB 是 UI 文案事实来源，首期 `zh` / `en` |
+| 代码生成 | build_runner | 2.15.1 | BSD-3-Clause | 这是与 Flutter 3.44.7 的 `meta` 固定版本兼容的最高解析版本 |
 
-依赖版本必须在实施 Plan 中固定并验证许可证、维护状态与平台兼容性。不得为同一职责并行引入多个框架。
+[`flutter_secure_storage` 11.0.0](https://pub.dev/packages/flutter_secure_storage/changelog) 虽已发布，但它要求 Android `compileSdk 37`，而 Flutter 3.44.7 默认基线为 36，并且该主版本移除了 v10 已废弃算法的兼容路径。本阶段因此固定已验证的 10.3.1，待 Flutter 工具链对齐且有安全存储实现时单独评审升级。
+
+`shared_preferences`、本地数据库、WebSocket 客户端、崩溃平台、分析 SDK 和文件插件均延后到真实用例与隐私评审出现时再引入。WebSocket 当前尤其不能接入，因为服务端只支持 Cookie 鉴权。依赖采用 pubspec 约束 + 应用 lockfile，Dependabot 每周提出受 CI 约束的更新。当前仅安装并锁定选型依赖，不实现会话、网络 repository 或业务页面。
+
+视觉事实来源为 `video-server/frontend/src/app/globals.css`：浅色背景/前景使用 `#FAFAFA` / `#0A0A0A`，深色背景/前景使用 `#0A0A0A` / `#F5F5F5`，基础圆角为 6px。后续页面延续语义色、充足留白、无重阴影与内容优先层级；移动端使用 Material 3 与系统字体，将 Web 设计语言转换为系统返回、安全区、触控目标和动态字体，不照搬网页固定网格或 Web 控件。
+
+参考：[Flutter 架构指南](https://docs.flutter.dev/app-architecture/guide)、[架构建议](https://docs.flutter.dev/app-architecture/recommendations)、[Flutter 3.44 支持平台](https://docs.flutter.dev/reference/supported-platforms)、[dart-dio 生成器](https://openapi-generator.tech/docs/generators/dart-dio/)。
 
 ## 6. 导航与状态恢复
 

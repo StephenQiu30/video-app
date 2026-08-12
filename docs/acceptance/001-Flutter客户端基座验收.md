@@ -1,47 +1,49 @@
 # 001 Flutter 客户端基座验收
 
-- 状态：Draft
+- 状态：Passed（选型/骨架）
 - 日期：2026-08-12
-- 当前结论：not evaluated
+- 当前结论：技术选型与工程骨架 passed；业务实现 not started
 
-## 1. 定义前置条件
+## 1. 当前范围
 
-- [ ] Design 状态为 Accepted。
-- [ ] PRD 状态为 Accepted。
-- [ ] Plan 状态为 Ready，并映射全部 DAC/AC。
+- [x] Design 与技术选型已冻结。
+- [x] 使用受记录的 `flutter create` 命令生成 Android/iOS 工程。
+- [x] 当前只验证工程、路由、主题、本地化和构建链。
+- [x] 未实现登录、下载、任务、AI、业务 API 或 WebSocket。
 - [ ] `video-server` 原生认证与 WebSocket 契约已冻结。
-- [ ] Android/iOS 平台、最低版本、应用 ID 和测试设备矩阵已冻结。
 
-前置条件未满足前，本文件不得进入 Defined，也不得记录实现通过结论。
+最后一项仅阻塞未来业务实现，不阻塞本次技术选型和工程骨架验收。
 
-## 2. 结构与平台
+## 2. 选型与骨架
 
-- [ ] A-001：只有 Android/iOS Flutter 工程；不存在 Web 或第二套客户端。
-- [ ] A-002：目录、依赖方向和文件规模符合 Design。
-- [ ] A-003：Flutter/Dart 与平台工具链在本地和 CI 一致。
-- [ ] A-004：`pubspec.lock`、许可证和依赖审计可重复。
+- [x] A-001：只存在 Android/iOS Flutter 工程，没有 Flutter Web 或第二套客户端。
+- [x] A-002：目录、依赖方向和长期源码文件规模符合 Design。
+- [x] A-003：Flutter 3.44.7 / Dart 3.12.2、Android API 24+ 与 iOS 13+ 已固定。
+- [x] A-004：`pubspec.lock`、直接依赖版本/许可证、Gradle checksum 和 GitHub Actions SHA 已固定。
+- [x] A-005：非业务占位页使用 Web 端语义色、6px 圆角、留白和内容层级，并适配 Material 3。
+- [x] A-006：深浅主题辅助文字与页面背景对比度至少为 4.5:1。
+- [x] A-007：OpenAPI 工具在缺少 App 专用冻结契约时 fail closed，不误用浏览器 Cookie 契约。
+- [x] A-008：Android debug APK 与 iOS simulator app 均以最终骨架构建成功。
 
-## 3. 契约与安全
+## 3. 未来业务验收（not started）
 
-- [ ] A-005：OpenAPI 生成可重复且生成目录无手工差异。
-- [ ] A-006：原生登录、刷新、撤销、退出和并发 401 通过真实服务验收。
-- [ ] A-007：Access Token 不持久化，Refresh Credential 只进入安全存储。
-- [ ] A-008：日志、崩溃、分析、深链接和网络记录无敏感信息。
+- [ ] B-001：OpenAPI 客户端从已冻结的 App 契约可重复生成。
+- [ ] B-002：原生登录、刷新、撤销、退出和并发 401 通过真实服务验收。
+- [ ] B-003：Access Token 不持久化，Refresh Credential 只进入安全存储。
+- [ ] B-004：解析、格式、任务、历史、文件和 AI 分析完成真实端到端验收。
+- [ ] B-005：前后台、离线、重连、深链接、可访问性和敏感日志完成真机/模拟器验收。
 
-## 4. 用户闭环
+这些条目不属于当前选型阶段，不使用占位页、Mock 或工程构建证据代替。
 
-- [ ] A-009：真实公开授权 URL 完成解析、格式选择和任务创建。
-- [ ] A-010：前后台、断网、重连和冷启动后任务状态重新收敛。
-- [ ] A-011：历史、取消、重试和 AI 分析保持服务端事实一致。
-- [ ] A-012：文件授权过期、空间不足、取消、完整性、保存和清理均通过。
+## 4. 证据记录
 
-## 5. 体验与质量
+| 证据 | 命令/环境 | 结论 |
+| --- | --- | --- |
+| 生成 | 文档冻结的 `flutter create --platforms=android,ios ...` | passed |
+| 质量 | `./tool/check.sh` | passed；format/analyze 通过，2 tests passed |
+| 契约边界 | `./tool/openapi/generate.sh` 在缺少冻结快照时运行 | passed；exit 1 并给出 fail-closed 原因 |
+| iOS 构建 | Xcode 26.6，iOS 26.5 iPhone 17 Pro Simulator | passed |
+| 视觉 | iPhone 17 Pro Simulator 深浅主题 + 对比度回归测试 | passed |
+| Android 构建 | JDK 21 / Android Gradle Plugin 9.0.1 / API 36 | passed |
 
-- [ ] A-013：加载、空、失败、离线、会话过期和重试状态完整。
-- [ ] A-014：深浅主题、文字缩放、屏幕阅读器、系统返回和 reduced motion 通过。
-- [ ] A-015：Android 与 iOS 均通过单元、Widget、集成、构建和真机/模拟器证据。
-- [ ] A-016：未实现 Flutter Web、管理后台、Provider 执行或其他非目标能力。
-
-## 6. 证据记录
-
-实现前在此冻结具体命令、设备、系统版本、服务端提交、测试账号与可脱敏证据路径。实现后只填写实际命令、退出码和 `passed`、`failed`、`blocked` 结论，不降低或合并标准。
+截图为本地脱敏检查证据，不提交模拟器数据或构建产物。

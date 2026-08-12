@@ -1,25 +1,36 @@
 # 001 Flutter 客户端基座计划
 
-- 状态：Draft
+- 状态：Complete（选型/骨架）
 - 日期：2026-08-12
-- 阻塞：Design/PRD 尚未完整确认；原生鉴权契约尚未在 `video-server` 冻结
+- 阻塞：Phase 2 及以后仍等待 `video-server` 原生鉴权与 WebSocket 契约冻结
 
 ## 1. Phase 0：冻结前置决策
 
-1. 确认 Design、PRD 与 Acceptance。
-2. 在 `video-server` 完成原生认证、刷新、撤销和 WebSocket 鉴权设计。
-3. 冻结 Android/iOS 最低版本、组织 ID、应用 ID、显示名称与商店标识。
-4. 固定 Flutter/Dart、Java/Gradle、Xcode/CocoaPods 与 CI 版本。
+1. [x] 确认 Phase 1 Design、PRD 与 Acceptance。
+2. [ ] 在 `video-server` 完成原生认证、刷新、撤销和 WebSocket 鉴权设计。
+3. [x] 冻结 Android API 24、iOS 13、`com.stephenqiu.framegrab` 与显示名称“帧取”。
+4. [x] 固定 Flutter 3.44.7、Dart 3.12.2、JDK 21、JVM target 17、Xcode 26.6 与 CI 版本。
 
-退出条件：Design accepted、PRD accepted、Plan Ready、Acceptance Defined，服务端鉴权契约可生成。
+Phase 1 退出条件已经满足；Phase 2 入口仍要求服务端鉴权契约可生成。
 
 ## 2. Phase 1：工程基座
 
-1. 先写结构与配置门禁测试。
-2. 运行统一 `flutter create --platforms=android,ios` 命令。
-3. 建立 `lib/app`、`core`、`features`、`shared` 与测试目录。
-4. 配置 format、analyze、test、Android debug build 和 iOS simulator build CI。
-5. 固定 `pubspec.lock`，加入许可证与依赖审计。
+1. [x] 建立路由、主题、本地化和 Widget 门禁测试，不接入业务 API。
+2. [x] 运行统一生成命令：
+
+   ```bash
+   flutter create --platforms=android,ios \
+     --org com.stephenqiu \
+     --project-name framegrab \
+     --description "帧取 iOS 与 Android 客户端" \
+     --android-language kotlin \
+     --empty .
+   ```
+
+3. [x] 建立 `lib/app`、`core`、`features`、`shared`、l10n 与测试目录。
+4. [x] 配置 format、analyze、test、Android debug build 和 iOS simulator build CI。
+5. [x] 固定 `pubspec.lock`、GitHub Actions SHA 与 Dependabot 更新入口。
+6. [x] 用非业务占位页验证 Web 视觉 token 到 Material 3 的映射，不实现登录、下载或 AI 流程。
 
 映射：DAC-001、DAC-002、DAC-010、DAC-012；AC-001、AC-012。
 
@@ -63,6 +74,8 @@
 
 ```bash
 flutter pub get
+flutter gen-l10n
+dart run build_runner build
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test
@@ -71,4 +84,4 @@ flutter build apk --debug
 flutter build ios --simulator --no-codesign
 ```
 
-真实服务、Android 和 iOS 证据缺一不可；在当前文档未获批前不执行实现阶段。
+Phase 1 以本地和 CI 工程证据独立判定；真实服务、Android 和 iOS 业务证据缺一不可，但只在对应服务契约与功能实现完成后执行。

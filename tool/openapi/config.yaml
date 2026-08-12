@@ -1,0 +1,11 @@
+pubName: video_server_api
+pubVersion: 0.1.0
+pubDescription: 帧取移动端使用的 video-server 生成客户端
+pubAuthor: StephenQiu
+pubPublishTo: none
+serializationLibrary: built_value
+dateLibrary: core
+disallowAdditionalPropertiesIfNotPresent: false
+enumUnknownDefaultCase: true
+useOptional: true
+sourceFolder: lib

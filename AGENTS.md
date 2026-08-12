@@ -2,7 +2,7 @@
 
 本仓库负责 Flutter 原生客户端。`video-server` 负责 API、Web 平台、异步任务、Provider、对象存储和 AI Worker；默认只读，不在本仓库复制或修改服务端实现。
 
-当前仓库只有规范与空目录骨架。Design/PRD 未确认、Plan 未 Ready、Acceptance 未 Defined 前，不得创建业务实现或生成 Android/iOS 工程。
+Phase 1 Flutter 工程基座已经建立。新增业务能力仍必须在对应 Design/PRD 确认、Plan Ready、Acceptance Defined 后实现；服务端原生鉴权契约未冻结前，不得接入浏览器 Cookie、WebView 登录或宣称真实业务 E2E 已完成。
 
 ## 唯一事实与交付链
 
@@ -16,7 +16,7 @@
 
 - 首期只支持 Android 与 iOS；禁止启用 Flutter Web。
 - macOS、Windows、Linux、车机或电视端必须先建立独立 Design 和 Acceptance。
-- 使用 Flutter stable 与 Dart；初始基线为 Flutter 3.44.7、Dart 3.12.2。
+- 使用 Flutter stable 与 Dart；固定基线为 Flutter 3.44.7、Dart 3.12.2、JDK 21、Android JVM target 17 与 Xcode 26.6。
 - 应用提交 `pubspec.lock`，依赖通过 `flutter pub` 管理，不引入第二套包管理或并行原生业务实现。
 - Android/iOS 工程必须由统一的 `flutter create --platforms=android,ios` 命令生成，并记录组织 ID、应用 ID、最低系统版本和生成命令。
 
@@ -32,15 +32,15 @@
 
 ## 推荐技术决策
 
-以下依赖必须在 Design/Plan 获批后写入 `pubspec.yaml`：
+已批准且写入 `pubspec.yaml` 的职责边界：
 
 - Riverpod：单向状态和依赖装配。
 - go_router：声明式路由、深链接和认证重定向。
 - Dio：统一 HTTPS、超时、取消、重试和拦截器。
-- OpenAPI Generator 的 `dart-dio`：从 `video-server` OpenAPI 生成请求与模型。
+- OpenAPI Generator 7.22.0 的 `dart-dio`：只从冻结的 App 专用 OpenAPI 快照生成请求与模型。
 - flutter_secure_storage：仅保存获批的原生 Refresh Credential；Access Token 只留内存。
 
-不要同时引入 Bloc/GetX/Provider、第二套路由器、第二个 HTTP 客户端或手写平行 DTO。
+不要同时引入 Bloc/GetX/Provider、第二套路由器、第二个 HTTP 客户端或手写平行 DTO。shared_preferences、本地数据库、WebSocket、崩溃/分析 SDK 与文件插件必须由真实需求、隐私评审和独立测试拉动，不能预装。
 
 ## API 与状态
 

@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "appTitle": "Framegrab",
+  "foundationEyebrow": "MOBILE CLIENT / TECHNICAL FOUNDATION",
+  "foundationTitle": "Bring video\nback to your device.",
+  "foundationDescription": "The Flutter project skeleton for iOS and Android is ready. This phase freezes technology and visual decisions only; business implementation has not started.",
+  "platformLabel": "Target platforms",
+  "platformValue": "Android API 24+ / iOS 13+",
+  "technologySelectionLabel": "Selection scope",
+  "technologySelectionValue": "Architecture, routing, state, networking, contracts, and secure storage",
+  "contractBoundaryLabel": "Implementation status",
+  "contractBoundaryValue": "Business screens, native sessions, and service APIs are not implemented",
+  "foundationFootnote": "This screen only verifies the Flutter project, routing, localization, and visual tokens derived from the Web client. It does not claim any business capability is complete."
+}
