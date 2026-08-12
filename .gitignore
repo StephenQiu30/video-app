@@ -1,24 +1,37 @@
-.DS_Store
-.agents/
-.symphony-workspaces/
-skills-lock.json
+# Dependencies and generated application output
 node_modules/
-.umi/
-src/.umi*/
-npm-debug.log*
-package-lock.json
-!package-lock.json
+.next/
+out/
+.turbopack/
 dist/
+
+# Test, type-check, and tool output
 coverage/
 artifacts/
 reports/
 test-results/
 playwright-report/
+*.tsbuildinfo
+*.log
+npm-debug.log*
+
+# Local configuration and secrets
+.env
+.env.*
+.openapi-schema.json
+
+# Local editor, agent, and OS state
+.DS_Store
+.idea/
+.vscode/
+.history/
+*.bak
+.agents/
+.symphony-workspaces/
+.worktrees/
+skills-lock.json
+
+# Temporary files
 tmp/
 temp/
 .tmp/
-.env
-.env.*
-!.env.example
-!.env.prod.example
-.openapi-schema.json

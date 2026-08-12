@@ -2,26 +2,26 @@
 
 感谢你愿意改进 `video-web`。
 
-## 贡献范围
+## 当前边界
 
-1. 修正 `AGENTS.md`、`AGENTS.local.md` 与 `WORKFLOW.md` 中的项目规范。
-2. 优化 `.codex/agents/` 角色或 `.codex/skills/` 核心流程。
-3. 按 `Design → PRD → Plan → Acceptance` 更新正式文档。
-4. 在 Plan ready 后交付其明确授权的最小实现与验证。
+仓库目前只保存规范和证据，不包含可执行 Web 实现。产品与技术事实以 [`docs/README.md`](docs/README.md) 的索引为入口；后端实现、OpenAPI 契约、统一镜像和基础设施由相邻 `video-server` 维护。
 
-## 贡献原则
+功能交付固定遵循 `Design → PRD → Plan → Acceptance`。开始实现前，先确认 Design 与 PRD 没有冲突，更新映射全部标准的 Plan，并在对应 Acceptance 中冻结本仓库的验证命令和证据要求。来源仓库已有的通过记录不能替代 `video-web` 的独立测试、构建、浏览器和集成证据。
 
-1. 遵循 MVP，不引入当前没有使用场景的复杂流程。
-2. 保持 Design、PRD、Plan、Acceptance、TDD 与实际改动一致。
-3. 每个 Plan 实现前先将对应 Acceptance 定义为 `Defined`；实现后只填写证据与结论，标准变化必须先返回上游文档。
-4. README 与文档只描述仓库真实存在的结构和能力。
-5. 单个文件长期目标不超过 200 行；确需更长时按职责拆分。
+后续前端使用 Next.js App Router、React、TypeScript strict、Radix UI、shadcn/ui 与 Tailwind CSS；具体目录、OpenAPI、静态导出、视觉、可访问性和安全规则以 [`AGENTS.md`](AGENTS.md) 为准。不得恢复旧 Umi、Ant Design、Less、旧路由兼容层或独立生产前端容器。
 
-## 提交流程
+## 文档变更
 
-1. 提交前检查真实 Git 根、分支、状态与改动范围。
-2. 功能改动遵循 `test:` → `impl:`/`feat:` → 可选 `refactor:`/`docs:`/`chore:`。
-3. `test:` 只包含测试、fixture、mock、期望结果和测试辅助工具；实现提交只包含最小实现。
-4. 不提交 secret、缓存、日志、构建产物、临时文件或过程记录。
-5. 使用中文提交信息、PR 标题与描述，并填写 Test-first Evidence、验证命令、结果和 Agent 使用情况。
-6. PR 合并前为准确落地提交创建并推送 annotated pre-merge tag。
+- 上游事实变化时按 Design、PRD、Plan、Acceptance 的顺序同步下游，避免只修一处造成冲突。
+- 保持内部链接可解析；调研、运维说明和视觉证据只作为规范的支持材料，不替代正式验收标准。
+- 不在仓库中保存临时计划、工作日志、缓存、构建产物、Secret 或本机绝对路径生成物。
+
+## 提交规范
+
+每个可独立验证、可安全回滚的小任务对应一个提交。提交信息使用中文 Conventional Commits：
+
+```text
+<type>(<scope>): <中文描述>
+```
+
+作用域可省略；常用类型包括 `feat`、`fix`、`refactor`、`docs`、`test`、`build`、`ci`、`chore` 和 `style`。标题不超过 72 个字符，末尾不加标点。提交前只暂存当前任务文件并检查 `git status --short`；只有用户明确要求时才推送或创建 PR。
