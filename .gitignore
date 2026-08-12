@@ -1,37 +1,47 @@
-# Dependencies and generated application output
-node_modules/
-.next/
-out/
-.turbopack/
-dist/
-
-# Test, type-check, and tool output
+# Dart and Flutter
+.dart_tool/
+.packages
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
 coverage/
-artifacts/
-reports/
-test-results/
-playwright-report/
-*.tsbuildinfo
-*.log
-npm-debug.log*
+doc/api/
 
-# Local configuration and secrets
-.env
-.env.*
-.openapi-schema.json
+# Generated platform state
+android/.gradle/
+android/local.properties
+android/key.properties
+android/app/*.jks
+android/app/*.keystore
+ios/Flutter/ephemeral/
+ios/Pods/
+macos/Flutter/ephemeral/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
 
-# Local editor, agent, and OS state
-.DS_Store
+# IDE and local tools
 .idea/
 .vscode/
-.history/
-*.bak
-.agents/
-.symphony-workspaces/
+*.iml
+*.log
+.DS_Store
 .worktrees/
-skills-lock.json
+
+# Secrets and local configuration
+.env
+.env.*
+*.p12
+*.mobileprovision
+*.pem
+*.provisionprofile
+
+# Test artifacts
+integration_test/screenshots/
+reports/
+test-results/
 
 # Temporary files
+.tmp/
 tmp/
 temp/
-.tmp/

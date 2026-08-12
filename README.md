@@ -1,40 +1,49 @@
-# video-web
+# 帧取 App
 
-`video-web` 当前是“帧取”Web 前端的规范与目录基线仓库，暂不包含应用源码、测试实现、依赖、构建配置、容器配置或 CI 实现。
+本仓库是“帧取”的 Flutter 原生客户端仓库。服务端和浏览器 Web 平台已经由 [`video-server`](https://github.com/StephenQiu30/video-server) 统一实现；本仓库不再建设第二套 Web 平台。
 
-本次整理移除了原有 Umi/React 实现，并把相邻 `video-server` 中的当前产品、设计、计划、验收、调研、运维和视觉 QA 文档同步到本仓库。来源仓库中的历史实现证据仅用于说明规范背景，不能视为本仓库的验收结果。
+当前仓库只保存 Flutter App 的规范与空目录骨架，没有业务源码、`pubspec.yaml`、Android/iOS 工程或可运行产物。开始实现前，需要先完成并确认 [`Design → PRD → Plan → Acceptance`](docs/README.md) 链路。
 
-## 当前内容
+## 产品定位
 
-- [`docs/README.md`](docs/README.md)：Design、PRD、Plan、Acceptance 及其支持材料的完整索引。
-- [`AGENTS.md`](AGENTS.md)：后续 Next.js Web 实现必须遵循的技术、交互、安全和验证约束。
-- [`CONTRIBUTING.md`](CONTRIBUTING.md)：文档维护与后续实现的交付规则。
-- [`SECURITY.md`](SECURITY.md)：产品安全边界和漏洞报告要求。
-- [`design-qa.md`](design-qa.md)：来源前端的视觉回归基线与证据。
+- 首期平台：iOS 与 Android。
+- 客户端技术：Flutter / Dart，共享业务与界面代码。
+- 服务能力：通过 `video-server` 的 HTTPS REST/OpenAPI 与 WebSocket 契约访问解析、下载、历史、文件获取和 AI 分析能力。
+- 明确排除：Flutter Web、内嵌 Web 平台、App 内运行 yt-dlp/FFmpeg、客户端 Provider 凭据、DRM 绕过和管理后台。
+- 后续可能：macOS/Windows 桌面端，但必须另立 Design 与验收，不进入首期范围。
 
-仓库同时保留后续 Next.js 实现所需的空目录骨架：
+## 工具链基线
+
+当前开发机已验证：
+
+- Flutter 3.44.7 stable
+- Dart 3.12.2
+
+正式建立工程时应在 CI 与贡献文档中固定一致版本。应用仓库必须提交 `pubspec.lock`，不维护第二套包管理或并行客户端工程。
+
+## 目录骨架
 
 ```text
-public/images/
-scripts/
-src/
-├── app/
-├── components/ui/
-├── hooks/
-├── lib/
-├── services/video/
-├── types/
-└── utils/
-tests/
-├── fixtures/
-├── helpers/
-└── unit/
+assets/                       图片、图标和字体
+integration_test/             真机/模拟器端到端测试
+lib/
+├── app/                      启动、路由和应用级装配
+├── core/                     配置、网络、路由、安全和主题基础设施
+├── features/                 按用户能力组织的纵向模块
+│   ├── account/
+│   ├── analysis/
+│   ├── auth/
+│   ├── download/
+│   ├── history/
+│   └── providers/
+└── shared/                   真正跨功能复用的模型与组件
+test/                         单元与 Widget 测试
+tool/                         受版本控制的生成和校验入口
+docs/                         App 专属 Design、PRD、Plan、Acceptance 与契约说明
 ```
 
-这些目录只包含 `.gitkeep`，用于保留结构，不表示对应模块已经实现。
+目录目前只用 `.gitkeep` 保留结构，不表示对应能力已经实现。Android 与 iOS 平台工程应在基座计划获批后由 `flutter create --platforms=android,ios` 生成，不手工拼装。
 
-## 当前状态
+## 当前阻塞
 
-仓库没有可运行应用，因此不存在安装、启动、测试或构建命令。开始实现前必须先基于现有 `Design → PRD → Plan → Acceptance` 链路明确本仓库范围和独立验收证据，再建立 Next.js App Router 基座；不得直接恢复 Git 历史中的旧 Umi、Ant Design 或旧路由实现。
-
-服务端 API、OpenAPI 契约、统一生产镜像和运行基础设施仍由相邻 `video-server` 维护，本仓库不复制后端实现或部署拓扑。
+`video-server` 现有浏览器鉴权以 HttpOnly Cookie 为中心。原生 App 在实现登录前，需要服务端先冻结可安全轮换、可撤销且使用系统安全存储的原生会话契约；详见 [`docs/contracts/README.md`](docs/contracts/README.md)。

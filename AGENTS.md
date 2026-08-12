@@ -1,82 +1,91 @@
-# Video Web 协作规范
+# 帧取 App 协作规范
 
-本仓库当前只保留从 `video-server` 整理出的规范与证据，不包含可执行 Web 实现。`docs/` 是产品与技术事实入口；其中已经填写的实现与验收证据属于来源仓库基线，不代表本仓库已经实现或通过验收。
+本仓库负责 Flutter 原生客户端。`video-server` 负责 API、Web 平台、异步任务、Provider、对象存储和 AI Worker；默认只读，不在本仓库复制或修改服务端实现。
 
-只修改 `video-web`；相邻 `video-server` 默认仅作为只读上游。开始业务实现前，必须基于当前规范明确 Web 范围、更新对应 Plan，并在 `docs/acceptance/` 冻结本仓库的验收项和证据要求。实现、测试和文档必须反映新的 Next.js 前端，不恢复已删除的 Umi、Ant Design 或旧路由兼容层。
+当前仓库只有规范与空目录骨架。Design/PRD 未确认、Plan 未 Ready、Acceptance 未 Defined 前，不得创建业务实现或生成 Android/iOS 工程。
 
-## 技术边界
+## 唯一事实与交付链
 
-- 使用 Next.js App Router、React、TypeScript strict、Radix UI、shadcn/ui 与 Tailwind CSS。
-- 页面、布局、元数据、loading/error/not-found 边界放在 `src/app/`。
-- 跨页面业务组件放在 `src/components/`；shadcn/ui 源码和 Radix 组合组件放在 `src/components/ui/`。
-- 状态流程放在 `src/hooks/`，请求基础设施放在 `src/lib/`，稳定业务请求入口放在 `src/services/`。
-- 不新增 `src/pages/`、`features/`、Umi/Vite 入口、平行路由器、Ant Design 运行时或第二套基础组件库。
-- 单个文件超过约 200 行时按真实职责拆分，不以转发文件或空抽象规避该约束。
+- 产品与技术事实以 `docs/` 为准，入口为 `docs/README.md`。
+- 交付固定遵循 `Design → PRD → Plan → Acceptance`。
+- 上游变化先更新全部受影响的下游文档；来源服务端的历史证据不能替代 App 独立证据。
+- 不从已删除的 Umi/Next.js 实现恢复页面、路由、依赖或视觉方案。
+- 不保存临时计划、工作日志、缓存、构建产物、签名材料或本地环境文件。
 
-## 常用命令
+## 平台与工具链
 
-有实现后从仓库根目录执行：
+- 首期只支持 Android 与 iOS；禁止启用 Flutter Web。
+- macOS、Windows、Linux、车机或电视端必须先建立独立 Design 和 Acceptance。
+- 使用 Flutter stable 与 Dart；初始基线为 Flutter 3.44.7、Dart 3.12.2。
+- 应用提交 `pubspec.lock`，依赖通过 `flutter pub` 管理，不引入第二套包管理或并行原生业务实现。
+- Android/iOS 工程必须由统一的 `flutter create --platforms=android,ios` 命令生成，并记录组织 ID、应用 ID、最低系统版本和生成命令。
+
+## 目录边界
+
+- `lib/app/`：启动、应用级依赖装配、路由入口和生命周期。
+- `lib/core/`：配置、网络、路由、安全存储、主题和跨功能错误模型。
+- `lib/features/<name>/`：按能力组织页面、状态、领域模型与 repository；功能之间不互相读取内部实现。
+- `lib/shared/`：至少两个功能稳定复用的无业务组件或模型，不作为杂物目录。
+- `test/`：与 `lib/` 职责对应的单元和 Widget 测试；`integration_test/`：真机/模拟器关键流程。
+- `tool/`：OpenAPI 生成、格式检查等可复现入口；生成客户端放在明确的生成目录，禁止手工修改。
+- 单个长期源码文件原则上不超过 200 行，超过时按真实职责拆分。
+
+## 推荐技术决策
+
+以下依赖必须在 Design/Plan 获批后写入 `pubspec.yaml`：
+
+- Riverpod：单向状态和依赖装配。
+- go_router：声明式路由、深链接和认证重定向。
+- Dio：统一 HTTPS、超时、取消、重试和拦截器。
+- OpenAPI Generator 的 `dart-dio`：从 `video-server` OpenAPI 生成请求与模型。
+- flutter_secure_storage：仅保存获批的原生 Refresh Credential；Access Token 只留内存。
+
+不要同时引入 Bloc/GetX/Provider、第二套路由器、第二个 HTTP 客户端或手写平行 DTO。
+
+## API 与状态
+
+- `video-server /openapi.json` 是 REST 唯一契约；WebSocket 事件需要版本化 schema。
+- 页面不得散落 Dio 调用、状态码映射或 Token 刷新逻辑。
+- 自动重试只用于明确幂等且可安全重放的请求；创建任务使用服务端支持的幂等键。
+- App 前后台切换、网络断开和 WebSocket 重连后，必须以服务端查询结果重新收敛状态。
+- 文件只通过服务端授权的短期 URL 获取；下载进度、取消、失败和存储不足必须可恢复。
+
+## 原生鉴权与安全
+
+- 不复用浏览器 localStorage、WebView Cookie 抓取或明文持久化。
+- Access Token 只在内存中存在；Refresh Credential 只能进入 Keychain/Keystore 支持的安全存储。
+- 刷新请求必须单飞，失败后清除会话并回到登录；禁止无限重试。
+- App 不接收 Provider Cookie、平台账号密钥、任意 yt-dlp 参数、Shell 输入或私网 URL。
+- 日志、崩溃报告和分析事件不得包含完整媒体 URL query、Token、用户媒体、预签名 URL 或 AI 原始响应。
+- 发布签名、证书、Provisioning Profile 和商店凭据不得进入 Git。
+
+## 体验与可访问性
+
+- 设计遵循 Material 3，并为 iOS 提供符合系统习惯的导航、返回和权限反馈。
+- 页面必须覆盖初始、加载、成功、空、校验失败、请求失败、离线、禁用、重试和会话过期状态。
+- 支持系统深浅主题、文字缩放、屏幕阅读器、动态字体和 reduced motion。
+- 触控目标、对比度、焦点顺序和语义标签满足 WCAG 2.2 AA 对应要求。
+- 首期不做分享扩展、后台常驻下载、推送通知或离线媒体库，除非先更新 Design。
+
+## 测试与验证
+
+核心逻辑使用 TDD；缺少自动化条件时必须在实现前定义最接近的可执行验收。工程建立后至少运行：
 
 ```bash
-npm ci
-npm run openapi
-npm run lint
-npm run format:check
-npm test
-npm run build
+flutter pub get
+dart format --output=none --set-exit-if-changed .
+flutter analyze
+flutter test
+flutter test integration_test
+flutter build apk --debug
+flutter build ios --simulator --no-codesign
 ```
 
-使用 npm 和仓库 `package-lock.json`，Node/npm 版本以 `package.json`、`video-server` 统一镜像和 CI 的一致配置为准。不要引入 yarn、pnpm 或第二份锁文件。当前仓库没有依赖清单，这些命令在实现基座建立前不适用。
+涉及真实鉴权、WebSocket、文件下载、深链接、权限或生命周期时，Mock 不能替代与 `video-server` 的真实集成证据。缺少环境、凭据、设备或证据时结论只能是 `blocked`。
 
-## OpenAPI 与请求
+## Git 与交付
 
-- `/openapi.json` 是前后端唯一接口契约，生成配置位于 `openapi2ts.config.ts`。
-- `src/services/video/` 由独立的 `@umijs/openapi` 生成，禁止手工修改、复制类型或创建平行客户端。
-- 接口变化时先更新 FastAPI schema 与稳定 `operationId`/tag，启动 API 后运行 `npm run openapi`。
-- 生成函数必须通过 `src/lib/request.ts` 的同源 Axios 封装；业务组件只调用 `src/services/` 暴露的稳定入口。
-- 请求层统一处理 RFC Problem Details、超时和认证恢复；页面中不得散落原始 Axios/fetch、401 刷新或错误码映射。
-
-## 客户端鉴权
-
-- Access JWT 与 Refresh JWT 只存在于 HttpOnly Cookie，前端不得读取、持久化或复制令牌。
-- Access 失效时最多刷新并重试原请求一次；刷新失败后收敛到未登录状态，禁止无限重试。
-- 登录后的返回地址必须是经过校验的同源路径，不能接受任意外部跳转。
-- 客户端路由和导航可按当前用户隐藏管理员入口，但后端 403 始终是最终权限判定。
-- 退出登录后清理内存中的用户态并返回登录页，不将业务数据当作会话凭据保存在浏览器。
-
-## App Router 与静态导出
-
-- 优先使用 Server Component；只有交互、状态或浏览器 API 需要时才添加 `'use client'`，并把客户端边界控制在最小范围。
-- 动态任务路由必须为静态导出提供可构建的壳层，并在客户端读取运行时参数；不得依赖 Next.js Server、Server Action 或生产时动态渲染。
-- `next.config.ts` 保持 static export，生产构建产物为 `out/`。
-- `video-server` 的统一镜像负责把 `out/` 复制到 `/app/frontend/out`，由 FastAPI 同源提供页面、`/api/*` 和 `/health/*`；不要在本仓库增加独立前端生产容器。
-- 开发代理只服务本地联调，业务代码始终使用同源相对路径。
-- 深链接刷新必须返回对应页面；未知 `/api/*` 不得回退到 HTML。
-
-## 组件与样式
-
-- 优先复用 `src/components/ui/` 和已有业务组件；Radix primitive 负责菜单、对话框、选择、标签页等交互语义。
-- 样式只使用 Tailwind CSS 与 `src/app/globals.css` 中的语义 token，不新增 Less、CSS-in-JS 主题或 Ant Design token。
-- 唯一视觉基线是用户确认的方案 3：Vercel Home 式无边框中性界面。浅色使用 `#FAFAFA` 画布、`#0A0A0A` 前景和 `#111111` 主操作；深色使用 `#0A0A0A` 画布与 `#F5F5F5` 前景。状态、表面和文字只消费 `globals.css` 的语义 token，不恢复蓝色企业后台或 Apple 蓝主操作。
-- 80px Header 与常规 main/footer 复用 `.content-shell = min(calc(100% - 160px), 1376px)`，保证导航和主体对齐；根滚动容器必须保留稳定的 scrollbar gutter，Header 的异步账户区域必须使用固定宽度槽位，禁止因页面长短或认证恢复改变导航几何。认证双栏 main 是唯一例外，可使用更宽的 `.page-shell = min(calc(100% - 80px), 1456px)`，右侧表单在内部收窄到 440px，不足 `lg` 时隐藏介绍栏并水平居中。完整桌面导航从 `lg` 开始展示，其余宽度使用移动 Sheet。641–1023px 时常规内容两侧各 32px，不超过 640px 时两种网格两侧各 16px。网格只提供对齐，不得呈现为可见外框。
-- 字体统一为自托管 Geist Sans/Mono 与仓库规定的中文系统回退。首页编辑式标题使用 `.editorial-title` 响应式尺度；内页使用短标题与清晰层级，不强制旧的 32px/28px 固定尺寸。页面主标题上方只有真实流程编号可以使用 `.eyebrow`，不得添加“任务记录”“账户设置”“系统管理”等装饰性重复眉题；区段标签也应克制且不与标题重复。
-- Vercel 风格的无边框布局依靠留白、排版、实心中性表面和 Separator 组织内容。页面根、标题区、筛选区、列表区和表单区不使用可见 Card 外壳、装饰性 ring、重阴影或大圆角容器；输入、选择器和按钮默认无边框。焦点、错误、表格/列表分隔及 Dialog、Sheet 等覆盖层的功能边界必须保留。因语义复用 Card 时使用 `border-0`、`ring-0`、`shadow-none`，不得 Card 套 Card。
-- 基础圆角只从 `--radius: 6px` 派生，不在业务组件中硬编码近似主题色、任意圆角或一次性阴影；修改 token、网格或基础控件时同步根规范、009 设计文档与必要测试。
-- 基础控件的 hover、active、loading 和选中反馈不得改变外部几何尺寸或在文档流中位移；Button、Link 与 Radix Trigger 只过渡颜色、透明度及覆盖层属性，异步内容使用与最终摘要、工具条或操作同尺寸的固定槽位。Radix `asChild` 只组合语义和行为，不得借此注入让触发器位移的共享样式。
-- 功能图标统一使用 `@phosphor-icons/react`；品牌标识通过 Next.js `Image` 使用 `public/logo.svg`。不使用 emoji、文本符号、手写 SVG、CSS 图形或第二套图标库代替产品图标。
-- 所有已认证的非首页页面与多步骤流程都使用统一 `BackLink`：有精确站内上一条历史时执行浏览器后退，直接访问时落到稳定的层级 fallback。登录与注册不显示通用历史返回，只使用彼此的交叉链接和校验后的 `redirect`，避免过期受保护页面形成认证循环。
-
-## 可访问性与响应式
-
-- 使用原生语义元素和 Radix 的键盘行为；不要用带点击事件的 `div` 代替按钮、链接或表单控件。
-- 控件必须有可关联标签，错误与异步状态需要可被辅助技术感知，焦点顺序和焦点环必须可见。
-- 保持足够颜色对比度，不能只靠颜色表达状态，并尊重 `prefers-reduced-motion`。
-- 桌面与 390px 视口都要检查页面级横向溢出、内容裁切、点击目标、表格/筛选降级和主操作可达性。
-
-## 修改与验证
-
-- 修改前先阅读相邻页面、组件、服务、测试和根 `README.md`；当前没有实现时，不得从已删除历史代码恢复旧架构。
-- 不编辑生成目录、构建产物、`.next/`、`out/`、`node_modules/` 或旧 `.umi/` 缓存。
-- 页面实现必须覆盖规范冻结的路由、认证恢复、下载/分析状态、历史筛选、资料修改和管理员权限行为。
-- 根据改动范围执行最小充分测试；前端架构或组件迁移完成后至少运行 lint、format、tests 和 production build。
-- 涉及 OpenAPI 时重新生成客户端并检查差异；涉及静态交付时验证根镜像仍从 `out/` 复制到 FastAPI 的 dist 目录。
+- 提交使用中文 Conventional Commits，每个提交职责单一。
+- 不强推、不改写远端、不静默提交无关改动。
+- 只有用户明确要求时才提交、推送、创建 PR、改仓库设置或发布商店制品。
+- 交付说明包含改动、验证、Acceptance 结论、残余风险、分支、提交、推送与工作区状态。

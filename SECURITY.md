@@ -1,23 +1,22 @@
 # Security Policy
 
-> 本仓库当前不包含可执行实现。以下内容是从 `video-server` 继承的产品安全边界，也是后续 Web 实现不得降低的要求；服务端部署项由 `video-server` 负责。
-
 ## 产品边界
 
-本项目只处理用户有权下载和分析的公开、非 DRM HTTP(S) 内容。不得在普通业务请求中提交账号凭据、Cookie、私网 URL，或使用本项目规避访问控制、版权保护和平台授权。005 允许运维在独立 Runner 中为 allowlist Provider 配置最小权益会话；该能力不允许 private、会员、购买或 DRM 内容。
+帧取 App 只作为 `video-server` 的受控原生客户端，处理用户有权下载和分析的内容。App 不在设备上实现平台 extractor、DRM 绕过、客户端签名逆向、密钥提取或任意媒体命令。
 
-## 强制控制
+## 客户端控制
 
-- 生产环境必须替换 `.env.prod.example` 中的全部占位凭据；配置校验会拒绝开发密钥。
-- 匿名 Media Runner 不得获得 Provider Secret；凭据 Runner 只能获得对应 Provider 的版本化只读 Secret。所有 Runner 均不得获得 PostgreSQL、RabbitMQ、MinIO、Valkey 或 AI provider 凭据，也不得挂载 Docker socket。
-- 用户 URL 只加密持久化；普通日志、消息和 API 错误中不得出现完整 URL query。
-- 外部媒体流量只能经过 egress proxy；入口校验不是 SSRF 防线的替代品。
-- `POST /api/inspections` 等普通 JSON 接口不接受原始 Cookie；受控 Cookie 只能通过 005 运维 Secret 生命周期进入凭据 Runner。任意 yt-dlp 参数、shell 命令、输出路径或文件名模板始终不接受。
+- 只连接用户明确配置且通过 TLS 校验的服务端；生产环境禁止明文 HTTP 和任意证书信任。
+- Access Token 仅驻留内存；可轮换的 Refresh Credential 仅保存在 iOS Keychain 或 Android Keystore 支持的安全存储中。
+- 不通过 WebView、剪贴板、日志、崩溃报告或分析 SDK 传递 Token、Cookie、完整 URL query、预签名 URL 或用户媒体。
+- 外部链接、深链接和服务端地址必须经过 scheme、host、端口和重定向校验，拒绝私网探测与开放跳转。
+- 文件下载必须校验任务归属、大小上限、可用空间和服务端提供的完整性信息；失败或取消时清理临时文件。
+- 发布签名、证书、Provisioning Profile、商店 API Key 和环境配置不得进入仓库。
 
 ## 报告漏洞
 
-请不要在公开 Issue 中披露可利用细节、密钥或用户内容。通过仓库所有者提供的私有安全报告渠道提交复现条件、影响范围和最小 PoC；维护者完成分级和修复后再协调披露。
+请使用 GitHub 私有安全报告渠道提交复现条件、影响范围和最小 PoC，不要在公开 Issue 中披露凭据、用户内容或可利用细节。
 
 ## 发布门禁
 
-涉及 URL、Runner、子进程、对象存储、会话、队列或模型输入的变更，必须包含对应的滥用/失败测试，并通过 `AGENTS.md` 规定的全部质量门禁。
+认证、深链接、网络、文件、日志、存储、WebSocket 或平台权限变化必须包含滥用/失败测试，并通过 `AGENTS.md` 与对应 Acceptance 规定的全部门禁。
