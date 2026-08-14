@@ -4,15 +4,16 @@
 
 ## 当前状态
 
-Flutter 技术选型与可构建工程骨架已经建立：
+Flutter 技术选型、可构建工程骨架和首个 Web 对齐的 App 表现层已经建立：
 
 - Flutter 3.44.7 stable / Dart 3.12.2。
 - Android API 24+、iOS 13+，Application ID 与 Bundle ID 均为 `com.stephenqiu.framegrab`。
-- Material 3 深浅主题、中文/英文本地化与类型安全路由骨架。
+- Material 3 深浅主题、中文/英文本地化、类型安全路由与四目的地底部菜单。
+- 首页复用 Web 同源品牌 SVG、语义色、6px 圆角、编辑式标题、链接输入和状态文案，并按原生触控与安全区重排。
 - Riverpod、go_router、Dio、OpenAPI Generator 与 flutter_secure_storage 的职责、版本和安全边界已冻结，但尚未实现业务会话或 API 调用。
 - 单元测试、Widget 测试以及 Android/iOS 构建 CI。
 
-当前 UI 只是非业务占位和视觉 token 验证，不宣称下载业务已接通。后续实现以 `video-server/frontend/src/app/globals.css` 的语义色、6px 圆角和内容优先层级为视觉来源，再适配移动端导航、触控和系统语义。`video-server` 仍使用浏览器 HttpOnly Cookie；原生契约冻结前不进入业务实现，详见 [`docs/contracts/README.md`](docs/contracts/README.md)。
+当前首页表现层与本地 URL 校验已经实现，但不宣称下载业务已接通。历史和平台页签显示准确的契约未开放状态，“我的”只承载本地主题切换。后续页面继续以 `video-server/frontend/src/app/globals.css` 的语义色、6px 圆角和内容优先层级为视觉来源，再适配原生导航、触控和系统语义。`video-server` 仍使用浏览器 HttpOnly Cookie；原生契约冻结前不进入真实业务实现，详见 [`docs/contracts/README.md`](docs/contracts/README.md)。
 
 ## 本地开发
 
@@ -24,7 +25,7 @@ flutter pub get
 ./tool/check.sh
 ```
 
-iOS 或 Android 模拟器运行当前非业务占位页：
+iOS 或 Android 模拟器运行当前表现层：
 
 ```bash
 flutter run

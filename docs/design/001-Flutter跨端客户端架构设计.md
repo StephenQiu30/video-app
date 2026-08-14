@@ -66,6 +66,7 @@ lib/
 | 契约 | OpenAPI Generator `dart-dio` | 7.22.0 | Apache-2.0 | 使用稳定生成器和冻结快照；生成包只读，不手写平行 DTO |
 | Secret | flutter_secure_storage | 10.3.1 | BSD-3-Clause | Android 独立 namespace + Keystore、iOS 本机不迁移 Keychain；只保存获批 Refresh Credential |
 | 本地化 | Flutter gen-l10n / intl | SDK / 0.20.2 | BSD-3-Clause | ARB 是 UI 文案事实来源，首期 `zh` / `en` |
+| 品牌 SVG | flutter_svg | 2.3.0 | MIT | 只用于渲染与 Web 同源的受控本地 SVG 资产，不加载远程图像 |
 | 代码生成 | build_runner | 2.15.1 | BSD-3-Clause | 这是与 Flutter 3.44.7 的 `meta` 固定版本兼容的最高解析版本 |
 
 [`flutter_secure_storage` 11.0.0](https://pub.dev/packages/flutter_secure_storage/changelog) 虽已发布，但它要求 Android `compileSdk 37`，而 Flutter 3.44.7 默认基线为 36，并且该主版本移除了 v10 已废弃算法的兼容路径。本阶段因此固定已验证的 10.3.1，待 Flutter 工具链对齐且有安全存储实现时单独评审升级。

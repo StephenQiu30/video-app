@@ -104,65 +104,191 @@ abstract class AppLocalizations {
   /// **'帧取'**
   String get appTitle;
 
-  /// No description provided for @foundationEyebrow.
+  /// No description provided for @homeLinkLabel.
   ///
   /// In zh, this message translates to:
-  /// **'移动客户端 / 技术基座'**
-  String get foundationEyebrow;
+  /// **'帧取首页'**
+  String get homeLinkLabel;
 
-  /// No description provided for @foundationTitle.
+  /// No description provided for @openNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'打开导航菜单'**
+  String get openNavigation;
+
+  /// No description provided for @navigationDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'访问视频解析、下载任务与应用外观。'**
+  String get navigationDescription;
+
+  /// No description provided for @videoInspectionNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'视频解析'**
+  String get videoInspectionNavigation;
+
+  /// No description provided for @downloadHistoryNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载记录'**
+  String get downloadHistoryNavigation;
+
+  /// No description provided for @providerStatusNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台状态'**
+  String get providerStatusNavigation;
+
+  /// No description provided for @accountNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'我的'**
+  String get accountNavigation;
+
+  /// No description provided for @downloadHistoryDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索、筛选并恢复当前账户的下载任务，查看进度、失败原因与文件状态。'**
+  String get downloadHistoryDescription;
+
+  /// No description provided for @downloadHistoryPendingTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载记录尚未开放'**
+  String get downloadHistoryPendingTitle;
+
+  /// No description provided for @downloadHistoryPendingDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'原生认证与下载查询契约冻结后，这里将展示当前账户的真实任务与恢复状态。'**
+  String get downloadHistoryPendingDescription;
+
+  /// No description provided for @providerStatusDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看服务端公开的能力、访问模式与最近验证状态，不展示账号、Cookie 或探针信息。'**
+  String get providerStatusDescription;
+
+  /// No description provided for @providerStatusPendingTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台状态尚未开放'**
+  String get providerStatusPendingTitle;
+
+  /// No description provided for @providerStatusPendingDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'原生会话契约冻结后，这里将读取服务端返回的真实平台能力，不显示模拟数据。'**
+  String get providerStatusPendingDescription;
+
+  /// No description provided for @accountDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'管理个人资料、登录状态和应用外观。'**
+  String get accountDescription;
+
+  /// No description provided for @appearanceSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'外观'**
+  String get appearanceSection;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'账户'**
+  String get accountSection;
+
+  /// No description provided for @darkThemeLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'深色外观'**
+  String get darkThemeLabel;
+
+  /// No description provided for @themeToggleDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'在深色与浅色主题间切换'**
+  String get themeToggleDescription;
+
+  /// No description provided for @nativeContractPendingShort.
+  ///
+  /// In zh, this message translates to:
+  /// **'登录、账户资料与退出将在原生会话契约冻结后开放。'**
+  String get nativeContractPendingShort;
+
+  /// No description provided for @downloadHomeTitle.
   ///
   /// In zh, this message translates to:
   /// **'把视频，\n带回本地。'**
-  String get foundationTitle;
+  String get downloadHomeTitle;
 
-  /// No description provided for @foundationDescription.
+  /// No description provided for @downloadHomeDescription.
   ///
   /// In zh, this message translates to:
-  /// **'面向 iOS 与 Android 的 Flutter 工程骨架已建立。当前只固化技术选型与视觉基线，尚未进入业务实现。'**
-  String get foundationDescription;
+  /// **'粘贴你有权处理的公开视频链接，读取媒体信息，选择画质并创建可追踪的下载任务。'**
+  String get downloadHomeDescription;
 
-  /// No description provided for @platformLabel.
+  /// No description provided for @mediaUrlHint.
   ///
   /// In zh, this message translates to:
-  /// **'目标平台'**
-  String get platformLabel;
+  /// **'粘贴公开的视频链接'**
+  String get mediaUrlHint;
 
-  /// No description provided for @platformValue.
+  /// No description provided for @mediaUrlLabel.
   ///
   /// In zh, this message translates to:
-  /// **'Android API 24+ / iOS 13+'**
-  String get platformValue;
+  /// **'公开视频地址'**
+  String get mediaUrlLabel;
 
-  /// No description provided for @technologySelectionLabel.
+  /// No description provided for @clearMediaUrl.
   ///
   /// In zh, this message translates to:
-  /// **'选型范围'**
-  String get technologySelectionLabel;
+  /// **'清空链接'**
+  String get clearMediaUrl;
 
-  /// No description provided for @technologySelectionValue.
+  /// No description provided for @inspectMedia.
   ///
   /// In zh, this message translates to:
-  /// **'架构、路由、状态、网络、契约与安全存储'**
-  String get technologySelectionValue;
+  /// **'解析媒体'**
+  String get inspectMedia;
 
-  /// No description provided for @contractBoundaryLabel.
+  /// No description provided for @inspectingMedia.
   ///
   /// In zh, this message translates to:
-  /// **'实现状态'**
-  String get contractBoundaryLabel;
+  /// **'解析中…'**
+  String get inspectingMedia;
 
-  /// No description provided for @contractBoundaryValue.
+  /// No description provided for @mediaUrlError.
   ///
   /// In zh, this message translates to:
-  /// **'业务页面、原生会话与服务 API 尚未实现'**
-  String get contractBoundaryValue;
+  /// **'请输入有效的公开 HTTP(S) 视频地址。'**
+  String get mediaUrlError;
 
-  /// No description provided for @foundationFootnote.
+  /// No description provided for @nativeContractPending.
   ///
   /// In zh, this message translates to:
-  /// **'该页面仅用于验证 Flutter 工程、路由、本地化和来自 Web 端的视觉 token，不代表任何业务能力已完成。'**
-  String get foundationFootnote;
+  /// **'页面表现层已经就绪；原生认证与服务契约尚未冻结，暂不能提交真实解析请求。'**
+  String get nativeContractPending;
+
+  /// No description provided for @operationFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'操作未完成，请稍后重试。'**
+  String get operationFailed;
+
+  /// No description provided for @legalMediaStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'请仅提交你有权处理的公开链接'**
+  String get legalMediaStatus;
+
+  /// No description provided for @privacyStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'请勿提交包含账号或访问凭据的链接'**
+  String get privacyStatus;
 }
 
 class _AppLocalizationsDelegate
