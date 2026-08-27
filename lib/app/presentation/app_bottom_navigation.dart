@@ -26,14 +26,19 @@ final class AppBottomNavigation extends StatelessWidget {
         onDestinationSelected: onDestinationSelected,
         destinations: [
           _destination(
-            icon: Icons.link_rounded,
-            selectedIcon: Icons.link_rounded,
-            label: localizations.videoInspectionNavigation,
+            icon: Icons.home_outlined,
+            selectedIcon: Icons.home_rounded,
+            label: localizations.homeNavigation,
           ),
           _destination(
             icon: Icons.history_rounded,
             selectedIcon: Icons.history_rounded,
             label: localizations.downloadHistoryNavigation,
+          ),
+          _destination(
+            icon: Icons.description_outlined,
+            selectedIcon: Icons.description_rounded,
+            label: localizations.screenplayDocumentsNavigation,
           ),
           _destination(
             icon: Icons.monitor_heart_outlined,

@@ -119,20 +119,26 @@ abstract class AppLocalizations {
   /// No description provided for @navigationDescription.
   ///
   /// In zh, this message translates to:
-  /// **'访问视频解析、下载任务与应用外观。'**
+  /// **'访问素材导入、下载记录、剧本文档、平台状态与账户设置。'**
   String get navigationDescription;
 
-  /// No description provided for @videoInspectionNavigation.
+  /// No description provided for @homeNavigation.
   ///
   /// In zh, this message translates to:
-  /// **'视频解析'**
-  String get videoInspectionNavigation;
+  /// **'首页'**
+  String get homeNavigation;
 
   /// No description provided for @downloadHistoryNavigation.
   ///
   /// In zh, this message translates to:
   /// **'下载记录'**
   String get downloadHistoryNavigation;
+
+  /// No description provided for @screenplayDocumentsNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本文档'**
+  String get screenplayDocumentsNavigation;
 
   /// No description provided for @providerStatusNavigation.
   ///
@@ -149,7 +155,7 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryDescription.
   ///
   /// In zh, this message translates to:
-  /// **'搜索、筛选并恢复当前账户的下载任务，查看进度、失败原因与文件状态。'**
+  /// **'搜索、筛选并恢复下载任务，查看进度、失败原因、完成后视频预览、文件状态与 AI 分析入口。'**
   String get downloadHistoryDescription;
 
   /// No description provided for @downloadHistoryPendingTitle.
@@ -161,13 +167,31 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryPendingDescription.
   ///
   /// In zh, this message translates to:
-  /// **'原生认证与下载查询契约冻结后，这里将展示当前账户的真实任务与恢复状态。'**
+  /// **'原生认证、任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。'**
   String get downloadHistoryPendingDescription;
+
+  /// No description provided for @screenplayDocumentsDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看剧本文档的导入状态、提取规模、规范化预览，以及分析与改写结果。'**
+  String get screenplayDocumentsDescription;
+
+  /// No description provided for @screenplayDocumentsPendingTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本文档尚未开放'**
+  String get screenplayDocumentsPendingTitle;
+
+  /// No description provided for @screenplayDocumentsPendingDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'原生上传、文档查询与文件授权契约冻结后，这里将展示真实剧本文档和处理结果。'**
+  String get screenplayDocumentsPendingDescription;
 
   /// No description provided for @providerStatusDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看服务端公开的能力、访问模式与最近验证状态，不展示账号、Cookie 或探针信息。'**
+  /// **'查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。'**
   String get providerStatusDescription;
 
   /// No description provided for @providerStatusPendingTitle.
@@ -221,25 +245,85 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHomeTitle.
   ///
   /// In zh, this message translates to:
-  /// **'把视频，\n带回本地。'**
+  /// **'把素材，\n带回本地。'**
   String get downloadHomeTitle;
 
   /// No description provided for @downloadHomeDescription.
   ///
   /// In zh, this message translates to:
-  /// **'粘贴你有权处理的公开视频链接，读取媒体信息，选择画质并创建可追踪的下载任务。'**
+  /// **'解析公开视频链接，或导入你有权处理的本地视频与剧本文档。'**
   String get downloadHomeDescription;
+
+  /// No description provided for @linkIntakeMode.
+  ///
+  /// In zh, this message translates to:
+  /// **'链接解析'**
+  String get linkIntakeMode;
+
+  /// No description provided for @videoIntakeMode.
+  ///
+  /// In zh, this message translates to:
+  /// **'本地视频'**
+  String get videoIntakeMode;
+
+  /// No description provided for @screenplayIntakeMode.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本文档'**
+  String get screenplayIntakeMode;
+
+  /// No description provided for @linkIntakeSupport.
+  ///
+  /// In zh, this message translates to:
+  /// **'支持公开视频、微信视频号单作品和微信公众号文章链接；文章发现多个视频后必须明确选择。'**
+  String get linkIntakeSupport;
+
+  /// No description provided for @videoIntakeTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入本地视频'**
+  String get videoIntakeTitle;
+
+  /// No description provided for @videoIntakeDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择你拥有或已获授权的明文视频文件，服务端完成隔离校验后进入下载记录与 AI 分析。'**
+  String get videoIntakeDescription;
+
+  /// No description provided for @selectVideoFile.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择视频文件'**
+  String get selectVideoFile;
+
+  /// No description provided for @screenplayIntakeTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入剧本文档'**
+  String get screenplayIntakeTitle;
+
+  /// No description provided for @screenplayIntakeDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择 TXT、DOCX 或 PDF 剧本，服务端将提取规范化预览并支持分析与改写。'**
+  String get screenplayIntakeDescription;
+
+  /// No description provided for @selectScreenplayFile.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择剧本文件'**
+  String get selectScreenplayFile;
 
   /// No description provided for @mediaUrlHint.
   ///
   /// In zh, this message translates to:
-  /// **'粘贴公开的视频链接'**
+  /// **'粘贴公开的视频或文章链接'**
   String get mediaUrlHint;
 
   /// No description provided for @mediaUrlLabel.
   ///
   /// In zh, this message translates to:
-  /// **'公开视频地址'**
+  /// **'公开内容地址'**
   String get mediaUrlLabel;
 
   /// No description provided for @clearMediaUrl.
@@ -271,6 +355,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'页面表现层已经就绪；原生认证与服务契约尚未冻结，暂不能提交真实解析请求。'**
   String get nativeContractPending;
+
+  /// No description provided for @nativeUploadContractPending.
+  ///
+  /// In zh, this message translates to:
+  /// **'页面结构已与服务端同步；原生上传、会话与文件授权契约尚未冻结，暂不能选择或提交真实文件。'**
+  String get nativeUploadContractPending;
 
   /// No description provided for @operationFailed.
   ///

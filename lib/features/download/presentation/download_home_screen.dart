@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/app/presentation/app_bottom_navigation.dart';
 import 'package:framegrab/features/download/application/inspect_media_intent.dart';
 import 'package:framegrab/features/download/application/media_url_input.dart';
+import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/features/download/presentation/download_home_content.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
@@ -23,6 +24,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
   String? _error;
   bool _urlInvalid = false;
   int _selectedIndex = 0;
+  ContentIntakeMode _selectedIntakeMode = ContentIntakeMode.link;
   DownloadNoticeTone _statusTone = DownloadNoticeTone.destructive;
 
   @override
@@ -82,6 +84,15 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
     });
   }
 
+  void _showPendingContract() {
+    final localizations = AppLocalizations.of(context);
+    setState(() {
+      _error = localizations.nativeUploadContractPending;
+      _urlInvalid = false;
+      _statusTone = DownloadNoticeTone.neutral;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -95,6 +106,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             controller: _urlController,
             error: _error,
             invalid: _urlInvalid,
+            mode: _selectedIntakeMode,
             onChanged: (_) {
               setState(() {
                 if (_error != null) _error = null;
@@ -103,6 +115,15 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
               });
             },
             onClear: _clear,
+            onModeChanged: (mode) {
+              setState(() {
+                _selectedIntakeMode = mode;
+                _error = null;
+                _urlInvalid = false;
+                _statusTone = DownloadNoticeTone.destructive;
+              });
+            },
+            onPendingAction: _showPendingContract,
             onSubmit: () {
               _submit();
             },
@@ -113,6 +134,12 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             pageTitle: localizations.downloadHistoryNavigation,
             title: localizations.downloadHistoryPendingTitle,
             description: localizations.downloadHistoryPendingDescription,
+          ),
+          ContractPendingView(
+            pageDescription: localizations.screenplayDocumentsDescription,
+            pageTitle: localizations.screenplayDocumentsNavigation,
+            title: localizations.screenplayDocumentsPendingTitle,
+            description: localizations.screenplayDocumentsPendingDescription,
           ),
           ContractPendingView(
             pageDescription: localizations.providerStatusDescription,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_hero.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
 
@@ -8,8 +9,11 @@ final class DownloadHomeContent extends StatelessWidget {
     required this.controller,
     required this.error,
     required this.invalid,
+    required this.mode,
     required this.onChanged,
     required this.onClear,
+    required this.onModeChanged,
+    required this.onPendingAction,
     required this.onSubmit,
     required this.statusTone,
     super.key,
@@ -19,8 +23,11 @@ final class DownloadHomeContent extends StatelessWidget {
   final TextEditingController controller;
   final String? error;
   final bool invalid;
+  final ContentIntakeMode mode;
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
+  final ValueChanged<ContentIntakeMode> onModeChanged;
+  final VoidCallback onPendingAction;
   final VoidCallback onSubmit;
   final DownloadNoticeTone statusTone;
 
@@ -52,8 +59,11 @@ final class DownloadHomeContent extends StatelessWidget {
                         busy: busy,
                         controller: controller,
                         invalid: invalid,
+                        mode: mode,
                         onChanged: onChanged,
                         onClear: onClear,
+                        onModeChanged: onModeChanged,
+                        onPendingAction: onPendingAction,
                         onSubmit: onSubmit,
                       ),
                       if (error != null) ...[

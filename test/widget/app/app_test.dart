@@ -17,14 +17,41 @@ void main() {
 
     expect(find.text('帧取'), findsOneWidget);
     expect(find.textContaining(RegExp(r'^\d{2} /')), findsNothing);
-    expect(find.text('把视频，\n带回本地。'), findsOneWidget);
+    expect(find.text('把素材，\n带回本地。'), findsOneWidget);
     expect(find.text('解析媒体'), findsOneWidget);
+    expect(find.text('链接解析'), findsOneWidget);
+    expect(find.text('本地视频'), findsOneWidget);
+    expect(find.text('剧本文档'), findsNWidgets(2));
     expect(find.textContaining('有权处理的公开链接'), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.text('首页'), findsOneWidget);
     expect(find.text('下载记录'), findsOneWidget);
     expect(find.text('平台状态'), findsOneWidget);
     expect(find.text('我的'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('switches intake modes and keeps remote actions fail closed', (
+    tester,
+  ) async {
+    await _setMobileViewport(tester);
+    await _pumpApp(tester);
+
+    await tester.tap(find.text('本地视频'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('导入本地视频'), findsOneWidget);
+    expect(find.text('选择视频文件'), findsOneWidget);
+    expect(find.byKey(const Key('media-url-input')), findsNothing);
+
+    await tester.tap(find.text('选择视频文件'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('原生上传、会话与文件授权契约'), findsOneWidget);
+
+    await tester.tap(find.text('剧本文档').first);
+    await tester.pumpAndSettle();
+    expect(find.text('导入剧本文档'), findsOneWidget);
+    expect(find.text('选择剧本文件'), findsOneWidget);
   });
 
   testWidgets('shows validation feedback without invoking an intent', (
@@ -92,7 +119,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('下载记录尚未开放'), findsOneWidget);
-    expect(find.textContaining('真实任务与恢复状态'), findsOneWidget);
+    expect(find.textContaining('真实任务、视频预览和分析状态'), findsOneWidget);
 
     final title = tester.getSemantics(
       find.byKey(const Key('page-title-heading')),
@@ -104,6 +131,31 @@ void main() {
     expect(title.flagsCollection.isHeader, isTrue);
     expect(description.label, contains('搜索、筛选并恢复'));
     expect(description.flagsCollection.isHeader, isFalse);
+
+    await tester.tap(find.text('剧本文档').last);
+    await tester.pumpAndSettle();
+    expect(find.text('剧本文档尚未开放'), findsOneWidget);
+    expect(find.textContaining('规范化预览'), findsOneWidget);
+  });
+
+  testWidgets('keeps the link input when navigating between destinations', (
+    tester,
+  ) async {
+    await _pumpApp(tester);
+
+    await tester.enterText(
+      find.byKey(const Key('media-url-input')),
+      'https://media.example/kept',
+    );
+    await tester.tap(find.text('下载记录'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('首页'));
+    await tester.pumpAndSettle();
+
+    final input = tester.widget<TextField>(
+      find.byKey(const Key('media-url-input')),
+    );
+    expect(input.controller?.text, 'https://media.example/kept');
   });
 
   testWidgets('opens Me from the bottom bar and switches appearance', (

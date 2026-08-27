@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
+import 'package:framegrab/features/download/presentation/link_intake_form.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 
 final class DownloadHero extends StatelessWidget {
@@ -7,8 +9,11 @@ final class DownloadHero extends StatelessWidget {
     required this.busy,
     required this.controller,
     required this.invalid,
+    required this.mode,
     required this.onChanged,
     required this.onClear,
+    required this.onModeChanged,
+    required this.onPendingAction,
     required this.onSubmit,
     super.key,
   });
@@ -16,8 +21,11 @@ final class DownloadHero extends StatelessWidget {
   final bool busy;
   final TextEditingController controller;
   final bool invalid;
+  final ContentIntakeMode mode;
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
+  final ValueChanged<ContentIntakeMode> onModeChanged;
+  final VoidCallback onPendingAction;
   final VoidCallback onSubmit;
 
   @override
@@ -51,112 +59,43 @@ final class DownloadHero extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.xxLarge),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final input = _UrlInput(
-              controller: controller,
-              invalid: invalid,
-              onChanged: onChanged,
-              onClear: onClear,
-              onSubmit: onSubmit,
-            );
-            final button = FilledButton.icon(
-              key: const Key('inspect-media-button'),
-              onPressed: busy ? null : onSubmit,
-              icon: busy
-                  ? const SizedBox.square(
-                      dimension: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.download_outlined, size: 20),
-              label: Text(
-                busy
-                    ? localizations.inspectingMedia
-                    : localizations.inspectMedia,
-              ),
-            );
-
-            if (constraints.maxWidth >= 600) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: input),
-                  const SizedBox(width: AppSpacing.xSmall),
-                  SizedBox(width: 148, child: button),
-                ],
-              );
-            }
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                input,
-                const SizedBox(height: AppSpacing.xSmall),
-                button,
-              ],
-            );
-          },
+        SizedBox(
+          height: 64,
+          child: ContentIntakeSelector(
+            linkLabel: localizations.linkIntakeMode,
+            onChanged: onModeChanged,
+            screenplayLabel: localizations.screenplayIntakeMode,
+            selected: mode,
+            videoLabel: localizations.videoIntakeMode,
+          ),
         ),
+        const SizedBox(height: AppSpacing.large),
+        if (mode == ContentIntakeMode.link)
+          LinkIntakeForm(
+            busy: busy,
+            controller: controller,
+            invalid: invalid,
+            onChanged: onChanged,
+            onClear: onClear,
+            onSubmit: onSubmit,
+          )
+        else if (mode == ContentIntakeMode.video)
+          PendingIntakePanel(
+            actionLabel: localizations.selectVideoFile,
+            description: localizations.videoIntakeDescription,
+            icon: Icons.video_file_outlined,
+            onPressed: onPendingAction,
+            title: localizations.videoIntakeTitle,
+          )
+        else
+          PendingIntakePanel(
+            actionLabel: localizations.selectScreenplayFile,
+            description: localizations.screenplayIntakeDescription,
+            icon: Icons.description_outlined,
+            onPressed: onPendingAction,
+            title: localizations.screenplayIntakeTitle,
+          ),
       ],
-    );
-  }
-}
-
-final class _UrlInput extends StatelessWidget {
-  const _UrlInput({
-    required this.controller,
-    required this.invalid,
-    required this.onChanged,
-    required this.onClear,
-    required this.onSubmit,
-  });
-
-  final TextEditingController controller;
-  final bool invalid;
-  final ValueChanged<String> onChanged;
-  final VoidCallback onClear;
-  final VoidCallback onSubmit;
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
-    final invalidBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(6),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.error,
-        width: 2,
-      ),
-    );
-
-    return Semantics(
-      label: localizations.mediaUrlLabel,
-      child: TextField(
-        key: const Key('media-url-input'),
-        controller: controller,
-        autocorrect: false,
-        autofillHints: const [AutofillHints.url],
-        enableSuggestions: false,
-        keyboardType: TextInputType.url,
-        maxLength: 4096,
-        onChanged: onChanged,
-        onSubmitted: (_) => onSubmit(),
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-          counterText: '',
-          enabledBorder: invalid ? invalidBorder : null,
-          focusedBorder: invalid ? invalidBorder : null,
-          hintText: localizations.mediaUrlHint,
-          prefixIcon: const Icon(Icons.link_rounded, size: 21),
-          suffixIcon: controller.text.isEmpty
-              ? null
-              : IconButton(
-                  onPressed: onClear,
-                  tooltip: localizations.clearMediaUrl,
-                  icon: const Icon(Icons.close_rounded, size: 20),
-                ),
-        ),
-      ),
     );
   }
 }
