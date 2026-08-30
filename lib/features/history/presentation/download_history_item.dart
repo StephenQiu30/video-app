@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
+import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -42,60 +42,69 @@ final class DownloadHistoryItem extends StatelessWidget {
             onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
+                  SizedBox(
+                    width: 112,
+                    child: AuthenticatedMediaCover(
+                      alt: '${item.title} ${localizations.mediaCoverLabel}',
+                      borderRadius: BorderRadius.circular(6),
+                      pending: isActiveDownloadStatus(item.status.name),
+                      source: item.thumbnailUrl,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.medium),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           item.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
-                      ),
-                      const SizedBox(width: AppSpacing.small),
-                      Icon(
-                        LucideIcons.chevronRight,
-                        size: 18,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ],
+                        if (meta.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.xSmall),
+                          Text(
+                            meta,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                          ),
+                        ],
+                        const SizedBox(height: AppSpacing.small),
+                        DataStatusLabel(
+                          color: downloadStatusColor(context, item.status.name),
+                          label: isActiveDownloadStatus(item.status.name)
+                              ? '$status · ${item.progress}%'
+                              : status,
+                        ),
+                        if (failure != null) ...[
+                          const SizedBox(height: AppSpacing.xSmall),
+                          Text(
+                            failure,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                  if (meta.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.xSmall),
-                    Text(
-                      meta,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: AppSpacing.small),
-                  DataStatusLabel(
-                    color: downloadStatusColor(context, item.status.name),
-                    label: status,
-                  ),
-                  if (isActiveDownloadStatus(item.status.name)) ...[
-                    const SizedBox(height: AppSpacing.small),
-                    LinearProgressIndicator(value: item.progress / 100),
-                    const SizedBox(height: AppSpacing.xSmall),
-                    Text('${localizations.progressLabel} ${item.progress}%'),
-                  ],
-                  if (failure != null) ...[
-                    const SizedBox(height: AppSpacing.small),
-                    Text(
-                      failure,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: AppSpacing.small),
-                  Text(
-                    '${localizations.updatedAtLabel} ${formatDataTime(context, item.updatedAt)}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  const SizedBox(width: AppSpacing.xSmall),
+                  Icon(
+                    LucideIcons.chevronRight,
+                    size: 18,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ],
               ),

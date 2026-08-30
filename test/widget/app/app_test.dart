@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
+import 'package:go_router/go_router.dart';
+import 'package:video_server_api/video_server_api.dart';
 
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
@@ -271,6 +273,44 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('外观'), findsNothing);
     expect(find.byKey(const Key('dark-theme-switch')), findsNothing);
+  });
+
+  testWidgets('shows the mobile admin entry only for an admin session', (
+    tester,
+  ) async {
+    await pumpFramegrabApp(tester);
+    await tester.tap(find.byKey(const Key('app-tab-4')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('admin-center-entry')), findsNothing);
+    tester.element(find.byKey(const Key('app-bottom-navigation'))).go('/admin');
+    await tester.pumpAndSettle();
+    expect(find.text('管理中心'), findsNothing);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(
+        session: testSession(role: UserRole.admin, suffix: 'admin'),
+      ),
+    );
+    await tester.tap(find.byKey(const Key('app-tab-4')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('admin-center-entry')), findsOneWidget);
+    final adminEntry = tester.getRect(
+      find.byKey(const Key('admin-center-entry')),
+    );
+    final logoutAction = tester.getRect(find.byKey(const Key('logout-button')));
+    expect(logoutAction.top, greaterThan(adminEntry.bottom));
+    expect(logoutAction.left, adminEntry.left);
+    await tester.tap(find.byKey(const Key('admin-center-entry')));
+    await tester.pumpAndSettle();
+    expect(find.text('管理中心'), findsOneWidget);
+    expect(find.text('下载分析'), findsOneWidget);
+    expect(find.text('文件管理'), findsOneWidget);
+    expect(find.text('用户管理'), findsOneWidget);
+    expect(find.text('平台目录'), findsOneWidget);
+    expect(find.text('AI 服务'), findsOneWidget);
   });
 
   testWidgets('opens independent login and registration routes', (

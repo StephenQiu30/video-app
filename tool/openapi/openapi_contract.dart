@@ -33,6 +33,10 @@ Map<String, Object?> buildAppOpenApi(
     if (!operationIds.add(operationId)) {
       throw FormatException('Duplicate operationId: $operationId.');
     }
+    if (operationId == 'getDownloadThumbnail' ||
+        operationId == 'getInspectionThumbnail') {
+      _declareBinaryResponse(operation);
+    }
     selectedPaths[selection.path] = <String, Object?>{
       selection.method: operation,
     };
@@ -59,7 +63,7 @@ Map<String, Object?> buildAppOpenApi(
     'info': <String, Object?>{
       'title': '帧取 App API',
       'description': 'Flutter iOS 与 Android 客户端使用的冻结 Bearer 契约来源。',
-      'version': '1.2.0',
+      'version': '1.3.0',
     },
     'paths': selectedPaths,
     'components': <String, Object?>{
@@ -67,6 +71,20 @@ Map<String, Object?> buildAppOpenApi(
       'securitySchemes': <String, Object?>{'NativeBearerAuth': bearer},
     },
   };
+}
+
+void _declareBinaryResponse(Map<String, Object?> operation) {
+  final responses = _map(operation['responses'], 'responses');
+  final success = _map(responses['200'], 'responses.200');
+  final content = _map(success['content'], 'responses.200.content');
+  for (final entry in content.entries) {
+    final media = _map(entry.value, 'responses.200.content.${entry.key}');
+    media['schema'] = <String, Object?>{'type': 'string', 'format': 'binary'};
+    content[entry.key] = media;
+  }
+  success['content'] = content;
+  responses['200'] = success;
+  operation['responses'] = responses;
 }
 
 Set<String> _collectSchemaClosure(Object? paths, Map<String, Object?> schemas) {

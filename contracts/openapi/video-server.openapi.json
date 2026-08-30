@@ -3,7 +3,7 @@
   "info": {
     "title": "帧取 App API",
     "description": "Flutter iOS 与 Android 客户端使用的冻结 Bearer 契约来源。",
-    "version": "1.2.0"
+    "version": "1.3.0"
   },
   "paths": {
     "/api/app/v1/auth/register": {
@@ -941,6 +941,755 @@
         }
       }
     },
+    "/api/downloads/{job_id}/thumbnail": {
+      "get": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "读取下载任务封面",
+        "description": "读取当前用户本地导入视频生成的私有首帧封面。",
+        "operationId": "getDownloadThumbnail",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Private persisted download thumbnail",
+            "content": {
+              "image/avif": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/inspections/{inspection_id}/thumbnail": {
+      "get": {
+        "tags": [
+          "inspections"
+        ],
+        "summary": "读取持久化媒体封面",
+        "description": "读取当前用户拥有且存储在私有对象存储中的媒体封面。",
+        "operationId": "getInspectionThumbnail",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "inspection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Inspection Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Private persisted media thumbnail",
+            "content": {
+              "image/avif": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{job_id}/download-url": {
+      "post": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "签发文件下载地址",
+        "description": "为已完成的下载任务签发短时制品地址。",
+        "operationId": "issueDownloadUrl",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadUrlResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{job_id}/cancel": {
+      "post": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "取消下载任务",
+        "description": "请求取消尚未结束的下载任务。",
+        "operationId": "cancelDownload",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{job_id}/retry": {
+      "post": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "重试下载任务",
+        "description": "从失败或已取消的任务创建一条新的下载任务。",
+        "operationId": "retryDownload",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/documents": {
       "get": {
         "tags": [
@@ -1219,10 +1968,1380 @@
           }
         ]
       }
+    },
+    "/api/admin/downloads/analytics": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "查询下载分析",
+        "description": "按 UTC 自然日查询管理员可见的全局下载聚合。",
+        "operationId": "getDownloadAnalytics",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "default": 30,
+              "title": "Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadAnalyticsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/files": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "分页查询持久文件",
+        "operationId": "listStoredFiles",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoredFileListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/files/cleanup": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "手动清理指定天数前的文件",
+        "operationId": "cleanupStoredFiles",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StorageCleanupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StorageCleanupResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "查询用户列表",
+        "operationId": "listUsers",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagedUserListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/{user_id}": {
+      "patch": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "更新用户角色与账号状态",
+        "operationId": "updateUserAccess",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "User Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserAccessRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagedUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/providers": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "查询平台目录",
+        "operationId": "listProviderCatalogEntries",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCatalogListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/providers/{provider_key}": {
+      "patch": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "更新平台目录条目",
+        "operationId": "updateProviderCatalogEntry",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "provider_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Provider Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProviderCatalogEntryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCatalogEntryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/ai-providers": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "查询 AI 分析 Provider",
+        "operationId": "listAiProviderProfiles",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiProviderProfileListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/admin/ai-providers/{provider_key}/activate": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "启用 AI 分析 Provider",
+        "operationId": "activateAiProviderProfile",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "provider_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Provider Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiProviderProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AiProviderAuthMode": {
+        "type": "string",
+        "enum": [
+          "host_login",
+          "api_key"
+        ],
+        "title": "AiProviderAuthMode"
+      },
+      "AiProviderEngine": {
+        "type": "string",
+        "enum": [
+          "codex",
+          "claude",
+          "deepseek"
+        ],
+        "title": "AiProviderEngine"
+      },
+      "AiProviderProfileListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AiProviderProfileResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "agent_available": {
+            "type": "boolean",
+            "title": "Agent Available"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "agent_available"
+        ],
+        "title": "AiProviderProfileListResponse"
+      },
+      "AiProviderProfileResponse": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "engine": {
+            "$ref": "#/components/schemas/AiProviderEngine"
+          },
+          "auth_mode": {
+            "$ref": "#/components/schemas/AiProviderAuthMode"
+          },
+          "base_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Url"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "credential_configured": {
+            "type": "boolean",
+            "title": "Credential Configured"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "display_name",
+          "engine",
+          "auth_mode",
+          "base_url",
+          "model",
+          "credential_configured",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AiProviderProfileResponse"
+      },
       "AudioCodecFamily": {
         "type": "string",
         "enum": [
@@ -1420,6 +3539,229 @@
           "markdown",
           "fountain"
         ]
+      },
+      "DownloadAnalyticsDailyResponse": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "succeeded": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Succeeded"
+          },
+          "failed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Failed"
+          },
+          "cancelled": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cancelled"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "total",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "title": "DownloadAnalyticsDailyResponse"
+      },
+      "DownloadAnalyticsResponse": {
+        "properties": {
+          "period_days": {
+            "type": "integer",
+            "maximum": 365.0,
+            "minimum": 7.0,
+            "title": "Period Days"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/DownloadAnalyticsSummaryResponse"
+          },
+          "daily": {
+            "items": {
+              "$ref": "#/components/schemas/DownloadAnalyticsDailyResponse"
+            },
+            "type": "array",
+            "title": "Daily"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/DownloadAnalyticsSourceResponse"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "period_days",
+          "start",
+          "end",
+          "summary",
+          "daily",
+          "sources"
+        ],
+        "title": "DownloadAnalyticsResponse"
+      },
+      "DownloadAnalyticsSourceResponse": {
+        "properties": {
+          "source_key": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Source Key"
+          },
+          "source_name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Source Name"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "succeeded": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Succeeded"
+          },
+          "failed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Failed"
+          },
+          "cancelled": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cancelled"
+          },
+          "active": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Active"
+          },
+          "unique_users": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Unique Users"
+          },
+          "downloaded_bytes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Downloaded Bytes"
+          },
+          "success_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Success Rate"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_key",
+          "source_name",
+          "total",
+          "succeeded",
+          "failed",
+          "cancelled",
+          "active",
+          "unique_users",
+          "downloaded_bytes",
+          "success_rate"
+        ],
+        "title": "DownloadAnalyticsSourceResponse"
+      },
+      "DownloadAnalyticsSummaryResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "succeeded": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Succeeded"
+          },
+          "failed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Failed"
+          },
+          "cancelled": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cancelled"
+          },
+          "active": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Active"
+          },
+          "unique_users": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Unique Users"
+          },
+          "downloaded_bytes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Downloaded Bytes"
+          },
+          "average_duration_seconds": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Average Duration Seconds"
+          },
+          "success_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Success Rate"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "total",
+          "succeeded",
+          "failed",
+          "cancelled",
+          "active",
+          "unique_users",
+          "downloaded_bytes",
+          "average_duration_seconds",
+          "success_rate"
+        ],
+        "title": "DownloadAnalyticsSummaryResponse"
       },
       "DownloadErrorCode": {
         "type": "string",
@@ -1823,6 +4165,27 @@
         ],
         "title": "DownloadStatus"
       },
+      "DownloadUrlResponse": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "url",
+          "expires_at"
+        ],
+        "title": "DownloadUrlResponse",
+        "description": "Short-lived URL for retrieving a completed download artifact."
+      },
       "DynamicRange": {
         "type": "string",
         "enum": [
@@ -1894,6 +4257,83 @@
           "expired"
         ],
         "title": "ImportStatus"
+      },
+      "ManagedUserListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ManagedUserResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ],
+        "title": "ManagedUserListResponse"
+      },
+      "ManagedUserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "username",
+          "email",
+          "role",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ManagedUserResponse"
       },
       "NativeLogoutRequest": {
         "properties": {
@@ -2034,6 +4474,73 @@
           "playlist"
         ],
         "title": "ProviderCapability"
+      },
+      "ProviderCatalogEntryResponse": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order"
+          },
+          "is_visible": {
+            "type": "boolean",
+            "title": "Is Visible"
+          },
+          "system_registered": {
+            "type": "boolean",
+            "title": "System Registered"
+          },
+          "system_status": {
+            "$ref": "#/components/schemas/ProviderSupportStatus"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "display_name",
+          "sort_order",
+          "is_visible",
+          "system_registered",
+          "system_status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ProviderCatalogEntryResponse"
+      },
+      "ProviderCatalogListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderCatalogEntryResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ProviderCatalogListResponse"
       },
       "ProviderListResponse": {
         "properties": {
@@ -2279,6 +4786,220 @@
           "compatibility_profile"
         ],
         "title": "SemanticPlanResponse"
+      },
+      "StorageCleanupRequest": {
+        "properties": {
+          "older_than_days": {
+            "type": "integer",
+            "maximum": 3650.0,
+            "minimum": 1.0,
+            "title": "Older Than Days",
+            "default": 30
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "StorageCleanupRequest"
+      },
+      "StorageCleanupResponse": {
+        "properties": {
+          "older_than_days": {
+            "type": "integer",
+            "maximum": 3650.0,
+            "minimum": 1.0,
+            "title": "Older Than Days"
+          },
+          "removed_resources": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Removed Resources"
+          },
+          "removed_objects": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Removed Objects"
+          },
+          "freed_bytes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Freed Bytes"
+          },
+          "failed_resources": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Failed Resources"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "older_than_days",
+          "removed_resources",
+          "removed_objects",
+          "freed_bytes",
+          "failed_resources"
+        ],
+        "title": "StorageCleanupResponse"
+      },
+      "StoredFileCategory": {
+        "type": "string",
+        "enum": [
+          "video",
+          "screenplay",
+          "analysis_report"
+        ]
+      },
+      "StoredFileListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/StoredFileResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Page Size"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ],
+        "title": "StoredFileListResponse"
+      },
+      "StoredFileResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "category": {
+            "$ref": "#/components/schemas/StoredFileCategory"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "object_count": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Object Count"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Size Bytes"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "name",
+          "object_count",
+          "size_bytes",
+          "created_at"
+        ],
+        "title": "StoredFileResponse"
+      },
+      "UpdateProviderCatalogEntryRequest": {
+        "properties": {
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "sort_order": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 10000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort Order"
+          },
+          "is_visible": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Visible"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UpdateProviderCatalogEntryRequest"
+      },
+      "UpdateUserAccessRequest": {
+        "properties": {
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UpdateUserAccessRequest"
       },
       "UserResponse": {
         "properties": {

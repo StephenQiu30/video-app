@@ -7,5 +7,5 @@ serializationLibrary: built_value
 dateLibrary: core
 disallowAdditionalPropertiesIfNotPresent: false
 enumUnknownDefaultCase: true
-useOptional: true
+useOptional: false
 sourceFolder: lib

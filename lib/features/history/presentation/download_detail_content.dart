@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
+import 'package:framegrab/features/history/presentation/download_task_actions.dart';
+import 'package:framegrab/features/media/presentation/download_video_panel.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
@@ -22,6 +24,8 @@ final class DownloadDetailContent extends StatelessWidget {
       key: const Key('download-detail-content'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        DownloadVideoPanel(job: job),
+        const SizedBox(height: AppSpacing.section),
         Row(
           children: [
             Expanded(
@@ -47,6 +51,8 @@ final class DownloadDetailContent extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
         ],
+        const SizedBox(height: AppSpacing.large),
+        DownloadTaskActions(job: job),
         const SizedBox(height: AppSpacing.xLarge),
         const Divider(),
         const SizedBox(height: AppSpacing.small),

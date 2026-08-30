@@ -520,4 +520,173 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get privacyStatus => '请勿提交包含账号或访问凭据的链接';
+
+  @override
+  String get mediaCoverPending => '封面生成中';
+
+  @override
+  String get mediaCoverUnavailable => '封面不可用';
+
+  @override
+  String get mediaCoverLabel => '视频封面';
+
+  @override
+  String get watchVideoAction => '观看';
+
+  @override
+  String get getFileAction => '获取文件';
+
+  @override
+  String get playbackFailed => '暂时无法播放视频，请重新获取播放地址。';
+
+  @override
+  String get playbackUnsupported => '当前视频格式暂不支持在此设备内预览，你仍可获取原文件。';
+
+  @override
+  String get downloadOpenFailed => '无法打开系统下载，请稍后重试。';
+
+  @override
+  String get adminCenterTitle => '管理中心';
+
+  @override
+  String get adminCenterDescription => '查看全局运行数据，并处理高频管理事项。';
+
+  @override
+  String get adminAnalyticsTitle => '下载分析';
+
+  @override
+  String get adminAnalyticsDescription => '按 UTC 自然日查看全局下载量、成功率与来源分布。';
+
+  @override
+  String get adminFilesTitle => '文件管理';
+
+  @override
+  String get adminFilesDescription => '查看持久文件，并清理超过保留周期的资源。';
+
+  @override
+  String get adminUsersTitle => '用户管理';
+
+  @override
+  String get adminUsersDescription => '查看用户，并调整角色与账号可用状态。';
+
+  @override
+  String get adminProvidersTitle => '平台目录';
+
+  @override
+  String get adminProvidersDescription => '查看平台运行状态并控制用户侧可见性。';
+
+  @override
+  String get adminAiProvidersTitle => 'AI 服务';
+
+  @override
+  String get adminAiProvidersDescription => '查看分析线路配置并切换当前活动线路。';
+
+  @override
+  String adminDays(int days) {
+    return '$days 天';
+  }
+
+  @override
+  String get adminSuccessRate => '成功率';
+
+  @override
+  String get adminDownloadedBytes => '下载量';
+
+  @override
+  String get adminSourceBreakdown => '来源分布';
+
+  @override
+  String get adminCleanupTitle => '清理过期文件';
+
+  @override
+  String get adminCleanupDescription => '选择保留周期。服务端将清理更早且符合规则的持久资源。';
+
+  @override
+  String adminCleanupDays(int days) {
+    return '清理 $days 天前的文件';
+  }
+
+  @override
+  String get adminCleanupAction => '清理文件';
+
+  @override
+  String adminCleanupComplete(int count, String size) {
+    return '已清理 $count 项资源，释放 $size。';
+  }
+
+  @override
+  String adminFileCount(int count) {
+    return '共 $count 项持久文件';
+  }
+
+  @override
+  String get adminFilesEmpty => '暂无持久文件';
+
+  @override
+  String get adminFilesEmptyDescription => '当前没有需要管理员处理的持久文件。';
+
+  @override
+  String adminUserCount(int count) {
+    return '共 $count 位用户';
+  }
+
+  @override
+  String get adminRoleLabel => '角色';
+
+  @override
+  String get adminRoleUser => '普通用户';
+
+  @override
+  String get adminRoleAdmin => '管理员';
+
+  @override
+  String get adminAccountActive => '允许登录和访问服务';
+
+  @override
+  String get adminAccountEnabled => '已启用';
+
+  @override
+  String get adminAccountDisabled => '已停用';
+
+  @override
+  String get adminCurrentUser => '当前账户';
+
+  @override
+  String get saveAction => '保存';
+
+  @override
+  String get editAction => '编辑';
+
+  @override
+  String get adminSystemRegistered => '系统已注册';
+
+  @override
+  String get adminSystemMissing => '系统未注册';
+
+  @override
+  String get adminAgentAvailable => '本机分析 Agent 可用。';
+
+  @override
+  String get adminAgentUnavailable => '本机分析 Agent 当前不可用。';
+
+  @override
+  String get adminCredentialReady => '凭据已配置';
+
+  @override
+  String get adminCredentialMissing => '凭据未配置';
+
+  @override
+  String get adminActiveLine => '当前线路';
+
+  @override
+  String get adminActivateAction => '设为当前';
+
+  @override
+  String get adminActionFailed => '管理操作未完成，请刷新后重试。';
+
+  @override
+  String get cancelDownloadAction => '取消任务';
+
+  @override
+  String get retryDownloadAction => '重新下载';
 }

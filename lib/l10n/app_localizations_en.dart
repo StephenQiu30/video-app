@@ -540,4 +540,186 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyStatus =>
       'Do not submit links containing accounts or access credentials';
+
+  @override
+  String get mediaCoverPending => 'Generating cover';
+
+  @override
+  String get mediaCoverUnavailable => 'Cover unavailable';
+
+  @override
+  String get mediaCoverLabel => 'Video cover';
+
+  @override
+  String get watchVideoAction => 'Watch';
+
+  @override
+  String get getFileAction => 'Get file';
+
+  @override
+  String get playbackFailed =>
+      'The video could not be played. Request a new playback URL and retry.';
+
+  @override
+  String get playbackUnsupported =>
+      'This format cannot be previewed on this device. You can still get the original file.';
+
+  @override
+  String get downloadOpenFailed =>
+      'The system download could not be opened. Try again later.';
+
+  @override
+  String get adminCenterTitle => 'Admin center';
+
+  @override
+  String get adminCenterDescription =>
+      'Review global operations and handle frequent administration tasks.';
+
+  @override
+  String get adminAnalyticsTitle => 'Download analytics';
+
+  @override
+  String get adminAnalyticsDescription =>
+      'Review global volume, success rate, and source distribution by UTC day.';
+
+  @override
+  String get adminFilesTitle => 'File management';
+
+  @override
+  String get adminFilesDescription =>
+      'Review persisted files and clean up resources beyond retention.';
+
+  @override
+  String get adminUsersTitle => 'User management';
+
+  @override
+  String get adminUsersDescription =>
+      'Review users and adjust roles or account access.';
+
+  @override
+  String get adminProvidersTitle => 'Provider catalog';
+
+  @override
+  String get adminProvidersDescription =>
+      'Review provider state and control user-facing visibility.';
+
+  @override
+  String get adminAiProvidersTitle => 'AI services';
+
+  @override
+  String get adminAiProvidersDescription =>
+      'Review analysis routes and select the active provider.';
+
+  @override
+  String adminDays(int days) {
+    return '$days days';
+  }
+
+  @override
+  String get adminSuccessRate => 'Success rate';
+
+  @override
+  String get adminDownloadedBytes => 'Downloaded';
+
+  @override
+  String get adminSourceBreakdown => 'Source breakdown';
+
+  @override
+  String get adminCleanupTitle => 'Clean up expired files';
+
+  @override
+  String get adminCleanupDescription =>
+      'Choose a retention period. The service will remove eligible persisted resources older than it.';
+
+  @override
+  String adminCleanupDays(int days) {
+    return 'Clean up files older than $days days';
+  }
+
+  @override
+  String get adminCleanupAction => 'Clean up files';
+
+  @override
+  String adminCleanupComplete(int count, String size) {
+    return 'Removed $count resources and freed $size.';
+  }
+
+  @override
+  String adminFileCount(int count) {
+    return '$count persisted files';
+  }
+
+  @override
+  String get adminFilesEmpty => 'No persisted files';
+
+  @override
+  String get adminFilesEmptyDescription =>
+      'There are no persisted files requiring administrator action.';
+
+  @override
+  String adminUserCount(int count) {
+    return '$count users';
+  }
+
+  @override
+  String get adminRoleLabel => 'Role';
+
+  @override
+  String get adminRoleUser => 'User';
+
+  @override
+  String get adminRoleAdmin => 'Administrator';
+
+  @override
+  String get adminAccountActive => 'Allow sign-in and service access';
+
+  @override
+  String get adminAccountEnabled => 'Enabled';
+
+  @override
+  String get adminAccountDisabled => 'Disabled';
+
+  @override
+  String get adminCurrentUser => 'Current account';
+
+  @override
+  String get saveAction => 'Save';
+
+  @override
+  String get editAction => 'Edit';
+
+  @override
+  String get adminSystemRegistered => 'Registered by system';
+
+  @override
+  String get adminSystemMissing => 'Not registered by system';
+
+  @override
+  String get adminAgentAvailable => 'The local analysis agent is available.';
+
+  @override
+  String get adminAgentUnavailable =>
+      'The local analysis agent is currently unavailable.';
+
+  @override
+  String get adminCredentialReady => 'Credential configured';
+
+  @override
+  String get adminCredentialMissing => 'Credential missing';
+
+  @override
+  String get adminActiveLine => 'Active route';
+
+  @override
+  String get adminActivateAction => 'Make active';
+
+  @override
+  String get adminActionFailed =>
+      'The admin operation did not complete. Refresh and retry.';
+
+  @override
+  String get cancelDownloadAction => 'Cancel task';
+
+  @override
+  String get retryDownloadAction => 'Download again';
 }

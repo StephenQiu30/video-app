@@ -1111,6 +1111,324 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'请勿提交包含账号或访问凭据的链接'**
   String get privacyStatus;
+
+  /// No description provided for @mediaCoverPending.
+  ///
+  /// In zh, this message translates to:
+  /// **'封面生成中'**
+  String get mediaCoverPending;
+
+  /// No description provided for @mediaCoverUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'封面不可用'**
+  String get mediaCoverUnavailable;
+
+  /// No description provided for @mediaCoverLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'视频封面'**
+  String get mediaCoverLabel;
+
+  /// No description provided for @watchVideoAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'观看'**
+  String get watchVideoAction;
+
+  /// No description provided for @getFileAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'获取文件'**
+  String get getFileAction;
+
+  /// No description provided for @playbackFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂时无法播放视频，请重新获取播放地址。'**
+  String get playbackFailed;
+
+  /// No description provided for @playbackUnsupported.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前视频格式暂不支持在此设备内预览，你仍可获取原文件。'**
+  String get playbackUnsupported;
+
+  /// No description provided for @downloadOpenFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法打开系统下载，请稍后重试。'**
+  String get downloadOpenFailed;
+
+  /// No description provided for @adminCenterTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'管理中心'**
+  String get adminCenterTitle;
+
+  /// No description provided for @adminCenterDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看全局运行数据，并处理高频管理事项。'**
+  String get adminCenterDescription;
+
+  /// No description provided for @adminAnalyticsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载分析'**
+  String get adminAnalyticsTitle;
+
+  /// No description provided for @adminAnalyticsDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'按 UTC 自然日查看全局下载量、成功率与来源分布。'**
+  String get adminAnalyticsDescription;
+
+  /// No description provided for @adminFilesTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件管理'**
+  String get adminFilesTitle;
+
+  /// No description provided for @adminFilesDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看持久文件，并清理超过保留周期的资源。'**
+  String get adminFilesDescription;
+
+  /// No description provided for @adminUsersTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户管理'**
+  String get adminUsersTitle;
+
+  /// No description provided for @adminUsersDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看用户，并调整角色与账号可用状态。'**
+  String get adminUsersDescription;
+
+  /// No description provided for @adminProvidersTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台目录'**
+  String get adminProvidersTitle;
+
+  /// No description provided for @adminProvidersDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看平台运行状态并控制用户侧可见性。'**
+  String get adminProvidersDescription;
+
+  /// No description provided for @adminAiProvidersTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 服务'**
+  String get adminAiProvidersTitle;
+
+  /// No description provided for @adminAiProvidersDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看分析线路配置并切换当前活动线路。'**
+  String get adminAiProvidersDescription;
+
+  /// No description provided for @adminDays.
+  ///
+  /// In zh, this message translates to:
+  /// **'{days} 天'**
+  String adminDays(int days);
+
+  /// No description provided for @adminSuccessRate.
+  ///
+  /// In zh, this message translates to:
+  /// **'成功率'**
+  String get adminSuccessRate;
+
+  /// No description provided for @adminDownloadedBytes.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载量'**
+  String get adminDownloadedBytes;
+
+  /// No description provided for @adminSourceBreakdown.
+  ///
+  /// In zh, this message translates to:
+  /// **'来源分布'**
+  String get adminSourceBreakdown;
+
+  /// No description provided for @adminCleanupTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'清理过期文件'**
+  String get adminCleanupTitle;
+
+  /// No description provided for @adminCleanupDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择保留周期。服务端将清理更早且符合规则的持久资源。'**
+  String get adminCleanupDescription;
+
+  /// No description provided for @adminCleanupDays.
+  ///
+  /// In zh, this message translates to:
+  /// **'清理 {days} 天前的文件'**
+  String adminCleanupDays(int days);
+
+  /// No description provided for @adminCleanupAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'清理文件'**
+  String get adminCleanupAction;
+
+  /// No description provided for @adminCleanupComplete.
+  ///
+  /// In zh, this message translates to:
+  /// **'已清理 {count} 项资源，释放 {size}。'**
+  String adminCleanupComplete(int count, String size);
+
+  /// No description provided for @adminFileCount.
+  ///
+  /// In zh, this message translates to:
+  /// **'共 {count} 项持久文件'**
+  String adminFileCount(int count);
+
+  /// No description provided for @adminFilesEmpty.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无持久文件'**
+  String get adminFilesEmpty;
+
+  /// No description provided for @adminFilesEmptyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前没有需要管理员处理的持久文件。'**
+  String get adminFilesEmptyDescription;
+
+  /// No description provided for @adminUserCount.
+  ///
+  /// In zh, this message translates to:
+  /// **'共 {count} 位用户'**
+  String adminUserCount(int count);
+
+  /// No description provided for @adminRoleLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'角色'**
+  String get adminRoleLabel;
+
+  /// No description provided for @adminRoleUser.
+  ///
+  /// In zh, this message translates to:
+  /// **'普通用户'**
+  String get adminRoleUser;
+
+  /// No description provided for @adminRoleAdmin.
+  ///
+  /// In zh, this message translates to:
+  /// **'管理员'**
+  String get adminRoleAdmin;
+
+  /// No description provided for @adminAccountActive.
+  ///
+  /// In zh, this message translates to:
+  /// **'允许登录和访问服务'**
+  String get adminAccountActive;
+
+  /// No description provided for @adminAccountEnabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已启用'**
+  String get adminAccountEnabled;
+
+  /// No description provided for @adminAccountDisabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已停用'**
+  String get adminAccountDisabled;
+
+  /// No description provided for @adminCurrentUser.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前账户'**
+  String get adminCurrentUser;
+
+  /// No description provided for @saveAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'保存'**
+  String get saveAction;
+
+  /// No description provided for @editAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑'**
+  String get editAction;
+
+  /// No description provided for @adminSystemRegistered.
+  ///
+  /// In zh, this message translates to:
+  /// **'系统已注册'**
+  String get adminSystemRegistered;
+
+  /// No description provided for @adminSystemMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'系统未注册'**
+  String get adminSystemMissing;
+
+  /// No description provided for @adminAgentAvailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'本机分析 Agent 可用。'**
+  String get adminAgentAvailable;
+
+  /// No description provided for @adminAgentUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'本机分析 Agent 当前不可用。'**
+  String get adminAgentUnavailable;
+
+  /// No description provided for @adminCredentialReady.
+  ///
+  /// In zh, this message translates to:
+  /// **'凭据已配置'**
+  String get adminCredentialReady;
+
+  /// No description provided for @adminCredentialMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'凭据未配置'**
+  String get adminCredentialMissing;
+
+  /// No description provided for @adminActiveLine.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前线路'**
+  String get adminActiveLine;
+
+  /// No description provided for @adminActivateAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'设为当前'**
+  String get adminActivateAction;
+
+  /// No description provided for @adminActionFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'管理操作未完成，请刷新后重试。'**
+  String get adminActionFailed;
+
+  /// No description provided for @cancelDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消任务'**
+  String get cancelDownloadAction;
+
+  /// No description provided for @retryDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'重新下载'**
+  String get retryDownloadAction;
 }
 
 class _AppLocalizationsDelegate

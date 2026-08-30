@@ -2,14 +2,17 @@ import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/data/refresh_credential_store.dart';
 import 'package:video_server_api/video_server_api.dart';
 
-NativeSessionResponse testSession({String suffix = 'test'}) {
+NativeSessionResponse testSession({
+  UserRole role = UserRole.user,
+  String suffix = 'test',
+}) {
   final now = DateTime.utc(2026, 8, 30);
   final user = UserResponse(
     (builder) => builder
       ..id = '00000000-0000-0000-0000-000000000001'
       ..username = 'member'
       ..email = 'member@example.com'
-      ..role = UserRole.user
+      ..role = role
       ..createdAt = now
       ..updatedAt = now,
   );
@@ -40,9 +43,10 @@ final class MemoryCredentialStore implements RefreshCredentialStore {
 }
 
 final class FakeAuthGateway implements NativeAuthGateway {
-  FakeAuthGateway({this.failure});
+  FakeAuthGateway({this.failure, this.session});
 
   final AuthFailureKind? failure;
+  final NativeSessionResponse? session;
   int logoutCalls = 0;
 
   @override
@@ -51,7 +55,7 @@ final class FakeAuthGateway implements NativeAuthGateway {
     required String password,
   }) async {
     _throwIfNeeded();
-    return testSession(suffix: 'login');
+    return session ?? testSession(suffix: 'login');
   }
 
   @override
@@ -63,7 +67,7 @@ final class FakeAuthGateway implements NativeAuthGateway {
   @override
   Future<NativeSessionResponse> refresh(String refreshCredential) async {
     _throwIfNeeded();
-    return testSession(suffix: 'refresh');
+    return session ?? testSession(suffix: 'refresh');
   }
 
   @override
@@ -73,7 +77,7 @@ final class FakeAuthGateway implements NativeAuthGateway {
     required String password,
   }) async {
     _throwIfNeeded();
-    return testSession(suffix: 'register');
+    return session ?? testSession(suffix: 'register');
   }
 
   void _throwIfNeeded() {

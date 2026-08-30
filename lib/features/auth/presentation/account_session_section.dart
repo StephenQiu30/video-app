@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
@@ -8,7 +6,6 @@ import 'package:framegrab/features/auth/presentation/auth_error_text.dart';
 import 'package:framegrab/features/auth/presentation/auth_failure_message.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class AccountSessionSection extends ConsumerWidget {
   const AccountSessionSection({super.key});
@@ -50,21 +47,6 @@ final class AccountSessionSection extends ConsumerWidget {
             user.email,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.medium),
-          TextButton.icon(
-            key: const Key('logout-button'),
-            onPressed: session.isBusy
-                ? null
-                : () => unawaited(
-                    ref.read(authSessionProvider.notifier).logout(),
-                  ),
-            icon: const Icon(LucideIcons.logOut),
-            label: Text(
-              session.phase == AuthSessionPhase.signingOut
-                  ? localizations.loggingOut
-                  : localizations.logoutAction,
             ),
           ),
         ],

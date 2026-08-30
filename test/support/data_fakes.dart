@@ -13,6 +13,12 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   final List<String> detailCalls = [];
 
   @override
+  Future<DownloadResponse> cancel(String jobId) async {
+    if (error case final failure?) throw failure;
+    return downloadDetailFixture(jobId: jobId);
+  }
+
+  @override
   Future<DownloadResponse> fetchDetail(String jobId) async {
     detailCalls.add(jobId);
     if (error case final failure?) throw failure;
@@ -24,6 +30,12 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
     calls += 1;
     if (error case final failure?) throw failure;
     return data;
+  }
+
+  @override
+  Future<DownloadResponse> retry(String jobId) async {
+    if (error case final failure?) throw failure;
+    return downloadDetailFixture(jobId: jobId);
   }
 }
 

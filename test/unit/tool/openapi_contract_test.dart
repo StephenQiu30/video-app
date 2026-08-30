@@ -30,11 +30,24 @@ void main() {
         selectedPaths['/api/downloads/history'] as Map<String, dynamic>;
     final selectedGet = selectedHistory['get'] as Map<String, dynamic>;
     final selectedParameters = selectedGet['parameters'] as List<dynamic>;
+    final selectedUsers =
+        selectedPaths['/api/admin/users'] as Map<String, dynamic>;
+    final selectedUserParameters =
+        (selectedUsers['get'] as Map<String, dynamic>)['parameters']
+            as List<dynamic>;
 
-    expect(selectedPaths, hasLength(9));
+    expect(selectedPaths, hasLength(23));
     expect(selectedPaths, contains('/api/downloads/{job_id}'));
+    expect(selectedPaths, contains('/api/downloads/{job_id}/download-url'));
+    expect(selectedPaths, contains('/api/admin/users'));
     expect(
       selectedParameters.map((value) {
+        return (value as Map<String, dynamic>)['name'];
+      }),
+      ['page', 'page_size'],
+    );
+    expect(
+      selectedUserParameters.map((value) {
         return (value as Map<String, dynamic>)['name'];
       }),
       ['page', 'page_size'],
@@ -45,5 +58,18 @@ void main() {
     expect(schemas, contains('DownloadResponse'));
     expect(schemas, contains('DocumentResponse'));
     expect(schemas, contains('ProviderStatusResponse'));
+    expect(schemas, contains('DownloadUrlResponse'));
+    expect(schemas, contains('ManagedUserResponse'));
+    final thumbnail =
+        selectedPaths['/api/downloads/{job_id}/thumbnail']
+            as Map<String, dynamic>;
+    final thumbnailGet = thumbnail['get'] as Map<String, dynamic>;
+    final thumbnailResponses =
+        thumbnailGet['responses'] as Map<String, dynamic>;
+    final thumbnailSuccess = thumbnailResponses['200'] as Map<String, dynamic>;
+    final thumbnailContent =
+        thumbnailSuccess['content'] as Map<String, dynamic>;
+    final jpeg = thumbnailContent['image/jpeg'] as Map<String, dynamic>;
+    expect(jpeg['schema'], {'type': 'string', 'format': 'binary'});
   });
 }

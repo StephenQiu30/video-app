@@ -1,5 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/features/admin/presentation/admin_ai_providers_screen.dart';
+import 'package:framegrab/features/admin/presentation/admin_analytics_screen.dart';
+import 'package:framegrab/features/admin/presentation/admin_home_screen.dart';
+import 'package:framegrab/features/admin/presentation/admin_providers_screen.dart';
+import 'package:framegrab/features/admin/presentation/admin_storage_screen.dart';
+import 'package:framegrab/features/admin/presentation/admin_users_screen.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/features/auth/presentation/login_screen.dart';
 import 'package:framegrab/features/auth/presentation/register_screen.dart';
@@ -13,7 +19,9 @@ part 'app_router.g.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _RouterRefresh();
   ref.listen(
-    authSessionProvider.select((session) => session.phase),
+    authSessionProvider.select(
+      (session) => (session.phase, session.user?.role.name),
+    ),
     (_, _) => refresh.notify(),
   );
   final router = GoRouter(
@@ -21,6 +29,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: refresh,
     redirect: (_, state) => _redirectForAuth(
       phase: ref.read(authSessionProvider).phase,
+      isAdmin: ref.read(authSessionProvider).user?.role.name == 'admin',
       location: state.matchedLocation,
     ),
   );
@@ -31,6 +40,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
 String? _redirectForAuth({
   required AuthSessionPhase phase,
+  required bool isAdmin,
   required String location,
 }) {
   final isEntry = location == '/auth/login' || location == '/auth/register';
@@ -44,7 +54,73 @@ String? _redirectForAuth({
     return isEntry ? null : '/auth/login';
   }
   if (phase == AuthSessionPhase.signedIn && isAuthLocation) return '/';
+  if (phase == AuthSessionPhase.signedIn &&
+      location.startsWith('/admin') &&
+      !isAdmin) {
+    return '/';
+  }
   return null;
+}
+
+@TypedGoRoute<AdminHomeRoute>(path: '/admin')
+final class AdminHomeRoute extends GoRouteData with $AdminHomeRoute {
+  const AdminHomeRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminHomeScreen();
+  }
+}
+
+@TypedGoRoute<AdminAnalyticsRoute>(path: '/admin/analytics')
+final class AdminAnalyticsRoute extends GoRouteData with $AdminAnalyticsRoute {
+  const AdminAnalyticsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminAnalyticsScreen();
+  }
+}
+
+@TypedGoRoute<AdminFilesRoute>(path: '/admin/files')
+final class AdminFilesRoute extends GoRouteData with $AdminFilesRoute {
+  const AdminFilesRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminStorageScreen();
+  }
+}
+
+@TypedGoRoute<AdminUsersRoute>(path: '/admin/users')
+final class AdminUsersRoute extends GoRouteData with $AdminUsersRoute {
+  const AdminUsersRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminUsersScreen();
+  }
+}
+
+@TypedGoRoute<AdminProvidersRoute>(path: '/admin/providers')
+final class AdminProvidersRoute extends GoRouteData with $AdminProvidersRoute {
+  const AdminProvidersRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminProvidersScreen();
+  }
+}
+
+@TypedGoRoute<AdminAiProvidersRoute>(path: '/admin/ai-providers')
+final class AdminAiProvidersRoute extends GoRouteData
+    with $AdminAiProvidersRoute {
+  const AdminAiProvidersRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminAiProvidersScreen();
+  }
 }
 
 final class _RouterRefresh extends ChangeNotifier {

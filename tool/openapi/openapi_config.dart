@@ -40,7 +40,57 @@ const appOpenApiConfig = AppOpenApiConfig(
       queryParameters: {'page', 'page_size'},
     ),
     OpenApiOperationSelection(method: 'get', path: '/api/downloads/{job_id}'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/downloads/{job_id}/thumbnail',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/inspections/{inspection_id}/thumbnail',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/downloads/{job_id}/download-url',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/downloads/{job_id}/cancel',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/downloads/{job_id}/retry',
+    ),
     OpenApiOperationSelection(method: 'get', path: '/api/documents'),
     OpenApiOperationSelection(method: 'get', path: '/api/providers'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/admin/downloads/analytics',
+      queryParameters: {'days'},
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/admin/files',
+      queryParameters: {'page', 'page_size'},
+    ),
+    OpenApiOperationSelection(method: 'post', path: '/api/admin/files/cleanup'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/admin/users',
+      queryParameters: {'page', 'page_size'},
+    ),
+    OpenApiOperationSelection(
+      method: 'patch',
+      path: '/api/admin/users/{user_id}',
+    ),
+    OpenApiOperationSelection(method: 'get', path: '/api/admin/providers'),
+    OpenApiOperationSelection(
+      method: 'patch',
+      path: '/api/admin/providers/{provider_key}',
+    ),
+    OpenApiOperationSelection(method: 'get', path: '/api/admin/ai-providers'),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/admin/ai-providers/{provider_key}/activate',
+    ),
   ],
 );

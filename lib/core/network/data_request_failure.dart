@@ -1,5 +1,6 @@
 enum DataRequestFailureKind {
   unauthenticated,
+  forbidden,
   rateLimited,
   unavailable,
   invalidResponse,

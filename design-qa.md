@@ -15,6 +15,16 @@ No actionable P0, P1, P2, or P3 visual difference remains.
 
 final result: passed
 
+## 2026-08-30 媒体体验与移动管理中心
+
+- iPhone 17 Pro / iOS 26.5 使用真实登录会话显示 5 条下载记录和私有封面，MP4/H264 原生播放与短时文件获取入口均可用。
+- 媒体操作区采用无边框 52px 主次按钮，不再在封面叠加重复圆形播放键；WebM/AV1 在 iOS 显示明确降级说明和完整宽度的原文件入口。
+- 管理中心真实返回下载分析、38 个持久文件、14 位用户、平台目录和 AI 活动线路；普通用户 Widget 深链接门禁 fail closed。
+- Agent Browser 覆盖桌面与 390×844 登录/注册、下载与管理员受保护路由、axe 和 Web Vitals；0 个可复现问题、0 个 WCAG 2 A/AA violation，FCP/LCP 620ms、CLS 0。
+- 为避免泄露用户内容，App 播放画面、用户媒体标题、账户信息和短时 URL 未写入仓库证据；公开 Web 证据见 `qa-output/010-media-admin/report.md`。
+
+final result: passed
+
 ## 2026-08-30 007 无边框导航与认证门禁
 
 - selected visual truth: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/docs/design/references/007-borderless-navigation-selected.png`

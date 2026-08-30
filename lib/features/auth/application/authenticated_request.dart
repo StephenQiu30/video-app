@@ -66,6 +66,7 @@ final class AuthenticatedRequest {
 DataRequestFailure _mapFailure(DioException error) {
   final kind = switch (error.response?.statusCode) {
     401 => DataRequestFailureKind.unauthenticated,
+    403 => DataRequestFailureKind.forbidden,
     429 => DataRequestFailureKind.rateLimited,
     null => DataRequestFailureKind.unavailable,
     _ => DataRequestFailureKind.unknown,
