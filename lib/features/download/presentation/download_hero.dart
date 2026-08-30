@@ -3,6 +3,7 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/link_intake_form.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class DownloadHero extends StatelessWidget {
   const DownloadHero({
@@ -59,15 +60,12 @@ final class DownloadHero extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.xxLarge),
-        SizedBox(
-          height: 64,
-          child: ContentIntakeSelector(
-            linkLabel: localizations.linkIntakeMode,
-            onChanged: onModeChanged,
-            screenplayLabel: localizations.screenplayIntakeMode,
-            selected: mode,
-            videoLabel: localizations.videoIntakeMode,
-          ),
+        ContentIntakeSelector(
+          linkLabel: localizations.linkIntakeMode,
+          onChanged: onModeChanged,
+          screenplayLabel: localizations.screenplayIntakeMode,
+          selected: mode,
+          videoLabel: localizations.videoIntakeMode,
         ),
         const SizedBox(height: AppSpacing.large),
         if (mode == ContentIntakeMode.link)
@@ -83,7 +81,7 @@ final class DownloadHero extends StatelessWidget {
           PendingIntakePanel(
             actionLabel: localizations.selectVideoFile,
             description: localizations.videoIntakeDescription,
-            icon: Icons.video_file_outlined,
+            icon: LucideIcons.video,
             onPressed: onPendingAction,
             title: localizations.videoIntakeTitle,
           )
@@ -91,7 +89,7 @@ final class DownloadHero extends StatelessWidget {
           PendingIntakePanel(
             actionLabel: localizations.selectScreenplayFile,
             description: localizations.screenplayIntakeDescription,
-            icon: Icons.description_outlined,
+            icon: LucideIcons.fileText,
             onPressed: onPendingAction,
             title: localizations.screenplayIntakeTitle,
           ),

@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:framegrab/main.dart' as app;
+import 'package:integration_test/integration_test.dart';
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('registers, restores account UI, and signs out', (tester) async {
+    const storage = FlutterSecureStorage();
+    await storage.deleteAll();
+    app.main();
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
+    await tester.tap(find.byKey(const Key('go-register-button')));
+    await tester.pumpAndSettle();
+
+    final suffix = DateTime.now().microsecondsSinceEpoch.toString();
+    final username = 'qa${suffix.substring(suffix.length - 12)}';
+    final email = '$username@example.com';
+    await tester.enterText(
+      find.byKey(const Key('register-username-field')),
+      username,
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-email-field')),
+      email,
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-password-field')),
+      'strong-pass-123',
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-confirm-field')),
+      'strong-pass-123',
+    );
+    FocusManager.instance.primaryFocus?.unfocus();
+    final submit = find.byKey(const Key('register-submit-button'));
+    await tester.ensureVisible(submit);
+    await tester.pumpAndSettle();
+    await tester.tap(submit);
+    await _pumpUntilVisible(
+      tester,
+      find.byKey(const Key('app-bottom-navigation')),
+    );
+
+    expect(tester.takeException(), isNull);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('app-tab-4')));
+    await tester.pumpAndSettle();
+    expect(find.text(email), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('logout-button')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
+  });
+}
+
+Future<void> _pumpUntilVisible(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 10),
+}) async {
+  final deadline = DateTime.now().add(timeout);
+  while (finder.evaluate().isEmpty && DateTime.now().isBefore(deadline)) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}

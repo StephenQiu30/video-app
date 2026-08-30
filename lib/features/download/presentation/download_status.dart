@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_colors.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 enum DownloadNoticeTone { neutral, destructive }
 
@@ -39,9 +40,7 @@ final class DownloadInlineStatus extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                destructive
-                    ? Icons.error_outline_rounded
-                    : Icons.info_outline_rounded,
+                destructive ? LucideIcons.circleAlert : LucideIcons.info,
                 color: foreground,
               ),
               const SizedBox(width: 12),
@@ -73,16 +72,14 @@ final class DownloadTrustFooter extends StatelessWidget {
 
     return Column(
       children: [
-        Divider(color: Theme.of(context).colorScheme.outline),
-        const SizedBox(height: 20),
         _FooterStatus(
-          icon: Icons.check_circle_outline_rounded,
+          icon: LucideIcons.circleCheck,
           iconColor: context.appColors.success,
           label: localizations.legalMediaStatus,
         ),
         const SizedBox(height: 12),
         _FooterStatus(
-          icon: Icons.shield_outlined,
+          icon: LucideIcons.shieldCheck,
           iconColor: Theme.of(context).colorScheme.onSurfaceVariant,
           label: localizations.privacyStatus,
         ),

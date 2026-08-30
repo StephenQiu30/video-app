@@ -10,6 +10,9 @@
 | 002 | Web 对齐的 App 首页表现层 | [Accepted](design/002-Web对齐的App首页表现层设计.md) | [Accepted](prd/002-Web对齐的App首页表现层需求.md) | [Complete](plans/002-Web对齐的App首页表现层计划.md) | [Passed](acceptance/002-Web对齐的App首页表现层验收.md) |
 | 003 | 方案一视觉深化与 Web 普通用户功能对齐 | [Accepted](design/003-方案一视觉深化与Web普通用户功能对齐设计.md) | [Accepted](prd/003-方案一视觉深化与Web普通用户功能对齐需求.md) | [Presentation Complete / E2E Blocked](plans/003-方案一视觉深化与Web普通用户功能对齐计划.md) | [Presentation Passed / E2E Blocked](acceptance/003-方案一视觉深化与Web普通用户功能对齐验收.md) |
 | 004 | Server 当前普通用户页面同步 | [Accepted](design/004-Server当前普通用户页面同步设计.md) | [Accepted](prd/004-Server当前普通用户页面同步需求.md) | [Presentation Complete / E2E Blocked](plans/004-Server当前普通用户页面同步计划.md) | [Presentation Passed / E2E Blocked](acceptance/004-Server当前普通用户页面同步验收.md) |
+| 005 | 原生品牌资产与启动标识 | [Accepted](design/005-原生品牌资产与启动标识设计.md) | [Accepted](prd/005-原生品牌资产与启动标识需求.md) | [Complete](plans/005-原生品牌资产与启动标识计划.md) | [Passed](acceptance/005-原生品牌资产与启动标识验收.md) |
+| 006 | 原生认证与应用导航 | [Accepted](design/006-原生认证与应用导航设计.md) | [Accepted](prd/006-原生认证与应用导航需求.md) | [Complete](plans/006-原生认证与应用导航计划.md) | [Passed](acceptance/006-原生认证与应用导航验收.md) |
+| 007 | 无边框导航与认证门禁 | [Accepted](design/007-无边框导航与认证门禁设计.md) | [Accepted](prd/007-无边框导航与认证门禁需求.md) | [Complete](plans/007-无边框导航与认证门禁计划.md) | [Passed](acceptance/007-无边框导航与认证门禁验收.md) |
 
 Flutter 方向、iOS/Android 首期定位、工程基线以及不重复建设 Web 平台已由用户确认。视觉方向采用已选方案一：保留 Web 的品牌、排版、语义色和信息层级，同时使用 Flutter 原生布局、底部导航、安全区与辅助功能语义。普通用户功能范围以 Web 的解析、格式、下载、历史、AI 分析、平台状态、登录注册和账户为基准；真实业务接入仍受原生会话契约阻塞，不得用浏览器 Cookie 方案绕过。
 

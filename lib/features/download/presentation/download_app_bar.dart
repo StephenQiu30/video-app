@@ -6,14 +6,14 @@ final class DownloadAppBar extends StatelessWidget
   const DownloadAppBar({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(72);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       titleSpacing: 16,
-      toolbarHeight: 80,
+      toolbarHeight: 72,
       title: const AppBrand(),
     );
   }

@@ -1,9 +1,36 @@
 # Design QA — Product Design 方案一
 
-- source visual truth: `/Users/stephenqiu/.codex/generated_images/019ff8eb-3d7c-7923-a485-802f867474b7/exec-3bb8cb62-c30f-419e-9124-0b8d3a9c012e.png`
-- current design guideline: `/Users/stephenqiu/Desktop/StephenQiu/Video/design.md`
-- implementation screenshot: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/design-md-fix-20260813/app-home-light.png`
-- historical option-selection comparison: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/product-design-scheme-1-20260813/comparison-final.png`
+## 2026-08-30 007 无边框导航与认证门禁
+
+- selected visual truth: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/docs/design/references/007-borderless-navigation-selected.png`
+- iOS Simulator evidence: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/007-borderless-auth/home-390x844.png`
+- normalized same-canvas comparison: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/007-borderless-auth/comparison.png`
+- viewport and state: iPhone 17e, 390 × 844 logical points, zh-CN, light appearance, authenticated home, empty URL, first content source and first bottom destination selected
+
+### Comparison findings
+
+No actionable P0, P1, P2, or P3 visual difference remains.
+
+- The implementation preserves the selected composition: single top wordmark, large two-line editorial heading, muted body copy, three borderless source triggers, filled input, black primary action, legal guidance, and a five-item bottom TabBar.
+- The bottom TabBar has no border, top divider, pill, card, dot, or short selected marker. Selection is expressed only by black Lucide icon/text and semibold label; inactive destinations are neutral gray.
+- The source-tab underline remains intentionally scoped to the selected content source and is not reused in the bottom TabBar.
+- Lucide replaces the generated mock icons because it is shadcn/ui's default icon language and `lucide_icons_flutter 3.1.17` is compatible with the local Flutter 3.44 toolchain.
+- Native status and home-indicator safe areas are expected runtime chrome and are not recreated as app content.
+- Reference and implementation were normalized to 390 × 844 and combined into one comparison image before judgment.
+
+### Interaction and accessibility
+
+- Signed-out launch exposes only login/register; protected content is absent. Stored secure credentials restore into the main app, and logout returns to login.
+- Five bottom destinations expose localized labels, `SemanticsRole.tab`, and selected state; Chinese and English accessibility-text tests pass without overflow.
+- Source switching, URL validation, retained home input, appearance switching, registration, real iOS session entry, and logout are covered by automated tests.
+- Agent Browser service-side regression covered desktop and 390×844 auth boundaries, login, home, invalid input, history, documents, upload dialog, provider status, profile, logout, and protected-route redirect with zero reproducible issues.
+
+final result: passed
+
+- historical source visual truth: `/Users/stephenqiu/.codex/generated_images/019ff8eb-3d7c-7923-a485-802f867474b7/exec-3bb8cb62-c30f-419e-9124-0b8d3a9c012e.png`
+- current design truth: `docs/design/003-方案一视觉深化与Web普通用户功能对齐设计.md` and `docs/design/004-Server当前普通用户页面同步设计.md`
+- current implementation evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/02-accessibility-medium-fixed.png`
+- current default-dark evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/07-default-dark.png`
 - viewport: iPhone 17e, 390 × 844 logical points, iOS 26.5
 - state: zh-CN, light appearance, empty URL, first bottom destination selected
 - source pixels: 853 × 1844; normalized to 390 × 844 for comparison
@@ -42,7 +69,7 @@ No actionable P0, P1, or P2 differences remain.
 
 ## Full-view comparison evidence
 
-The historical 780 × 844 comparison remains option-selection evidence. The post-audit home, history and account captures were inspected independently against `design.md`; they retain the same brand, hero, form, token and persistent-navigation system while removing decoration and card shells.
+The original generated visual remains historical option-selection context. Current acceptance uses the 390 × 844 simulator captures above and the 003/004 design documents; the retired 2026-08-13 `qa-output` paths are no longer treated as current evidence.
 
 Focused crops were not required: all type, icons, controls, borders, and labels are legible in the 1:1 full-view comparison. The original 3× capture was also inspected for asset sharpness and antialiasing.
 
@@ -52,7 +79,7 @@ Focused crops were not required: all type, icons, controls, borders, and labels 
 - Checked download history and provider contract states without mock remote data.
 - Switched light/dark appearance and verified the native switch state.
 - Submitted invalid input and verified field treatment plus live error feedback.
-- Ran 14 automated tests with no runtime exception.
+- Ran 16 automated tests with no runtime exception.
 
 ## Comparison history
 
@@ -68,6 +95,17 @@ Focused crops were not required: all type, icons, controls, borders, and labels 
 - [x] Pass format, analyze, tests, Android debug build, and iOS simulator build.
 
 final result: passed
+
+## 2026-08-30 Dynamic type remediation
+
+- Failure evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-ui-audit/02-home-accessibility-text.png` reproduced three selector RenderFlex overflows at 390 × 844 and `accessibility-medium`.
+- Fixed home evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/02-accessibility-medium-fixed.png` shows the three intake destinations stacked at full width without clipping.
+- Input-focus evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/05-accessibility-medium-input-focus.png` confirms keyboard avoidance and visible focus.
+- Mode-switch evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/06-accessibility-medium-local-video.png` confirms the selected state and primary action remain reachable.
+- Simulator accessibility inspection exposed all five navigation tabs with complete localized names and selected states while only the active visual label was shown.
+- Widget coverage verifies full-width vertical positions, all three intake semantics, all five tab semantics and state transitions in Chinese and English. `./tool/check.sh` passed 16 tests; Android Debug and iOS Simulator builds passed.
+
+final result: presentation passed / E2E blocked
 
 ## 2026-08-27 Server Web 基线问题修复回归
 
@@ -91,11 +129,9 @@ final result: presentation passed / E2E blocked
 
 final result: presentation passed / E2E blocked
 
-## 2026-08-13 `design.md` audit remediation
+## 2026-08-13 historical design audit remediation
 
-- Home evidence: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/design-md-fix-20260813/app-home-light.png`.
-- History evidence: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/design-md-fix-20260813/app-history-light.png`.
-- Account evidence: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/design-md-fix-20260813/app-account-light.png`.
+- The original `qa-output/design-md-fix-20260813` captures have been retired; current visual evidence is listed at the top of this document.
 - The home hero now begins directly with the H1; no decorative `01 / 02 / 03 / 04` labels remain.
 - History and provider blocked states use a hairline separator and plain content instead of a filled card and decorative icon. Account contract copy uses the same continuous-canvas treatment.
 - The accessibility tree exposes “下载记录” and “下载记录尚未开放” as separate headings, with both descriptions as independent text nodes. Account reading order is “我的” → description → “外观” → switch → “账户” → contract note.

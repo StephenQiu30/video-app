@@ -1,7 +1,8 @@
 # 004 Server 当前普通用户页面同步验收
 
-- 状态：Presentation Passed / E2E Blocked
+- 状态：Presentation + Auth Passed / Business E2E Blocked
 - 日期：2026-08-27
+- 最近修订：2026-08-30
 
 ## 表现层验收
 
@@ -12,7 +13,7 @@
 - [x] 切换入口和页面后链接输入保持。
 - [x] 未冻结动作显示契约阻塞反馈且不发送真实请求。
 - [x] `./tool/check.sh`、Android Debug 与 iOS Simulator 构建通过。
-- [x] iPhone 17e 390×844 实机渲染检查无横向溢出或导航标签截断。
+- [x] iPhone 17e 390×844 模拟器实际渲染检查无横向溢出或导航标签截断。
 
 ## Agent Browser Web 基线验收
 
@@ -27,11 +28,20 @@
 
 完整测试记录、原始复现与修复后截图见 [Agent Browser Dogfood Report](../../qa-output/agent-browser-server-sync-20260827/report.md)。原 3 个 Medium 与 1 个 Low 问题均已解决，当前开放问题为 0；表现层验收通过。
 
+## 2026-08-30 动态字体回归
+
+- [x] iPhone 17e 390×844、`accessibility-medium` 下首页无 RenderFlex 溢出。
+- [x] 大字体下三种素材入口纵向呈现，切换与链接输入保留正常。
+- [x] 大字体下五项底部导航只显示选中标签，但全部目的地语义名称与选择状态仍存在。
+- [x] 中文与英文 Widget 回归、格式、静态分析、测试及 Android/iOS 构建通过。
+
+回归证据：修复前中文首屏稳定复现 3 处 RenderFlex 溢出；修复后 iPhone 17e 模拟器的 `accessibility-medium` 首屏、输入聚焦键盘避让和本地视频入口均无裁切。Widget 回归直接断言三入口纵向全宽布局、入口语义名称/选中状态，以及五个导航目的地的 tab 角色、语义名称和逐项选择状态；中英文共 16 项测试、`flutter analyze`、Android Debug APK 与 iOS Simulator 构建全部通过。截图与完整视觉结论记录于仓库根目录 `design-qa.md`。
+
 ## 真实 E2E 验收
 
-- [ ] 原生会话与 App OpenAPI 已冻结并生成客户端。
+- [x] 原生会话与 App OpenAPI 已冻结并生成客户端，真实注册、账户展示和退出已在 iOS Simulator 通过。
 - [ ] 公众号多视频发现与显式选择通过真实服务验收。
 - [ ] 视频号单作品解析与受控会话失败状态通过真实服务验收。
 - [ ] 本地视频、剧本文档、下载预览与平台证据通过 Android/iOS 验收。
 
-真实 E2E 在原生契约冻结前保持 Blocked。
+原生认证 E2E 已完成；下载、文档与平台证据等业务 E2E 仍等待对应 App OpenAPI 契约冻结。

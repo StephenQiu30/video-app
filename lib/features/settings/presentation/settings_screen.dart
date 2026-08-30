@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/core/theme/theme_mode_controller.dart';
+import 'package:framegrab/features/auth/presentation/account_session_section.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -41,9 +43,7 @@ final class SettingsScreen extends ConsumerWidget {
                       key: const Key('dark-theme-switch'),
                       contentPadding: EdgeInsets.zero,
                       secondary: Icon(
-                        dark
-                            ? Icons.dark_mode_outlined
-                            : Icons.light_mode_outlined,
+                        dark ? LucideIcons.moon : LucideIcons.sun,
                       ),
                       title: Text(localizations.darkThemeLabel),
                       subtitle: Text(localizations.themeToggleDescription),
@@ -54,19 +54,10 @@ final class SettingsScreen extends ConsumerWidget {
                             .setDark(dark: value);
                       },
                     ),
-                    const Divider(),
                     const SizedBox(height: AppSpacing.xxLarge),
                     _SectionLabel(label: localizations.accountSection),
                     const SizedBox(height: AppSpacing.small),
-                    Semantics(
-                      container: true,
-                      child: Text(
-                        localizations.nativeContractPendingShort,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
+                    const AccountSessionSection(),
                   ],
                 ),
               ),

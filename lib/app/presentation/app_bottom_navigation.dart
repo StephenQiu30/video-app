@@ -1,5 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class AppBottomNavigation extends StatelessWidget {
   const AppBottomNavigation({
@@ -14,56 +17,102 @@ final class AppBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final destinations = [
+      (icon: LucideIcons.house, label: localizations.homeNavigation),
+      (icon: LucideIcons.history, label: localizations.historyTab),
+      (icon: LucideIcons.fileText, label: localizations.documentsTab),
+      (icon: LucideIcons.audioWaveform, label: localizations.statusTab),
+      (icon: LucideIcons.user, label: localizations.accountNavigation),
+    ];
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Theme.of(context).colorScheme.outline),
+    return ColoredBox(
+      key: const Key('app-bottom-navigation'),
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        top: false,
+        child: MediaQuery.withClampedTextScaling(
+          maxScaleFactor: 1.3,
+          child: SizedBox(
+            height: 72,
+            child: Row(
+              children: [
+                for (var index = 0; index < destinations.length; index += 1)
+                  Expanded(
+                    child: _AppTabItem(
+                      key: Key('app-tab-$index'),
+                      icon: destinations[index].icon,
+                      label: destinations[index].label,
+                      selected: selectedIndex == index,
+                      onTap: () => onDestinationSelected(index),
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
-      ),
-      child: NavigationBar(
-        selectedIndex: selectedIndex,
-        onDestinationSelected: onDestinationSelected,
-        destinations: [
-          _destination(
-            icon: Icons.home_outlined,
-            selectedIcon: Icons.home_rounded,
-            label: localizations.homeNavigation,
-          ),
-          _destination(
-            icon: Icons.history_rounded,
-            selectedIcon: Icons.history_rounded,
-            label: localizations.downloadHistoryNavigation,
-          ),
-          _destination(
-            icon: Icons.description_outlined,
-            selectedIcon: Icons.description_rounded,
-            label: localizations.screenplayDocumentsNavigation,
-          ),
-          _destination(
-            icon: Icons.monitor_heart_outlined,
-            selectedIcon: Icons.monitor_heart_rounded,
-            label: localizations.providerStatusNavigation,
-          ),
-          _destination(
-            icon: Icons.person_outline_rounded,
-            selectedIcon: Icons.person_rounded,
-            label: localizations.accountNavigation,
-          ),
-        ],
       ),
     );
   }
+}
 
-  NavigationDestination _destination({
-    required IconData icon,
-    required IconData selectedIcon,
-    required String label,
-  }) {
-    return NavigationDestination(
-      icon: Icon(icon, size: 22),
-      selectedIcon: Icon(selectedIcon, size: 22),
+final class _AppTabItem extends StatelessWidget {
+  const _AppTabItem({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    super.key,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final foreground = selected ? colors.onSurface : colors.onSurfaceVariant;
+
+    return Semantics(
+      role: ui.SemanticsRole.tab,
+      selected: selected,
       label: label,
+      onTap: onTap,
+      excludeSemantics: true,
+      child: Tooltip(
+        message: label,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 64),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, color: foreground, size: 23),
+                    const SizedBox(height: 4),
+                    Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: foreground,
+                        fontWeight: selected
+                            ? FontWeight.w600
+                            : FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

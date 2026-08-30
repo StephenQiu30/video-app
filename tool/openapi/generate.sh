@@ -26,4 +26,28 @@ docker run --rm \
   --output /local/packages/video_server_api \
   --config /local/tool/openapi/config.yaml
 
-dart format "$output_path"
+pubspec_path="$output_path/pubspec.yaml"
+temporary_pubspec="$pubspec_path.tmp"
+awk '
+  $0 == "  sdk: '\''>=2.18.0 <4.0.0'\''" { print "  sdk: '\''>=3.0.0 <4.0.0'\''"; next }
+  { print }
+' "$pubspec_path" > "$temporary_pubspec"
+mv "$temporary_pubspec" "$pubspec_path"
+
+optional_path="$output_path/lib/lib/optional.dart"
+temporary_optional="$optional_path.tmp"
+awk '
+  {
+    sub(/Object\? readOptionalValue\(Map map,/, "Object? readOptionalValue(Map<dynamic, dynamic> map,")
+    print
+  }
+' "$optional_path" > "$temporary_optional"
+mv "$temporary_optional" "$optional_path"
+
+(
+  cd "$output_path"
+  dart pub get
+  dart run build_runner build
+  dart fix --apply --code=unused_import
+  dart format .
+)

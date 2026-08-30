@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class LinkIntakeForm extends StatelessWidget {
   const LinkIntakeForm({
@@ -44,7 +45,7 @@ final class LinkIntakeForm extends StatelessWidget {
                       dimension: 18,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Icon(Icons.download_outlined, size: 20),
+                  : const Icon(LucideIcons.download, size: 20),
               label: Text(
                 busy
                     ? localizations.inspectingMedia
@@ -130,13 +131,13 @@ final class _UrlInput extends StatelessWidget {
           enabledBorder: invalid ? invalidBorder : null,
           focusedBorder: invalid ? invalidBorder : null,
           hintText: localizations.mediaUrlHint,
-          prefixIcon: const Icon(Icons.link_rounded, size: 21),
+          prefixIcon: const Icon(LucideIcons.link, size: 21),
           suffixIcon: controller.text.isEmpty
               ? null
               : IconButton(
                   onPressed: onClear,
                   tooltip: localizations.clearMediaUrl,
-                  icon: const Icon(Icons.close_rounded, size: 20),
+                  icon: const Icon(LucideIcons.x, size: 20),
                 ),
         ),
       ),

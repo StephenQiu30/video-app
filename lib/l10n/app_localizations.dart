@@ -104,12 +104,6 @@ abstract class AppLocalizations {
   /// **'帧取'**
   String get appTitle;
 
-  /// No description provided for @homeLinkLabel.
-  ///
-  /// In zh, this message translates to:
-  /// **'帧取首页'**
-  String get homeLinkLabel;
-
   /// No description provided for @openNavigation.
   ///
   /// In zh, this message translates to:
@@ -134,17 +128,35 @@ abstract class AppLocalizations {
   /// **'下载记录'**
   String get downloadHistoryNavigation;
 
+  /// No description provided for @historyTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'历史'**
+  String get historyTab;
+
   /// No description provided for @screenplayDocumentsNavigation.
   ///
   /// In zh, this message translates to:
   /// **'剧本文档'**
   String get screenplayDocumentsNavigation;
 
+  /// No description provided for @documentsTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档'**
+  String get documentsTab;
+
   /// No description provided for @providerStatusNavigation.
   ///
   /// In zh, this message translates to:
   /// **'平台状态'**
   String get providerStatusNavigation;
+
+  /// No description provided for @statusTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'状态'**
+  String get statusTab;
 
   /// No description provided for @accountNavigation.
   ///
@@ -167,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryPendingDescription.
   ///
   /// In zh, this message translates to:
-  /// **'原生认证、任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。'**
+  /// **'任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。'**
   String get downloadHistoryPendingDescription;
 
   /// No description provided for @screenplayDocumentsDescription.
@@ -203,7 +215,7 @@ abstract class AppLocalizations {
   /// No description provided for @providerStatusPendingDescription.
   ///
   /// In zh, this message translates to:
-  /// **'原生会话契约冻结后，这里将读取服务端返回的真实平台能力，不显示模拟数据。'**
+  /// **'平台能力查询契约冻结后，这里将读取服务端返回的真实平台状态，不显示模拟数据。'**
   String get providerStatusPendingDescription;
 
   /// No description provided for @accountDescription.
@@ -236,11 +248,227 @@ abstract class AppLocalizations {
   /// **'在深色与浅色主题间切换'**
   String get themeToggleDescription;
 
-  /// No description provided for @nativeContractPendingShort.
+  /// No description provided for @loginAction.
   ///
   /// In zh, this message translates to:
-  /// **'登录、账户资料与退出将在原生会话契约冻结后开放。'**
-  String get nativeContractPendingShort;
+  /// **'登录'**
+  String get loginAction;
+
+  /// No description provided for @registerAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'注册'**
+  String get registerAction;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In zh, this message translates to:
+  /// **'欢迎回来'**
+  String get welcomeBack;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'使用你的帧取账户继续管理下载、文档与分析。'**
+  String get loginDescription;
+
+  /// No description provided for @createAccountTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建你的帧取账户'**
+  String get createAccountTitle;
+
+  /// No description provided for @registerDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'注册后可在设备间恢复会话，并安全访问你的任务。'**
+  String get registerDescription;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'邮箱'**
+  String get emailLabel;
+
+  /// No description provided for @usernameLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户名'**
+  String get usernameLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'密码'**
+  String get passwordLabel;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认密码'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @showPassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'显示密码'**
+  String get showPassword;
+
+  /// No description provided for @hidePassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'隐藏密码'**
+  String get hidePassword;
+
+  /// No description provided for @loginSubmit.
+  ///
+  /// In zh, this message translates to:
+  /// **'登录'**
+  String get loginSubmit;
+
+  /// No description provided for @loginSubmitting.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在登录…'**
+  String get loginSubmitting;
+
+  /// No description provided for @registerSubmit.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建账户'**
+  String get registerSubmit;
+
+  /// No description provided for @registerSubmitting.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在创建…'**
+  String get registerSubmitting;
+
+  /// No description provided for @goRegister.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建账户'**
+  String get goRegister;
+
+  /// No description provided for @goLogin.
+  ///
+  /// In zh, this message translates to:
+  /// **'返回登录'**
+  String get goLogin;
+
+  /// No description provided for @noAccountPrompt.
+  ///
+  /// In zh, this message translates to:
+  /// **'还没有账户？'**
+  String get noAccountPrompt;
+
+  /// No description provided for @hasAccountPrompt.
+  ///
+  /// In zh, this message translates to:
+  /// **'已经有账户？'**
+  String get hasAccountPrompt;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In zh, this message translates to:
+  /// **'请输入有效的邮箱地址。'**
+  String get invalidEmail;
+
+  /// No description provided for @invalidUsername.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户名需要 2–32 个字符。'**
+  String get invalidUsername;
+
+  /// No description provided for @invalidPassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'密码至少需要 8 个字符。'**
+  String get invalidPassword;
+
+  /// No description provided for @passwordMismatch.
+  ///
+  /// In zh, this message translates to:
+  /// **'两次输入的密码不一致。'**
+  String get passwordMismatch;
+
+  /// No description provided for @invalidCredentialsError.
+  ///
+  /// In zh, this message translates to:
+  /// **'邮箱或密码不正确。'**
+  String get invalidCredentialsError;
+
+  /// No description provided for @emailRegisteredError.
+  ///
+  /// In zh, this message translates to:
+  /// **'这个邮箱已经注册，请直接登录。'**
+  String get emailRegisteredError;
+
+  /// No description provided for @usernameRegisteredError.
+  ///
+  /// In zh, this message translates to:
+  /// **'这个用户名已经被使用。'**
+  String get usernameRegisteredError;
+
+  /// No description provided for @unauthenticatedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'登录状态已失效，请重新登录。'**
+  String get unauthenticatedError;
+
+  /// No description provided for @rateLimitedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'操作过于频繁，请稍后再试。'**
+  String get rateLimitedError;
+
+  /// No description provided for @serviceUnavailableError.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂时无法连接服务，请检查网络后重试。'**
+  String get serviceUnavailableError;
+
+  /// No description provided for @unknownAuthError.
+  ///
+  /// In zh, this message translates to:
+  /// **'操作未完成，请稍后重试。'**
+  String get unknownAuthError;
+
+  /// No description provided for @sessionRestoring.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在恢复登录状态…'**
+  String get sessionRestoring;
+
+  /// No description provided for @signedOutTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'登录后继续'**
+  String get signedOutTitle;
+
+  /// No description provided for @signedOutDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'登录或注册后可查看账户资料，并访问与身份关联的任务。'**
+  String get signedOutDescription;
+
+  /// No description provided for @signedInAs.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前账户'**
+  String get signedInAs;
+
+  /// No description provided for @logoutAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'退出登录'**
+  String get logoutAction;
+
+  /// No description provided for @loggingOut.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在退出…'**
+  String get loggingOut;
 
   /// No description provided for @downloadHomeTitle.
   ///
@@ -353,13 +581,13 @@ abstract class AppLocalizations {
   /// No description provided for @nativeContractPending.
   ///
   /// In zh, this message translates to:
-  /// **'页面表现层已经就绪；原生认证与服务契约尚未冻结，暂不能提交真实解析请求。'**
+  /// **'页面表现层与原生登录已经就绪；媒体检查与下载契约尚未冻结，暂不能提交真实解析请求。'**
   String get nativeContractPending;
 
   /// No description provided for @nativeUploadContractPending.
   ///
   /// In zh, this message translates to:
-  /// **'页面结构已与服务端同步；原生上传、会话与文件授权契约尚未冻结，暂不能选择或提交真实文件。'**
+  /// **'页面结构与原生登录已经就绪；上传与文件授权契约尚未冻结，暂不能选择或提交真实文件。'**
   String get nativeUploadContractPending;
 
   /// No description provided for @operationFailed.

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:framegrab/app/app.dart';
-import 'package:framegrab/features/download/application/inspect_media_intent.dart';
+import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
+
+import '../../support/auth_fakes.dart';
+import 'test_app.dart';
 
 void main() {
   setUp(() {
@@ -12,30 +13,37 @@ void main() {
   testWidgets('renders the Web-aligned home at the 390px mobile baseline', (
     tester,
   ) async {
-    await _setMobileViewport(tester);
-    await _pumpApp(tester);
+    await setMobileViewport(tester);
+    await pumpFramegrabApp(tester);
 
     expect(find.text('帧取'), findsOneWidget);
+    final wordmark = find.byKey(const Key('app-brand-wordmark'));
+    expect(wordmark, findsOneWidget);
+    expect(tester.getSemantics(wordmark).label, '帧取');
     expect(find.textContaining(RegExp(r'^\d{2} /')), findsNothing);
     expect(find.text('把素材，\n带回本地。'), findsOneWidget);
     expect(find.text('解析媒体'), findsOneWidget);
     expect(find.text('链接解析'), findsOneWidget);
     expect(find.text('本地视频'), findsOneWidget);
-    expect(find.text('剧本文档'), findsNWidgets(2));
+    expect(find.text('剧本文档'), findsOneWidget);
     expect(find.textContaining('有权处理的公开链接'), findsOneWidget);
-    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
     expect(find.text('首页'), findsOneWidget);
-    expect(find.text('下载记录'), findsOneWidget);
-    expect(find.text('平台状态'), findsOneWidget);
+    expect(find.text('历史'), findsOneWidget);
+    expect(find.text('文档'), findsOneWidget);
+    expect(find.text('状态'), findsOneWidget);
     expect(find.text('我的'), findsOneWidget);
+    expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
+    expect(find.byKey(const Key('app-tab-3')), findsOneWidget);
+    expect(find.byKey(const Key('app-tab-4')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
   testWidgets('switches intake modes and keeps remote actions fail closed', (
     tester,
   ) async {
-    await _setMobileViewport(tester);
-    await _pumpApp(tester);
+    await setMobileViewport(tester);
+    await pumpFramegrabApp(tester);
 
     await tester.tap(find.text('本地视频'));
     await tester.pumpAndSettle();
@@ -46,7 +54,7 @@ void main() {
 
     await tester.tap(find.text('选择视频文件'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('原生上传、会话与文件授权契约'), findsOneWidget);
+    expect(find.textContaining('上传与文件授权契约尚未冻结'), findsOneWidget);
 
     await tester.tap(find.text('剧本文档').first);
     await tester.pumpAndSettle();
@@ -58,7 +66,7 @@ void main() {
     tester,
   ) async {
     var called = false;
-    await _pumpApp(
+    await pumpFramegrabApp(
       tester,
       inspect: (_) async {
         called = true;
@@ -76,7 +84,7 @@ void main() {
   testWidgets('explains the native contract boundary for a valid URL', (
     tester,
   ) async {
-    await _pumpApp(tester);
+    await pumpFramegrabApp(tester);
 
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
@@ -85,14 +93,14 @@ void main() {
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pump();
 
-    expect(find.textContaining('原生认证与服务契约尚未冻结'), findsOneWidget);
+    expect(find.textContaining('媒体检查与下载契约尚未冻结'), findsOneWidget);
   });
 
   testWidgets('passes only the normalized URL to an injected intent', (
     tester,
   ) async {
     String? received;
-    await _pumpApp(
+    await pumpFramegrabApp(
       tester,
       inspect: (value) async {
         received = value;
@@ -113,9 +121,9 @@ void main() {
   testWidgets('switches bottom destinations without inventing remote data', (
     tester,
   ) async {
-    await _pumpApp(tester);
+    await pumpFramegrabApp(tester);
 
-    await tester.tap(find.text('下载记录'));
+    await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
 
     expect(find.text('下载记录尚未开放'), findsOneWidget);
@@ -132,7 +140,7 @@ void main() {
     expect(description.label, contains('搜索、筛选并恢复'));
     expect(description.flagsCollection.isHeader, isFalse);
 
-    await tester.tap(find.text('剧本文档').last);
+    await tester.tap(find.byKey(const Key('app-tab-2')));
     await tester.pumpAndSettle();
     expect(find.text('剧本文档尚未开放'), findsOneWidget);
     expect(find.textContaining('规范化预览'), findsOneWidget);
@@ -141,15 +149,15 @@ void main() {
   testWidgets('keeps the link input when navigating between destinations', (
     tester,
   ) async {
-    await _pumpApp(tester);
+    await pumpFramegrabApp(tester);
 
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
       'https://media.example/kept',
     );
-    await tester.tap(find.text('下载记录'));
+    await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('首页'));
+    await tester.tap(find.byKey(const Key('app-tab-0')));
     await tester.pumpAndSettle();
 
     final input = tester.widget<TextField>(
@@ -163,9 +171,9 @@ void main() {
   ) async {
     tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
     addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
-    await _pumpApp(tester);
+    await pumpFramegrabApp(tester);
 
-    await tester.tap(find.text('我的'));
+    await tester.tap(find.byKey(const Key('app-tab-4')));
     await tester.pumpAndSettle();
     expect(find.text('外观'), findsOneWidget);
 
@@ -175,26 +183,103 @@ void main() {
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.themeMode, ThemeMode.dark);
   });
-}
 
-Future<void> _pumpApp(
-  WidgetTester tester, {
-  InspectMediaIntent? inspect,
-}) async {
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        if (inspect != null)
-          inspectMediaIntentProvider.overrideWithValue(inspect),
-      ],
-      child: const FramegrabApp(locale: Locale('zh')),
-    ),
-  );
-  await tester.pumpAndSettle();
-}
+  testWidgets('opens independent login and registration routes', (
+    tester,
+  ) async {
+    await setMobileViewport(tester);
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(),
+      credentialStore: MemoryCredentialStore(),
+    );
 
-Future<void> _setMobileViewport(WidgetTester tester) async {
-  tester.view.devicePixelRatio = 1;
-  tester.view.physicalSize = const Size(390, 844);
-  addTearDown(tester.view.reset);
+    expect(find.text('欢迎回来'), findsOneWidget);
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
+    expect(find.text('把素材，\n带回本地。'), findsNothing);
+
+    await tester.tap(find.byKey(const Key('go-register-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('创建你的帧取账户'), findsOneWidget);
+    expect(find.byKey(const Key('register-username-field')), findsOneWidget);
+  });
+
+  testWidgets('validates login fields before making a request', (tester) async {
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(),
+      credentialStore: MemoryCredentialStore(),
+    );
+    await tester.tap(find.byKey(const Key('login-submit-button')));
+    await tester.pump();
+
+    expect(find.text('请输入有效的邮箱地址。'), findsOneWidget);
+    expect(find.text('密码至少需要 8 个字符。'), findsOneWidget);
+  });
+
+  testWidgets('registers, exposes the account, and signs out', (tester) async {
+    final gateway = FakeAuthGateway();
+    final store = MemoryCredentialStore();
+    await pumpFramegrabApp(
+      tester,
+      authGateway: gateway,
+      credentialStore: store,
+    );
+    await tester.tap(find.byKey(const Key('go-register-button')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('register-username-field')),
+      'member',
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-email-field')),
+      'member@example.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-password-field')),
+      'strong-pass-123',
+    );
+    await tester.enterText(
+      find.byKey(const Key('register-confirm-field')),
+      'strong-pass-123',
+    );
+    await tester.tap(find.byKey(const Key('register-submit-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('把素材，\n带回本地。'), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+    expect(store.value, 'refresh-register');
+    await tester.tap(find.byKey(const Key('app-tab-4')));
+    await tester.pumpAndSettle();
+    expect(find.text('member@example.com'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('logout-button')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
+    expect(store.value, isNull);
+    expect(gateway.logoutCalls, 1);
+  });
+
+  testWidgets('shows a readable server failure on login', (tester) async {
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(failure: AuthFailureKind.invalidCredentials),
+      credentialStore: MemoryCredentialStore(),
+    );
+    await tester.enterText(
+      find.byKey(const Key('login-email-field')),
+      'member@example.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('login-password-field')),
+      'strong-pass-123',
+    );
+    await tester.tap(find.byKey(const Key('login-submit-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('邮箱或密码不正确。'), findsOneWidget);
+  });
 }

@@ -12,9 +12,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appTitle => '帧取';
 
   @override
-  String get homeLinkLabel => '帧取首页';
-
-  @override
   String get openNavigation => '打开导航菜单';
 
   @override
@@ -27,10 +24,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloadHistoryNavigation => '下载记录';
 
   @override
+  String get historyTab => '历史';
+
+  @override
   String get screenplayDocumentsNavigation => '剧本文档';
 
   @override
+  String get documentsTab => '文档';
+
+  @override
   String get providerStatusNavigation => '平台状态';
+
+  @override
+  String get statusTab => '状态';
 
   @override
   String get accountNavigation => '我的';
@@ -44,7 +50,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get downloadHistoryPendingDescription =>
-      '原生认证、任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。';
+      '任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。';
 
   @override
   String get screenplayDocumentsDescription =>
@@ -66,7 +72,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get providerStatusPendingDescription =>
-      '原生会话契约冻结后，这里将读取服务端返回的真实平台能力，不显示模拟数据。';
+      '平台能力查询契约冻结后，这里将读取服务端返回的真实平台状态，不显示模拟数据。';
 
   @override
   String get accountDescription => '管理个人资料、登录状态和应用外观。';
@@ -84,7 +90,115 @@ class AppLocalizationsZh extends AppLocalizations {
   String get themeToggleDescription => '在深色与浅色主题间切换';
 
   @override
-  String get nativeContractPendingShort => '登录、账户资料与退出将在原生会话契约冻结后开放。';
+  String get loginAction => '登录';
+
+  @override
+  String get registerAction => '注册';
+
+  @override
+  String get welcomeBack => '欢迎回来';
+
+  @override
+  String get loginDescription => '使用你的帧取账户继续管理下载、文档与分析。';
+
+  @override
+  String get createAccountTitle => '创建你的帧取账户';
+
+  @override
+  String get registerDescription => '注册后可在设备间恢复会话，并安全访问你的任务。';
+
+  @override
+  String get emailLabel => '邮箱';
+
+  @override
+  String get usernameLabel => '用户名';
+
+  @override
+  String get passwordLabel => '密码';
+
+  @override
+  String get confirmPasswordLabel => '确认密码';
+
+  @override
+  String get showPassword => '显示密码';
+
+  @override
+  String get hidePassword => '隐藏密码';
+
+  @override
+  String get loginSubmit => '登录';
+
+  @override
+  String get loginSubmitting => '正在登录…';
+
+  @override
+  String get registerSubmit => '创建账户';
+
+  @override
+  String get registerSubmitting => '正在创建…';
+
+  @override
+  String get goRegister => '创建账户';
+
+  @override
+  String get goLogin => '返回登录';
+
+  @override
+  String get noAccountPrompt => '还没有账户？';
+
+  @override
+  String get hasAccountPrompt => '已经有账户？';
+
+  @override
+  String get invalidEmail => '请输入有效的邮箱地址。';
+
+  @override
+  String get invalidUsername => '用户名需要 2–32 个字符。';
+
+  @override
+  String get invalidPassword => '密码至少需要 8 个字符。';
+
+  @override
+  String get passwordMismatch => '两次输入的密码不一致。';
+
+  @override
+  String get invalidCredentialsError => '邮箱或密码不正确。';
+
+  @override
+  String get emailRegisteredError => '这个邮箱已经注册，请直接登录。';
+
+  @override
+  String get usernameRegisteredError => '这个用户名已经被使用。';
+
+  @override
+  String get unauthenticatedError => '登录状态已失效，请重新登录。';
+
+  @override
+  String get rateLimitedError => '操作过于频繁，请稍后再试。';
+
+  @override
+  String get serviceUnavailableError => '暂时无法连接服务，请检查网络后重试。';
+
+  @override
+  String get unknownAuthError => '操作未完成，请稍后重试。';
+
+  @override
+  String get sessionRestoring => '正在恢复登录状态…';
+
+  @override
+  String get signedOutTitle => '登录后继续';
+
+  @override
+  String get signedOutDescription => '登录或注册后可查看账户资料，并访问与身份关联的任务。';
+
+  @override
+  String get signedInAs => '当前账户';
+
+  @override
+  String get logoutAction => '退出登录';
+
+  @override
+  String get loggingOut => '正在退出…';
 
   @override
   String get downloadHomeTitle => '把素材，\n带回本地。';
@@ -143,11 +257,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mediaUrlError => '请输入有效的公开 HTTP(S) 视频地址。';
 
   @override
-  String get nativeContractPending => '页面表现层已经就绪；原生认证与服务契约尚未冻结，暂不能提交真实解析请求。';
+  String get nativeContractPending =>
+      '页面表现层与原生登录已经就绪；媒体检查与下载契约尚未冻结，暂不能提交真实解析请求。';
 
   @override
   String get nativeUploadContractPending =>
-      '页面结构已与服务端同步；原生上传、会话与文件授权契约尚未冻结，暂不能选择或提交真实文件。';
+      '页面结构与原生登录已经就绪；上传与文件授权契约尚未冻结，暂不能选择或提交真实文件。';
 
   @override
   String get operationFailed => '操作未完成，请稍后重试。';
