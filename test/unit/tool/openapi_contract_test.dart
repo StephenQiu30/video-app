@@ -36,7 +36,12 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(23));
+    expect(selectedPaths, hasLength(28));
+    expect(selectedPaths, contains('/api/source-discoveries'));
+    expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
+    expect(selectedPaths, contains('/api/inspections'));
+    expect(selectedPaths, contains('/api/inspections/{inspection_id}'));
+    expect(selectedPaths, contains('/api/downloads'));
     expect(selectedPaths, contains('/api/downloads/{job_id}'));
     expect(selectedPaths, contains('/api/downloads/{job_id}/download-url'));
     expect(selectedPaths, contains('/api/admin/users'));
@@ -59,6 +64,10 @@ void main() {
     expect(schemas, contains('DocumentResponse'));
     expect(schemas, contains('ProviderStatusResponse'));
     expect(schemas, contains('DownloadUrlResponse'));
+    expect(schemas, contains('InspectionRequest'));
+    expect(schemas, contains('InspectionResponse'));
+    expect(schemas, contains('SourceDiscoveryResponse'));
+    expect(schemas, contains('DownloadRequest'));
     expect(schemas, contains('ManagedUserResponse'));
     final thumbnail =
         selectedPaths['/api/downloads/{job_id}/thumbnail']

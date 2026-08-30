@@ -6,6 +6,7 @@ import 'package:video_server_api/video_server_api.dart';
 
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
+import '../../support/intake_fakes.dart';
 import 'test_app.dart';
 
 void main() {
@@ -65,50 +66,46 @@ void main() {
     expect(find.text('选择剧本文件'), findsOneWidget);
   });
 
-  testWidgets('shows validation feedback without invoking an intent', (
+  testWidgets('shows validation feedback without invoking inspection', (
     tester,
   ) async {
-    var called = false;
-    await pumpFramegrabApp(
-      tester,
-      inspect: (_) async {
-        called = true;
-      },
-    );
+    final repository = FakeDownloadIntakeRepository();
+    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
     await tester.enterText(find.byKey(const Key('media-url-input')), '无效地址');
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pump();
 
     expect(find.text('请输入有效的公开 HTTP(S) 视频地址。'), findsOneWidget);
-    expect(called, isFalse);
+    expect(repository.publicUrls, isEmpty);
   });
 
-  testWidgets('explains the native contract boundary for a valid URL', (
+  testWidgets('renders the live inspection and selectable formats', (
     tester,
   ) async {
-    await pumpFramegrabApp(tester);
+    final repository = FakeDownloadIntakeRepository();
+    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
       'https://media.example/video',
     );
     await tester.tap(find.byKey(const Key('inspect-media-button')));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.textContaining('媒体检查与下载契约尚未冻结'), findsOneWidget);
+    expect(repository.publicUrls, ['https://media.example/video']);
+    expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
+    expect(find.text('真实解析视频'), findsOneWidget);
+    expect(find.text('1080p MP4'), findsOneWidget);
+    expect(find.text('720p MP4'), findsOneWidget);
+    expect(find.byKey(const Key('create-download-button')), findsOneWidget);
   });
 
-  testWidgets('passes only the normalized URL to an injected intent', (
+  testWidgets('passes only the normalized URL to the generated client flow', (
     tester,
   ) async {
-    String? received;
-    await pumpFramegrabApp(
-      tester,
-      inspect: (value) async {
-        received = value;
-      },
-    );
+    final repository = FakeDownloadIntakeRepository();
+    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
@@ -117,8 +114,65 @@ void main() {
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(received, 'https://media.example/video?id=42');
-    expect(find.textContaining('原生认证与服务契约尚未冻结'), findsNothing);
+    expect(repository.publicUrls, ['https://media.example/video?id=42']);
+  });
+
+  testWidgets('discovers and opens an article candidate', (tester) async {
+    final repository = FakeDownloadIntakeRepository();
+    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+
+    await tester.enterText(
+      find.byKey(const Key('media-url-input')),
+      'https://mp.weixin.qq.com/s/article',
+    );
+    await tester.tap(find.byKey(const Key('inspect-media-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('source-discovery-workspace')), findsOneWidget);
+    expect(find.text('候选视频一'), findsOneWidget);
+    final candidate = find.byKey(
+      const Key('source-candidate-00000000-0000-0000-0000-000000000312'),
+    );
+    _scrollHomeTo(tester, 260);
+    await tester.pump();
+    await tester.tap(candidate);
+    await tester.pumpAndSettle();
+
+    expect(repository.selectedItems, ['00000000-0000-0000-0000-000000000312']);
+    expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
+  });
+
+  testWidgets('creates the selected format and opens the task detail', (
+    tester,
+  ) async {
+    final repository = FakeDownloadIntakeRepository();
+    final history = FakeDownloadHistoryRepository(
+      data: downloadHistoryFixture(),
+    );
+    await pumpFramegrabApp(
+      tester,
+      downloadHistoryRepository: history,
+      downloadIntakeRepository: repository,
+    );
+
+    await tester.enterText(
+      find.byKey(const Key('media-url-input')),
+      'https://media.example/video',
+    );
+    await tester.tap(find.byKey(const Key('inspect-media-button')));
+    await tester.pumpAndSettle();
+    final format = find.byKey(
+      const Key('format-option-00000000-0000-0000-0000-000000000303'),
+    );
+    _scrollHomeTo(tester, 880);
+    await tester.pump();
+    await tester.tap(format);
+    final create = find.byKey(const Key('create-download-button'));
+    await tester.tap(create);
+    await tester.pumpAndSettle();
+
+    expect(repository.createdFormats, ['00000000-0000-0000-0000-000000000303']);
+    expect(find.byKey(const Key('download-detail-content')), findsOneWidget);
   });
 
   testWidgets('shows real empty states for the signed-in account', (
@@ -411,4 +465,16 @@ void main() {
 
     expect(find.text('邮箱或密码不正确。'), findsOneWidget);
   });
+}
+
+Finder _homeScrollable() => find
+    .descendant(
+      of: find.byType(CustomScrollView),
+      matching: find.byType(Scrollable),
+    )
+    .first;
+
+void _scrollHomeTo(WidgetTester tester, double offset) {
+  final position = tester.state<ScrollableState>(_homeScrollable()).position;
+  position.jumpTo(offset.clamp(0, position.maxScrollExtent));
 }

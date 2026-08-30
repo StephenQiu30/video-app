@@ -649,6 +649,747 @@
         }
       }
     },
+    "/api/source-discoveries": {
+      "post": {
+        "tags": [
+          "source-discoveries"
+        ],
+        "summary": "发现微信公众号文章中的视频",
+        "operationId": "createSourceDiscovery",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SourceDiscoveryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceDiscoveryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/source-discoveries/{discovery_id}": {
+      "get": {
+        "tags": [
+          "source-discoveries"
+        ],
+        "summary": "查询文章视频发现结果",
+        "operationId": "getSourceDiscovery",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "discovery_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Discovery Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceDiscoveryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/inspections": {
+      "post": {
+        "tags": [
+          "inspections"
+        ],
+        "summary": "解析媒体信息",
+        "description": "校验公开媒体地址并返回可供选择的语义下载格式。",
+        "operationId": "inspectMedia",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InspectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InspectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/inspections/{inspection_id}": {
+      "get": {
+        "tags": [
+          "inspections"
+        ],
+        "summary": "查询媒体解析结果",
+        "description": "查询当前登录用户拥有的媒体解析结果。",
+        "operationId": "getInspection",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "inspection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Inspection Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InspectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads": {
+      "post": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "创建下载任务",
+        "description": "根据解析结果和语义格式创建异步下载任务。",
+        "operationId": "createDownload",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/downloads/history": {
       "get": {
         "tags": [
@@ -1279,6 +2020,16 @@
               "type": "string",
               "format": "uuid",
               "title": "Job Id"
+            }
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Preview"
             }
           }
         ],
@@ -3237,6 +3988,17 @@
   },
   "components": {
     "schemas": {
+      "AccessDecision": {
+        "type": "string",
+        "enum": [
+          "downloadable",
+          "playback_only",
+          "export_required",
+          "blocked",
+          "unsupported"
+        ],
+        "title": "AccessDecision"
+      },
       "AiProviderAuthMode": {
         "type": "string",
         "enum": [
@@ -3369,6 +4131,68 @@
           "source"
         ],
         "title": "ContainerPreference"
+      },
+      "DiscoveredItemInspectionSource": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "discovered_item",
+            "title": "Kind"
+          },
+          "discovery_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Discovery Id"
+          },
+          "item_ref": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Item Ref"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "discovery_id",
+          "item_ref"
+        ],
+        "title": "DiscoveredItemInspectionSource"
+      },
+      "DiscoveryDecisionHint": {
+        "type": "string",
+        "enum": [
+          "candidate",
+          "export_required",
+          "unsupported"
+        ],
+        "title": "DiscoveryDecisionHint"
+      },
+      "DiscoveryItemKind": {
+        "type": "string",
+        "enum": [
+          "official_account_native",
+          "tencent_video",
+          "wechat_channels",
+          "unknown"
+        ],
+        "title": "DiscoveryItemKind"
+      },
+      "DiscoveryItemStatus": {
+        "type": "string",
+        "enum": [
+          "ready",
+          "identity_unverified"
+        ],
+        "title": "DiscoveryItemStatus"
+      },
+      "DiscoveryStatus": {
+        "type": "string",
+        "enum": [
+          "ready",
+          "empty"
+        ],
+        "title": "DiscoveryStatus"
       },
       "DocumentPageResponse": {
         "properties": {
@@ -3953,6 +4777,30 @@
         ],
         "title": "DownloadHistorySummaryResponse"
       },
+      "DownloadRequest": {
+        "properties": {
+          "inspection_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Inspection Id",
+            "description": "仍在有效期内的媒体解析资源 ID。"
+          },
+          "format_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Format Id",
+            "description": "解析结果中选择的语义下载格式 ID。"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "inspection_id",
+          "format_id"
+        ],
+        "title": "DownloadRequest",
+        "description": "References an inspection and one format returned by that inspection."
+      },
       "DownloadResponse": {
         "properties": {
           "id": {
@@ -4220,6 +5068,50 @@
         ],
         "title": "EmailPasswordRequest"
       },
+      "EntitlementState": {
+        "type": "string",
+        "enum": [
+          "public_free",
+          "official_download_grant",
+          "restricted",
+          "unknown"
+        ],
+        "title": "EntitlementState"
+      },
+      "ExecutionMode": {
+        "type": "string",
+        "enum": [
+          "provider_runner",
+          "article_native",
+          "official_connector",
+          "verified_import"
+        ],
+        "title": "ExecutionMode"
+      },
+      "FormatResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/SemanticPlanResponse"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "plan"
+        ],
+        "title": "FormatResponse"
+      },
       "FpsBucket": {
         "type": "string",
         "enum": [
@@ -4228,6 +5120,15 @@
           "above_60"
         ],
         "title": "FpsBucket"
+      },
+      "IdentityState": {
+        "type": "string",
+        "enum": [
+          "verified",
+          "ambiguous",
+          "unknown"
+        ],
+        "title": "IdentityState"
       },
       "ImportErrorCode": {
         "type": "string",
@@ -4257,6 +5158,156 @@
           "expired"
         ],
         "title": "ImportStatus"
+      },
+      "InspectionRequest": {
+        "properties": {
+          "source": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PublicUrlInspectionSource"
+              },
+              {
+                "$ref": "#/components/schemas/DiscoveredItemInspectionSource"
+              }
+            ],
+            "title": "Source",
+            "discriminator": {
+              "propertyName": "kind",
+              "mapping": {
+                "discovered_item": "#/components/schemas/DiscoveredItemInspectionSource",
+                "public_url": "#/components/schemas/PublicUrlInspectionSource"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source"
+        ],
+        "title": "InspectionRequest",
+        "description": "One explicitly selected, owner-authorized inspection source."
+      },
+      "InspectionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "extractor_key": {
+            "type": "string",
+            "title": "Extractor Key"
+          },
+          "provider_media_id": {
+            "type": "string",
+            "title": "Provider Media Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "duration_seconds": {
+            "type": "integer",
+            "title": "Duration Seconds"
+          },
+          "thumbnail_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumbnail Url"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "formats": {
+            "items": {
+              "$ref": "#/components/schemas/FormatResponse"
+            },
+            "type": "array",
+            "title": "Formats"
+          },
+          "source_origin": {
+            "$ref": "#/components/schemas/SourceOrigin"
+          },
+          "execution_mode": {
+            "$ref": "#/components/schemas/ExecutionMode"
+          },
+          "access_decision": {
+            "$ref": "#/components/schemas/AccessDecision"
+          },
+          "entitlement_state": {
+            "$ref": "#/components/schemas/EntitlementState"
+          },
+          "identity_state": {
+            "$ref": "#/components/schemas/IdentityState"
+          },
+          "protection_state": {
+            "$ref": "#/components/schemas/ProtectionState"
+          },
+          "rights_basis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RightsBasis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "restriction_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Restriction Reason"
+          },
+          "user_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Action"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "extractor_key",
+          "provider_media_id",
+          "title",
+          "duration_seconds",
+          "thumbnail_url",
+          "expires_at",
+          "formats",
+          "source_origin",
+          "execution_mode",
+          "access_decision",
+          "entitlement_state",
+          "identity_state",
+          "protection_state",
+          "rights_basis",
+          "restriction_reason",
+          "user_action"
+        ],
+        "title": "InspectionResponse",
+        "description": "Inspection resource with normalized semantic download formats."
       },
       "ManagedUserListResponse": {
         "properties": {
@@ -4452,6 +5503,16 @@
         ],
         "title": "ProblemDetails",
         "description": "RFC 9457 error document returned by public API operations."
+      },
+      "ProtectionState": {
+        "type": "string",
+        "enum": [
+          "clear",
+          "encrypted",
+          "drm",
+          "unknown"
+        ],
+        "title": "ProtectionState"
       },
       "ProviderAccessMode": {
         "type": "string",
@@ -4695,6 +5756,32 @@
         ],
         "title": "ProviderSupportStatus"
       },
+      "PublicUrlInspectionSource": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "public_url",
+            "title": "Kind"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 8,
+            "title": "Url",
+            "description": "用户有权处理的公开、非 DRM HTTP(S) 媒体地址。",
+            "examples": [
+              "https://media.example/video"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "url"
+        ],
+        "title": "PublicUrlInspectionSource"
+      },
       "RegisterRequest": {
         "properties": {
           "email": {
@@ -4731,6 +5818,16 @@
           "username"
         ],
         "title": "RegisterRequest"
+      },
+      "RightsBasis": {
+        "type": "string",
+        "enum": [
+          "public_access",
+          "owner_authorized_export",
+          "official_asset_grant",
+          "user_provided"
+        ],
+        "title": "RightsBasis"
       },
       "SemanticPlanResponse": {
         "properties": {
@@ -4786,6 +5883,125 @@
           "compatibility_profile"
         ],
         "title": "SemanticPlanResponse"
+      },
+      "SourceDiscoveryItemResponse": {
+        "properties": {
+          "item_ref": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Item Ref"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/DiscoveryItemKind"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "decision_hint": {
+            "$ref": "#/components/schemas/DiscoveryDecisionHint"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DiscoveryItemStatus"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "item_ref",
+          "kind",
+          "title",
+          "duration_ms",
+          "decision_hint",
+          "status"
+        ],
+        "title": "SourceDiscoveryItemResponse"
+      },
+      "SourceDiscoveryRequest": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "wechat_official_account_article",
+            "title": "Kind"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 8,
+            "title": "Url"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "url"
+        ],
+        "title": "SourceDiscoveryRequest"
+      },
+      "SourceDiscoveryResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "provider_key": {
+            "type": "string",
+            "title": "Provider Key"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DiscoveryStatus"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SourceDiscoveryItemResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "provider_key",
+          "title",
+          "status",
+          "expires_at",
+          "items"
+        ],
+        "title": "SourceDiscoveryResponse"
+      },
+      "SourceOrigin": {
+        "type": "string",
+        "enum": [
+          "public_url",
+          "discovered_item",
+          "official_asset",
+          "verified_import"
+        ],
+        "title": "SourceOrigin"
       },
       "StorageCleanupRequest": {
         "properties": {

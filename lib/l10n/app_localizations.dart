@@ -1082,12 +1082,6 @@ abstract class AppLocalizations {
   /// **'请输入有效的公开 HTTP(S) 视频地址。'**
   String get mediaUrlError;
 
-  /// No description provided for @nativeContractPending.
-  ///
-  /// In zh, this message translates to:
-  /// **'页面表现层与原生登录已经就绪；媒体检查与下载契约尚未冻结，暂不能提交真实解析请求。'**
-  String get nativeContractPending;
-
   /// No description provided for @nativeUploadContractPending.
   ///
   /// In zh, this message translates to:
@@ -1099,6 +1093,150 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'操作未完成，请稍后重试。'**
   String get operationFailed;
+
+  /// No description provided for @inspectionResultTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析结果'**
+  String get inspectionResultTitle;
+
+  /// No description provided for @formatSelectionTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择下载格式'**
+  String get formatSelectionTitle;
+
+  /// No description provided for @formatSelectionDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'格式来自本次真实解析结果，创建后可在下载记录查看进度。'**
+  String get formatSelectionDescription;
+
+  /// No description provided for @createDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建下载任务'**
+  String get createDownloadAction;
+
+  /// No description provided for @creatingDownload.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在创建…'**
+  String get creatingDownload;
+
+  /// No description provided for @sourceCandidatesTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择文章中的视频'**
+  String get sourceCandidatesTitle;
+
+  /// No description provided for @sourceCandidatesDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'该文章包含多个媒体来源，请明确选择要处理的视频。'**
+  String get sourceCandidatesDescription;
+
+  /// No description provided for @sourceCandidatesEmpty.
+  ///
+  /// In zh, this message translates to:
+  /// **'文章中没有发现可处理的视频。'**
+  String get sourceCandidatesEmpty;
+
+  /// No description provided for @candidateUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前来源不可处理'**
+  String get candidateUnavailable;
+
+  /// No description provided for @mediaUnavailableTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前媒体不可下载'**
+  String get mediaUnavailableTitle;
+
+  /// No description provided for @mediaUnavailableDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端未批准创建下载任务。请根据提示更换公开链接或处理方式。'**
+  String get mediaUnavailableDescription;
+
+  /// No description provided for @noFormatsAvailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析成功，但没有可创建任务的下载格式。'**
+  String get noFormatsAvailable;
+
+  /// No description provided for @inspectionFailedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。'**
+  String get inspectionFailedError;
+
+  /// No description provided for @inspectionTimeoutError.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体解析超时，请稍后重新提交。'**
+  String get inspectionTimeoutError;
+
+  /// No description provided for @providerTemporaryError.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体平台当前无法完成验证，请稍后重试。'**
+  String get providerTemporaryError;
+
+  /// No description provided for @providerSessionError.
+  ///
+  /// In zh, this message translates to:
+  /// **'该平台当前需要服务端授权会话，暂时无法解析此内容。'**
+  String get providerSessionError;
+
+  /// No description provided for @providerRegionError.
+  ///
+  /// In zh, this message translates to:
+  /// **'该媒体在当前服务区域不可用。'**
+  String get providerRegionError;
+
+  /// No description provided for @providerRestrictedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'该媒体为私有或受访问权限限制，无法处理。'**
+  String get providerRestrictedError;
+
+  /// No description provided for @providerDrmError.
+  ///
+  /// In zh, this message translates to:
+  /// **'该媒体受 DRM 保护，不属于本服务支持范围。'**
+  String get providerDrmError;
+
+  /// No description provided for @providerLinkError.
+  ///
+  /// In zh, this message translates to:
+  /// **'分享链接已失效或无法定位视频，请复制新的公开分享链接。'**
+  String get providerLinkError;
+
+  /// No description provided for @providerUnsupportedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前链接不包含受支持的单个公开视频。'**
+  String get providerUnsupportedError;
+
+  /// No description provided for @durationLimitError.
+  ///
+  /// In zh, this message translates to:
+  /// **'该媒体时长超过服务允许的上限。'**
+  String get durationLimitError;
+
+  /// No description provided for @articleRestrictedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'文章需要验证、关注或付费，无法安全读取媒体来源。'**
+  String get articleRestrictedError;
+
+  /// No description provided for @articleDiscoveryError.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法读取文章中的媒体来源，请确认文章公开且链接有效。'**
+  String get articleDiscoveryError;
 
   /// No description provided for @legalMediaStatus.
   ///

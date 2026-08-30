@@ -4,7 +4,15 @@ import 'package:framegrab/core/config/app_config.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final videoServerApiProvider = Provider<VideoServerApi>(
-  (ref) => VideoServerApi(basePathOverride: AppConfig.serverBaseUrl),
+  (ref) => VideoServerApi(
+    dio: Dio(
+      BaseOptions(
+        baseUrl: AppConfig.serverBaseUrl,
+        connectTimeout: AppConfig.apiConnectTimeout,
+        receiveTimeout: AppConfig.apiReceiveTimeout,
+      ),
+    ),
+  ),
 );
 
 final nativeAuthGatewayProvider = Provider<NativeAuthGateway>(

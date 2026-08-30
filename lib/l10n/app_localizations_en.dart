@@ -522,16 +522,101 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mediaUrlError => 'Enter a valid public HTTP(S) video address.';
 
   @override
-  String get nativeContractPending =>
-      'The presentation layer and native sign-in are ready. The media inspection and download contract is not frozen, so real requests remain unavailable.';
-
-  @override
   String get nativeUploadContractPending =>
       'The page structure and native sign-in are ready. Upload and file authorization contracts are not frozen, so real files cannot be submitted yet.';
 
   @override
   String get operationFailed =>
       'The operation did not complete. Try again later.';
+
+  @override
+  String get inspectionResultTitle => 'Inspection result';
+
+  @override
+  String get formatSelectionTitle => 'Choose a download format';
+
+  @override
+  String get formatSelectionDescription =>
+      'These formats come from this live inspection. Track the created task in download history.';
+
+  @override
+  String get createDownloadAction => 'Create download task';
+
+  @override
+  String get creatingDownload => 'Creating…';
+
+  @override
+  String get sourceCandidatesTitle => 'Choose a video from the article';
+
+  @override
+  String get sourceCandidatesDescription =>
+      'This article contains multiple media sources. Select the video you want to process.';
+
+  @override
+  String get sourceCandidatesEmpty =>
+      'No processable video was found in this article.';
+
+  @override
+  String get candidateUnavailable => 'This source cannot be processed';
+
+  @override
+  String get mediaUnavailableTitle => 'This media cannot be downloaded';
+
+  @override
+  String get mediaUnavailableDescription =>
+      'The server did not approve a download task. Follow the guidance or submit another public link.';
+
+  @override
+  String get noFormatsAvailable =>
+      'Inspection succeeded, but no format is available for creating a download task.';
+
+  @override
+  String get inspectionFailedError =>
+      'The media provider did not return a valid inspection. Confirm this is a supported public single-video link.';
+
+  @override
+  String get inspectionTimeoutError =>
+      'Media inspection timed out. Submit it again later.';
+
+  @override
+  String get providerTemporaryError =>
+      'The media provider cannot complete verification right now. Try again later.';
+
+  @override
+  String get providerSessionError =>
+      'This provider currently requires a server-authorized session, so this media cannot be inspected.';
+
+  @override
+  String get providerRegionError =>
+      'This media is unavailable from the current service region.';
+
+  @override
+  String get providerRestrictedError =>
+      'This media is private or access-restricted and cannot be processed.';
+
+  @override
+  String get providerDrmError =>
+      'This media is DRM protected and is outside the supported service boundary.';
+
+  @override
+  String get providerLinkError =>
+      'The sharing link has expired or no longer resolves to a video. Copy a fresh public link.';
+
+  @override
+  String get providerUnsupportedError =>
+      'The submitted link does not contain one supported public video.';
+
+  @override
+  String get durationLimitError =>
+      'This media exceeds the service duration limit.';
+
+  @override
+  String get articleRestrictedError =>
+      'The article requires verification, following, or payment, so its media sources cannot be read safely.';
+
+  @override
+  String get articleDiscoveryError =>
+      'Media sources could not be read from this article. Confirm that the article is public and the link is valid.';
 
   @override
   String get legalMediaStatus =>

@@ -8,7 +8,15 @@ enum DataRequestFailureKind {
 }
 
 final class DataRequestFailure implements Exception {
-  const DataRequestFailure(this.kind);
+  const DataRequestFailure(
+    this.kind, {
+    this.code,
+    this.detail,
+    this.statusCode,
+  });
 
   final DataRequestFailureKind kind;
+  final String? code;
+  final String? detail;
+  final int? statusCode;
 }

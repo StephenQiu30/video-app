@@ -85,6 +85,20 @@ Future<void> _normalizeGeneratedSources(Directory package) async {
     'Object? readOptionalValue(Map<dynamic, dynamic> map,',
   );
   await optional.writeAsString(contents);
+
+  final generatedRoot = Directory('${package.path}/lib');
+  await for (final entity in generatedRoot.list(
+    recursive: true,
+    followLinks: false,
+  )) {
+    if (entity is! File || !entity.path.endsWith('.dart')) continue;
+    contents = await entity.readAsString();
+    final normalized = contents.replaceFirst(
+      '// ignore_for_file: unused_element',
+      '// ignore_for_file: unused_element, unused_element_parameter',
+    );
+    if (normalized != contents) await entity.writeAsString(normalized);
+  }
 }
 
 Future<void> _normalizeTextFiles(Directory root) async {

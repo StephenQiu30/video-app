@@ -81,17 +81,23 @@ Class | Method | HTTP request | Description
 [*AppAuthApi*](doc/AppAuthApi.md) | [**registerNativeUser**](doc/AppAuthApi.md#registernativeuser) | **POST** /api/app/v1/auth/register | 注册原生应用用户
 [*DocumentsApi*](doc/DocumentsApi.md) | [**listDocuments**](doc/DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
 [*DownloadsApi*](doc/DownloadsApi.md) | [**cancelDownload**](doc/DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
+[*DownloadsApi*](doc/DownloadsApi.md) | [**createDownload**](doc/DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownload**](doc/DownloadsApi.md#getdownload) | **GET** /api/downloads/{job_id} | 查询下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownloadHistory**](doc/DownloadsApi.md#getdownloadhistory) | **GET** /api/downloads/history | 查询下载历史
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownloadThumbnail**](doc/DownloadsApi.md#getdownloadthumbnail) | **GET** /api/downloads/{job_id}/thumbnail | 读取下载任务封面
 [*DownloadsApi*](doc/DownloadsApi.md) | [**issueDownloadUrl**](doc/DownloadsApi.md#issuedownloadurl) | **POST** /api/downloads/{job_id}/download-url | 签发文件下载地址
 [*DownloadsApi*](doc/DownloadsApi.md) | [**retryDownload**](doc/DownloadsApi.md#retrydownload) | **POST** /api/downloads/{job_id}/retry | 重试下载任务
+[*InspectionsApi*](doc/InspectionsApi.md) | [**getInspection**](doc/InspectionsApi.md#getinspection) | **GET** /api/inspections/{inspection_id} | 查询媒体解析结果
 [*InspectionsApi*](doc/InspectionsApi.md) | [**getInspectionThumbnail**](doc/InspectionsApi.md#getinspectionthumbnail) | **GET** /api/inspections/{inspection_id}/thumbnail | 读取持久化媒体封面
+[*InspectionsApi*](doc/InspectionsApi.md) | [**inspectMedia**](doc/InspectionsApi.md#inspectmedia) | **POST** /api/inspections | 解析媒体信息
 [*ProvidersApi*](doc/ProvidersApi.md) | [**listProviders**](doc/ProvidersApi.md#listproviders) | **GET** /api/providers | 查询平台能力状态
+[*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**createSourceDiscovery**](doc/SourceDiscoveriesApi.md#createsourcediscovery) | **POST** /api/source-discoveries | 发现微信公众号文章中的视频
+[*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**getSourceDiscovery**](doc/SourceDiscoveriesApi.md#getsourcediscovery) | **GET** /api/source-discoveries/{discovery_id} | 查询文章视频发现结果
 
 
 ## Documentation For Models
 
+ - [AccessDecision](doc/AccessDecision.md)
  - [AiProviderAuthMode](doc/AiProviderAuthMode.md)
  - [AiProviderEngine](doc/AiProviderEngine.md)
  - [AiProviderProfileListResponse](doc/AiProviderProfileListResponse.md)
@@ -99,6 +105,11 @@ Class | Method | HTTP request | Description
  - [AudioCodecFamily](doc/AudioCodecFamily.md)
  - [CompatibilityProfile](doc/CompatibilityProfile.md)
  - [ContainerPreference](doc/ContainerPreference.md)
+ - [DiscoveredItemInspectionSource](doc/DiscoveredItemInspectionSource.md)
+ - [DiscoveryDecisionHint](doc/DiscoveryDecisionHint.md)
+ - [DiscoveryItemKind](doc/DiscoveryItemKind.md)
+ - [DiscoveryItemStatus](doc/DiscoveryItemStatus.md)
+ - [DiscoveryStatus](doc/DiscoveryStatus.md)
  - [DocumentPageResponse](doc/DocumentPageResponse.md)
  - [DocumentResponse](doc/DocumentResponse.md)
  - [DocumentSourceFormat](doc/DocumentSourceFormat.md)
@@ -110,6 +121,7 @@ Class | Method | HTTP request | Description
  - [DownloadHistoryItemResponse](doc/DownloadHistoryItemResponse.md)
  - [DownloadHistoryResponse](doc/DownloadHistoryResponse.md)
  - [DownloadHistorySummaryResponse](doc/DownloadHistorySummaryResponse.md)
+ - [DownloadRequest](doc/DownloadRequest.md)
  - [DownloadResponse](doc/DownloadResponse.md)
  - [DownloadSourceKind](doc/DownloadSourceKind.md)
  - [DownloadStage](doc/DownloadStage.md)
@@ -117,15 +129,23 @@ Class | Method | HTTP request | Description
  - [DownloadUrlResponse](doc/DownloadUrlResponse.md)
  - [DynamicRange](doc/DynamicRange.md)
  - [EmailPasswordRequest](doc/EmailPasswordRequest.md)
+ - [EntitlementState](doc/EntitlementState.md)
+ - [ExecutionMode](doc/ExecutionMode.md)
+ - [FormatResponse](doc/FormatResponse.md)
  - [FpsBucket](doc/FpsBucket.md)
+ - [IdentityState](doc/IdentityState.md)
  - [ImportErrorCode](doc/ImportErrorCode.md)
  - [ImportStatus](doc/ImportStatus.md)
+ - [InspectionRequest](doc/InspectionRequest.md)
+ - [InspectionResponse](doc/InspectionResponse.md)
  - [ManagedUserListResponse](doc/ManagedUserListResponse.md)
  - [ManagedUserResponse](doc/ManagedUserResponse.md)
+ - [ModelSource](doc/ModelSource.md)
  - [NativeLogoutRequest](doc/NativeLogoutRequest.md)
  - [NativeRefreshRequest](doc/NativeRefreshRequest.md)
  - [NativeSessionResponse](doc/NativeSessionResponse.md)
  - [ProblemDetails](doc/ProblemDetails.md)
+ - [ProtectionState](doc/ProtectionState.md)
  - [ProviderAccessMode](doc/ProviderAccessMode.md)
  - [ProviderCapability](doc/ProviderCapability.md)
  - [ProviderCatalogEntryResponse](doc/ProviderCatalogEntryResponse.md)
@@ -133,8 +153,14 @@ Class | Method | HTTP request | Description
  - [ProviderListResponse](doc/ProviderListResponse.md)
  - [ProviderStatusResponse](doc/ProviderStatusResponse.md)
  - [ProviderSupportStatus](doc/ProviderSupportStatus.md)
+ - [PublicUrlInspectionSource](doc/PublicUrlInspectionSource.md)
  - [RegisterRequest](doc/RegisterRequest.md)
+ - [RightsBasis](doc/RightsBasis.md)
  - [SemanticPlanResponse](doc/SemanticPlanResponse.md)
+ - [SourceDiscoveryItemResponse](doc/SourceDiscoveryItemResponse.md)
+ - [SourceDiscoveryRequest](doc/SourceDiscoveryRequest.md)
+ - [SourceDiscoveryResponse](doc/SourceDiscoveryResponse.md)
+ - [SourceOrigin](doc/SourceOrigin.md)
  - [StorageCleanupRequest](doc/StorageCleanupRequest.md)
  - [StorageCleanupResponse](doc/StorageCleanupResponse.md)
  - [StoredFileCategory](doc/StoredFileCategory.md)

@@ -5,19 +5,20 @@ import 'package:framegrab/app/app.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/data/refresh_credential_store.dart';
 import 'package:framegrab/features/documents/data/document_repository.dart';
-import 'package:framegrab/features/download/application/inspect_media_intent.dart';
+import 'package:framegrab/features/download/data/download_intake_repository.dart';
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/providers/data/provider_status_repository.dart';
 
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
+import '../../support/intake_fakes.dart';
 
 Future<void> pumpFramegrabApp(
   WidgetTester tester, {
-  InspectMediaIntent? inspect,
   NativeAuthGateway? authGateway,
   RefreshCredentialStore? credentialStore,
   DocumentRepository? documentRepository,
+  DownloadIntakeRepository? downloadIntakeRepository,
   DownloadHistoryRepository? downloadHistoryRepository,
   ProviderStatusRepository? providerStatusRepository,
   Locale locale = const Locale('zh'),
@@ -25,8 +26,9 @@ Future<void> pumpFramegrabApp(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        if (inspect != null)
-          inspectMediaIntentProvider.overrideWithValue(inspect),
+        downloadIntakeRepositoryProvider.overrideWithValue(
+          downloadIntakeRepository ?? FakeDownloadIntakeRepository(),
+        ),
         nativeAuthGatewayProvider.overrideWithValue(
           authGateway ?? FakeAuthGateway(),
         ),

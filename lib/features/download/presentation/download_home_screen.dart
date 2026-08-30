@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/app/presentation/app_bottom_navigation.dart';
+import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/features/documents/presentation/document_list_screen.dart';
-import 'package:framegrab/features/download/application/inspect_media_intent.dart';
+import 'package:framegrab/features/download/application/download_intake_controller.dart';
 import 'package:framegrab/features/download/application/media_url_input.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/features/download/presentation/download_home_content.dart';
+import 'package:framegrab/features/download/presentation/download_intake_workspace.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
+import 'package:framegrab/features/download/presentation/intake_failure_message.dart';
+import 'package:framegrab/features/history/application/download_history_provider.dart';
 import 'package:framegrab/features/history/presentation/download_history_screen.dart';
 import 'package:framegrab/features/providers/application/provider_status_provider.dart';
 import 'package:framegrab/features/providers/presentation/provider_status_screen.dart';
@@ -25,7 +29,6 @@ final class DownloadHomeScreen extends ConsumerStatefulWidget {
 
 final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
   final _urlController = TextEditingController();
-  bool _busy = false;
   String? _error;
   bool _urlInvalid = false;
   int _selectedIndex = 0;
@@ -65,38 +68,19 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
       return;
     }
 
-    final inspect = ref.read(inspectMediaIntentProvider);
-    if (inspect == null) {
-      setState(() {
-        _error = localizations.nativeContractPending;
-        _urlInvalid = false;
-        _statusTone = DownloadNoticeTone.neutral;
-      });
-      return;
-    }
-
     setState(() {
-      _busy = true;
       _error = null;
       _urlInvalid = false;
       _statusTone = DownloadNoticeTone.destructive;
     });
-    try {
-      await inspect(normalized);
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _error = localizations.operationFailed;
-          _statusTone = DownloadNoticeTone.destructive;
-        });
-      }
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
+    await ref
+        .read(downloadIntakeControllerProvider.notifier)
+        .inspect(normalized);
   }
 
   void _clear() {
     _urlController.clear();
+    ref.read(downloadIntakeControllerProvider.notifier).clearResult();
     setState(() {
       _error = null;
       _urlInvalid = false;
@@ -113,20 +97,36 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
     });
   }
 
+  Future<void> _createDownload() async {
+    final job = await ref
+        .read(downloadIntakeControllerProvider.notifier)
+        .createDownload();
+    if (!mounted || job == null) return;
+    ref.invalidate(downloadHistoryProvider);
+    DownloadDetailRoute(jobId: job.id).go(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final intake = ref.watch(downloadIntakeControllerProvider);
+    final remoteError = intake.error;
+    final error = remoteError == null
+        ? _error
+        : intakeFailureMessage(localizations, remoteError);
     return Scaffold(
       appBar: const DownloadAppBar(),
       body: IndexedStack(
         index: _selectedIndex,
         children: [
           DownloadHomeContent(
-            busy: _busy,
+            busy: intake.busy,
             controller: _urlController,
-            error: _error,
+            error: error,
             invalid: _urlInvalid,
             mode: _selectedIntakeMode,
             onChanged: (_) {
+              ref.read(downloadIntakeControllerProvider.notifier).clearResult();
               setState(() {
                 if (_error != null) _error = null;
                 _urlInvalid = false;
@@ -135,6 +135,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             },
             onClear: _clear,
             onModeChanged: (mode) {
+              ref.read(downloadIntakeControllerProvider.notifier).clearResult();
               setState(() {
                 _selectedIntakeMode = mode;
                 _error = null;
@@ -146,7 +147,27 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             onSubmit: () {
               _submit();
             },
-            statusTone: _statusTone,
+            result:
+                _selectedIntakeMode == ContentIntakeMode.link &&
+                    (intake.discovery != null || intake.inspection != null)
+                ? DownloadIntakeWorkspace(
+                    onCreate: () {
+                      _createDownload();
+                    },
+                    onSelectFormat: ref
+                        .read(downloadIntakeControllerProvider.notifier)
+                        .selectFormat,
+                    onSelectItem: (itemRef) {
+                      ref
+                          .read(downloadIntakeControllerProvider.notifier)
+                          .inspectItem(itemRef);
+                    },
+                    state: intake,
+                  )
+                : null,
+            statusTone: remoteError == null
+                ? _statusTone
+                : DownloadNoticeTone.destructive,
           ),
           _lazyPage(1, const DownloadHistoryScreen()),
           _lazyPage(2, const DocumentListScreen()),

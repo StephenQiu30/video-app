@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**cancelDownload**](DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
+[**createDownload**](DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
 [**getDownload**](DownloadsApi.md#getdownload) | **GET** /api/downloads/{job_id} | 查询下载任务
 [**getDownloadHistory**](DownloadsApi.md#getdownloadhistory) | **GET** /api/downloads/history | 查询下载历史
 [**getDownloadThumbnail**](DownloadsApi.md#getdownloadthumbnail) | **GET** /api/downloads/{job_id}/thumbnail | 读取下载任务封面
@@ -56,6 +57,51 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createDownload**
+> DownloadResponse createDownload(idempotencyKey, downloadRequest)
+
+创建下载任务
+
+根据解析结果和语义格式创建异步下载任务。
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getDownloadsApi();
+final String idempotencyKey = idempotencyKey_example; // String | 同一业务操作的安全重试必须复用相同键值。
+final DownloadRequest downloadRequest = ; // DownloadRequest |
+
+try {
+    final response = api.createDownload(idempotencyKey, downloadRequest);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling DownloadsApi->createDownload: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **idempotencyKey** | **String**| 同一业务操作的安全重试必须复用相同键值。 |
+ **downloadRequest** | [**DownloadRequest**](DownloadRequest.md)|  |
+
+### Return type
+
+[**DownloadResponse**](DownloadResponse.md)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -192,7 +238,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **issueDownloadUrl**
-> DownloadUrlResponse issueDownloadUrl(jobId)
+> DownloadUrlResponse issueDownloadUrl(jobId, preview)
 
 签发文件下载地址
 
@@ -204,9 +250,10 @@ import 'package:video_server_api/api.dart';
 
 final api = VideoServerApi().getDownloadsApi();
 final String jobId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final bool preview = true; // bool |
 
 try {
-    final response = api.issueDownloadUrl(jobId);
+    final response = api.issueDownloadUrl(jobId, preview);
     print(response);
 } on DioException catch (e) {
     print('Exception when calling DownloadsApi->issueDownloadUrl: $e\n');
@@ -218,6 +265,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **jobId** | **String**|  |
+ **preview** | **bool**|  | [optional] [default to false]
 
 ### Return type
 

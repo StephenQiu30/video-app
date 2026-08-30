@@ -34,6 +34,17 @@ const appOpenApiConfig = AppOpenApiConfig(
     OpenApiOperationSelection(method: 'get', path: '/api/app/v1/auth/me'),
     OpenApiOperationSelection(method: 'post', path: '/api/app/v1/auth/refresh'),
     OpenApiOperationSelection(method: 'post', path: '/api/app/v1/auth/logout'),
+    OpenApiOperationSelection(method: 'post', path: '/api/source-discoveries'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/source-discoveries/{discovery_id}',
+    ),
+    OpenApiOperationSelection(method: 'post', path: '/api/inspections'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/inspections/{inspection_id}',
+    ),
+    OpenApiOperationSelection(method: 'post', path: '/api/downloads'),
     OpenApiOperationSelection(
       method: 'get',
       path: '/api/downloads/history',

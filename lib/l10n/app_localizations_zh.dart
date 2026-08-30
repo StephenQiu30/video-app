@@ -505,15 +505,83 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mediaUrlError => '请输入有效的公开 HTTP(S) 视频地址。';
 
   @override
-  String get nativeContractPending =>
-      '页面表现层与原生登录已经就绪；媒体检查与下载契约尚未冻结，暂不能提交真实解析请求。';
-
-  @override
   String get nativeUploadContractPending =>
       '页面结构与原生登录已经就绪；上传与文件授权契约尚未冻结，暂不能选择或提交真实文件。';
 
   @override
   String get operationFailed => '操作未完成，请稍后重试。';
+
+  @override
+  String get inspectionResultTitle => '解析结果';
+
+  @override
+  String get formatSelectionTitle => '选择下载格式';
+
+  @override
+  String get formatSelectionDescription => '格式来自本次真实解析结果，创建后可在下载记录查看进度。';
+
+  @override
+  String get createDownloadAction => '创建下载任务';
+
+  @override
+  String get creatingDownload => '正在创建…';
+
+  @override
+  String get sourceCandidatesTitle => '选择文章中的视频';
+
+  @override
+  String get sourceCandidatesDescription => '该文章包含多个媒体来源，请明确选择要处理的视频。';
+
+  @override
+  String get sourceCandidatesEmpty => '文章中没有发现可处理的视频。';
+
+  @override
+  String get candidateUnavailable => '当前来源不可处理';
+
+  @override
+  String get mediaUnavailableTitle => '当前媒体不可下载';
+
+  @override
+  String get mediaUnavailableDescription => '服务端未批准创建下载任务。请根据提示更换公开链接或处理方式。';
+
+  @override
+  String get noFormatsAvailable => '解析成功，但没有可创建任务的下载格式。';
+
+  @override
+  String get inspectionFailedError => '媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。';
+
+  @override
+  String get inspectionTimeoutError => '媒体解析超时，请稍后重新提交。';
+
+  @override
+  String get providerTemporaryError => '媒体平台当前无法完成验证，请稍后重试。';
+
+  @override
+  String get providerSessionError => '该平台当前需要服务端授权会话，暂时无法解析此内容。';
+
+  @override
+  String get providerRegionError => '该媒体在当前服务区域不可用。';
+
+  @override
+  String get providerRestrictedError => '该媒体为私有或受访问权限限制，无法处理。';
+
+  @override
+  String get providerDrmError => '该媒体受 DRM 保护，不属于本服务支持范围。';
+
+  @override
+  String get providerLinkError => '分享链接已失效或无法定位视频，请复制新的公开分享链接。';
+
+  @override
+  String get providerUnsupportedError => '当前链接不包含受支持的单个公开视频。';
+
+  @override
+  String get durationLimitError => '该媒体时长超过服务允许的上限。';
+
+  @override
+  String get articleRestrictedError => '文章需要验证、关注或付费，无法安全读取媒体来源。';
+
+  @override
+  String get articleDiscoveryError => '无法读取文章中的媒体来源，请确认文章公开且链接有效。';
 
   @override
   String get legalMediaStatus => '请仅提交你有权处理的公开链接';

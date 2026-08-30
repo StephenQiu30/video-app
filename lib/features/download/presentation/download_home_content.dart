@@ -15,6 +15,7 @@ final class DownloadHomeContent extends StatelessWidget {
     required this.onModeChanged,
     required this.onPendingAction,
     required this.onSubmit,
+    required this.result,
     required this.statusTone,
     super.key,
   });
@@ -29,6 +30,7 @@ final class DownloadHomeContent extends StatelessWidget {
   final ValueChanged<ContentIntakeMode> onModeChanged;
   final VoidCallback onPendingAction;
   final VoidCallback onSubmit;
+  final Widget? result;
   final DownloadNoticeTone statusTone;
 
   @override
@@ -69,6 +71,10 @@ final class DownloadHomeContent extends StatelessWidget {
                       if (error != null) ...[
                         const SizedBox(height: 24),
                         DownloadInlineStatus(message: error!, tone: statusTone),
+                      ],
+                      if (result != null) ...[
+                        const SizedBox(height: 32),
+                        result!,
                       ],
                       const SizedBox(height: 64),
                       const DownloadTrustFooter(),

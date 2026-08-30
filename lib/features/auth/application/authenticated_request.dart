@@ -64,12 +64,22 @@ final class AuthenticatedRequest {
 }
 
 DataRequestFailure _mapFailure(DioException error) {
-  final kind = switch (error.response?.statusCode) {
+  final statusCode = error.response?.statusCode;
+  final kind = switch (statusCode) {
     401 => DataRequestFailureKind.unauthenticated,
     403 => DataRequestFailureKind.forbidden,
     429 => DataRequestFailureKind.rateLimited,
     null => DataRequestFailureKind.unavailable,
+    final int value when value >= 500 => DataRequestFailureKind.unavailable,
     _ => DataRequestFailureKind.unknown,
   };
-  return DataRequestFailure(kind);
+  final body = error.response?.data;
+  final code = body is Map ? body['code'] as String? : null;
+  final detail = body is Map ? body['detail'] as String? : null;
+  return DataRequestFailure(
+    kind,
+    code: code,
+    detail: detail,
+    statusCode: statusCode,
+  );
 }

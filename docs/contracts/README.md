@@ -10,7 +10,7 @@
 
 ## 已冻结的原生契约
 
-`video-server` 已冻结 23 个 App 操作。本仓库快照位于 `contracts/openapi/video-server.openapi.json`，包含原生认证、下载历史与详情、私有封面、短时下载地址、取消/重试、剧本文档、平台状态，以及下载分析、文件、用户、平台目录和 AI 线路的管理员操作。Flutter 通过生成包 `video_server_api` 接入：
+`video-server` 已冻结 28 个 App 操作。本仓库快照位于 `contracts/openapi/video-server.openapi.json`，包含原生认证、来源发现、媒体解析、下载创建、下载历史与详情、私有封面、短时下载地址、取消/重试、剧本文档、平台状态，以及下载分析、文件、用户、平台目录和 AI 线路的管理员操作。Flutter 通过生成包 `video_server_api` 接入：
 
 1. Access Token 只在内存中使用；Refresh Credential 只写入系统安全存储。
 2. App 启动使用 Refresh Rotation 恢复会话；旧 Refresh Credential 不可重放。
@@ -21,8 +21,8 @@
 7. 私有封面使用生成客户端读取内存字节；短时下载地址只按操作即时签发，不写入日志或持久化状态。
 8. 管理员用户列表的移动子契约只保留实际使用的分页参数，避免生成器把未传可选筛选项编码为空字符串。
 
-## 仍待冻结的业务契约
+## 当前业务契约状态
 
-认证、登录后只读数据、详情封面、短期文件授权、取消/重试和移动管理中心已经解除阻塞；媒体检查、创建下载、文件上传、WebSocket Token 更新和 AI 分析流程仍须逐项冻结后才能接入。对应操作继续 fail closed，不显示模拟远程结果。
+认证、登录后只读数据、来源发现、媒体检查、创建下载、详情封面、短期文件授权、取消/重试和移动管理中心已经解除阻塞；文件上传、WebSocket Token 更新和 AI 分析流程仍须逐项冻结后才能接入。对应未冻结操作继续 fail closed，不显示模拟远程结果。
 
-开发环境通过 `VIDEO_SERVER_BASE_URL` 注入服务地址；iOS 模拟器可使用 `http://127.0.0.1:8000`，Android 模拟器使用 `http://10.0.2.2:8000`。生产构建必须传入部署环境的 HTTPS 地址。
+开发环境通过 `VIDEO_SERVER_BASE_URL` 注入服务地址；默认值与根 Compose 一致，为 iOS 模拟器可访问的 `http://127.0.0.1:8111`，Android 模拟器使用 `http://10.0.2.2:8111`。生产构建必须传入部署环境的 HTTPS 地址。
