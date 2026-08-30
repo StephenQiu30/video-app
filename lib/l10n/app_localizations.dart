@@ -167,20 +167,8 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryDescription.
   ///
   /// In zh, this message translates to:
-  /// **'搜索、筛选并恢复下载任务，查看进度、失败原因、完成后视频预览、文件状态与 AI 分析入口。'**
+  /// **'查看当前账户的下载任务、处理进度、失败原因与文件状态。'**
   String get downloadHistoryDescription;
-
-  /// No description provided for @downloadHistoryPendingTitle.
-  ///
-  /// In zh, this message translates to:
-  /// **'下载记录尚未开放'**
-  String get downloadHistoryPendingTitle;
-
-  /// No description provided for @downloadHistoryPendingDescription.
-  ///
-  /// In zh, this message translates to:
-  /// **'任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。'**
-  String get downloadHistoryPendingDescription;
 
   /// No description provided for @screenplayDocumentsDescription.
   ///
@@ -188,40 +176,430 @@ abstract class AppLocalizations {
   /// **'查看剧本文档的导入状态、提取规模、规范化预览，以及分析与改写结果。'**
   String get screenplayDocumentsDescription;
 
-  /// No description provided for @screenplayDocumentsPendingTitle.
-  ///
-  /// In zh, this message translates to:
-  /// **'剧本文档尚未开放'**
-  String get screenplayDocumentsPendingTitle;
-
-  /// No description provided for @screenplayDocumentsPendingDescription.
-  ///
-  /// In zh, this message translates to:
-  /// **'原生上传、文档查询与文件授权契约冻结后，这里将展示真实剧本文档和处理结果。'**
-  String get screenplayDocumentsPendingDescription;
-
   /// No description provided for @providerStatusDescription.
   ///
   /// In zh, this message translates to:
   /// **'查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。'**
   String get providerStatusDescription;
 
-  /// No description provided for @providerStatusPendingTitle.
+  /// No description provided for @loadingData.
   ///
   /// In zh, this message translates to:
-  /// **'平台状态尚未开放'**
-  String get providerStatusPendingTitle;
+  /// **'正在读取真实数据…'**
+  String get loadingData;
 
-  /// No description provided for @providerStatusPendingDescription.
+  /// No description provided for @loadFailedTitle.
   ///
   /// In zh, this message translates to:
-  /// **'平台能力查询契约冻结后，这里将读取服务端返回的真实平台状态，不显示模拟数据。'**
-  String get providerStatusPendingDescription;
+  /// **'暂时无法读取数据'**
+  String get loadFailedTitle;
+
+  /// No description provided for @loadFailedDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'请检查网络连接后重试。已有数据不会被占位内容替代。'**
+  String get loadFailedDescription;
+
+  /// No description provided for @retryAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'重新加载'**
+  String get retryAction;
+
+  /// No description provided for @refreshAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'刷新数据'**
+  String get refreshAction;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'全部'**
+  String get totalLabel;
+
+  /// No description provided for @availableLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'可用'**
+  String get availableLabel;
+
+  /// No description provided for @succeededLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'已完成'**
+  String get succeededLabel;
+
+  /// No description provided for @activeLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'进行中'**
+  String get activeLabel;
+
+  /// No description provided for @failedLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'失败'**
+  String get failedLabel;
+
+  /// No description provided for @yesLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'是'**
+  String get yesLabel;
+
+  /// No description provided for @noLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'否'**
+  String get noLabel;
+
+  /// No description provided for @downloadHistoryEmptyTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无下载记录'**
+  String get downloadHistoryEmptyTitle;
+
+  /// No description provided for @downloadHistoryEmptyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'你创建或导入的任务会显示在这里。当前结果来自你的真实账户。'**
+  String get downloadHistoryEmptyDescription;
+
+  /// No description provided for @downloadStatusQueued.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待中'**
+  String get downloadStatusQueued;
+
+  /// No description provided for @downloadStatusRunning.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载中'**
+  String get downloadStatusRunning;
+
+  /// No description provided for @downloadStatusRetryWait.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待重试'**
+  String get downloadStatusRetryWait;
+
+  /// No description provided for @downloadStatusSucceeded.
+  ///
+  /// In zh, this message translates to:
+  /// **'已完成'**
+  String get downloadStatusSucceeded;
+
+  /// No description provided for @downloadStatusFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'失败'**
+  String get downloadStatusFailed;
+
+  /// No description provided for @downloadStatusCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已取消'**
+  String get downloadStatusCancelled;
+
+  /// No description provided for @downloadStatusUnknown.
+  ///
+  /// In zh, this message translates to:
+  /// **'状态未知'**
+  String get downloadStatusUnknown;
+
+  /// No description provided for @progressLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'进度'**
+  String get progressLabel;
+
+  /// No description provided for @updatedAtLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'更新于'**
+  String get updatedAtLabel;
+
+  /// No description provided for @showingFirstPage.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前显示最近 20 条'**
+  String get showingFirstPage;
+
+  /// No description provided for @failureCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'任务已取消'**
+  String get failureCancelled;
+
+  /// No description provided for @failureTimeout.
+  ///
+  /// In zh, this message translates to:
+  /// **'处理超时'**
+  String get failureTimeout;
+
+  /// No description provided for @failureProviderAccess.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台需要授权或限制访问'**
+  String get failureProviderAccess;
+
+  /// No description provided for @failureProviderTemporary.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台暂时不可用'**
+  String get failureProviderTemporary;
+
+  /// No description provided for @failureStorage.
+  ///
+  /// In zh, this message translates to:
+  /// **'存储暂时不可用'**
+  String get failureStorage;
+
+  /// No description provided for @failureGeneric.
+  ///
+  /// In zh, this message translates to:
+  /// **'处理未完成'**
+  String get failureGeneric;
+
+  /// No description provided for @documentEmptyTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无剧本文档'**
+  String get documentEmptyTitle;
+
+  /// No description provided for @documentEmptyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'你导入的剧本文档会显示在这里。当前结果来自你的真实账户。'**
+  String get documentEmptyDescription;
+
+  /// No description provided for @documentStatusUploading.
+  ///
+  /// In zh, this message translates to:
+  /// **'上传中'**
+  String get documentStatusUploading;
+
+  /// No description provided for @documentStatusVerifying.
+  ///
+  /// In zh, this message translates to:
+  /// **'校验中'**
+  String get documentStatusVerifying;
+
+  /// No description provided for @documentStatusReady.
+  ///
+  /// In zh, this message translates to:
+  /// **'可用'**
+  String get documentStatusReady;
+
+  /// No description provided for @documentStatusFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'失败'**
+  String get documentStatusFailed;
+
+  /// No description provided for @documentStatusCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已取消'**
+  String get documentStatusCancelled;
+
+  /// No description provided for @documentStatusExpired.
+  ///
+  /// In zh, this message translates to:
+  /// **'已过期'**
+  String get documentStatusExpired;
+
+  /// No description provided for @documentStatusUnknown.
+  ///
+  /// In zh, this message translates to:
+  /// **'状态未知'**
+  String get documentStatusUnknown;
+
+  /// No description provided for @fileSizeLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件大小'**
+  String get fileSizeLabel;
+
+  /// No description provided for @sceneCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'场景'**
+  String get sceneCountLabel;
+
+  /// No description provided for @characterCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'角色'**
+  String get characterCountLabel;
+
+  /// No description provided for @languageLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'语言'**
+  String get languageLabel;
+
+  /// No description provided for @providerEmptyTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无平台状态'**
+  String get providerEmptyTitle;
+
+  /// No description provided for @providerEmptyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端当前没有公开的平台能力记录，请稍后刷新。'**
+  String get providerEmptyDescription;
+
+  /// No description provided for @downloadAvailableLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载可用'**
+  String get downloadAvailableLabel;
+
+  /// No description provided for @capabilitiesLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'能力'**
+  String get capabilitiesLabel;
+
+  /// No description provided for @accessModesLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'访问方式'**
+  String get accessModesLabel;
+
+  /// No description provided for @lastVerifiedLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'最近验证'**
+  String get lastVerifiedLabel;
+
+  /// No description provided for @userActionLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'建议操作'**
+  String get userActionLabel;
+
+  /// No description provided for @providerStatusUnknown.
+  ///
+  /// In zh, this message translates to:
+  /// **'待验证'**
+  String get providerStatusUnknown;
+
+  /// No description provided for @providerStatusVerified.
+  ///
+  /// In zh, this message translates to:
+  /// **'已验证'**
+  String get providerStatusVerified;
+
+  /// No description provided for @providerStatusDegraded.
+  ///
+  /// In zh, this message translates to:
+  /// **'能力受限'**
+  String get providerStatusDegraded;
+
+  /// No description provided for @providerStatusAccessRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'需要访问授权'**
+  String get providerStatusAccessRequired;
+
+  /// No description provided for @providerStatusRateLimited.
+  ///
+  /// In zh, this message translates to:
+  /// **'受到限流'**
+  String get providerStatusRateLimited;
+
+  /// No description provided for @providerStatusBlocked.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前受阻'**
+  String get providerStatusBlocked;
+
+  /// No description provided for @providerStatusDisabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已停用'**
+  String get providerStatusDisabled;
+
+  /// No description provided for @providerStatusUnsupported.
+  ///
+  /// In zh, this message translates to:
+  /// **'不支持'**
+  String get providerStatusUnsupported;
+
+  /// No description provided for @capabilitySingleVideo.
+  ///
+  /// In zh, this message translates to:
+  /// **'单视频'**
+  String get capabilitySingleVideo;
+
+  /// No description provided for @capabilityShortVideo.
+  ///
+  /// In zh, this message translates to:
+  /// **'短视频'**
+  String get capabilityShortVideo;
+
+  /// No description provided for @capabilityClipOrVod.
+  ///
+  /// In zh, this message translates to:
+  /// **'片段或点播'**
+  String get capabilityClipOrVod;
+
+  /// No description provided for @capabilityAudioVideoSplit.
+  ///
+  /// In zh, this message translates to:
+  /// **'音视频分离'**
+  String get capabilityAudioVideoSplit;
+
+  /// No description provided for @capabilitySubtitles.
+  ///
+  /// In zh, this message translates to:
+  /// **'字幕'**
+  String get capabilitySubtitles;
+
+  /// No description provided for @capabilityImageOrCarousel.
+  ///
+  /// In zh, this message translates to:
+  /// **'图片或图集'**
+  String get capabilityImageOrCarousel;
+
+  /// No description provided for @capabilityLive.
+  ///
+  /// In zh, this message translates to:
+  /// **'直播'**
+  String get capabilityLive;
+
+  /// No description provided for @capabilityPlaylist.
+  ///
+  /// In zh, this message translates to:
+  /// **'播放列表'**
+  String get capabilityPlaylist;
+
+  /// No description provided for @accessModeAnonymous.
+  ///
+  /// In zh, this message translates to:
+  /// **'匿名访问'**
+  String get accessModeAnonymous;
+
+  /// No description provided for @accessModeOperatorManaged.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端托管'**
+  String get accessModeOperatorManaged;
+
+  /// No description provided for @notYetVerified.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚未验证'**
+  String get notYetVerified;
 
   /// No description provided for @accountDescription.
   ///
   /// In zh, this message translates to:
-  /// **'管理个人资料、登录状态和应用外观。'**
+  /// **'管理个人资料与登录状态。'**
   String get accountDescription;
 
   /// No description provided for @appearanceSection.
@@ -247,6 +625,132 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'在深色与浅色主题间切换'**
   String get themeToggleDescription;
+
+  /// No description provided for @switchToDarkTheme.
+  ///
+  /// In zh, this message translates to:
+  /// **'切换到深色主题'**
+  String get switchToDarkTheme;
+
+  /// No description provided for @switchToLightTheme.
+  ///
+  /// In zh, this message translates to:
+  /// **'切换到浅色主题'**
+  String get switchToLightTheme;
+
+  /// No description provided for @downloadDetailNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'任务详情'**
+  String get downloadDetailNavigation;
+
+  /// No description provided for @downloadDetailDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看任务当前执行状态、文件可用性与处理信息。'**
+  String get downloadDetailDescription;
+
+  /// No description provided for @sourceLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'来源'**
+  String get sourceLabel;
+
+  /// No description provided for @formatLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'格式'**
+  String get formatLabel;
+
+  /// No description provided for @stageLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'执行阶段'**
+  String get stageLabel;
+
+  /// No description provided for @attemptLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'执行次数'**
+  String get attemptLabel;
+
+  /// No description provided for @fileAvailabilityLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件状态'**
+  String get fileAvailabilityLabel;
+
+  /// No description provided for @createdAtLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建时间'**
+  String get createdAtLabel;
+
+  /// No description provided for @finishedAtLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'完成时间'**
+  String get finishedAtLabel;
+
+  /// No description provided for @durationLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体时长'**
+  String get durationLabel;
+
+  /// No description provided for @fileAvailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件可获取'**
+  String get fileAvailable;
+
+  /// No description provided for @fileCleared.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件已清理'**
+  String get fileCleared;
+
+  /// No description provided for @downloadStageRevalidating.
+  ///
+  /// In zh, this message translates to:
+  /// **'重新校验'**
+  String get downloadStageRevalidating;
+
+  /// No description provided for @downloadStageDownloading.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在下载'**
+  String get downloadStageDownloading;
+
+  /// No description provided for @downloadStageRemuxing.
+  ///
+  /// In zh, this message translates to:
+  /// **'封装处理中'**
+  String get downloadStageRemuxing;
+
+  /// No description provided for @downloadStageVerifying.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在验证'**
+  String get downloadStageVerifying;
+
+  /// No description provided for @downloadStageUploading.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在保存'**
+  String get downloadStageUploading;
+
+  /// No description provided for @downloadStageUnknown.
+  ///
+  /// In zh, this message translates to:
+  /// **'阶段未知'**
+  String get downloadStageUnknown;
+
+  /// No description provided for @formatUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'格式信息暂不可用'**
+  String get formatUnavailable;
 
   /// No description provided for @loginAction.
   ///

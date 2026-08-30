@@ -1,15 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/app/presentation/app_bottom_navigation.dart';
+import 'package:framegrab/features/documents/presentation/document_list_screen.dart';
 import 'package:framegrab/features/download/application/inspect_media_intent.dart';
 import 'package:framegrab/features/download/application/media_url_input.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/features/download/presentation/download_home_content.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
+import 'package:framegrab/features/history/presentation/download_history_screen.dart';
+import 'package:framegrab/features/providers/application/provider_status_provider.dart';
+import 'package:framegrab/features/providers/presentation/provider_status_screen.dart';
 import 'package:framegrab/features/settings/presentation/settings_screen.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:framegrab/shared/presentation/contract_pending_view.dart';
 
 final class DownloadHomeScreen extends ConsumerStatefulWidget {
   const DownloadHomeScreen({super.key});
@@ -24,8 +29,23 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
   String? _error;
   bool _urlInvalid = false;
   int _selectedIndex = 0;
+  final Set<int> _visitedIndexes = {0};
   ContentIntakeMode _selectedIntakeMode = ContentIntakeMode.link;
   DownloadNoticeTone _statusTone = DownloadNoticeTone.destructive;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(
+      Future<void>.microtask(() async {
+        try {
+          await ref.read(providerStatusProvider.future);
+        } catch (_) {
+          // The status page exposes the retryable error when the user opens it.
+        }
+      }),
+    );
+  }
 
   @override
   void dispose() {
@@ -95,7 +115,6 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: const DownloadAppBar(),
       body: IndexedStack(
@@ -129,33 +148,25 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             },
             statusTone: _statusTone,
           ),
-          ContractPendingView(
-            pageDescription: localizations.downloadHistoryDescription,
-            pageTitle: localizations.downloadHistoryNavigation,
-            title: localizations.downloadHistoryPendingTitle,
-            description: localizations.downloadHistoryPendingDescription,
-          ),
-          ContractPendingView(
-            pageDescription: localizations.screenplayDocumentsDescription,
-            pageTitle: localizations.screenplayDocumentsNavigation,
-            title: localizations.screenplayDocumentsPendingTitle,
-            description: localizations.screenplayDocumentsPendingDescription,
-          ),
-          ContractPendingView(
-            pageDescription: localizations.providerStatusDescription,
-            pageTitle: localizations.providerStatusNavigation,
-            title: localizations.providerStatusPendingTitle,
-            description: localizations.providerStatusPendingDescription,
-          ),
-          const SettingsScreen(),
+          _lazyPage(1, const DownloadHistoryScreen()),
+          _lazyPage(2, const DocumentListScreen()),
+          _lazyPage(3, const ProviderStatusScreen()),
+          _lazyPage(4, const SettingsScreen()),
         ],
       ),
       bottomNavigationBar: AppBottomNavigation(
         selectedIndex: _selectedIndex,
         onDestinationSelected: (index) {
-          setState(() => _selectedIndex = index);
+          setState(() {
+            _selectedIndex = index;
+            _visitedIndexes.add(index);
+          });
         },
       ),
     );
+  }
+
+  Widget _lazyPage(int index, Widget child) {
+    return _visitedIndexes.contains(index) ? child : const SizedBox.shrink();
   }
 }

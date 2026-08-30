@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 
 import '../../support/auth_fakes.dart';
+import '../../support/data_fakes.dart';
 import 'test_app.dart';
 
 void main() {
@@ -118,7 +119,7 @@ void main() {
     expect(find.textContaining('原生认证与服务契约尚未冻结'), findsNothing);
   });
 
-  testWidgets('switches bottom destinations without inventing remote data', (
+  testWidgets('shows real empty states for the signed-in account', (
     tester,
   ) async {
     await pumpFramegrabApp(tester);
@@ -126,8 +127,8 @@ void main() {
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
 
-    expect(find.text('下载记录尚未开放'), findsOneWidget);
-    expect(find.textContaining('真实任务、视频预览和分析状态'), findsOneWidget);
+    expect(find.text('暂无下载记录'), findsOneWidget);
+    expect(find.textContaining('真实账户'), findsOneWidget);
 
     final title = tester.getSemantics(
       find.byKey(const Key('page-title-heading')),
@@ -137,13 +138,99 @@ void main() {
     );
     expect(title.label, '下载记录');
     expect(title.flagsCollection.isHeader, isTrue);
-    expect(description.label, contains('搜索、筛选并恢复'));
+    expect(description.label, contains('当前账户的下载任务'));
     expect(description.flagsCollection.isHeader, isFalse);
 
     await tester.tap(find.byKey(const Key('app-tab-2')));
     await tester.pumpAndSettle();
-    expect(find.text('剧本文档尚未开放'), findsOneWidget);
-    expect(find.textContaining('规范化预览'), findsOneWidget);
+    expect(find.text('暂无剧本文档'), findsOneWidget);
+    expect(find.textContaining('真实账户'), findsOneWidget);
+  });
+
+  testWidgets('renders typed live records from all three repositories', (
+    tester,
+  ) async {
+    final providerRepository = FakeProviderStatusRepository(
+      data: providerFixture(),
+    );
+    await pumpFramegrabApp(
+      tester,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+      documentRepository: FakeDocumentRepository(data: documentFixture()),
+      providerStatusRepository: providerRepository,
+    );
+
+    expect(providerRepository.calls, 1);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(find.text('已完成'), findsWidgets);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    expect(find.text('真实剧本'), findsOneWidget);
+    expect(find.text('framegrab.docx'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('app-tab-3')));
+    await tester.pumpAndSettle();
+    expect(find.text('YouTube'), findsOneWidget);
+    expect(find.textContaining('单视频', findRichText: true), findsOneWidget);
+    expect(find.textContaining('匿名访问', findRichText: true), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('app-tab-0')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('app-tab-3')));
+    await tester.pumpAndSettle();
+    expect(providerRepository.calls, 1);
+  });
+
+  testWidgets('opens a live download detail from history', (tester) async {
+    final repository = FakeDownloadHistoryRepository(
+      data: downloadHistoryFixture(),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('download-detail-content')), findsOneWidget);
+    expect(find.text('1920×1080 · MP4 · H264'), findsOneWidget);
+    expect(find.text('文件可获取'), findsOneWidget);
+    expect(find.text('2:04'), findsOneWidget);
+    expect(find.byType(BackButton), findsOneWidget);
+    expect(repository.detailCalls, ['00000000-0000-0000-0000-000000000101']);
+  });
+
+  testWidgets('shows a retryable error instead of placeholder data', (
+    tester,
+  ) async {
+    final repository = FakeDownloadHistoryRepository(
+      error: StateError('offline'),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    expect(find.text('暂时无法读取数据'), findsOneWidget);
+    expect(find.text('重新加载'), findsOneWidget);
+    expect(find.text('下载记录尚未开放'), findsNothing);
+
+    repository
+      ..error = null
+      ..data = downloadHistoryFixture();
+    await tester.tap(find.text('重新加载'));
+    await tester.pumpAndSettle();
+    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(repository.calls, 2);
   });
 
   testWidgets('keeps the link input when navigating between destinations', (
@@ -166,22 +253,24 @@ void main() {
     expect(input.controller?.text, 'https://media.example/kept');
   });
 
-  testWidgets('opens Me from the bottom bar and switches appearance', (
+  testWidgets('switches appearance from the navbar without a Me duplicate', (
     tester,
   ) async {
     tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
     addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
     await pumpFramegrabApp(tester);
 
-    await tester.tap(find.byKey(const Key('app-tab-4')));
-    await tester.pumpAndSettle();
-    expect(find.text('外观'), findsOneWidget);
-
-    await tester.tap(find.byKey(const Key('dark-theme-switch')));
+    expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('navbar-theme-toggle')));
     await tester.pumpAndSettle();
 
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.themeMode, ThemeMode.dark);
+
+    await tester.tap(find.byKey(const Key('app-tab-4')));
+    await tester.pumpAndSettle();
+    expect(find.text('外观'), findsNothing);
+    expect(find.byKey(const Key('dark-theme-switch')), findsNothing);
   });
 
   testWidgets('opens independent login and registration routes', (

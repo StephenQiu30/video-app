@@ -1,5 +1,20 @@
 # Design QA — Product Design 方案一
 
+## 2026-08-30 009 顶部主题、状态性能与下载详情
+
+- iOS Simulator evidence: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/qa-output/009-navbar-status-detail/provider-status.png`
+- viewport and state: iPhone 17 Pro, iOS 26.5, zh-CN, light appearance, authenticated provider status with 24 real records
+
+No actionable P0, P1, P2, or P3 visual difference remains.
+
+- The global appearance action now sits in the borderless top navbar beside the retained wordmark. Its 44×44 target, Lucide moon/sun states and localized semantics remain available on every authenticated primary page and download detail.
+- The account page no longer duplicates appearance controls; account identity and sign-out retain their existing reading order.
+- Provider status is prefetched after authentication and cached for the session. The first status-tab inspection exposed the complete 24-item result immediately instead of an empty canvas or blocking spinner.
+- History rows are now explicit accessible buttons with a restrained chevron. The detail route preserves the continuous canvas, typography, hairline separators, native back affordance and Web-sourced task information.
+- Real history and detail contain user media titles, so no screenshot containing those titles is retained. Runtime Semantics and authenticated API responses provide the functional evidence.
+
+final result: passed
+
 ## 2026-08-30 007 无边框导航与认证门禁
 
 - selected visual truth: `/Users/stephenqiu/Desktop/StephenQiu/Video/video-app/docs/design/references/007-borderless-navigation-selected.png`
@@ -103,7 +118,7 @@ final result: passed
 - Input-focus evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/05-accessibility-medium-input-focus.png` confirms keyboard avoidance and visible focus.
 - Mode-switch evidence: `/Users/stephenqiu/.codex/visualizations/2026/08/30/01a051e5-0089-7012-8914-2deb208a8ee7/flutter-dynamic-type-fix/06-accessibility-medium-local-video.png` confirms the selected state and primary action remain reachable.
 - Simulator accessibility inspection exposed all five navigation tabs with complete localized names and selected states while only the active visual label was shown.
-- Widget coverage verifies full-width vertical positions, all three intake semantics, all five tab semantics and state transitions in Chinese and English. `./tool/check.sh` passed 16 tests; Android Debug and iOS Simulator builds passed.
+- Widget coverage verifies full-width vertical positions, all three intake semantics, all five tab semantics and state transitions in Chinese and English. `dart run tool/check.dart` passed 16 tests; Android Debug and iOS Simulator builds passed.
 
 final result: presentation passed / E2E blocked
 
@@ -124,7 +139,7 @@ final result: presentation passed / E2E blocked
 - 底部导航已更新为首页、下载记录、剧本文档、平台状态与我的五个目的地。
 - 下载记录说明已覆盖完成后视频预览与 AI 分析；平台状态说明已区分检查、真实下载和完整分析证据。
 - iPhone 17e 390×844 模拟器实际启动检查确认三种入口、五项导航和中文标签无横向溢出或截断。
-- `./tool/check.sh`、14 项测试、Android Debug APK 和 iOS Simulator 构建通过。
+- `dart run tool/check.dart`、14 项测试、Android Debug APK 和 iOS Simulator 构建通过。
 - 真实远程数据仍受原生会话、App OpenAPI、WebSocket 与文件授权契约阻塞，页面继续 fail closed，不展示模拟业务结果。
 
 final result: presentation passed / E2E blocked

@@ -10,6 +10,9 @@ import 'package:video_server_api/lib/auth/basic_auth.dart';
 import 'package:video_server_api/lib/auth/bearer_auth.dart';
 import 'package:video_server_api/lib/auth/oauth.dart';
 import 'package:video_server_api/lib/api/app_auth_api.dart';
+import 'package:video_server_api/lib/api/documents_api.dart';
+import 'package:video_server_api/lib/api/downloads_api.dart';
+import 'package:video_server_api/lib/api/providers_api.dart';
 
 class VideoServerApi {
   static const String basePath = r'http://localhost';
@@ -135,5 +138,23 @@ class VideoServerApi {
   /// by doing that all interceptors will not be executed
   AppAuthApi getAppAuthApi() {
     return AppAuthApi(dio, serializers);
+  }
+
+  /// Get DocumentsApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  DocumentsApi getDocumentsApi() {
+    return DocumentsApi(dio, serializers);
+  }
+
+  /// Get DownloadsApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  DownloadsApi getDownloadsApi() {
+    return DownloadsApi(dio, serializers);
+  }
+
+  /// Get ProvidersApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  ProvidersApi getProvidersApi() {
+    return ProvidersApi(dio, serializers);
   }
 }

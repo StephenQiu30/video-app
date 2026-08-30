@@ -44,43 +44,231 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadHistoryDescription =>
-      'Search, filter, and recover downloads, including progress, errors, completed video previews, file availability, and AI analysis.';
-
-  @override
-  String get downloadHistoryPendingTitle =>
-      'Download history is not available yet';
-
-  @override
-  String get downloadHistoryPendingDescription =>
-      'After task query and short-lived file authorization contracts are frozen, this tab will show real tasks, video previews, and analysis state.';
+      'View downloads for the current account, including progress, failures, and file availability.';
 
   @override
   String get screenplayDocumentsDescription =>
       'Review screenplay import state, extracted size, normalized previews, and analysis or rewrite results.';
 
   @override
-  String get screenplayDocumentsPendingTitle =>
-      'Screenplay documents are not available yet';
-
-  @override
-  String get screenplayDocumentsPendingDescription =>
-      'After native upload, document query, and file authorization contracts are frozen, this tab will show real screenplay documents and results.';
-
-  @override
   String get providerStatusDescription =>
       'View provider integration, access modes, latest checks, real download evidence, and complete analysis evidence without exposing accounts, cookies, egress, or probes.';
 
   @override
-  String get providerStatusPendingTitle =>
-      'Provider status is not available yet';
+  String get loadingData => 'Loading live data…';
 
   @override
-  String get providerStatusPendingDescription =>
-      'After the provider capability contract is frozen, this tab will read real status from the service without showing mock data.';
+  String get loadFailedTitle => 'Data is temporarily unavailable';
 
   @override
-  String get accountDescription =>
-      'Manage your profile, session, and app appearance.';
+  String get loadFailedDescription =>
+      'Check your connection and retry. Placeholder content will not replace live data.';
+
+  @override
+  String get retryAction => 'Reload';
+
+  @override
+  String get refreshAction => 'Refresh data';
+
+  @override
+  String get totalLabel => 'Total';
+
+  @override
+  String get availableLabel => 'Available';
+
+  @override
+  String get succeededLabel => 'Completed';
+
+  @override
+  String get activeLabel => 'Active';
+
+  @override
+  String get failedLabel => 'Failed';
+
+  @override
+  String get yesLabel => 'Yes';
+
+  @override
+  String get noLabel => 'No';
+
+  @override
+  String get downloadHistoryEmptyTitle => 'No downloads yet';
+
+  @override
+  String get downloadHistoryEmptyDescription =>
+      'Tasks you create or import will appear here. This result comes from your live account.';
+
+  @override
+  String get downloadStatusQueued => 'Queued';
+
+  @override
+  String get downloadStatusRunning => 'Downloading';
+
+  @override
+  String get downloadStatusRetryWait => 'Waiting to retry';
+
+  @override
+  String get downloadStatusSucceeded => 'Completed';
+
+  @override
+  String get downloadStatusFailed => 'Failed';
+
+  @override
+  String get downloadStatusCancelled => 'Cancelled';
+
+  @override
+  String get downloadStatusUnknown => 'Unknown status';
+
+  @override
+  String get progressLabel => 'Progress';
+
+  @override
+  String get updatedAtLabel => 'Updated';
+
+  @override
+  String get showingFirstPage => 'Showing the 20 most recent items';
+
+  @override
+  String get failureCancelled => 'The task was cancelled';
+
+  @override
+  String get failureTimeout => 'Processing timed out';
+
+  @override
+  String get failureProviderAccess =>
+      'The provider requires access or restricts this content';
+
+  @override
+  String get failureProviderTemporary =>
+      'The provider is temporarily unavailable';
+
+  @override
+  String get failureStorage => 'Storage is temporarily unavailable';
+
+  @override
+  String get failureGeneric => 'Processing did not complete';
+
+  @override
+  String get documentEmptyTitle => 'No screenplay documents yet';
+
+  @override
+  String get documentEmptyDescription =>
+      'Screenplays you import will appear here. This result comes from your live account.';
+
+  @override
+  String get documentStatusUploading => 'Uploading';
+
+  @override
+  String get documentStatusVerifying => 'Verifying';
+
+  @override
+  String get documentStatusReady => 'Ready';
+
+  @override
+  String get documentStatusFailed => 'Failed';
+
+  @override
+  String get documentStatusCancelled => 'Cancelled';
+
+  @override
+  String get documentStatusExpired => 'Expired';
+
+  @override
+  String get documentStatusUnknown => 'Unknown status';
+
+  @override
+  String get fileSizeLabel => 'File size';
+
+  @override
+  String get sceneCountLabel => 'Scenes';
+
+  @override
+  String get characterCountLabel => 'Characters';
+
+  @override
+  String get languageLabel => 'Language';
+
+  @override
+  String get providerEmptyTitle => 'No provider status';
+
+  @override
+  String get providerEmptyDescription =>
+      'The service currently exposes no provider capability records. Refresh later.';
+
+  @override
+  String get downloadAvailableLabel => 'Download available';
+
+  @override
+  String get capabilitiesLabel => 'Capabilities';
+
+  @override
+  String get accessModesLabel => 'Access';
+
+  @override
+  String get lastVerifiedLabel => 'Last verified';
+
+  @override
+  String get userActionLabel => 'Suggested action';
+
+  @override
+  String get providerStatusUnknown => 'Pending verification';
+
+  @override
+  String get providerStatusVerified => 'Verified';
+
+  @override
+  String get providerStatusDegraded => 'Degraded';
+
+  @override
+  String get providerStatusAccessRequired => 'Access required';
+
+  @override
+  String get providerStatusRateLimited => 'Rate limited';
+
+  @override
+  String get providerStatusBlocked => 'Blocked';
+
+  @override
+  String get providerStatusDisabled => 'Disabled';
+
+  @override
+  String get providerStatusUnsupported => 'Unsupported';
+
+  @override
+  String get capabilitySingleVideo => 'Single video';
+
+  @override
+  String get capabilityShortVideo => 'Short video';
+
+  @override
+  String get capabilityClipOrVod => 'Clip or VOD';
+
+  @override
+  String get capabilityAudioVideoSplit => 'Separate audio/video';
+
+  @override
+  String get capabilitySubtitles => 'Subtitles';
+
+  @override
+  String get capabilityImageOrCarousel => 'Images or carousel';
+
+  @override
+  String get capabilityLive => 'Live';
+
+  @override
+  String get capabilityPlaylist => 'Playlist';
+
+  @override
+  String get accessModeAnonymous => 'Anonymous';
+
+  @override
+  String get accessModeOperatorManaged => 'Service-managed';
+
+  @override
+  String get notYetVerified => 'Not yet verified';
+
+  @override
+  String get accountDescription => 'Manage your profile and signed-in session.';
 
   @override
   String get appearanceSection => 'Appearance';
@@ -93,6 +281,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeToggleDescription => 'Switch between dark and light themes';
+
+  @override
+  String get switchToDarkTheme => 'Switch to dark theme';
+
+  @override
+  String get switchToLightTheme => 'Switch to light theme';
+
+  @override
+  String get downloadDetailNavigation => 'Task details';
+
+  @override
+  String get downloadDetailDescription =>
+      'Review the task state, file availability, and processing details.';
+
+  @override
+  String get sourceLabel => 'Source';
+
+  @override
+  String get formatLabel => 'Format';
+
+  @override
+  String get stageLabel => 'Stage';
+
+  @override
+  String get attemptLabel => 'Attempt';
+
+  @override
+  String get fileAvailabilityLabel => 'File';
+
+  @override
+  String get createdAtLabel => 'Created';
+
+  @override
+  String get finishedAtLabel => 'Finished';
+
+  @override
+  String get durationLabel => 'Duration';
+
+  @override
+  String get fileAvailable => 'File available';
+
+  @override
+  String get fileCleared => 'File removed';
+
+  @override
+  String get downloadStageRevalidating => 'Revalidating';
+
+  @override
+  String get downloadStageDownloading => 'Downloading';
+
+  @override
+  String get downloadStageRemuxing => 'Remuxing';
+
+  @override
+  String get downloadStageVerifying => 'Verifying';
+
+  @override
+  String get downloadStageUploading => 'Saving';
+
+  @override
+  String get downloadStageUnknown => 'Unknown stage';
+
+  @override
+  String get formatUnavailable => 'Format information unavailable';
 
   @override
   String get loginAction => 'Sign in';

@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "帧取 App API",
-    "description": "Flutter iOS 与 Android 客户端使用的冻结契约来源。",
-    "version": "1.0.0"
+    "description": "Flutter iOS 与 Android 客户端使用的冻结 Bearer 契约来源。",
+    "version": "1.2.0"
   },
   "paths": {
     "/api/app/v1/auth/register": {
@@ -648,10 +648,1189 @@
           }
         }
       }
+    },
+    "/api/downloads/history": {
+      "get": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "查询下载历史",
+        "description": "查询当前登录用户的下载历史。",
+        "operationId": "getDownloadHistory",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadHistoryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{job_id}": {
+      "get": {
+        "tags": [
+          "downloads"
+        ],
+        "summary": "查询下载任务",
+        "description": "查询当前登录用户拥有的下载任务。",
+        "operationId": "getDownload",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/documents": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "查询剧本文档列表",
+        "operationId": "listDocuments",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentPageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/providers": {
+      "get": {
+        "tags": [
+          "providers"
+        ],
+        "summary": "查询平台能力状态",
+        "description": "返回不含凭据、出口地址和 Canary 目标的能力快照。",
+        "operationId": "listProviders",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
+      "AudioCodecFamily": {
+        "type": "string",
+        "enum": [
+          "aac",
+          "opus",
+          "vorbis",
+          "other"
+        ],
+        "title": "AudioCodecFamily"
+      },
+      "CompatibilityProfile": {
+        "type": "string",
+        "enum": [
+          "balanced",
+          "quality",
+          "smallest"
+        ],
+        "title": "CompatibilityProfile"
+      },
+      "ContainerPreference": {
+        "type": "string",
+        "enum": [
+          "mp4",
+          "webm",
+          "source"
+        ],
+        "title": "ContainerPreference"
+      },
+      "DocumentPageResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ],
+        "title": "DocumentPageResponse"
+      },
+      "DocumentResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "original_filename": {
+            "type": "string",
+            "title": "Original Filename"
+          },
+          "source_format": {
+            "$ref": "#/components/schemas/DocumentSourceFormat"
+          },
+          "declared_size_bytes": {
+            "type": "integer",
+            "title": "Declared Size Bytes"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ImportStatus"
+          },
+          "attempt": {
+            "type": "integer",
+            "title": "Attempt"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ImportErrorCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "detected_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detected Language"
+          },
+          "scene_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scene Count"
+          },
+          "character_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Count"
+          },
+          "quality_warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Quality Warnings"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "original_filename",
+          "source_format",
+          "declared_size_bytes",
+          "status",
+          "attempt",
+          "error_code",
+          "version",
+          "detected_language",
+          "scene_count",
+          "character_count",
+          "quality_warnings",
+          "created_at",
+          "updated_at",
+          "finished_at"
+        ],
+        "title": "DocumentResponse"
+      },
+      "DocumentSourceFormat": {
+        "type": "string",
+        "enum": [
+          "docx",
+          "pdf",
+          "txt",
+          "markdown",
+          "fountain"
+        ]
+      },
+      "DownloadErrorCode": {
+        "type": "string",
+        "enum": [
+          "cancelled",
+          "download_timeout",
+          "format_unavailable",
+          "inspection_timeout",
+          "internal_error",
+          "media_validation_failed",
+          "output_limit_exceeded",
+          "provider_auth_required",
+          "provider_content_restricted",
+          "provider_drm_protected",
+          "provider_geo_restricted",
+          "provider_link_unavailable",
+          "provider_media_unsupported",
+          "provider_rate_limited",
+          "provider_session_expired",
+          "provider_temporarily_unavailable",
+          "provider_unsupported",
+          "provider_verification_failed",
+          "storage_unavailable",
+          "temp_space_exhausted",
+          "transcode_required",
+          "unsupported_source",
+          "worker_lost"
+        ],
+        "title": "DownloadErrorCode"
+      },
+      "DownloadHistoryItemResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "thumbnail_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumbnail Url"
+          },
+          "format_name": {
+            "type": "string",
+            "title": "Format Name"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DownloadStatus"
+          },
+          "progress": {
+            "type": "integer",
+            "title": "Progress"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DownloadErrorCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "file_available": {
+            "type": "boolean",
+            "title": "File Available"
+          },
+          "source_kind": {
+            "$ref": "#/components/schemas/DownloadSourceKind"
+          },
+          "source_label": {
+            "type": "string",
+            "title": "Source Label"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "thumbnail_url",
+          "format_name",
+          "status",
+          "progress",
+          "error_code",
+          "created_at",
+          "updated_at",
+          "finished_at",
+          "file_available",
+          "source_kind",
+          "source_label"
+        ],
+        "title": "DownloadHistoryItemResponse"
+      },
+      "DownloadHistoryResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DownloadHistoryItemResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/DownloadHistorySummaryResponse"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total",
+          "summary"
+        ],
+        "title": "DownloadHistoryResponse"
+      },
+      "DownloadHistorySummaryResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "succeeded": {
+            "type": "integer",
+            "title": "Succeeded"
+          },
+          "active": {
+            "type": "integer",
+            "title": "Active"
+          },
+          "failed": {
+            "type": "integer",
+            "title": "Failed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "total",
+          "succeeded",
+          "active",
+          "failed"
+        ],
+        "title": "DownloadHistorySummaryResponse"
+      },
+      "DownloadResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "inspection_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inspection Id"
+          },
+          "format_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format Id"
+          },
+          "source_kind": {
+            "$ref": "#/components/schemas/DownloadSourceKind"
+          },
+          "source_label": {
+            "type": "string",
+            "title": "Source Label"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DownloadStatus"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DownloadStage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "progress": {
+            "type": "integer",
+            "title": "Progress"
+          },
+          "attempt": {
+            "type": "integer",
+            "title": "Attempt"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DownloadErrorCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "file_available": {
+            "type": "boolean",
+            "title": "File Available"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "extractor_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extractor Key"
+          },
+          "duration_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Seconds"
+          },
+          "thumbnail_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumbnail Url"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SemanticPlanResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "inspection_id",
+          "format_id",
+          "source_kind",
+          "source_label",
+          "status",
+          "stage",
+          "progress",
+          "attempt",
+          "version",
+          "error_code",
+          "created_at",
+          "updated_at",
+          "finished_at",
+          "file_available",
+          "title",
+          "extractor_key",
+          "duration_seconds",
+          "thumbnail_url",
+          "format"
+        ],
+        "title": "DownloadResponse",
+        "description": "Current state of a durable asynchronous download resource."
+      },
+      "DownloadSourceKind": {
+        "type": "string",
+        "enum": [
+          "remote_provider",
+          "browser_import"
+        ],
+        "title": "DownloadSourceKind"
+      },
+      "DownloadStage": {
+        "type": "string",
+        "enum": [
+          "revalidating",
+          "downloading",
+          "remuxing",
+          "verifying",
+          "uploading"
+        ],
+        "title": "DownloadStage"
+      },
+      "DownloadStatus": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "running",
+          "retry_wait",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "title": "DownloadStatus"
+      },
+      "DynamicRange": {
+        "type": "string",
+        "enum": [
+          "sdr",
+          "hdr"
+        ],
+        "title": "DynamicRange"
+      },
       "EmailPasswordRequest": {
         "properties": {
           "email": {
@@ -677,6 +1856,44 @@
           "password"
         ],
         "title": "EmailPasswordRequest"
+      },
+      "FpsBucket": {
+        "type": "string",
+        "enum": [
+          "fps_30",
+          "fps_60",
+          "above_60"
+        ],
+        "title": "FpsBucket"
+      },
+      "ImportErrorCode": {
+        "type": "string",
+        "enum": [
+          "import_storage_unavailable",
+          "upload_session_expired",
+          "upload_incomplete",
+          "import_size_mismatch",
+          "import_sha256_mismatch",
+          "video_import_invalid",
+          "document_format_unsupported",
+          "document_encrypted",
+          "document_archive_unsafe",
+          "document_text_unavailable",
+          "document_structure_invalid"
+        ],
+        "title": "ImportErrorCode"
+      },
+      "ImportStatus": {
+        "type": "string",
+        "enum": [
+          "uploading",
+          "verifying",
+          "ready",
+          "failed",
+          "cancelled",
+          "expired"
+        ],
+        "title": "ImportStatus"
       },
       "NativeLogoutRequest": {
         "properties": {
@@ -796,6 +2013,181 @@
         "title": "ProblemDetails",
         "description": "RFC 9457 error document returned by public API operations."
       },
+      "ProviderAccessMode": {
+        "type": "string",
+        "enum": [
+          "anonymous",
+          "operator_managed"
+        ],
+        "title": "ProviderAccessMode"
+      },
+      "ProviderCapability": {
+        "type": "string",
+        "enum": [
+          "single_video",
+          "short_video",
+          "clip_or_vod",
+          "audio_video_split",
+          "subtitles",
+          "image_or_carousel",
+          "live",
+          "playlist"
+        ],
+        "title": "ProviderCapability"
+      },
+      "ProviderListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderStatusResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ProviderListResponse"
+      },
+      "ProviderStatusResponse": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "registered": {
+            "type": "boolean",
+            "title": "Registered"
+          },
+          "extractor_exists": {
+            "type": "boolean",
+            "title": "Extractor Exists"
+          },
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderCapability"
+            },
+            "type": "array",
+            "title": "Capabilities"
+          },
+          "access_modes": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderAccessMode"
+            },
+            "type": "array",
+            "title": "Access Modes"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProviderSupportStatus"
+          },
+          "last_checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Checked At"
+          },
+          "last_check_succeeded": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Check Succeeded"
+          },
+          "download_supported": {
+            "type": "boolean",
+            "title": "Download Supported"
+          },
+          "download_available": {
+            "type": "boolean",
+            "title": "Download Available"
+          },
+          "last_media_verified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Media Verified At"
+          },
+          "last_verified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Verified At"
+          },
+          "user_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Action"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "display_name",
+          "registered",
+          "extractor_exists",
+          "capabilities",
+          "access_modes",
+          "status",
+          "last_checked_at",
+          "last_check_succeeded",
+          "download_supported",
+          "download_available",
+          "last_media_verified_at",
+          "last_verified_at",
+          "user_action"
+        ],
+        "title": "ProviderStatusResponse"
+      },
+      "ProviderSupportStatus": {
+        "type": "string",
+        "enum": [
+          "unknown",
+          "verified",
+          "degraded",
+          "access_required",
+          "rate_limited",
+          "blocked",
+          "disabled",
+          "unsupported"
+        ],
+        "title": "ProviderSupportStatus"
+      },
       "RegisterRequest": {
         "properties": {
           "email": {
@@ -832,6 +2224,61 @@
           "username"
         ],
         "title": "RegisterRequest"
+      },
+      "SemanticPlanResponse": {
+        "properties": {
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "fps_bucket": {
+            "$ref": "#/components/schemas/FpsBucket"
+          },
+          "dynamic_range": {
+            "$ref": "#/components/schemas/DynamicRange"
+          },
+          "video_codec_family": {
+            "$ref": "#/components/schemas/VideoCodecFamily"
+          },
+          "audio_codec_family": {
+            "$ref": "#/components/schemas/AudioCodecFamily"
+          },
+          "audio_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Language"
+          },
+          "container_preference": {
+            "$ref": "#/components/schemas/ContainerPreference"
+          },
+          "compatibility_profile": {
+            "$ref": "#/components/schemas/CompatibilityProfile"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "height",
+          "width",
+          "fps_bucket",
+          "dynamic_range",
+          "video_codec_family",
+          "audio_codec_family",
+          "audio_language",
+          "container_preference",
+          "compatibility_profile"
+        ],
+        "title": "SemanticPlanResponse"
       },
       "UserResponse": {
         "properties": {
@@ -881,6 +2328,17 @@
           "user"
         ],
         "title": "UserRole"
+      },
+      "VideoCodecFamily": {
+        "type": "string",
+        "enum": [
+          "h264",
+          "hevc",
+          "vp9",
+          "av1",
+          "other"
+        ],
+        "title": "VideoCodecFamily"
       }
     },
     "securitySchemes": {

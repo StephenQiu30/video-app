@@ -13,13 +13,7 @@ void main() {
       intakeLabels: const ['链接解析', '本地视频', '剧本文档'],
       intakeTitles: const ['导入本地视频', '导入剧本文档'],
       navigationLabels: const ['首页', '历史', '文档', '状态', '我的'],
-      navigationTitles: const [
-        '把素材，\n带回本地。',
-        '下载记录尚未开放',
-        '剧本文档尚未开放',
-        '平台状态尚未开放',
-        '我的',
-      ],
+      navigationTitles: const ['把素材，\n带回本地。', '下载记录', '剧本文档', '平台状态', '我的'],
     ),
     (
       locale: const Locale('en'),
@@ -28,9 +22,9 @@ void main() {
       navigationLabels: const ['Home', 'History', 'Documents', 'Status', 'Me'],
       navigationTitles: const [
         'Bring content\nback to your device.',
-        'Download history is not available yet',
-        'Screenplay documents are not available yet',
-        'Provider status is not available yet',
+        'Download history',
+        'Screenplays',
+        'Provider status',
         'Me',
       ],
     ),

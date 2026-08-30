@@ -12,7 +12,7 @@
 - [x] 下载记录、剧本文档、平台状态和我的页面说明准确。
 - [x] 切换入口和页面后链接输入保持。
 - [x] 未冻结动作显示契约阻塞反馈且不发送真实请求。
-- [x] `./tool/check.sh`、Android Debug 与 iOS Simulator 构建通过。
+- [x] `dart run tool/check.dart`、Android Debug 与 iOS Simulator 构建通过。
 - [x] iPhone 17e 390×844 模拟器实际渲染检查无横向溢出或导航标签截断。
 
 ## Agent Browser Web 基线验收

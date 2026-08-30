@@ -49,9 +49,25 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+    expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await _pumpUntilVisible(tester, find.text('暂无下载记录'));
+    expect(find.text('下载记录尚未开放'), findsNothing);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await _pumpUntilVisible(tester, find.text('暂无剧本文档'));
+    expect(find.text('剧本文档尚未开放'), findsNothing);
+
+    await tester.tap(find.byKey(const Key('app-tab-3')));
+    await _pumpUntilVisible(tester, find.text('YouTube'));
+    expect(find.text('YouTube'), findsOneWidget);
+    expect(find.text('平台状态尚未开放'), findsNothing);
+
     await tester.tap(find.byKey(const Key('app-tab-4')));
     await tester.pumpAndSettle();
     expect(find.text(email), findsOneWidget);
+    expect(find.text('外观'), findsNothing);
 
     await tester.tap(find.byKey(const Key('logout-button')));
     await tester.pumpAndSettle();

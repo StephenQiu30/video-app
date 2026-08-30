@@ -8,6 +8,7 @@ part of 'app_router.dart';
 
 List<RouteBase> get $appRoutes => [
   $downloadHomeRoute,
+  $downloadDetailRoute,
   $loginRoute,
   $sessionRestoreRoute,
   $registerRoute,
@@ -25,6 +26,36 @@ mixin $DownloadHomeRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $downloadDetailRoute => GoRouteData.$route(
+  path: '/downloads/:jobId',
+  hasOverriddenOnExit: false,
+  factory: $DownloadDetailRoute._fromState,
+);
+
+mixin $DownloadDetailRoute on GoRouteData {
+  static DownloadDetailRoute _fromState(GoRouterState state) =>
+      DownloadDetailRoute(jobId: state.pathParameters['jobId']!);
+
+  DownloadDetailRoute get _self => this as DownloadDetailRoute;
+
+  @override
+  String get location =>
+      GoRouteData.$location('/downloads/${Uri.encodeComponent(_self.jobId)}');
 
   @override
   void go(BuildContext context) => context.go(location);

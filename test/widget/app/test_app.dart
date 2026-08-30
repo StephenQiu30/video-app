@@ -4,15 +4,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/app/app.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/data/refresh_credential_store.dart';
+import 'package:framegrab/features/documents/data/document_repository.dart';
 import 'package:framegrab/features/download/application/inspect_media_intent.dart';
+import 'package:framegrab/features/history/data/download_history_repository.dart';
+import 'package:framegrab/features/providers/data/provider_status_repository.dart';
 
 import '../../support/auth_fakes.dart';
+import '../../support/data_fakes.dart';
 
 Future<void> pumpFramegrabApp(
   WidgetTester tester, {
   InspectMediaIntent? inspect,
   NativeAuthGateway? authGateway,
   RefreshCredentialStore? credentialStore,
+  DocumentRepository? documentRepository,
+  DownloadHistoryRepository? downloadHistoryRepository,
+  ProviderStatusRepository? providerStatusRepository,
   Locale locale = const Locale('zh'),
 }) async {
   await tester.pumpWidget(
@@ -25,6 +32,15 @@ Future<void> pumpFramegrabApp(
         ),
         refreshCredentialStoreProvider.overrideWithValue(
           credentialStore ?? MemoryCredentialStore('refresh-test'),
+        ),
+        documentRepositoryProvider.overrideWithValue(
+          documentRepository ?? FakeDocumentRepository(),
+        ),
+        downloadHistoryRepositoryProvider.overrideWithValue(
+          downloadHistoryRepository ?? FakeDownloadHistoryRepository(),
+        ),
+        providerStatusRepositoryProvider.overrideWithValue(
+          providerStatusRepository ?? FakeProviderStatusRepository(),
         ),
       ],
       child: FramegrabApp(locale: locale),

@@ -5,6 +5,7 @@ import 'package:framegrab/features/auth/presentation/login_screen.dart';
 import 'package:framegrab/features/auth/presentation/register_screen.dart';
 import 'package:framegrab/features/auth/presentation/session_restore_screen.dart';
 import 'package:framegrab/features/download/presentation/download_home_screen.dart';
+import 'package:framegrab/features/history/presentation/download_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_router.g.dart';
@@ -57,6 +58,18 @@ final class DownloadHomeRoute extends GoRouteData with $DownloadHomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DownloadHomeScreen();
+  }
+}
+
+@TypedGoRoute<DownloadDetailRoute>(path: '/downloads/:jobId')
+final class DownloadDetailRoute extends GoRouteData with $DownloadDetailRoute {
+  const DownloadDetailRoute({required this.jobId});
+
+  final String jobId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DownloadDetailScreen(jobId: jobId);
   }
 }
 

@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // Optional<String?> tokenType (default value: 'Bearer')
+    // String tokenType
     test('to test the property `tokenType`', () async {
       // TODO
     });

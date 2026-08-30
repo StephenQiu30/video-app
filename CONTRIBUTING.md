@@ -20,7 +20,7 @@ Phase 1 工程基座已经建立。每个后续能力仍必须完成 `Design →
 
 ```bash
 flutter pub get
-./tool/check.sh
+dart run tool/check.dart
 flutter build apk --debug
 flutter build ios --simulator --no-codesign
 ```

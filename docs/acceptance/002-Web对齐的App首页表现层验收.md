@@ -14,7 +14,7 @@
 
 ## 2. 构建与边界
 
-- [x] A-002-06：`./tool/check.sh` 通过，11 tests passed。
+- [x] A-002-06：`dart run tool/check.dart` 通过，11 tests passed。
 - [x] A-002-07：`flutter build apk --debug` 通过。
 - [x] A-002-08：`flutter build ios --simulator --no-codesign` 通过。
 - [x] A-002-09：未新增网络 repository、Cookie、WebView、业务 DTO 或伪造媒体数据。

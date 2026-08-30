@@ -88,6 +88,10 @@ final class AuthSessionController extends Notifier<AuthSessionState> {
     return operation;
   }
 
+  Future<void> expireSession() {
+    return _clear(failure: AuthFailureKind.unauthenticated);
+  }
+
   Future<void> logout() async {
     final user = state.user;
     state = AuthSessionState(phase: AuthSessionPhase.signingOut, user: user);

@@ -42,40 +42,225 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accountNavigation => '我的';
 
   @override
-  String get downloadHistoryDescription =>
-      '搜索、筛选并恢复下载任务，查看进度、失败原因、完成后视频预览、文件状态与 AI 分析入口。';
-
-  @override
-  String get downloadHistoryPendingTitle => '下载记录尚未开放';
-
-  @override
-  String get downloadHistoryPendingDescription =>
-      '任务查询与短期文件授权契约冻结后，这里将展示真实任务、视频预览和分析状态。';
+  String get downloadHistoryDescription => '查看当前账户的下载任务、处理进度、失败原因与文件状态。';
 
   @override
   String get screenplayDocumentsDescription =>
       '查看剧本文档的导入状态、提取规模、规范化预览，以及分析与改写结果。';
 
   @override
-  String get screenplayDocumentsPendingTitle => '剧本文档尚未开放';
-
-  @override
-  String get screenplayDocumentsPendingDescription =>
-      '原生上传、文档查询与文件授权契约冻结后，这里将展示真实剧本文档和处理结果。';
-
-  @override
   String get providerStatusDescription =>
       '查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。';
 
   @override
-  String get providerStatusPendingTitle => '平台状态尚未开放';
+  String get loadingData => '正在读取真实数据…';
 
   @override
-  String get providerStatusPendingDescription =>
-      '平台能力查询契约冻结后，这里将读取服务端返回的真实平台状态，不显示模拟数据。';
+  String get loadFailedTitle => '暂时无法读取数据';
 
   @override
-  String get accountDescription => '管理个人资料、登录状态和应用外观。';
+  String get loadFailedDescription => '请检查网络连接后重试。已有数据不会被占位内容替代。';
+
+  @override
+  String get retryAction => '重新加载';
+
+  @override
+  String get refreshAction => '刷新数据';
+
+  @override
+  String get totalLabel => '全部';
+
+  @override
+  String get availableLabel => '可用';
+
+  @override
+  String get succeededLabel => '已完成';
+
+  @override
+  String get activeLabel => '进行中';
+
+  @override
+  String get failedLabel => '失败';
+
+  @override
+  String get yesLabel => '是';
+
+  @override
+  String get noLabel => '否';
+
+  @override
+  String get downloadHistoryEmptyTitle => '暂无下载记录';
+
+  @override
+  String get downloadHistoryEmptyDescription => '你创建或导入的任务会显示在这里。当前结果来自你的真实账户。';
+
+  @override
+  String get downloadStatusQueued => '等待中';
+
+  @override
+  String get downloadStatusRunning => '下载中';
+
+  @override
+  String get downloadStatusRetryWait => '等待重试';
+
+  @override
+  String get downloadStatusSucceeded => '已完成';
+
+  @override
+  String get downloadStatusFailed => '失败';
+
+  @override
+  String get downloadStatusCancelled => '已取消';
+
+  @override
+  String get downloadStatusUnknown => '状态未知';
+
+  @override
+  String get progressLabel => '进度';
+
+  @override
+  String get updatedAtLabel => '更新于';
+
+  @override
+  String get showingFirstPage => '当前显示最近 20 条';
+
+  @override
+  String get failureCancelled => '任务已取消';
+
+  @override
+  String get failureTimeout => '处理超时';
+
+  @override
+  String get failureProviderAccess => '平台需要授权或限制访问';
+
+  @override
+  String get failureProviderTemporary => '平台暂时不可用';
+
+  @override
+  String get failureStorage => '存储暂时不可用';
+
+  @override
+  String get failureGeneric => '处理未完成';
+
+  @override
+  String get documentEmptyTitle => '暂无剧本文档';
+
+  @override
+  String get documentEmptyDescription => '你导入的剧本文档会显示在这里。当前结果来自你的真实账户。';
+
+  @override
+  String get documentStatusUploading => '上传中';
+
+  @override
+  String get documentStatusVerifying => '校验中';
+
+  @override
+  String get documentStatusReady => '可用';
+
+  @override
+  String get documentStatusFailed => '失败';
+
+  @override
+  String get documentStatusCancelled => '已取消';
+
+  @override
+  String get documentStatusExpired => '已过期';
+
+  @override
+  String get documentStatusUnknown => '状态未知';
+
+  @override
+  String get fileSizeLabel => '文件大小';
+
+  @override
+  String get sceneCountLabel => '场景';
+
+  @override
+  String get characterCountLabel => '角色';
+
+  @override
+  String get languageLabel => '语言';
+
+  @override
+  String get providerEmptyTitle => '暂无平台状态';
+
+  @override
+  String get providerEmptyDescription => '服务端当前没有公开的平台能力记录，请稍后刷新。';
+
+  @override
+  String get downloadAvailableLabel => '下载可用';
+
+  @override
+  String get capabilitiesLabel => '能力';
+
+  @override
+  String get accessModesLabel => '访问方式';
+
+  @override
+  String get lastVerifiedLabel => '最近验证';
+
+  @override
+  String get userActionLabel => '建议操作';
+
+  @override
+  String get providerStatusUnknown => '待验证';
+
+  @override
+  String get providerStatusVerified => '已验证';
+
+  @override
+  String get providerStatusDegraded => '能力受限';
+
+  @override
+  String get providerStatusAccessRequired => '需要访问授权';
+
+  @override
+  String get providerStatusRateLimited => '受到限流';
+
+  @override
+  String get providerStatusBlocked => '当前受阻';
+
+  @override
+  String get providerStatusDisabled => '已停用';
+
+  @override
+  String get providerStatusUnsupported => '不支持';
+
+  @override
+  String get capabilitySingleVideo => '单视频';
+
+  @override
+  String get capabilityShortVideo => '短视频';
+
+  @override
+  String get capabilityClipOrVod => '片段或点播';
+
+  @override
+  String get capabilityAudioVideoSplit => '音视频分离';
+
+  @override
+  String get capabilitySubtitles => '字幕';
+
+  @override
+  String get capabilityImageOrCarousel => '图片或图集';
+
+  @override
+  String get capabilityLive => '直播';
+
+  @override
+  String get capabilityPlaylist => '播放列表';
+
+  @override
+  String get accessModeAnonymous => '匿名访问';
+
+  @override
+  String get accessModeOperatorManaged => '服务端托管';
+
+  @override
+  String get notYetVerified => '尚未验证';
+
+  @override
+  String get accountDescription => '管理个人资料与登录状态。';
 
   @override
   String get appearanceSection => '外观';
@@ -88,6 +273,69 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get themeToggleDescription => '在深色与浅色主题间切换';
+
+  @override
+  String get switchToDarkTheme => '切换到深色主题';
+
+  @override
+  String get switchToLightTheme => '切换到浅色主题';
+
+  @override
+  String get downloadDetailNavigation => '任务详情';
+
+  @override
+  String get downloadDetailDescription => '查看任务当前执行状态、文件可用性与处理信息。';
+
+  @override
+  String get sourceLabel => '来源';
+
+  @override
+  String get formatLabel => '格式';
+
+  @override
+  String get stageLabel => '执行阶段';
+
+  @override
+  String get attemptLabel => '执行次数';
+
+  @override
+  String get fileAvailabilityLabel => '文件状态';
+
+  @override
+  String get createdAtLabel => '创建时间';
+
+  @override
+  String get finishedAtLabel => '完成时间';
+
+  @override
+  String get durationLabel => '媒体时长';
+
+  @override
+  String get fileAvailable => '文件可获取';
+
+  @override
+  String get fileCleared => '文件已清理';
+
+  @override
+  String get downloadStageRevalidating => '重新校验';
+
+  @override
+  String get downloadStageDownloading => '正在下载';
+
+  @override
+  String get downloadStageRemuxing => '封装处理中';
+
+  @override
+  String get downloadStageVerifying => '正在验证';
+
+  @override
+  String get downloadStageUploading => '正在保存';
+
+  @override
+  String get downloadStageUnknown => '阶段未知';
+
+  @override
+  String get formatUnavailable => '格式信息暂不可用';
 
   @override
   String get loginAction => '登录';

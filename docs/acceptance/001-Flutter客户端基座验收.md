@@ -40,8 +40,8 @@
 | 证据 | 命令/环境 | 结论 |
 | --- | --- | --- |
 | 生成 | 文档冻结的 `flutter create --platforms=android,ios ...` | passed |
-| 质量 | `./tool/check.sh` | passed；format/analyze 通过，2 tests passed |
-| 契约边界 | `./tool/openapi/generate.sh` 在缺少冻结快照时运行 | passed；exit 1 并给出 fail-closed 原因 |
+| 质量 | `dart run tool/check.dart` | passed；format/analyze 通过，2 tests passed |
+| 契约边界 | `dart run tool/openapi.dart` 读取 Swagger、裁剪并生成 App 客户端 | passed；来源、白名单、生成器版本与漂移检查均为声明式配置 |
 | iOS 构建 | Xcode 26.6，iOS 26.5 iPhone 17 Pro Simulator | passed |
 | 视觉 | iPhone 17 Pro Simulator 深浅主题 + 对比度回归测试 | passed |
 | Android 构建 | JDK 21 / Android Gradle Plugin 9.0.1 / API 36 | passed |
