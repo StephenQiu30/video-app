@@ -118,6 +118,24 @@ void main() {
     expect(repository.publicUrls, ['https://media.example/video?id=42']);
   });
 
+  testWidgets('submits the URL embedded in a copied Douyin share message', (
+    tester,
+  ) async {
+    final repository = FakeDownloadIntakeRepository();
+    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+
+    await tester.enterText(
+      find.byKey(const Key('media-url-input')),
+      '0.53 复制打开抖音，看看【喵了个喵-的图文作品】你笑面如花 '
+      '真想与你情定香格里拉.# 我与天坛 '
+      'https://v.douyin.com/Z8wTCSQ-1_g/ M@j.cn EHv:/ 04/10 :3pm',
+    );
+    await tester.tap(find.byKey(const Key('inspect-media-button')));
+    await tester.pumpAndSettle();
+
+    expect(repository.publicUrls, ['https://v.douyin.com/Z8wTCSQ-1_g/']);
+  });
+
   testWidgets('discovers and opens an article candidate', (tester) async {
     final repository = FakeDownloadIntakeRepository();
     await pumpFramegrabApp(tester, downloadIntakeRepository: repository);

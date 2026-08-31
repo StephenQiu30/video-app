@@ -464,7 +464,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get screenplayIntakeMode => '剧本文档';
 
   @override
-  String get linkIntakeSupport => '支持公开视频、微信视频号单作品和微信公众号文章链接；文章发现多个视频后必须明确选择。';
+  String get linkIntakeSupport => '支持直接粘贴公开链接或平台分享文案；微信文章发现多个视频后必须明确选择。';
 
   @override
   String get videoIntakeTitle => '导入本地视频';
@@ -487,7 +487,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectScreenplayFile => '选择剧本文件';
 
   @override
-  String get mediaUrlHint => '粘贴公开的视频或文章链接';
+  String get mediaUrlHint => '粘贴公开链接或整段分享文案';
 
   @override
   String get mediaUrlLabel => '公开内容地址';

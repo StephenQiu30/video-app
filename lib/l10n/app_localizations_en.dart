@@ -481,7 +481,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get linkIntakeSupport =>
-      'Supports public videos, single WeChat Channels posts, and WeChat Official Account articles. Multiple discovered videos require an explicit choice.';
+      'Paste a public link or a platform share message. Multiple videos discovered in WeChat articles require an explicit choice.';
 
   @override
   String get videoIntakeTitle => 'Import a local video';
@@ -504,7 +504,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectScreenplayFile => 'Choose screenplay file';
 
   @override
-  String get mediaUrlHint => 'Paste a public video or article link';
+  String get mediaUrlHint => 'Paste a public link or full share message';
 
   @override
   String get mediaUrlLabel => 'Public content address';

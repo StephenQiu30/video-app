@@ -1007,7 +1007,7 @@ abstract class AppLocalizations {
   /// No description provided for @linkIntakeSupport.
   ///
   /// In zh, this message translates to:
-  /// **'支持公开视频、微信视频号单作品和微信公众号文章链接；文章发现多个视频后必须明确选择。'**
+  /// **'支持直接粘贴公开链接或平台分享文案；微信文章发现多个视频后必须明确选择。'**
   String get linkIntakeSupport;
 
   /// No description provided for @videoIntakeTitle.
@@ -1049,7 +1049,7 @@ abstract class AppLocalizations {
   /// No description provided for @mediaUrlHint.
   ///
   /// In zh, this message translates to:
-  /// **'粘贴公开的视频或文章链接'**
+  /// **'粘贴公开链接或整段分享文案'**
   String get mediaUrlHint;
 
   /// No description provided for @mediaUrlLabel.
