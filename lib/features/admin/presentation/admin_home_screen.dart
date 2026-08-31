@@ -43,6 +43,7 @@ final class AdminHomeScreen extends StatelessWidget {
       ),
     ];
     return AdminPage(
+      backFallbackLocation: '/',
       title: l10n.adminCenterTitle,
       description: l10n.adminCenterDescription,
       refreshLabel: l10n.refreshAction,

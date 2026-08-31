@@ -37,9 +37,14 @@ Map<String, Object?> buildAppOpenApi(
         operationId == 'getInspectionThumbnail') {
       _declareBinaryResponse(operation);
     }
-    selectedPaths[selection.path] = <String, Object?>{
-      selection.method: operation,
+    final selectedPath = switch (selectedPaths[selection.path]) {
+      final Map<Object?, Object?> value => value.map(
+        (key, value) => MapEntry(key.toString(), value),
+      ),
+      _ => <String, Object?>{},
     };
+    selectedPath[selection.method] = operation;
+    selectedPaths[selection.path] = selectedPath;
   }
 
   final components = _map(source['components'], 'components');
@@ -63,7 +68,7 @@ Map<String, Object?> buildAppOpenApi(
     'info': <String, Object?>{
       'title': '帧取 App API',
       'description': 'Flutter iOS 与 Android 客户端使用的冻结 Bearer 契约来源。',
-      'version': '1.3.0',
+      'version': '1.4.0',
     },
     'paths': selectedPaths,
     'components': <String, Object?>{

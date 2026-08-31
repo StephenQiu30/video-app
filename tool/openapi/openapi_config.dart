@@ -13,18 +13,18 @@ final class OpenApiOperationSelection {
 final class AppOpenApiConfig {
   const AppOpenApiConfig({
     required this.defaultSchemaUrl,
-    required this.generatorImage,
+    required this.generatorVersion,
     required this.operations,
   });
 
   final String defaultSchemaUrl;
-  final String generatorImage;
+  final String generatorVersion;
   final List<OpenApiOperationSelection> operations;
 }
 
 const appOpenApiConfig = AppOpenApiConfig(
   defaultSchemaUrl: 'http://127.0.0.1:8111/openapi.json',
-  generatorImage: 'openapitools/openapi-generator-cli:v7.22.0',
+  generatorVersion: '7.22.0',
   operations: [
     OpenApiOperationSelection(
       method: 'post',
@@ -70,6 +70,35 @@ const appOpenApiConfig = AppOpenApiConfig(
     OpenApiOperationSelection(
       method: 'post',
       path: '/api/downloads/{job_id}/retry',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/analysis-skills',
+      queryParameters: {'input_kind'},
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/downloads/{download_id}/analyses',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/downloads/{download_id}/analysis',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/analyses/{analysis_id}',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/analyses/{analysis_id}/cancel',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/analyses/{analysis_id}/retry',
+    ),
+    OpenApiOperationSelection(
+      method: 'delete',
+      path: '/api/analyses/{analysis_id}',
     ),
     OpenApiOperationSelection(method: 'get', path: '/api/documents'),
     OpenApiOperationSelection(method: 'get', path: '/api/providers'),

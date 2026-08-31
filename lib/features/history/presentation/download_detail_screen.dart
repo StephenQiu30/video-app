@@ -18,7 +18,7 @@ final class DownloadDetailScreen extends ConsumerWidget {
     final localizations = AppLocalizations.of(context);
     final result = ref.watch(downloadDetailProvider(jobId));
     return Scaffold(
-      appBar: const DownloadAppBar(showBackButton: true),
+      appBar: const DownloadAppBar(backFallbackLocation: '/'),
       body: result.when(
         skipLoadingOnRefresh: true,
         data: (job) => DataPageView(

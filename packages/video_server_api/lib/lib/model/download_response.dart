@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_element_parameter
 import 'package:video_server_api/lib/model/download_error_code.dart';
 import 'package:video_server_api/lib/model/download_status.dart';
 import 'package:video_server_api/lib/model/semantic_plan_response.dart';

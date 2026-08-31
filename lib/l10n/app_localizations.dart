@@ -1298,6 +1298,438 @@ abstract class AppLocalizations {
   /// **'无法打开系统下载，请稍后重试。'**
   String get downloadOpenFailed;
 
+  /// No description provided for @aiAnalysisTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 智能分析'**
+  String get aiAnalysisTitle;
+
+  /// No description provided for @aiAnalysisDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'由 AI 观察视频画面，生成连续分镜、视觉高光、资产目录，或将视频整理成文章。'**
+  String get aiAnalysisDescription;
+
+  /// No description provided for @analysisSkillLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析 Skill'**
+  String get analysisSkillLabel;
+
+  /// No description provided for @analysisOutputLanguageLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'输出语言'**
+  String get analysisOutputLanguageLabel;
+
+  /// No description provided for @simplifiedChineseLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'简体中文'**
+  String get simplifiedChineseLabel;
+
+  /// No description provided for @englishLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'English'**
+  String get englishLabel;
+
+  /// No description provided for @analysisPromptLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析重点'**
+  String get analysisPromptLabel;
+
+  /// No description provided for @analysisPromptDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'可修改或清空分析重点；工具权限、安全边界与结果结构不可修改。'**
+  String get analysisPromptDescription;
+
+  /// No description provided for @restoreDefaultPrompt.
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复默认值'**
+  String get restoreDefaultPrompt;
+
+  /// No description provided for @startAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'开始 AI 分析'**
+  String get startAnalysisAction;
+
+  /// No description provided for @startingAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在创建分析…'**
+  String get startingAnalysis;
+
+  /// No description provided for @analysisSkillsEmpty.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前没有可用的视频分析 Skill，请检查 AI 服务配置后重试。'**
+  String get analysisSkillsEmpty;
+
+  /// No description provided for @analysisLoadFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂时无法读取 AI 分析服务。'**
+  String get analysisLoadFailed;
+
+  /// No description provided for @analysisStatusQueued.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待分析'**
+  String get analysisStatusQueued;
+
+  /// No description provided for @analysisStatusRunning.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在分析'**
+  String get analysisStatusRunning;
+
+  /// No description provided for @analysisStatusRetryWait.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待重试'**
+  String get analysisStatusRetryWait;
+
+  /// No description provided for @analysisStatusSucceeded.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析已完成'**
+  String get analysisStatusSucceeded;
+
+  /// No description provided for @analysisStatusFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析失败'**
+  String get analysisStatusFailed;
+
+  /// No description provided for @analysisStatusCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析已取消'**
+  String get analysisStatusCancelled;
+
+  /// No description provided for @analysisStagePreparing.
+  ///
+  /// In zh, this message translates to:
+  /// **'准备输入'**
+  String get analysisStagePreparing;
+
+  /// No description provided for @analysisStageAnalyzing.
+  ///
+  /// In zh, this message translates to:
+  /// **'执行 AI 分析'**
+  String get analysisStageAnalyzing;
+
+  /// No description provided for @analysisStageValidating.
+  ///
+  /// In zh, this message translates to:
+  /// **'校验结构化结果'**
+  String get analysisStageValidating;
+
+  /// No description provided for @analysisStagePublishing.
+  ///
+  /// In zh, this message translates to:
+  /// **'发布分析报告'**
+  String get analysisStagePublishing;
+
+  /// No description provided for @analysisStagePending.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待调度'**
+  String get analysisStagePending;
+
+  /// No description provided for @analysisRunSummary.
+  ///
+  /// In zh, this message translates to:
+  /// **'第 {run} 次执行 · 本次第 {attempt} 个技术尝试'**
+  String analysisRunSummary(int run, int attempt);
+
+  /// No description provided for @analysisProgressSemantics.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析进度 {progress}%'**
+  String analysisProgressSemantics(int progress);
+
+  /// No description provided for @refreshAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'刷新分析'**
+  String get refreshAnalysisAction;
+
+  /// No description provided for @cancelAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消分析'**
+  String get cancelAnalysisAction;
+
+  /// No description provided for @cancelAnalysisTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消当前分析任务？'**
+  String get cancelAnalysisTitle;
+
+  /// No description provided for @cancelAnalysisDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认后将停止当前分析。你之后仍可重新发起分析任务。'**
+  String get cancelAnalysisDescription;
+
+  /// No description provided for @continueAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'继续分析'**
+  String get continueAnalysisAction;
+
+  /// No description provided for @confirmCancelAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认取消分析'**
+  String get confirmCancelAnalysis;
+
+  /// No description provided for @retryAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'重试分析'**
+  String get retryAnalysisAction;
+
+  /// No description provided for @retryingAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在重试…'**
+  String get retryingAnalysis;
+
+  /// No description provided for @deleteAnalysisAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除分析'**
+  String get deleteAnalysisAction;
+
+  /// No description provided for @deletingAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在删除…'**
+  String get deletingAnalysis;
+
+  /// No description provided for @deleteAnalysisTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除这次分析？'**
+  String get deleteAnalysisTitle;
+
+  /// No description provided for @deleteAnalysisDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析结果与报告将被清理，此操作无法撤销。下载文件不会受到影响。'**
+  String get deleteAnalysisDescription;
+
+  /// No description provided for @confirmDeleteAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认删除'**
+  String get confirmDeleteAnalysis;
+
+  /// No description provided for @analysisOperationFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 分析操作未完成，请稍后重试。'**
+  String get analysisOperationFailed;
+
+  /// No description provided for @analysisExecutionFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 分析执行失败，请稍后重试。'**
+  String get analysisExecutionFailed;
+
+  /// No description provided for @analysisServiceUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 分析服务暂时不可用，请检查本机分析服务后重试。'**
+  String get analysisServiceUnavailable;
+
+  /// No description provided for @analysisAuthenticationRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 分析服务尚未登录，请完成服务登录后重试。'**
+  String get analysisAuthenticationRequired;
+
+  /// No description provided for @analysisTimeoutError.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 分析超时，请稍后重试。'**
+  String get analysisTimeoutError;
+
+  /// No description provided for @analysisInvalidResult.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 返回结果未通过结构与证据校验，请重新分析。'**
+  String get analysisInvalidResult;
+
+  /// No description provided for @analysisResourceLimit.
+  ///
+  /// In zh, this message translates to:
+  /// **'视频超出当前分析资源限制，请使用更短或更小的视频。'**
+  String get analysisResourceLimit;
+
+  /// No description provided for @analysisInputUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'用于分析的视频文件已不可用，请重新创建下载任务。'**
+  String get analysisInputUnavailable;
+
+  /// No description provided for @analysisUsageLimited.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 服务当前额度不足或受到限流，请稍后重试。'**
+  String get analysisUsageLimited;
+
+  /// No description provided for @analysisWorkerLost.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析执行服务连接中断，请确认本机服务正常后重试。'**
+  String get analysisWorkerLost;
+
+  /// No description provided for @shotCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'分镜'**
+  String get shotCountLabel;
+
+  /// No description provided for @visualAssetCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'视觉资产'**
+  String get visualAssetCountLabel;
+
+  /// No description provided for @visualSummaryTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'视觉摘要'**
+  String get visualSummaryTitle;
+
+  /// No description provided for @productionAdviceTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'制作建议'**
+  String get productionAdviceTitle;
+
+  /// No description provided for @analysisResultSectionLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'结果分类'**
+  String get analysisResultSectionLabel;
+
+  /// No description provided for @analysisScenesTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'场景'**
+  String get analysisScenesTab;
+
+  /// No description provided for @analysisShotsTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'分镜'**
+  String get analysisShotsTab;
+
+  /// No description provided for @analysisHighlightsTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'高光'**
+  String get analysisHighlightsTab;
+
+  /// No description provided for @analysisAssetsTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'资产'**
+  String get analysisAssetsTab;
+
+  /// No description provided for @analysisReportTab.
+  ///
+  /// In zh, this message translates to:
+  /// **'报告预览'**
+  String get analysisReportTab;
+
+  /// No description provided for @analysisEmptySection.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前分类没有识别结果。'**
+  String get analysisEmptySection;
+
+  /// No description provided for @loadMoreAnalysisResults.
+  ///
+  /// In zh, this message translates to:
+  /// **'加载更多（剩余 {count} 项）'**
+  String loadMoreAnalysisResults(int count);
+
+  /// No description provided for @highlightScoreLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'评分'**
+  String get highlightScoreLabel;
+
+  /// No description provided for @articleKeyPointsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'核心观点'**
+  String get articleKeyPointsTitle;
+
+  /// No description provided for @articleClosingTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'结语'**
+  String get articleClosingTitle;
+
+  /// No description provided for @articleLimitationsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'事实说明'**
+  String get articleLimitationsTitle;
+
+  /// No description provided for @articleEvidenceLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'画面证据'**
+  String get articleEvidenceLabel;
+
+  /// No description provided for @assetTypePerson.
+  ///
+  /// In zh, this message translates to:
+  /// **'人物'**
+  String get assetTypePerson;
+
+  /// No description provided for @assetTypeLocation.
+  ///
+  /// In zh, this message translates to:
+  /// **'地点'**
+  String get assetTypeLocation;
+
+  /// No description provided for @assetTypeObject.
+  ///
+  /// In zh, this message translates to:
+  /// **'物体'**
+  String get assetTypeObject;
+
+  /// No description provided for @assetTypeProduct.
+  ///
+  /// In zh, this message translates to:
+  /// **'产品'**
+  String get assetTypeProduct;
+
+  /// No description provided for @assetTypeLogo.
+  ///
+  /// In zh, this message translates to:
+  /// **'标志'**
+  String get assetTypeLogo;
+
+  /// No description provided for @assetTypeOnScreenText.
+  ///
+  /// In zh, this message translates to:
+  /// **'画面文字'**
+  String get assetTypeOnScreenText;
+
   /// No description provided for @adminCenterTitle.
   ///
   /// In zh, this message translates to:

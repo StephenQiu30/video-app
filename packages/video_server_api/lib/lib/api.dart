@@ -10,6 +10,7 @@ import 'package:video_server_api/lib/auth/basic_auth.dart';
 import 'package:video_server_api/lib/auth/bearer_auth.dart';
 import 'package:video_server_api/lib/auth/oauth.dart';
 import 'package:video_server_api/lib/api/admin_api.dart';
+import 'package:video_server_api/lib/api/analyses_api.dart';
 import 'package:video_server_api/lib/api/app_auth_api.dart';
 import 'package:video_server_api/lib/api/documents_api.dart';
 import 'package:video_server_api/lib/api/downloads_api.dart';
@@ -141,6 +142,12 @@ class VideoServerApi {
   /// by doing that all interceptors will not be executed
   AdminApi getAdminApi() {
     return AdminApi(dio, serializers);
+  }
+
+  /// Get AnalysesApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  AnalysesApi getAnalysesApi() {
+    return AnalysesApi(dio, serializers);
   }
 
   /// Get AppAuthApi instance, base route and serializer can be overridden by a given but be careful,

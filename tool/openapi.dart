@@ -21,7 +21,10 @@ Future<void> main(List<String> arguments) async {
 
     if (!options.snapshotOnly) {
       await generateDartClient(projectRoot: root, config: appOpenApiConfig);
-      stdout.writeln('Generated packages/video_server_api with 7.22.0.');
+      stdout.writeln(
+        'Generated packages/video_server_api with '
+        '${appOpenApiConfig.generatorVersion}.',
+      );
     }
     if (options.check) {
       await verifyGeneratedClient(root);

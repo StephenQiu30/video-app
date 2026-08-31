@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_element_parameter
 import 'package:video_server_api/lib/model/dynamic_range.dart';
 import 'package:video_server_api/lib/model/compatibility_profile.dart';
 import 'package:video_server_api/lib/model/video_codec_family.dart';

@@ -6,25 +6,22 @@ Future<void> generateDartClient({
   required Directory projectRoot,
   required AppOpenApiConfig config,
 }) async {
-  final uid = (await _capture('id', ['-u'])).trim();
-  final gid = (await _capture('id', ['-g'])).trim();
-  await _run('docker', [
-    'run',
-    '--rm',
-    '--user',
-    '$uid:$gid',
-    '--volume',
-    '${projectRoot.path}:/local',
-    config.generatorImage,
+  final generatorJar = await _resolveGeneratorJar(
+    projectRoot: projectRoot,
+    version: config.generatorVersion,
+  );
+  await _run('java', [
+    '-jar',
+    generatorJar,
     'generate',
     '--input-spec',
-    '/local/contracts/openapi/video-server.openapi.json',
+    '${projectRoot.path}/contracts/openapi/video-server.openapi.json',
     '--generator-name',
     'dart-dio',
     '--output',
-    '/local/packages/video_server_api',
+    '${projectRoot.path}/packages/video_server_api',
     '--config',
-    '/local/tool/openapi/config.yaml',
+    '${projectRoot.path}/tool/openapi/config.yaml',
   ], workingDirectory: projectRoot.path);
 
   final package = Directory('${projectRoot.path}/packages/video_server_api');
@@ -48,6 +45,32 @@ Future<void> generateDartClient({
     '.',
   ], workingDirectory: package.path);
   await _normalizeTextFiles(package);
+}
+
+Future<String> _resolveGeneratorJar({
+  required Directory projectRoot,
+  required String version,
+}) async {
+  const artifact = 'org.openapitools:openapi-generator-cli';
+  await _run('mvn', [
+    '-q',
+    'dependency:get',
+    '-Dartifact=$artifact:$version',
+  ], workingDirectory: projectRoot.path);
+  final repository = (await _capture('mvn', [
+    '-q',
+    'help:evaluate',
+    '-Dexpression=settings.localRepository',
+    '-DforceStdout',
+  ])).trim();
+  final jar = File(
+    '$repository/org/openapitools/openapi-generator-cli/$version/'
+    'openapi-generator-cli-$version.jar',
+  );
+  if (!jar.existsSync()) {
+    throw StateError('OpenAPI Generator $version was not resolved by Maven.');
+  }
+  return jar.path;
 }
 
 Future<void> verifyGeneratedClient(Directory projectRoot) async {

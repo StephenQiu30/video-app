@@ -654,6 +654,243 @@ class AppLocalizationsEn extends AppLocalizations {
       'The system download could not be opened. Try again later.';
 
   @override
+  String get aiAnalysisTitle => 'AI analysis';
+
+  @override
+  String get aiAnalysisDescription =>
+      'Let AI review the video to create a continuous shot breakdown, visual highlights, an asset catalog, or an article draft.';
+
+  @override
+  String get analysisSkillLabel => 'Analysis skill';
+
+  @override
+  String get analysisOutputLanguageLabel => 'Output language';
+
+  @override
+  String get simplifiedChineseLabel => '简体中文';
+
+  @override
+  String get englishLabel => 'English';
+
+  @override
+  String get analysisPromptLabel => 'Analysis focus';
+
+  @override
+  String get analysisPromptDescription =>
+      'Edit or clear the focus. Tool permissions, safety boundaries, and result structure cannot be changed.';
+
+  @override
+  String get restoreDefaultPrompt => 'Restore default';
+
+  @override
+  String get startAnalysisAction => 'Start AI analysis';
+
+  @override
+  String get startingAnalysis => 'Creating analysis…';
+
+  @override
+  String get analysisSkillsEmpty =>
+      'No video analysis skills are available. Check the AI service configuration and retry.';
+
+  @override
+  String get analysisLoadFailed => 'AI analysis is temporarily unavailable.';
+
+  @override
+  String get analysisStatusQueued => 'Waiting for analysis';
+
+  @override
+  String get analysisStatusRunning => 'Analyzing';
+
+  @override
+  String get analysisStatusRetryWait => 'Waiting to retry';
+
+  @override
+  String get analysisStatusSucceeded => 'Analysis complete';
+
+  @override
+  String get analysisStatusFailed => 'Analysis failed';
+
+  @override
+  String get analysisStatusCancelled => 'Analysis cancelled';
+
+  @override
+  String get analysisStagePreparing => 'Preparing input';
+
+  @override
+  String get analysisStageAnalyzing => 'Running AI analysis';
+
+  @override
+  String get analysisStageValidating => 'Validating structured results';
+
+  @override
+  String get analysisStagePublishing => 'Publishing the report';
+
+  @override
+  String get analysisStagePending => 'Waiting to start';
+
+  @override
+  String analysisRunSummary(int run, int attempt) {
+    return 'Run $run · technical attempt $attempt';
+  }
+
+  @override
+  String analysisProgressSemantics(int progress) {
+    return 'Analysis progress $progress%';
+  }
+
+  @override
+  String get refreshAnalysisAction => 'Refresh analysis';
+
+  @override
+  String get cancelAnalysisAction => 'Cancel analysis';
+
+  @override
+  String get cancelAnalysisTitle => 'Cancel this analysis?';
+
+  @override
+  String get cancelAnalysisDescription =>
+      'This stops the current run. You can start the analysis again later.';
+
+  @override
+  String get continueAnalysisAction => 'Keep analyzing';
+
+  @override
+  String get confirmCancelAnalysis => 'Cancel analysis';
+
+  @override
+  String get retryAnalysisAction => 'Retry analysis';
+
+  @override
+  String get retryingAnalysis => 'Retrying…';
+
+  @override
+  String get deleteAnalysisAction => 'Delete analysis';
+
+  @override
+  String get deletingAnalysis => 'Deleting…';
+
+  @override
+  String get deleteAnalysisTitle => 'Delete this analysis?';
+
+  @override
+  String get deleteAnalysisDescription =>
+      'The result and report will be removed and cannot be recovered. The downloaded video is not affected.';
+
+  @override
+  String get confirmDeleteAnalysis => 'Delete';
+
+  @override
+  String get analysisOperationFailed =>
+      'The AI analysis action did not complete. Try again later.';
+
+  @override
+  String get analysisExecutionFailed =>
+      'AI analysis failed to run. Try again later.';
+
+  @override
+  String get analysisServiceUnavailable =>
+      'AI analysis is temporarily unavailable. Check the local analysis service and retry.';
+
+  @override
+  String get analysisAuthenticationRequired =>
+      'The AI analysis service is not signed in. Sign in to the service and retry.';
+
+  @override
+  String get analysisTimeoutError => 'AI analysis timed out. Try again later.';
+
+  @override
+  String get analysisInvalidResult =>
+      'The AI result failed structure and evidence validation. Retry the analysis.';
+
+  @override
+  String get analysisResourceLimit =>
+      'This video exceeds the current analysis limits. Use a shorter or smaller video.';
+
+  @override
+  String get analysisInputUnavailable =>
+      'The source video is no longer available. Create a new download task.';
+
+  @override
+  String get analysisUsageLimited =>
+      'The AI service is rate limited or has insufficient usage available. Try again later.';
+
+  @override
+  String get analysisWorkerLost =>
+      'The analysis worker disconnected. Check the local service and retry.';
+
+  @override
+  String get shotCountLabel => 'Shots';
+
+  @override
+  String get visualAssetCountLabel => 'Visual assets';
+
+  @override
+  String get visualSummaryTitle => 'Visual summary';
+
+  @override
+  String get productionAdviceTitle => 'Production advice';
+
+  @override
+  String get analysisResultSectionLabel => 'Result section';
+
+  @override
+  String get analysisScenesTab => 'Scenes';
+
+  @override
+  String get analysisShotsTab => 'Shots';
+
+  @override
+  String get analysisHighlightsTab => 'Highlights';
+
+  @override
+  String get analysisAssetsTab => 'Assets';
+
+  @override
+  String get analysisReportTab => 'Report preview';
+
+  @override
+  String get analysisEmptySection =>
+      'No results were identified in this section.';
+
+  @override
+  String loadMoreAnalysisResults(int count) {
+    return 'Load more ($count remaining)';
+  }
+
+  @override
+  String get highlightScoreLabel => 'Score';
+
+  @override
+  String get articleKeyPointsTitle => 'Key points';
+
+  @override
+  String get articleClosingTitle => 'Closing';
+
+  @override
+  String get articleLimitationsTitle => 'Editorial notes';
+
+  @override
+  String get articleEvidenceLabel => 'Video evidence';
+
+  @override
+  String get assetTypePerson => 'Person';
+
+  @override
+  String get assetTypeLocation => 'Location';
+
+  @override
+  String get assetTypeObject => 'Object';
+
+  @override
+  String get assetTypeProduct => 'Product';
+
+  @override
+  String get assetTypeLogo => 'Logo';
+
+  @override
+  String get assetTypeOnScreenText => 'On-screen text';
+
+  @override
   String get adminCenterTitle => 'Admin center';
 
   @override

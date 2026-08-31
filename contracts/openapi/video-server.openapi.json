@@ -3,7 +3,7 @@
   "info": {
     "title": "帧取 App API",
     "description": "Flutter iOS 与 Android 客户端使用的冻结 Bearer 契约来源。",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "paths": {
     "/api/app/v1/auth/register": {
@@ -2441,6 +2441,1017 @@
         }
       }
     },
+    "/api/analysis-skills": {
+      "get": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "列出输入兼容的分析 Skill",
+        "description": "按输入类型返回可选 Skill 及用户可编辑的默认提示词。",
+        "operationId": "listAnalysisSkills",
+        "parameters": [
+          {
+            "name": "input_kind",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AnalysisInputKind"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnalysisSkillResponse"
+                  },
+                  "title": "Response Listanalysisskills"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{download_id}/analyses": {
+      "post": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "创建视频分析任务",
+        "description": "基于已完成的下载制品创建异步 AI 分析任务。",
+        "operationId": "createAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "download_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Download Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/downloads/{download_id}/analysis": {
+      "get": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "读取下载任务最近的视频分析",
+        "description": "恢复当前用户在该下载任务上最近创建的分析与报告。",
+        "operationId": "getLatestDownloadAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "download_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Download Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/AnalysisResponse"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Getlatestdownloadanalysis"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analyses/{analysis_id}": {
+      "get": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "查询视频分析任务",
+        "description": "查询分析进度及经过证据校验的结果。",
+        "operationId": "getAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "删除视频分析与报告",
+        "description": "隐藏分析任务并异步清理其私有报告对象。",
+        "operationId": "deleteAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analyses/{analysis_id}/cancel": {
+      "post": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "取消视频分析任务",
+        "description": "请求取消尚未结束的视频分析任务。",
+        "operationId": "cancelAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analyses/{analysis_id}/retry": {
+      "post": {
+        "tags": [
+          "analyses"
+        ],
+        "summary": "重试原视频分析任务",
+        "description": "为同一分析任务创建下一执行代次，不改变任务资源 ID。\n\nRetry 是上一运行的无参数重放；带请求体的请求按校验错误拒绝。",
+        "operationId": "retryAnalysis",
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Analysis Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "同一业务操作的安全重试必须复用相同键值。",
+              "examples": [
+                "01J4Z3Q9A7M2F6K8P0R1T5V7WX"
+              ],
+              "title": "Idempotency-Key"
+            },
+            "description": "同一业务操作的安全重试必须复用相同键值。"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/documents": {
       "get": {
         "tags": [
@@ -4104,6 +5115,449 @@
         ],
         "title": "AiProviderProfileResponse"
       },
+      "AnalysisErrorCode": {
+        "type": "string",
+        "enum": [
+          "cancelled",
+          "analysis_cli_unavailable",
+          "analysis_cli_unsupported",
+          "analysis_cli_not_authenticated",
+          "analysis_sandbox_unavailable",
+          "analysis_media_invalid",
+          "analysis_provider_rate_limited",
+          "analysis_provider_usage_limited",
+          "analysis_cli_timeout",
+          "analysis_cli_failed",
+          "invalid_model_output",
+          "analysis_resource_limit",
+          "input_artifact_unavailable",
+          "analysis_input_expired",
+          "screenplay_output_incomplete",
+          "analysis_report_unavailable",
+          "internal_error",
+          "worker_lost"
+        ],
+        "title": "AnalysisErrorCode"
+      },
+      "AnalysisInputKind": {
+        "type": "string",
+        "enum": [
+          "video",
+          "screenplay"
+        ],
+        "title": "AnalysisInputKind"
+      },
+      "AnalysisMediaResponse": {
+        "properties": {
+          "duration_ms": {
+            "type": "integer",
+            "title": "Duration Ms"
+          },
+          "container": {
+            "type": "string",
+            "title": "Container"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "duration_ms",
+          "container",
+          "size_bytes"
+        ],
+        "title": "AnalysisMediaResponse"
+      },
+      "AnalysisReportArtifactResponse": {
+        "properties": {
+          "format": {
+            "type": "string",
+            "title": "Format"
+          },
+          "media_type": {
+            "type": "string",
+            "title": "Media Type"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "format",
+          "media_type",
+          "size_bytes",
+          "sha256"
+        ],
+        "title": "AnalysisReportArtifactResponse"
+      },
+      "AnalysisReportResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "renderer_version": {
+            "type": "string",
+            "title": "Renderer Version"
+          },
+          "content_sha256": {
+            "type": "string",
+            "title": "Content Sha256"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "artifacts": {
+            "items": {
+              "$ref": "#/components/schemas/AnalysisReportArtifactResponse"
+            },
+            "type": "array",
+            "title": "Artifacts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "renderer_version",
+          "content_sha256",
+          "published_at",
+          "artifacts"
+        ],
+        "title": "AnalysisReportResponse"
+      },
+      "AnalysisRequest": {
+        "properties": {
+          "skill_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Skill Id",
+            "description": "分析 Skill 的稳定标识，由分析 Skill 清单接口提供。",
+            "examples": [
+              "director-breakdown"
+            ]
+          },
+          "output_language": {
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 2,
+            "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$",
+            "title": "Output Language",
+            "description": "分析结果使用的 BCP 47 语言标签。",
+            "examples": [
+              "zh-CN"
+            ]
+          },
+          "custom_prompt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Custom Prompt",
+            "description": "用户可编辑的分析要求，仅影响观察重点和表达，不能覆盖工具、安全边界或结果结构。",
+            "examples": [
+              "重点识别产品功能演示和界面切换。"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "skill_id",
+          "output_language"
+        ],
+        "title": "AnalysisRequest"
+      },
+      "AnalysisResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Run Id"
+          },
+          "run_no": {
+            "type": "integer",
+            "title": "Run No"
+          },
+          "run_trigger": {
+            "type": "string",
+            "title": "Run Trigger"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "skill_id": {
+            "type": "string",
+            "title": "Skill Id"
+          },
+          "output_language": {
+            "type": "string",
+            "title": "Output Language"
+          },
+          "input_kind": {
+            "$ref": "#/components/schemas/AnalysisInputKind"
+          },
+          "result_contract": {
+            "$ref": "#/components/schemas/AnalysisResultContract"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnalysisStatus"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisStage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "progress": {
+            "type": "integer",
+            "title": "Progress"
+          },
+          "attempt": {
+            "type": "integer",
+            "title": "Attempt"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisErrorCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/VideoAnalysisResultResponse"
+                  },
+                  {
+                    "$ref": "#/components/schemas/VideoArticleResultResponse"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ScreenplayAnalysisResultResponse"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ScreenplayRewriteResultResponse"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "kind",
+                  "mapping": {
+                    "screenplay_analysis": "#/components/schemas/ScreenplayAnalysisResultResponse",
+                    "screenplay_rewrite": "#/components/schemas/ScreenplayRewriteResultResponse",
+                    "video_article": "#/components/schemas/VideoArticleResultResponse",
+                    "video_visual_analysis": "#/components/schemas/VideoAnalysisResultResponse"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "report_markdown": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Report Markdown"
+          },
+          "current_report_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Report Id"
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisReportResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "run_id",
+          "run_no",
+          "run_trigger",
+          "version",
+          "skill_id",
+          "output_language",
+          "input_kind",
+          "result_contract",
+          "status",
+          "stage",
+          "progress",
+          "attempt",
+          "error_code",
+          "created_at",
+          "updated_at",
+          "finished_at",
+          "result",
+          "report_markdown",
+          "current_report_id",
+          "report"
+        ],
+        "title": "AnalysisResponse"
+      },
+      "AnalysisResultContract": {
+        "type": "string",
+        "enum": [
+          "video-visual-analysis",
+          "video-article",
+          "screenplay-analysis",
+          "screenplay-rewrite"
+        ],
+        "title": "AnalysisResultContract"
+      },
+      "AnalysisSkillResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "default_prompt": {
+            "type": "string",
+            "title": "Default Prompt"
+          },
+          "input_kinds": {
+            "items": {
+              "$ref": "#/components/schemas/AnalysisInputKind"
+            },
+            "type": "array",
+            "title": "Input Kinds"
+          },
+          "result_contract": {
+            "$ref": "#/components/schemas/AnalysisResultContract"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "description",
+          "default_prompt",
+          "input_kinds",
+          "result_contract"
+        ],
+        "title": "AnalysisSkillResponse"
+      },
+      "AnalysisStage": {
+        "type": "string",
+        "enum": [
+          "preparing",
+          "analyzing",
+          "validating",
+          "publishing"
+        ],
+        "title": "AnalysisStage"
+      },
+      "AnalysisStatus": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "running",
+          "retry_wait",
+          "succeeded",
+          "failed",
+          "cancelled"
+        ],
+        "title": "AnalysisStatus"
+      },
       "AudioCodecFamily": {
         "type": "string",
         "enum": [
@@ -5078,6 +6532,28 @@
         ],
         "title": "EntitlementState"
       },
+      "EvidenceSummaryResponse": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "evidence_shot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Shot Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "evidence_shot_ids"
+        ],
+        "title": "EvidenceSummaryResponse"
+      },
       "ExecutionMode": {
         "type": "string",
         "enum": [
@@ -5120,6 +6596,58 @@
           "above_60"
         ],
         "title": "FpsBucket"
+      },
+      "HighlightResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "start_ms": {
+            "type": "integer",
+            "title": "Start Ms"
+          },
+          "end_ms": {
+            "type": "integer",
+            "title": "End Ms"
+          },
+          "evidence_shot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Shot Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "score",
+          "reason",
+          "start_ms",
+          "end_ms",
+          "evidence_shot_ids"
+        ],
+        "title": "HighlightResponse"
       },
       "IdentityState": {
         "type": "string",
@@ -5504,6 +7032,36 @@
         "title": "ProblemDetails",
         "description": "RFC 9457 error document returned by public API operations."
       },
+      "ProductionAdviceResponse": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "priority_shot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Priority Shot Ids"
+          },
+          "recommended_extensions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommended Extensions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "summary",
+          "priority_shot_ids",
+          "recommended_extensions"
+        ],
+        "title": "ProductionAdviceResponse"
+      },
       "ProtectionState": {
         "type": "string",
         "enum": [
@@ -5829,6 +7387,317 @@
         ],
         "title": "RightsBasis"
       },
+      "ScreenplayAnalysisResultResponse": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "screenplay_analysis"
+            ],
+            "const": "screenplay_analysis",
+            "title": "Kind"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "logline": {
+            "type": "string",
+            "title": "Logline"
+          },
+          "synopsis": {
+            "type": "string",
+            "title": "Synopsis"
+          },
+          "structure": {
+            "$ref": "#/components/schemas/ScreenplayStructureResponse"
+          },
+          "characters": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayCharacterResponse"
+            },
+            "type": "array",
+            "title": "Characters"
+          },
+          "scenes": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplaySceneResponse"
+            },
+            "type": "array",
+            "title": "Scenes"
+          },
+          "dialogue_findings": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayEvidenceItemResponse"
+            },
+            "type": "array",
+            "title": "Dialogue Findings"
+          },
+          "strengths": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayEvidenceItemResponse"
+            },
+            "type": "array",
+            "title": "Strengths"
+          },
+          "priority_revisions": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayEvidenceItemResponse"
+            },
+            "type": "array",
+            "title": "Priority Revisions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "language",
+          "title",
+          "logline",
+          "synopsis",
+          "structure",
+          "characters",
+          "scenes",
+          "dialogue_findings",
+          "strengths",
+          "priority_revisions"
+        ],
+        "title": "ScreenplayAnalysisResultResponse"
+      },
+      "ScreenplayCharacterResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "goal": {
+            "type": "string",
+            "title": "Goal"
+          },
+          "conflict": {
+            "type": "string",
+            "title": "Conflict"
+          },
+          "arc": {
+            "type": "string",
+            "title": "Arc"
+          },
+          "evidence_scene_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Scene Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "goal",
+          "conflict",
+          "arc",
+          "evidence_scene_ids"
+        ],
+        "title": "ScreenplayCharacterResponse"
+      },
+      "ScreenplayEvidenceItemResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "evidence_scene_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Scene Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "evidence_scene_ids"
+        ],
+        "title": "ScreenplayEvidenceItemResponse"
+      },
+      "ScreenplayGlossaryTermResponse": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "target",
+          "category"
+        ],
+        "title": "ScreenplayGlossaryTermResponse"
+      },
+      "ScreenplayRewriteResultResponse": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "screenplay_rewrite"
+            ],
+            "const": "screenplay_rewrite",
+            "title": "Kind"
+          },
+          "source_language": {
+            "type": "string",
+            "title": "Source Language"
+          },
+          "target_language": {
+            "type": "string",
+            "title": "Target Language"
+          },
+          "source_scene_count": {
+            "type": "integer",
+            "title": "Source Scene Count"
+          },
+          "output_scene_count": {
+            "type": "integer",
+            "title": "Output Scene Count"
+          },
+          "glossary": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayGlossaryTermResponse"
+            },
+            "type": "array",
+            "title": "Glossary"
+          },
+          "change_summary": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Change Summary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "source_language",
+          "target_language",
+          "source_scene_count",
+          "output_scene_count",
+          "glossary",
+          "change_summary"
+        ],
+        "title": "ScreenplayRewriteResultResponse"
+      },
+      "ScreenplaySceneResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source_scene_id": {
+            "type": "string",
+            "title": "Source Scene Id"
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose"
+          },
+          "conflict": {
+            "type": "string",
+            "title": "Conflict"
+          },
+          "turn": {
+            "type": "string",
+            "title": "Turn"
+          },
+          "pacing": {
+            "type": "string",
+            "title": "Pacing"
+          },
+          "findings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Findings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "source_scene_id",
+          "purpose",
+          "conflict",
+          "turn",
+          "pacing",
+          "findings"
+        ],
+        "title": "ScreenplaySceneResponse"
+      },
+      "ScreenplayStructureResponse": {
+        "properties": {
+          "acts": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayEvidenceItemResponse"
+            },
+            "type": "array",
+            "title": "Acts"
+          },
+          "turning_points": {
+            "items": {
+              "$ref": "#/components/schemas/ScreenplayEvidenceItemResponse"
+            },
+            "type": "array",
+            "title": "Turning Points"
+          },
+          "pacing_summary": {
+            "type": "string",
+            "title": "Pacing Summary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "acts",
+          "turning_points",
+          "pacing_summary"
+        ],
+        "title": "ScreenplayStructureResponse"
+      },
       "SemanticPlanResponse": {
         "properties": {
           "height": {
@@ -5883,6 +7752,86 @@
           "compatibility_profile"
         ],
         "title": "SemanticPlanResponse"
+      },
+      "ShotResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "start_ms": {
+            "type": "integer",
+            "title": "Start Ms"
+          },
+          "end_ms": {
+            "type": "integer",
+            "title": "End Ms"
+          },
+          "representative_frame_ms": {
+            "type": "integer",
+            "title": "Representative Frame Ms"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "transition_in": {
+            "type": "string",
+            "title": "Transition In"
+          },
+          "shot_size": {
+            "type": "string",
+            "title": "Shot Size"
+          },
+          "camera_motion": {
+            "type": "string",
+            "title": "Camera Motion"
+          },
+          "narrative_function": {
+            "type": "string",
+            "title": "Narrative Function"
+          },
+          "highlight_score": {
+            "type": "integer",
+            "title": "Highlight Score"
+          },
+          "visual_tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Visual Tags"
+          },
+          "asset_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Asset Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "index",
+          "start_ms",
+          "end_ms",
+          "representative_frame_ms",
+          "description",
+          "transition_in",
+          "shot_size",
+          "camera_motion",
+          "narrative_function",
+          "highlight_score",
+          "visual_tags",
+          "asset_ids"
+        ],
+        "title": "ShotResponse"
       },
       "SourceDiscoveryItemResponse": {
         "properties": {
@@ -6266,6 +8215,205 @@
         ],
         "title": "UserRole"
       },
+      "VideoAnalysisResultResponse": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "video_visual_analysis"
+            ],
+            "const": "video_visual_analysis",
+            "title": "Kind"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/EvidenceSummaryResponse"
+          },
+          "media": {
+            "$ref": "#/components/schemas/AnalysisMediaResponse"
+          },
+          "shot_count": {
+            "type": "integer",
+            "title": "Shot Count"
+          },
+          "shots": {
+            "items": {
+              "$ref": "#/components/schemas/ShotResponse"
+            },
+            "type": "array",
+            "title": "Shots"
+          },
+          "scenes": {
+            "items": {
+              "$ref": "#/components/schemas/VideoSceneResponse"
+            },
+            "type": "array",
+            "title": "Scenes"
+          },
+          "highlights": {
+            "items": {
+              "$ref": "#/components/schemas/HighlightResponse"
+            },
+            "type": "array",
+            "title": "Highlights"
+          },
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/VisualAssetResponse"
+            },
+            "type": "array",
+            "title": "Assets"
+          },
+          "production_advice": {
+            "$ref": "#/components/schemas/ProductionAdviceResponse"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "language",
+          "title",
+          "summary",
+          "media",
+          "shot_count",
+          "shots",
+          "scenes",
+          "highlights",
+          "assets",
+          "production_advice"
+        ],
+        "title": "VideoAnalysisResultResponse"
+      },
+      "VideoArticleEvidenceResponse": {
+        "properties": {
+          "start_ms": {
+            "type": "integer",
+            "title": "Start Ms"
+          },
+          "end_ms": {
+            "type": "integer",
+            "title": "End Ms"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "start_ms",
+          "end_ms",
+          "note"
+        ],
+        "title": "VideoArticleEvidenceResponse"
+      },
+      "VideoArticleResultResponse": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "video_article"
+            ],
+            "const": "video_article",
+            "title": "Kind"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "lead": {
+            "type": "string",
+            "title": "Lead"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/VideoArticleSectionResponse"
+            },
+            "type": "array",
+            "title": "Sections"
+          },
+          "key_points": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Key Points"
+          },
+          "closing": {
+            "type": "string",
+            "title": "Closing"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "media": {
+            "$ref": "#/components/schemas/AnalysisMediaResponse"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "language",
+          "title",
+          "lead",
+          "sections",
+          "key_points",
+          "closing",
+          "limitations",
+          "media"
+        ],
+        "title": "VideoArticleResultResponse"
+      },
+      "VideoArticleSectionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/VideoArticleEvidenceResponse"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "body",
+          "evidence"
+        ],
+        "title": "VideoArticleSectionResponse"
+      },
       "VideoCodecFamily": {
         "type": "string",
         "enum": [
@@ -6276,6 +8424,121 @@
           "other"
         ],
         "title": "VideoCodecFamily"
+      },
+      "VideoSceneResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "start_ms": {
+            "type": "integer",
+            "title": "Start Ms"
+          },
+          "end_ms": {
+            "type": "integer",
+            "title": "End Ms"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "narrative_function": {
+            "type": "string",
+            "title": "Narrative Function"
+          },
+          "visual_rules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Visual Rules"
+          },
+          "continuity_risks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Continuity Risks"
+          },
+          "evidence_shot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Shot Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "index",
+          "title",
+          "start_ms",
+          "end_ms",
+          "location",
+          "description",
+          "narrative_function",
+          "visual_rules",
+          "continuity_risks",
+          "evidence_shot_ids"
+        ],
+        "title": "VideoSceneResponse"
+      },
+      "VisualAssetResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "first_seen_ms": {
+            "type": "integer",
+            "title": "First Seen Ms"
+          },
+          "evidence_shot_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Shot Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "label",
+          "description",
+          "first_seen_ms",
+          "evidence_shot_ids"
+        ],
+        "title": "VisualAssetResponse"
       }
     },
     "securitySchemes": {

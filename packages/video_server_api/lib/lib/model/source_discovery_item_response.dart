@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_element_parameter
 import 'package:video_server_api/lib/model/discovery_decision_hint.dart';
 import 'package:video_server_api/lib/model/discovery_item_status.dart';
 import 'package:video_server_api/lib/model/discovery_item_kind.dart';

@@ -36,7 +36,14 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(28));
+    expect(selectedPaths, hasLength(34));
+    expect(
+      selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
+        0,
+        (total, path) => total + path.length,
+      ),
+      35,
+    );
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
     expect(selectedPaths, contains('/api/inspections'));
@@ -44,6 +51,18 @@ void main() {
     expect(selectedPaths, contains('/api/downloads'));
     expect(selectedPaths, contains('/api/downloads/{job_id}'));
     expect(selectedPaths, contains('/api/downloads/{job_id}/download-url'));
+    expect(selectedPaths, contains('/api/analysis-skills'));
+    expect(selectedPaths, contains('/api/downloads/{download_id}/analyses'));
+    expect(selectedPaths, contains('/api/downloads/{download_id}/analysis'));
+    expect(selectedPaths, contains('/api/analyses/{analysis_id}'));
+    expect(
+      selectedPaths['/api/analyses/{analysis_id}'],
+      containsPair('get', isA<Map<String, dynamic>>()),
+    );
+    expect(
+      selectedPaths['/api/analyses/{analysis_id}'],
+      containsPair('delete', isA<Map<String, dynamic>>()),
+    );
     expect(selectedPaths, contains('/api/admin/users'));
     expect(
       selectedParameters.map((value) {
@@ -69,6 +88,11 @@ void main() {
     expect(schemas, contains('SourceDiscoveryResponse'));
     expect(schemas, contains('DownloadRequest'));
     expect(schemas, contains('ManagedUserResponse'));
+    expect(schemas, contains('AnalysisRequest'));
+    expect(schemas, contains('AnalysisResponse'));
+    expect(schemas, contains('AnalysisSkillResponse'));
+    expect(schemas, contains('VideoAnalysisResultResponse'));
+    expect(schemas, contains('VideoArticleResultResponse'));
     final thumbnail =
         selectedPaths['/api/downloads/{job_id}/thumbnail']
             as Map<String, dynamic>;

@@ -12,6 +12,18 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AiProviderEngine.serializer)
       ..add(AiProviderProfileListResponse.serializer)
       ..add(AiProviderProfileResponse.serializer)
+      ..add(AnalysisErrorCode.serializer)
+      ..add(AnalysisInputKind.serializer)
+      ..add(AnalysisMediaResponse.serializer)
+      ..add(AnalysisReportArtifactResponse.serializer)
+      ..add(AnalysisReportResponse.serializer)
+      ..add(AnalysisRequest.serializer)
+      ..add(AnalysisResponse.serializer)
+      ..add(AnalysisResponseResult.serializer)
+      ..add(AnalysisResultContract.serializer)
+      ..add(AnalysisSkillResponse.serializer)
+      ..add(AnalysisStage.serializer)
+      ..add(AnalysisStatus.serializer)
       ..add(AudioCodecFamily.serializer)
       ..add(CompatibilityProfile.serializer)
       ..add(ContainerPreference.serializer)
@@ -41,9 +53,11 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(DynamicRange.serializer)
       ..add(EmailPasswordRequest.serializer)
       ..add(EntitlementState.serializer)
+      ..add(EvidenceSummaryResponse.serializer)
       ..add(ExecutionMode.serializer)
       ..add(FormatResponse.serializer)
       ..add(FpsBucket.serializer)
+      ..add(HighlightResponse.serializer)
       ..add(IdentityState.serializer)
       ..add(ImportErrorCode.serializer)
       ..add(ImportStatus.serializer)
@@ -57,6 +71,7 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(NativeSessionResponse.serializer)
       ..add(NativeSessionResponseTokenTypeEnum.serializer)
       ..add(ProblemDetails.serializer)
+      ..add(ProductionAdviceResponse.serializer)
       ..add(ProtectionState.serializer)
       ..add(ProviderAccessMode.serializer)
       ..add(ProviderCapability.serializer)
@@ -69,7 +84,17 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(PublicUrlInspectionSourceKindEnum.serializer)
       ..add(RegisterRequest.serializer)
       ..add(RightsBasis.serializer)
+      ..add(ScreenplayAnalysisResultResponse.serializer)
+      ..add(ScreenplayAnalysisResultResponseKindEnum.serializer)
+      ..add(ScreenplayCharacterResponse.serializer)
+      ..add(ScreenplayEvidenceItemResponse.serializer)
+      ..add(ScreenplayGlossaryTermResponse.serializer)
+      ..add(ScreenplayRewriteResultResponse.serializer)
+      ..add(ScreenplayRewriteResultResponseKindEnum.serializer)
+      ..add(ScreenplaySceneResponse.serializer)
+      ..add(ScreenplayStructureResponse.serializer)
       ..add(SemanticPlanResponse.serializer)
+      ..add(ShotResponse.serializer)
       ..add(SourceDiscoveryItemResponse.serializer)
       ..add(SourceDiscoveryRequest.serializer)
       ..add(SourceDiscoveryRequestKindEnum.serializer)
@@ -84,11 +109,26 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(UpdateUserAccessRequest.serializer)
       ..add(UserResponse.serializer)
       ..add(UserRole.serializer)
+      ..add(VideoAnalysisResultResponse.serializer)
+      ..add(VideoAnalysisResultResponseKindEnum.serializer)
+      ..add(VideoArticleEvidenceResponse.serializer)
+      ..add(VideoArticleResultResponse.serializer)
+      ..add(VideoArticleResultResponseKindEnum.serializer)
+      ..add(VideoArticleSectionResponse.serializer)
       ..add(VideoCodecFamily.serializer)
+      ..add(VideoSceneResponse.serializer)
+      ..add(VisualAssetResponse.serializer)
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(AiProviderProfileResponse)]),
           () => ListBuilder<AiProviderProfileResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(AnalysisInputKind)]),
+          () => ListBuilder<AnalysisInputKind>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(AnalysisReportArtifactResponse)]),
+          () => ListBuilder<AnalysisReportArtifactResponse>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DocumentResponse)]),
           () => ListBuilder<DocumentResponse>())
@@ -127,11 +167,112 @@ Serializers _$serializers = (Serializers().toBuilder()
           () => ListBuilder<ProviderStatusResponse>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(ScreenplayCharacterResponse)]),
+          () => ListBuilder<ScreenplayCharacterResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ScreenplaySceneResponse)]),
+          () => ListBuilder<ScreenplaySceneResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayEvidenceItemResponse)]),
+          () => ListBuilder<ScreenplayEvidenceItemResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayEvidenceItemResponse)]),
+          () => ListBuilder<ScreenplayEvidenceItemResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayEvidenceItemResponse)]),
+          () => ListBuilder<ScreenplayEvidenceItemResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayEvidenceItemResponse)]),
+          () => ListBuilder<ScreenplayEvidenceItemResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayEvidenceItemResponse)]),
+          () => ListBuilder<ScreenplayEvidenceItemResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ScreenplayGlossaryTermResponse)]),
+          () => ListBuilder<ScreenplayGlossaryTermResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ShotResponse)]),
+          () => ListBuilder<ShotResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(VideoSceneResponse)]),
+          () => ListBuilder<VideoSceneResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(HighlightResponse)]),
+          () => ListBuilder<HighlightResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(VisualAssetResponse)]),
+          () => ListBuilder<VisualAssetResponse>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(SourceDiscoveryItemResponse)]),
           () => ListBuilder<SourceDiscoveryItemResponse>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(StoredFileResponse)]),
           () => ListBuilder<StoredFileResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(VideoArticleEvidenceResponse)]),
+          () => ListBuilder<VideoArticleEvidenceResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(VideoArticleSectionResponse)]),
+          () => ListBuilder<VideoArticleSectionResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => ListBuilder<String>()))

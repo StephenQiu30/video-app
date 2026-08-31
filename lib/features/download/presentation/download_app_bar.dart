@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/theme_mode_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_brand.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class DownloadAppBar extends ConsumerWidget
     implements PreferredSizeWidget {
-  const DownloadAppBar({this.showBackButton = false, super.key});
+  const DownloadAppBar({this.backFallbackLocation, super.key});
 
-  final bool showBackButton;
+  final String? backFallbackLocation;
 
   @override
   Size get preferredSize => const Size.fromHeight(72);
@@ -19,9 +20,22 @@ final class DownloadAppBar extends ConsumerWidget
     final mode = ref.watch(themeModeProvider);
     final dark = mode.resolvesToDark(MediaQuery.platformBrightnessOf(context));
     final localizations = AppLocalizations.of(context);
+    final fallbackLocation = backFallbackLocation;
     return AppBar(
-      automaticallyImplyLeading: showBackButton,
-      titleSpacing: showBackButton ? 0 : 16,
+      automaticallyImplyLeading: false,
+      leading: fallbackLocation == null
+          ? null
+          : BackButton(
+              key: const Key('navbar-back-button'),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(fallbackLocation);
+                }
+              },
+            ),
+      titleSpacing: fallbackLocation == null ? 16 : 0,
       toolbarHeight: 72,
       title: const AppBrand(),
       actions: [

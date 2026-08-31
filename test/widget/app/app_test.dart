@@ -4,6 +4,7 @@ import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_server_api/video_server_api.dart';
 
+import '../../support/analysis_fakes.dart';
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import '../../support/intake_fakes.dart';
@@ -173,6 +174,17 @@ void main() {
 
     expect(repository.createdFormats, ['00000000-0000-0000-0000-000000000303']);
     expect(find.byKey(const Key('download-detail-content')), findsOneWidget);
+    final backButton = find.byKey(const Key('navbar-back-button'));
+    expect(backButton, findsOneWidget);
+
+    await tester.tap(backButton);
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
+    final input = tester.widget<TextField>(
+      find.byKey(const Key('media-url-input')),
+    );
+    expect(input.controller?.text, 'https://media.example/video');
   });
 
   testWidgets('shows real empty states for the signed-in account', (
@@ -262,8 +274,144 @@ void main() {
     expect(find.text('1920×1080 · MP4 · H264'), findsOneWidget);
     expect(find.text('文件可获取'), findsOneWidget);
     expect(find.text('2:04'), findsOneWidget);
-    expect(find.byType(BackButton), findsOneWidget);
+    final backButton = find.byKey(const Key('navbar-back-button'));
+    expect(backButton, findsOneWidget);
     expect(repository.detailCalls, ['00000000-0000-0000-0000-000000000101']);
+
+    await tester.tap(backButton);
+    await tester.pumpAndSettle();
+    expect(find.text('下载记录'), findsOneWidget);
+    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
+  });
+
+  testWidgets('offers a safe back action for a directly opened task detail', (
+    tester,
+  ) async {
+    final repository = FakeDownloadHistoryRepository(
+      data: downloadHistoryFixture(),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    final backButton = find.byKey(const Key('navbar-back-button'));
+    expect(backButton, findsOneWidget);
+    final size = tester.getSize(backButton);
+    expect(size.width, greaterThanOrEqualTo(44));
+    expect(size.height, greaterThanOrEqualTo(44));
+    expect(tester.getSemantics(backButton).label, isNotEmpty);
+
+    await tester.tap(backButton);
+    await tester.pumpAndSettle();
+
+    expect(find.text('把素材，\n带回本地。'), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+  });
+
+  testWidgets(
+    'starts AI analysis from a completed download and shows results',
+    (tester) async {
+      final analysis = FakeAnalysisRepository(
+        createResult: analysisJobFixture(status: AnalysisStatus.succeeded),
+      );
+      await pumpFramegrabApp(
+        tester,
+        analysisRepository: analysis,
+        downloadHistoryRepository: FakeDownloadHistoryRepository(
+          data: downloadHistoryFixture(),
+        ),
+      );
+      await tester.tap(find.byKey(const Key('navbar-theme-toggle')));
+      await tester.pumpAndSettle();
+      tester
+          .element(find.byKey(const Key('app-bottom-navigation')))
+          .go('/downloads/00000000-0000-0000-0000-000000000101');
+      await tester.pumpAndSettle();
+
+      expect(find.text('AI 智能分析'), findsOneWidget);
+      expect(
+        Theme.of(
+          find.byKey(const Key('analysis-panel')).evaluate().single,
+        ).brightness,
+        Brightness.dark,
+      );
+      expect(find.byKey(const Key('analysis-configurator')), findsOneWidget);
+      expect(find.text('导演拉片'), findsOneWidget);
+      final start = find.byKey(const Key('start-analysis-button'));
+      _scrollDetailToEnd(tester);
+      await tester.pump();
+      await tester.tap(start);
+      await tester.pumpAndSettle();
+
+      expect(analysis.createKeys, hasLength(1));
+      expect(find.byKey(const Key('video-analysis-result')), findsOneWidget);
+      expect(find.text('舞台表演视觉分析'), findsOneWidget);
+      expect(find.text('镜头围绕主体动作与舞台调度形成连续节奏。'), findsOneWidget);
+      expect(find.byKey(const Key('download-video-file')), findsOneWidget);
+    },
+  );
+
+  testWidgets('restores and renders a completed video article analysis', (
+    tester,
+  ) async {
+    final analysis = FakeAnalysisRepository(
+      latest: analysisJobFixture(
+        status: AnalysisStatus.succeeded,
+        resultKind: 'video_article',
+      ),
+    );
+    await pumpFramegrabApp(
+      tester,
+      analysisRepository: analysis,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+    );
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('video-article-result')), findsOneWidget);
+    expect(find.text('舞台表演如何建立开场吸引力'), findsOneWidget);
+    expect(find.text('从定格动作开始'), findsOneWidget);
+    expect(find.textContaining('仅基于可见画面分析'), findsOneWidget);
+  });
+
+  testWidgets('keeps the downloaded file available when AI analysis fails', (
+    tester,
+  ) async {
+    final analysis = FakeAnalysisRepository(
+      latest: analysisJobFixture(status: AnalysisStatus.failed),
+    );
+    await pumpFramegrabApp(
+      tester,
+      analysisRepository: analysis,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+    );
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    expect(find.text('分析失败'), findsOneWidget);
+    expect(find.text('AI 分析执行失败，请稍后重试。'), findsOneWidget);
+    expect(find.byKey(const Key('retry-analysis-button')), findsOneWidget);
+    expect(find.byKey(const Key('download-video-file')), findsOneWidget);
+
+    final retry = find.byKey(const Key('retry-analysis-button'));
+    _scrollDetailToEnd(tester);
+    await tester.pump();
+    await tester.tap(retry);
+    await tester.pump();
+    expect(analysis.retryKeys, hasLength(1));
+    expect(find.text('等待分析'), findsOneWidget);
   });
 
   testWidgets('shows a retryable error instead of placeholder data', (
@@ -473,6 +621,15 @@ Finder _homeScrollable() => find
       matching: find.byType(Scrollable),
     )
     .first;
+
+Finder _detailScrollable() => find
+    .descendant(of: find.byType(ListView), matching: find.byType(Scrollable))
+    .first;
+
+void _scrollDetailToEnd(WidgetTester tester) {
+  final position = tester.state<ScrollableState>(_detailScrollable()).position;
+  position.jumpTo(position.maxScrollExtent);
+}
 
 void _scrollHomeTo(WidgetTester tester, double offset) {
   final position = tester.state<ScrollableState>(_homeScrollable()).position;

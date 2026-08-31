@@ -614,6 +614,228 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloadOpenFailed => '无法打开系统下载，请稍后重试。';
 
   @override
+  String get aiAnalysisTitle => 'AI 智能分析';
+
+  @override
+  String get aiAnalysisDescription => '由 AI 观察视频画面，生成连续分镜、视觉高光、资产目录，或将视频整理成文章。';
+
+  @override
+  String get analysisSkillLabel => '分析 Skill';
+
+  @override
+  String get analysisOutputLanguageLabel => '输出语言';
+
+  @override
+  String get simplifiedChineseLabel => '简体中文';
+
+  @override
+  String get englishLabel => 'English';
+
+  @override
+  String get analysisPromptLabel => '分析重点';
+
+  @override
+  String get analysisPromptDescription => '可修改或清空分析重点；工具权限、安全边界与结果结构不可修改。';
+
+  @override
+  String get restoreDefaultPrompt => '恢复默认值';
+
+  @override
+  String get startAnalysisAction => '开始 AI 分析';
+
+  @override
+  String get startingAnalysis => '正在创建分析…';
+
+  @override
+  String get analysisSkillsEmpty => '当前没有可用的视频分析 Skill，请检查 AI 服务配置后重试。';
+
+  @override
+  String get analysisLoadFailed => '暂时无法读取 AI 分析服务。';
+
+  @override
+  String get analysisStatusQueued => '等待分析';
+
+  @override
+  String get analysisStatusRunning => '正在分析';
+
+  @override
+  String get analysisStatusRetryWait => '等待重试';
+
+  @override
+  String get analysisStatusSucceeded => '分析已完成';
+
+  @override
+  String get analysisStatusFailed => '分析失败';
+
+  @override
+  String get analysisStatusCancelled => '分析已取消';
+
+  @override
+  String get analysisStagePreparing => '准备输入';
+
+  @override
+  String get analysisStageAnalyzing => '执行 AI 分析';
+
+  @override
+  String get analysisStageValidating => '校验结构化结果';
+
+  @override
+  String get analysisStagePublishing => '发布分析报告';
+
+  @override
+  String get analysisStagePending => '等待调度';
+
+  @override
+  String analysisRunSummary(int run, int attempt) {
+    return '第 $run 次执行 · 本次第 $attempt 个技术尝试';
+  }
+
+  @override
+  String analysisProgressSemantics(int progress) {
+    return '分析进度 $progress%';
+  }
+
+  @override
+  String get refreshAnalysisAction => '刷新分析';
+
+  @override
+  String get cancelAnalysisAction => '取消分析';
+
+  @override
+  String get cancelAnalysisTitle => '取消当前分析任务？';
+
+  @override
+  String get cancelAnalysisDescription => '确认后将停止当前分析。你之后仍可重新发起分析任务。';
+
+  @override
+  String get continueAnalysisAction => '继续分析';
+
+  @override
+  String get confirmCancelAnalysis => '确认取消分析';
+
+  @override
+  String get retryAnalysisAction => '重试分析';
+
+  @override
+  String get retryingAnalysis => '正在重试…';
+
+  @override
+  String get deleteAnalysisAction => '删除分析';
+
+  @override
+  String get deletingAnalysis => '正在删除…';
+
+  @override
+  String get deleteAnalysisTitle => '删除这次分析？';
+
+  @override
+  String get deleteAnalysisDescription => '分析结果与报告将被清理，此操作无法撤销。下载文件不会受到影响。';
+
+  @override
+  String get confirmDeleteAnalysis => '确认删除';
+
+  @override
+  String get analysisOperationFailed => 'AI 分析操作未完成，请稍后重试。';
+
+  @override
+  String get analysisExecutionFailed => 'AI 分析执行失败，请稍后重试。';
+
+  @override
+  String get analysisServiceUnavailable => 'AI 分析服务暂时不可用，请检查本机分析服务后重试。';
+
+  @override
+  String get analysisAuthenticationRequired => 'AI 分析服务尚未登录，请完成服务登录后重试。';
+
+  @override
+  String get analysisTimeoutError => 'AI 分析超时，请稍后重试。';
+
+  @override
+  String get analysisInvalidResult => 'AI 返回结果未通过结构与证据校验，请重新分析。';
+
+  @override
+  String get analysisResourceLimit => '视频超出当前分析资源限制，请使用更短或更小的视频。';
+
+  @override
+  String get analysisInputUnavailable => '用于分析的视频文件已不可用，请重新创建下载任务。';
+
+  @override
+  String get analysisUsageLimited => 'AI 服务当前额度不足或受到限流，请稍后重试。';
+
+  @override
+  String get analysisWorkerLost => '分析执行服务连接中断，请确认本机服务正常后重试。';
+
+  @override
+  String get shotCountLabel => '分镜';
+
+  @override
+  String get visualAssetCountLabel => '视觉资产';
+
+  @override
+  String get visualSummaryTitle => '视觉摘要';
+
+  @override
+  String get productionAdviceTitle => '制作建议';
+
+  @override
+  String get analysisResultSectionLabel => '结果分类';
+
+  @override
+  String get analysisScenesTab => '场景';
+
+  @override
+  String get analysisShotsTab => '分镜';
+
+  @override
+  String get analysisHighlightsTab => '高光';
+
+  @override
+  String get analysisAssetsTab => '资产';
+
+  @override
+  String get analysisReportTab => '报告预览';
+
+  @override
+  String get analysisEmptySection => '当前分类没有识别结果。';
+
+  @override
+  String loadMoreAnalysisResults(int count) {
+    return '加载更多（剩余 $count 项）';
+  }
+
+  @override
+  String get highlightScoreLabel => '评分';
+
+  @override
+  String get articleKeyPointsTitle => '核心观点';
+
+  @override
+  String get articleClosingTitle => '结语';
+
+  @override
+  String get articleLimitationsTitle => '事实说明';
+
+  @override
+  String get articleEvidenceLabel => '画面证据';
+
+  @override
+  String get assetTypePerson => '人物';
+
+  @override
+  String get assetTypeLocation => '地点';
+
+  @override
+  String get assetTypeObject => '物体';
+
+  @override
+  String get assetTypeProduct => '产品';
+
+  @override
+  String get assetTypeLogo => '标志';
+
+  @override
+  String get assetTypeOnScreenText => '画面文字';
+
+  @override
   String get adminCenterTitle => '管理中心';
 
   @override

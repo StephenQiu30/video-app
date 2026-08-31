@@ -18,6 +18,8 @@
 | 010 | 媒体体验与移动管理中心 | [Accepted](design/010-媒体体验与移动管理中心设计.md) | [Accepted](prd/010-媒体体验与移动管理中心需求.md) | [Complete](plans/010-媒体体验与移动管理中心计划.md) | [Passed](acceptance/010-媒体体验与移动管理中心验收.md) |
 | 011 | 账户退出布局与应用图标复核 | [Accepted](design/011-账户退出布局与应用图标复核设计.md) | [Accepted](prd/011-账户退出布局与应用图标复核需求.md) | [Complete](plans/011-账户退出布局与应用图标复核计划.md) | [Passed](acceptance/011-账户退出布局与应用图标复核验收.md) |
 | 012 | 真实媒体解析与下载创建 | [Accepted](design/012-真实媒体解析与下载创建设计.md) | [Accepted](prd/012-真实媒体解析与下载创建需求.md) | [Complete](plans/012-真实媒体解析与下载创建计划.md) | [Passed](acceptance/012-真实媒体解析与下载创建验收.md) |
+| 013 | 详情页返回与顶部导航体验 | [Accepted](design/013-详情页返回与顶部导航体验设计.md) | [Accepted](prd/013-详情页返回与顶部导航体验需求.md) | [Complete](plans/013-详情页返回与顶部导航体验计划.md) | [Passed](acceptance/013-详情页返回与顶部导航体验验收.md) |
+| 014 | 视频 AI 智能分析入口 | [Accepted](design/014-视频AI智能分析入口设计.md) | [Accepted](prd/014-视频AI智能分析入口需求.md) | [Complete](plans/014-视频AI智能分析入口计划.md) | [Passed](acceptance/014-视频AI智能分析入口验收.md) |
 
 Flutter 方向、iOS/Android 首期定位、工程基线以及不重复建设 Web 平台已由用户确认。视觉方向采用已选方案一：保留 Web 的品牌、排版、语义色和信息层级，同时使用 Flutter 原生布局、底部导航、安全区与辅助功能语义。普通用户功能范围以 Web 的解析、格式、下载、历史、AI 分析、平台状态、登录注册和账户为基准；原生登录、来源发现、链接解析、格式选择与下载创建均使用当前 `NativeBearerAuth` 和生成 OpenAPI 客户端，不使用浏览器 Cookie、WebView 或旧接口。
 

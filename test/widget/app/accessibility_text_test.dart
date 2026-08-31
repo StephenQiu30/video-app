@@ -3,7 +3,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../support/analysis_fakes.dart';
+import '../../support/data_fakes.dart';
 import 'test_app.dart';
 
 void main() {
@@ -131,4 +134,42 @@ void main() {
       },
     );
   }
+
+  testWidgets('keeps the AI analysis entry usable with accessibility text', (
+    tester,
+  ) async {
+    await setMobileViewport(tester);
+    setAccessibilityTextScale(tester);
+    await pumpFramegrabApp(
+      tester,
+      analysisRepository: FakeAnalysisRepository(),
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+    );
+    final semanticsHandle = tester.ensureSemantics();
+
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    expect(find.text('AI 智能分析'), findsOneWidget);
+    final scrollable = find
+        .descendant(
+          of: find.byType(ListView),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    final position = tester.state<ScrollableState>(scrollable).position;
+    position.jumpTo(position.maxScrollExtent);
+    await tester.pump();
+
+    final start = find.byKey(const Key('start-analysis-button'));
+    expect(start, findsOneWidget);
+    expect(tester.getRect(start).height, greaterThanOrEqualTo(44));
+    expect(tester.getSemantics(start).label, contains('开始 AI 分析'));
+    expect(tester.takeException(), isNull);
+    semanticsHandle.dispose();
+  });
 }

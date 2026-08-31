@@ -103,7 +103,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
         .createDownload();
     if (!mounted || job == null) return;
     ref.invalidate(downloadHistoryProvider);
-    DownloadDetailRoute(jobId: job.id).go(context);
+    unawaited(DownloadDetailRoute(jobId: job.id).push<void>(context));
   }
 
   @override

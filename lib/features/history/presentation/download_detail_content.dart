@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:framegrab/features/analysis/presentation/analysis_panel.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/features/history/presentation/download_task_actions.dart';
 import 'package:framegrab/features/media/presentation/download_video_panel.dart';
@@ -91,6 +92,12 @@ final class DownloadDetailContent extends StatelessWidget {
             label: localizations.finishedAtLabel,
             value: formatDataTime(context, finished),
           ),
+        if (job.status == DownloadStatus.succeeded) ...[
+          const SizedBox(height: AppSpacing.section),
+          const Divider(),
+          const SizedBox(height: AppSpacing.section),
+          AnalysisPanel(downloadId: job.id),
+        ],
       ],
     );
   }

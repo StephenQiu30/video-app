@@ -11,9 +11,11 @@ final class AdminPage extends StatelessWidget {
     required this.onRefresh,
     required this.refreshLabel,
     required this.title,
+    this.backFallbackLocation = '/admin',
     super.key,
   });
 
+  final String backFallbackLocation;
   final List<Widget> children;
   final String description;
   final Future<void> Function() onRefresh;
@@ -23,7 +25,7 @@ final class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DownloadAppBar(showBackButton: true),
+      appBar: DownloadAppBar(backFallbackLocation: backFallbackLocation),
       body: DataPageView(
         title: title,
         description: description,
