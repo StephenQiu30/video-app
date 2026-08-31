@@ -7,7 +7,7 @@
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android-111827)](#支持范围与限制)
 [![License: MIT](https://img.shields.io/badge/license-MIT-16a34a.svg)](LICENSE)
 
-**FrameFetch（帧取）是面向自托管 `video-server` 的开源 Flutter 移动客户端。** 它让 iOS 与 Android 用户在原生界面中检查有权处理的公开视频、选择服务端提供的格式、创建与跟踪下载任务，并按需发起由服务端执行的 AI 视频分析。
+**FrameFetch（帧取）是面向自托管 `video-server` 的开源 Flutter 移动客户端。** 它让 iOS 与 Android 用户在原生界面中检查有权处理的公开视频、上传本地 MP4 与剧本文档、创建与跟踪下载任务，并按需发起由服务端执行的 AI 视频分析。
 
 > **English summary:** FrameFetch is an open-source Flutter client for self-hosted media workflows on iOS and Android. It connects to `video-server` for authorized public-video inspection, format selection, download jobs, media access, provider health, and server-side AI video analysis.
 
@@ -42,6 +42,7 @@ App 选择格式并创建下载任务
 - **原生认证**：注册、登录、会话恢复与退出均使用 Bearer 契约，不复用浏览器 Cookie 或 WebView。
 - **公开项目首页**：未登录也能了解开源、自托管定位与主要能力，任务和账户数据继续要求认证。
 - **公开视频工作流**：来源发现、链接检查、真实封面与元数据、格式选择、任务创建和进度刷新。
+- **原生文件上传**：通过系统选择器上传本地 MP4，以及 DOCX、PDF、TXT、Markdown、Fountain 剧本文档；哈希与分片上传全程流式处理。
 - **任务与媒体**：下载历史、详情、取消/重试、私有封面、兼容格式的原生播放与短期授权文件获取。
 - **AI 视频分析**：选择服务端 Skill 与输出语言，创建、恢复、轮询、取消、重试或删除分析，并阅读结构化结果。
 - **服务状态**：读取 `video-server` 返回的真实 Provider 状态；管理员可按角色进入移动管理中心。
@@ -58,7 +59,7 @@ App 选择格式并创建下载任务
 | 历史、详情、封面、播放与文件获取 | 已实现 | 文件地址由服务端短期授权；播放能力受系统编解码器限制 |
 | 视频 AI 分析 | 已实现 | 推理由 `video-server` 的 AI Worker 执行，App 负责配置、状态与结果展示 |
 | 剧本文档列表 | 已实现 | 可读取服务端数据并覆盖加载、空态、失败与刷新 |
-| 本地视频与剧本文档上传 | 待开放 | 入口存在，但上传契约尚未冻结，远程动作保持 fail closed |
+| 本地视频与剧本文档上传 | 已实现 | 系统选择器、流式 SHA-256、受限分片 PUT、ETag 校验和真实完成请求 |
 | 剧本文档 AI、分析报告原生导出 | 待开放 | 等待独立契约、设计与验收 |
 | WebSocket Token 更新 | 待开放 | 当前活动任务与分析使用受控轮询收敛状态 |
 | 离线 AI、后台常驻下载、离线媒体库 | 不在首期范围 | App 不内置媒体执行器或 AI 模型 |
@@ -117,6 +118,8 @@ App 不维护服务端平行 DTO。REST 客户端从评审后的 App 专用 Open
 - Riverpod：单向状态与依赖装配
 - go_router：声明式路由、深链接与认证重定向
 - Dio + OpenAPI Generator 7.22.0：统一网络层与生成客户端
+- Chewie + video_player：标准播放控制与设备编解码能力检测
+- file_selector：Flutter 官方系统文件授权，不申请相册或全盘存储权限
 - flutter_secure_storage：Keychain / Keystore 支持的凭据存储
 - shared_preferences：非敏感浅色/深色主题偏好
 - Material 3 + ARB：主题、语义与中英本地化
@@ -144,7 +147,7 @@ docs/                         Design、PRD、Plan、Acceptance 与契约边界
 - 只处理你拥有或明确获授权的公开内容；不支持 DRM 绕过、会员内容提取或平台凭据导入。
 - Access Token 只在内存中存在；Refresh Credential 只写入 Keychain/Keystore 支持的安全存储。
 - 不把 Token、Cookie、完整媒体 URL query、预签名 URL、用户媒体或 AI 原始响应写入日志与分析事件。
-- 媒体解析、下载和 AI 推理均在用户控制的 `video-server` 上执行；App 不提供离线提取器或离线 AI。
+- 媒体解析、下载和 AI 推理均在用户控制的 `video-server` 上执行；主动选择的本地文件仅上传到该服务端授权的对象存储会话，App 不提供离线提取器或离线 AI。
 - 发现漏洞时请阅读 [`SECURITY.md`](SECURITY.md)，不要在公开 Issue 中披露凭据或可利用细节。
 
 ## 验证
@@ -166,7 +169,7 @@ flutter build ios --simulator --no-codesign
 ## 支持范围与限制
 
 - 首期只支持 Android 与 iOS；本仓库不启用 Flutter Web、桌面端、车机或电视端。
-- App 只接受服务端允许的公开单条媒体链接，不接收 Provider Cookie、平台密钥、任意下载器参数、Shell 输入或私网 URL。
+- App 接受服务端允许的公开单条媒体链接，以及用户主动选择的 MP4/剧本文档；不接收 Provider Cookie、平台密钥、任意下载器参数、Shell 输入或私网 URL。
 - 原生播放器支持取决于设备编解码器；不兼容格式仍可通过服务端授权入口获取原文件。
 - 不提供 App Store / Google Play 预构建包；当前请从源码构建。
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_hero.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
+import 'package:framegrab/features/upload/application/content_upload_controller.dart';
+import 'package:framegrab/features/upload/domain/content_upload.dart';
 
 final class DownloadHomeContent extends StatelessWidget {
   const DownloadHomeContent({
@@ -13,10 +15,11 @@ final class DownloadHomeContent extends StatelessWidget {
     required this.onChanged,
     required this.onClear,
     required this.onModeChanged,
-    required this.onPendingAction,
     required this.onSubmit,
+    required this.onUploadAction,
     required this.result,
     required this.statusTone,
+    required this.uploadState,
     super.key,
   });
 
@@ -28,10 +31,11 @@ final class DownloadHomeContent extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
   final ValueChanged<ContentIntakeMode> onModeChanged;
-  final VoidCallback onPendingAction;
   final VoidCallback onSubmit;
+  final ValueChanged<ContentUploadKind> onUploadAction;
   final Widget? result;
   final DownloadNoticeTone statusTone;
+  final ContentUploadState uploadState;
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +69,9 @@ final class DownloadHomeContent extends StatelessWidget {
                         onChanged: onChanged,
                         onClear: onClear,
                         onModeChanged: onModeChanged,
-                        onPendingAction: onPendingAction,
                         onSubmit: onSubmit,
+                        onUploadAction: onUploadAction,
+                        uploadState: uploadState,
                       ),
                       if (error != null) ...[
                         const SizedBox(height: 24),

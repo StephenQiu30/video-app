@@ -22,6 +22,7 @@ final class DownloadDetailScreen extends ConsumerWidget {
       body: result.when(
         skipLoadingOnRefresh: true,
         data: (job) => DataPageView(
+          compactTitle: true,
           title: _title(job.title, job.sourceLabel),
           description:
               '${job.sourceLabel} · ${downloadFormatLabel(localizations, job.format)}',

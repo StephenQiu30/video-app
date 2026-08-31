@@ -33,15 +33,22 @@ import 'package:video_server_api/lib/model/analysis_stage.dart';
 import 'package:video_server_api/lib/model/analysis_status.dart';
 import 'package:video_server_api/lib/model/audio_codec_family.dart';
 import 'package:video_server_api/lib/model/compatibility_profile.dart';
+import 'package:video_server_api/lib/model/complete_document_import_request.dart';
+import 'package:video_server_api/lib/model/complete_media_import_request.dart';
+import 'package:video_server_api/lib/model/completed_part_request.dart';
 import 'package:video_server_api/lib/model/container_preference.dart';
+import 'package:video_server_api/lib/model/declared_origin.dart';
 import 'package:video_server_api/lib/model/discovered_item_inspection_source.dart';
 import 'package:video_server_api/lib/model/discovery_decision_hint.dart';
 import 'package:video_server_api/lib/model/discovery_item_kind.dart';
 import 'package:video_server_api/lib/model/discovery_item_status.dart';
 import 'package:video_server_api/lib/model/discovery_status.dart';
+import 'package:video_server_api/lib/model/document_import_request.dart';
+import 'package:video_server_api/lib/model/document_import_response.dart';
 import 'package:video_server_api/lib/model/document_page_response.dart';
 import 'package:video_server_api/lib/model/document_response.dart';
 import 'package:video_server_api/lib/model/document_source_format.dart';
+import 'package:video_server_api/lib/model/document_upload_session_response.dart';
 import 'package:video_server_api/lib/model/download_analytics_daily_response.dart';
 import 'package:video_server_api/lib/model/download_analytics_response.dart';
 import 'package:video_server_api/lib/model/download_analytics_source_response.dart';
@@ -66,11 +73,15 @@ import 'package:video_server_api/lib/model/fps_bucket.dart';
 import 'package:video_server_api/lib/model/highlight_response.dart';
 import 'package:video_server_api/lib/model/identity_state.dart';
 import 'package:video_server_api/lib/model/import_error_code.dart';
+import 'package:video_server_api/lib/model/import_source_format.dart';
 import 'package:video_server_api/lib/model/import_status.dart';
 import 'package:video_server_api/lib/model/inspection_request.dart';
 import 'package:video_server_api/lib/model/inspection_response.dart';
 import 'package:video_server_api/lib/model/managed_user_list_response.dart';
 import 'package:video_server_api/lib/model/managed_user_response.dart';
+import 'package:video_server_api/lib/model/media_import_request.dart';
+import 'package:video_server_api/lib/model/media_import_response.dart';
+import 'package:video_server_api/lib/model/media_upload_session_response.dart';
 import 'package:video_server_api/lib/model/model_source.dart';
 import 'package:video_server_api/lib/model/native_logout_request.dart';
 import 'package:video_server_api/lib/model/native_refresh_request.dart';
@@ -108,6 +119,7 @@ import 'package:video_server_api/lib/model/stored_file_list_response.dart';
 import 'package:video_server_api/lib/model/stored_file_response.dart';
 import 'package:video_server_api/lib/model/update_provider_catalog_entry_request.dart';
 import 'package:video_server_api/lib/model/update_user_access_request.dart';
+import 'package:video_server_api/lib/model/upload_part_response.dart';
 import 'package:video_server_api/lib/model/user_response.dart';
 import 'package:video_server_api/lib/model/user_role.dart';
 import 'package:video_server_api/lib/model/video_analysis_result_response.dart';
@@ -140,15 +152,22 @@ part 'serializers.g.dart';
   AnalysisStatus,
   AudioCodecFamily,
   CompatibilityProfile,
+  CompleteDocumentImportRequest,
+  CompleteMediaImportRequest,
+  CompletedPartRequest,
   ContainerPreference,
+  DeclaredOrigin,
   DiscoveredItemInspectionSource,
   DiscoveryDecisionHint,
   DiscoveryItemKind,
   DiscoveryItemStatus,
   DiscoveryStatus,
+  DocumentImportRequest,
+  DocumentImportResponse,
   DocumentPageResponse,
   DocumentResponse,
   DocumentSourceFormat,
+  DocumentUploadSessionResponse,
   DownloadAnalyticsDailyResponse,
   DownloadAnalyticsResponse,
   DownloadAnalyticsSourceResponse,
@@ -173,11 +192,15 @@ part 'serializers.g.dart';
   HighlightResponse,
   IdentityState,
   ImportErrorCode,
+  ImportSourceFormat,
   ImportStatus,
   InspectionRequest,
   InspectionResponse,
   ManagedUserListResponse,
   ManagedUserResponse,
+  MediaImportRequest,
+  MediaImportResponse,
+  MediaUploadSessionResponse,
   ModelSource,
   NativeLogoutRequest,
   NativeRefreshRequest,
@@ -215,6 +238,7 @@ part 'serializers.g.dart';
   StoredFileResponse,
   UpdateProviderCatalogEntryRequest,
   UpdateUserAccessRequest,
+  UploadPartResponse,
   UserResponse,
   UserRole,
   VideoAnalysisResultResponse,

@@ -10,12 +10,15 @@ import 'package:framegrab/features/documents/data/document_repository.dart';
 import 'package:framegrab/features/download/data/download_intake_repository.dart';
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/providers/data/provider_status_repository.dart';
+import 'package:framegrab/features/upload/data/content_upload_repository.dart';
+import 'package:framegrab/features/upload/data/local_content_picker.dart';
 
 import '../../support/analysis_fakes.dart';
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import '../../support/intake_fakes.dart';
 import '../../support/theme_fakes.dart';
+import '../../support/upload_fakes.dart';
 
 Future<void> pumpFramegrabApp(
   WidgetTester tester, {
@@ -27,6 +30,8 @@ Future<void> pumpFramegrabApp(
   DownloadHistoryRepository? downloadHistoryRepository,
   ProviderStatusRepository? providerStatusRepository,
   ThemePreferenceStore? themePreferenceStore,
+  ContentUploadRepository? uploadRepository,
+  LocalContentPicker? localContentPicker,
   Locale locale = const Locale('zh'),
 }) async {
   await tester.pumpWidget(
@@ -55,6 +60,12 @@ Future<void> pumpFramegrabApp(
         ),
         themePreferenceStoreProvider.overrideWithValue(
           themePreferenceStore ?? MemoryThemePreferenceStore(),
+        ),
+        contentUploadRepositoryProvider.overrideWithValue(
+          uploadRepository ?? FakeContentUploadRepository(),
+        ),
+        localContentPickerProvider.overrideWithValue(
+          localContentPicker ?? FakeLocalContentPicker(),
         ),
       ],
       child: FramegrabApp(locale: locale),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
+import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -9,6 +10,7 @@ import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import '../../support/intake_fakes.dart';
 import '../../support/theme_fakes.dart';
+import '../../support/upload_fakes.dart';
 import 'test_app.dart';
 
 void main() {
@@ -45,11 +47,12 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('switches intake modes and keeps remote actions fail closed', (
+  testWidgets('switches intake modes and opens the native file picker', (
     tester,
   ) async {
+    final picker = FakeLocalContentPicker();
     await setMobileViewport(tester);
-    await pumpFramegrabApp(tester);
+    await pumpFramegrabApp(tester, localContentPicker: picker);
 
     await tester.tap(find.text('本地视频'));
     await tester.pumpAndSettle();
@@ -60,12 +63,102 @@ void main() {
 
     await tester.tap(find.text('选择视频文件'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('上传与文件授权契约尚未冻结'), findsOneWidget);
+    expect(picker.requestedKinds, [ContentUploadKind.video]);
+    expect(find.byKey(const Key('content-upload-error')), findsNothing);
 
     await tester.tap(find.text('剧本文档').first);
     await tester.pumpAndSettle();
     expect(find.text('导入剧本文档'), findsOneWidget);
     expect(find.text('选择剧本文件'), findsOneWidget);
+    await tester.tap(find.text('选择剧本文件'));
+    await tester.pumpAndSettle();
+    expect(picker.requestedKinds, [
+      ContentUploadKind.video,
+      ContentUploadKind.screenplay,
+    ]);
+  });
+
+  testWidgets('validates local video before starting an upload', (
+    tester,
+  ) async {
+    final picker = FakeLocalContentPicker(
+      file: const LocalContentFile(
+        name: 'clip.webm',
+        path: '/tmp/clip.webm',
+        size: 128,
+      ),
+    );
+    final upload = FakeContentUploadRepository();
+    await pumpFramegrabApp(
+      tester,
+      localContentPicker: picker,
+      uploadRepository: upload,
+    );
+
+    await tester.tap(find.text('本地视频'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('选择视频文件'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('当前只支持上传 MP4 视频。'), findsOneWidget);
+    expect(upload.uploadedKinds, isEmpty);
+  });
+
+  testWidgets('uploads a local MP4 and opens its download detail', (
+    tester,
+  ) async {
+    final picker = FakeLocalContentPicker(
+      file: const LocalContentFile(
+        name: 'clip.mp4',
+        path: '/tmp/clip.mp4',
+        size: 128,
+      ),
+    );
+    final upload = FakeContentUploadRepository();
+    await pumpFramegrabApp(
+      tester,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(),
+      localContentPicker: picker,
+      uploadRepository: upload,
+    );
+
+    await tester.tap(find.text('本地视频'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('选择视频文件'));
+    await tester.pumpAndSettle();
+
+    expect(upload.uploadedKinds, [ContentUploadKind.video]);
+    expect(find.byKey(const Key('download-detail-content')), findsOneWidget);
+  });
+
+  testWidgets('uploads a screenplay and refreshes the document list', (
+    tester,
+  ) async {
+    final picker = FakeLocalContentPicker(
+      file: const LocalContentFile(
+        name: 'story.fountain',
+        path: '/tmp/story.fountain',
+        size: 128,
+      ),
+    );
+    final upload = FakeContentUploadRepository();
+    await pumpFramegrabApp(
+      tester,
+      documentRepository: FakeDocumentRepository(data: documentFixture()),
+      localContentPicker: picker,
+      uploadRepository: upload,
+    );
+
+    await tester.tap(find.text('剧本文档').first);
+    await tester.pumpAndSettle();
+    final selectFile = find.byKey(const Key('select-screenplay-file'));
+    await tester.ensureVisible(selectFile);
+    await tester.pump();
+    await tester.tap(selectFile);
+    await tester.pumpAndSettle();
+
+    expect(upload.uploadedKinds, [ContentUploadKind.screenplay]);
+    expect(find.text('真实剧本'), findsOneWidget);
   });
 
   testWidgets('shows validation feedback without invoking inspection', (
@@ -331,6 +424,29 @@ void main() {
     expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
   });
 
+  testWidgets('limits a long download title without losing its semantics', (
+    tester,
+  ) async {
+    const title = '一个很长很长的下载标题，用来确认详情页不会被标题完全占满，同时读屏仍然能够读取完整内容';
+    final repository = FakeDownloadHistoryRepository(
+      detail: downloadDetailFixture(title: title),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    final heading = find.byKey(const Key('page-title-heading'));
+    final titleText = tester.widget<Text>(
+      find.descendant(of: heading, matching: find.byType(Text)),
+    );
+    expect(titleText.maxLines, 3);
+    expect(titleText.overflow, TextOverflow.ellipsis);
+    expect(tester.getSemantics(heading).label, title);
+  });
+
   testWidgets(
     'starts AI analysis from a completed download and shows results',
     (tester) async {
@@ -360,6 +476,14 @@ void main() {
       );
       expect(find.byKey(const Key('analysis-configurator')), findsOneWidget);
       expect(find.text('导演拉片'), findsOneWidget);
+      final skillField = tester.widget<DropdownMenu<String>>(
+        find.descendant(
+          of: find.byKey(const Key('analysis-skill-field')),
+          matching: find.byType(DropdownMenu<String>),
+        ),
+      );
+      expect(skillField.menuHeight, 304);
+      expect(skillField.expandedInsets, EdgeInsets.zero);
       final start = find.byKey(const Key('start-analysis-button'));
       _scrollDetailToEnd(tester);
       await tester.pump();

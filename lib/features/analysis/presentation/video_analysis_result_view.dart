@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/analysis/presentation/video_analysis_section.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -77,20 +78,18 @@ final class _VideoAnalysisResultViewState
         const SizedBox(height: AppSpacing.xSmall),
         SelectableText(result.productionAdvice.summary),
         const SizedBox(height: AppSpacing.xLarge),
-        DropdownButtonFormField<_VisualResultSection>(
+        AppDropdownField<_VisualResultSection>(
           key: const Key('analysis-result-section'),
-          initialValue: _section,
-          decoration: InputDecoration(
-            labelText: l10n.analysisResultSectionLabel,
-          ),
-          items: [
+          value: _section,
+          label: l10n.analysisResultSectionLabel,
+          options: [
             for (final section in sections)
-              DropdownMenuItem(
+              AppDropdownOption(
                 value: section,
-                child: Text(_sectionLabel(l10n, section)),
+                label: _sectionLabel(l10n, section),
               ),
           ],
-          onChanged: (value) {
+          onSelected: (value) {
             if (value != null) setState(() => _section = value);
           },
         ),

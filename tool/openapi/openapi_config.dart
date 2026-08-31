@@ -100,7 +100,29 @@ const appOpenApiConfig = AppOpenApiConfig(
       method: 'delete',
       path: '/api/analyses/{analysis_id}',
     ),
+    OpenApiOperationSelection(method: 'post', path: '/api/media-imports'),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/media-imports/{resource_id}/upload-sessions',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/media-imports/{resource_id}/complete',
+    ),
+    OpenApiOperationSelection(method: 'post', path: '/api/documents'),
     OpenApiOperationSelection(method: 'get', path: '/api/documents'),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/documents/{document_id}/upload-sessions',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/documents/{document_id}/complete',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/documents/{document_id}/cancel',
+    ),
     OpenApiOperationSelection(method: 'get', path: '/api/providers'),
     OpenApiOperationSelection(
       method: 'get',

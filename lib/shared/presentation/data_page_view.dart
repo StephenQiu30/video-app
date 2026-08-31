@@ -10,10 +10,12 @@ final class DataPageView extends StatelessWidget {
     required this.onRefresh,
     required this.refreshLabel,
     required this.title,
+    this.compactTitle = false,
     super.key,
   });
 
   final List<Widget> children;
+  final bool compactTitle;
   final String description;
   final Future<void> Function() onRefresh;
   final String refreshLabel;
@@ -36,7 +38,11 @@ final class DataPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    AppPageIntro(description: description, title: title),
+                    AppPageIntro(
+                      compactTitle: compactTitle,
+                      description: description,
+                      title: title,
+                    ),
                     const SizedBox(height: AppSpacing.section),
                     const Divider(),
                     const SizedBox(height: AppSpacing.xLarge),

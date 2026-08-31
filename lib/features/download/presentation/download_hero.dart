@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/link_intake_form.dart';
+import 'package:framegrab/features/upload/application/content_upload_controller.dart';
+import 'package:framegrab/features/upload/domain/content_upload.dart';
+import 'package:framegrab/features/upload/presentation/upload_intake_panel.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -14,8 +17,9 @@ final class DownloadHero extends StatelessWidget {
     required this.onChanged,
     required this.onClear,
     required this.onModeChanged,
-    required this.onPendingAction,
     required this.onSubmit,
+    required this.onUploadAction,
+    required this.uploadState,
     super.key,
   });
 
@@ -26,8 +30,9 @@ final class DownloadHero extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
   final ValueChanged<ContentIntakeMode> onModeChanged;
-  final VoidCallback onPendingAction;
   final VoidCallback onSubmit;
+  final ValueChanged<ContentUploadKind> onUploadAction;
+  final ContentUploadState uploadState;
 
   @override
   Widget build(BuildContext context) {
@@ -78,19 +83,23 @@ final class DownloadHero extends StatelessWidget {
             onSubmit: onSubmit,
           )
         else if (mode == ContentIntakeMode.video)
-          PendingIntakePanel(
+          UploadIntakePanel(
             actionLabel: localizations.selectVideoFile,
             description: localizations.videoIntakeDescription,
             icon: LucideIcons.video,
-            onPressed: onPendingAction,
+            kind: ContentUploadKind.video,
+            onPressed: () => onUploadAction(ContentUploadKind.video),
+            state: uploadState,
             title: localizations.videoIntakeTitle,
           )
         else
-          PendingIntakePanel(
+          UploadIntakePanel(
             actionLabel: localizations.selectScreenplayFile,
             description: localizations.screenplayIntakeDescription,
             icon: LucideIcons.fileText,
-            onPressed: onPendingAction,
+            kind: ContentUploadKind.screenplay,
+            onPressed: () => onUploadAction(ContentUploadKind.screenplay),
+            state: uploadState,
             title: localizations.screenplayIntakeTitle,
           ),
       ],

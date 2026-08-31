@@ -86,6 +86,10 @@ Class | Method | HTTP request | Description
 [*AppAuthApi*](doc/AppAuthApi.md) | [**logoutNativeSession**](doc/AppAuthApi.md#logoutnativesession) | **POST** /api/app/v1/auth/logout | 退出原生应用
 [*AppAuthApi*](doc/AppAuthApi.md) | [**refreshNativeSession**](doc/AppAuthApi.md#refreshnativesession) | **POST** /api/app/v1/auth/refresh | 轮换原生应用会话
 [*AppAuthApi*](doc/AppAuthApi.md) | [**registerNativeUser**](doc/AppAuthApi.md#registernativeuser) | **POST** /api/app/v1/auth/register | 注册原生应用用户
+[*DocumentsApi*](doc/DocumentsApi.md) | [**cancelDocumentImport**](doc/DocumentsApi.md#canceldocumentimport) | **POST** /api/documents/{document_id}/cancel | 取消剧本文档导入
+[*DocumentsApi*](doc/DocumentsApi.md) | [**completeDocumentImport**](doc/DocumentsApi.md#completedocumentimport) | **POST** /api/documents/{document_id}/complete | 完成文档上传并触发验证
+[*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentImport**](doc/DocumentsApi.md#createdocumentimport) | **POST** /api/documents | 创建剧本文档导入
+[*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentUploadSession**](doc/DocumentsApi.md#createdocumentuploadsession) | **POST** /api/documents/{document_id}/upload-sessions | 创建或刷新文档上传会话
 [*DocumentsApi*](doc/DocumentsApi.md) | [**listDocuments**](doc/DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
 [*DownloadsApi*](doc/DownloadsApi.md) | [**cancelDownload**](doc/DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**createDownload**](doc/DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
@@ -97,6 +101,9 @@ Class | Method | HTTP request | Description
 [*InspectionsApi*](doc/InspectionsApi.md) | [**getInspection**](doc/InspectionsApi.md#getinspection) | **GET** /api/inspections/{inspection_id} | 查询媒体解析结果
 [*InspectionsApi*](doc/InspectionsApi.md) | [**getInspectionThumbnail**](doc/InspectionsApi.md#getinspectionthumbnail) | **GET** /api/inspections/{inspection_id}/thumbnail | 读取持久化媒体封面
 [*InspectionsApi*](doc/InspectionsApi.md) | [**inspectMedia**](doc/InspectionsApi.md#inspectmedia) | **POST** /api/inspections | 解析媒体信息
+[*MediaImportsApi*](doc/MediaImportsApi.md) | [**completeMediaImport**](doc/MediaImportsApi.md#completemediaimport) | **POST** /api/media-imports/{resource_id}/complete | 完成视频上传并触发验证
+[*MediaImportsApi*](doc/MediaImportsApi.md) | [**createMediaImport**](doc/MediaImportsApi.md#createmediaimport) | **POST** /api/media-imports | 创建本地视频导入
+[*MediaImportsApi*](doc/MediaImportsApi.md) | [**createMediaUploadSession**](doc/MediaImportsApi.md#createmediauploadsession) | **POST** /api/media-imports/{resource_id}/upload-sessions | 创建或刷新视频上传会话
 [*ProvidersApi*](doc/ProvidersApi.md) | [**listProviders**](doc/ProvidersApi.md#listproviders) | **GET** /api/providers | 查询平台能力状态
 [*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**createSourceDiscovery**](doc/SourceDiscoveriesApi.md#createsourcediscovery) | **POST** /api/source-discoveries | 发现微信公众号文章中的视频
 [*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**getSourceDiscovery**](doc/SourceDiscoveriesApi.md#getsourcediscovery) | **GET** /api/source-discoveries/{discovery_id} | 查询文章视频发现结果
@@ -123,15 +130,22 @@ Class | Method | HTTP request | Description
  - [AnalysisStatus](doc/AnalysisStatus.md)
  - [AudioCodecFamily](doc/AudioCodecFamily.md)
  - [CompatibilityProfile](doc/CompatibilityProfile.md)
+ - [CompleteDocumentImportRequest](doc/CompleteDocumentImportRequest.md)
+ - [CompleteMediaImportRequest](doc/CompleteMediaImportRequest.md)
+ - [CompletedPartRequest](doc/CompletedPartRequest.md)
  - [ContainerPreference](doc/ContainerPreference.md)
+ - [DeclaredOrigin](doc/DeclaredOrigin.md)
  - [DiscoveredItemInspectionSource](doc/DiscoveredItemInspectionSource.md)
  - [DiscoveryDecisionHint](doc/DiscoveryDecisionHint.md)
  - [DiscoveryItemKind](doc/DiscoveryItemKind.md)
  - [DiscoveryItemStatus](doc/DiscoveryItemStatus.md)
  - [DiscoveryStatus](doc/DiscoveryStatus.md)
+ - [DocumentImportRequest](doc/DocumentImportRequest.md)
+ - [DocumentImportResponse](doc/DocumentImportResponse.md)
  - [DocumentPageResponse](doc/DocumentPageResponse.md)
  - [DocumentResponse](doc/DocumentResponse.md)
  - [DocumentSourceFormat](doc/DocumentSourceFormat.md)
+ - [DocumentUploadSessionResponse](doc/DocumentUploadSessionResponse.md)
  - [DownloadAnalyticsDailyResponse](doc/DownloadAnalyticsDailyResponse.md)
  - [DownloadAnalyticsResponse](doc/DownloadAnalyticsResponse.md)
  - [DownloadAnalyticsSourceResponse](doc/DownloadAnalyticsSourceResponse.md)
@@ -156,11 +170,15 @@ Class | Method | HTTP request | Description
  - [HighlightResponse](doc/HighlightResponse.md)
  - [IdentityState](doc/IdentityState.md)
  - [ImportErrorCode](doc/ImportErrorCode.md)
+ - [ImportSourceFormat](doc/ImportSourceFormat.md)
  - [ImportStatus](doc/ImportStatus.md)
  - [InspectionRequest](doc/InspectionRequest.md)
  - [InspectionResponse](doc/InspectionResponse.md)
  - [ManagedUserListResponse](doc/ManagedUserListResponse.md)
  - [ManagedUserResponse](doc/ManagedUserResponse.md)
+ - [MediaImportRequest](doc/MediaImportRequest.md)
+ - [MediaImportResponse](doc/MediaImportResponse.md)
+ - [MediaUploadSessionResponse](doc/MediaUploadSessionResponse.md)
  - [ModelSource](doc/ModelSource.md)
  - [NativeLogoutRequest](doc/NativeLogoutRequest.md)
  - [NativeRefreshRequest](doc/NativeRefreshRequest.md)
@@ -198,6 +216,7 @@ Class | Method | HTTP request | Description
  - [StoredFileResponse](doc/StoredFileResponse.md)
  - [UpdateProviderCatalogEntryRequest](doc/UpdateProviderCatalogEntryRequest.md)
  - [UpdateUserAccessRequest](doc/UpdateUserAccessRequest.md)
+ - [UploadPartResponse](doc/UploadPartResponse.md)
  - [UserResponse](doc/UserResponse.md)
  - [UserRole](doc/UserRole.md)
  - [VideoAnalysisResultResponse](doc/VideoAnalysisResultResponse.md)

@@ -527,7 +527,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get videoIntakeDescription =>
-      'Choose a clear video file you own or are authorized to process. The service validates it in isolation before adding it to history and AI analysis.';
+      'Choose an MP4 video you own or are authorized to process. The service validates it in isolation before adding it to history and AI analysis.';
 
   @override
   String get selectVideoFile => 'Choose video file';
@@ -537,10 +537,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get screenplayIntakeDescription =>
-      'Choose a TXT, DOCX, or PDF screenplay for normalized preview, analysis, and rewriting on the service.';
+      'Choose a DOCX, PDF, TXT, Markdown, or Fountain screenplay for normalized preview, analysis, and rewriting on the service.';
 
   @override
   String get selectScreenplayFile => 'Choose screenplay file';
+
+  @override
+  String get choosingUploadFile => 'Choosing file…';
+
+  @override
+  String get hashingUploadFile => 'Verifying file…';
+
+  @override
+  String get creatingUpload => 'Creating upload…';
+
+  @override
+  String get uploadingFile => 'Uploading…';
+
+  @override
+  String get completingUpload => 'Completing upload…';
+
+  @override
+  String get emptyUploadFileError => 'Choose a file that contains data.';
+
+  @override
+  String get invalidVideoFileError => 'Only MP4 video uploads are supported.';
+
+  @override
+  String get invalidDocumentFileError =>
+      'DOCX, PDF, TXT, Markdown, and Fountain screenplays are supported.';
+
+  @override
+  String get documentTooLargeError =>
+      'Screenplay documents must be 50 MB or smaller.';
+
+  @override
+  String get inaccessibleFileError =>
+      'The selected file could not be read. Choose it again.';
+
+  @override
+  String get fileUploadFailed =>
+      'The file upload failed. Check your connection and retry.';
 
   @override
   String get mediaUrlHint => 'Paste a public link or full share message';
@@ -559,10 +596,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mediaUrlError => 'Enter a valid public HTTP(S) video address.';
-
-  @override
-  String get nativeUploadContractPending =>
-      'The page structure and native sign-in are ready. Upload and file authorization contracts are not frozen, so real files cannot be submitted yet.';
 
   @override
   String get operationFailed =>

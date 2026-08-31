@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/app/presentation/app_bottom_navigation.dart';
 import 'package:framegrab/app/router/app_router.dart';
+import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/presentation/document_list_screen.dart';
 import 'package:framegrab/features/download/application/download_intake_controller.dart';
 import 'package:framegrab/features/download/application/media_url_input.dart';
@@ -18,6 +19,8 @@ import 'package:framegrab/features/history/presentation/download_history_screen.
 import 'package:framegrab/features/providers/application/provider_status_provider.dart';
 import 'package:framegrab/features/providers/presentation/provider_status_screen.dart';
 import 'package:framegrab/features/settings/presentation/settings_screen.dart';
+import 'package:framegrab/features/upload/application/content_upload_controller.dart';
+import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 
 final class DownloadHomeScreen extends ConsumerStatefulWidget {
@@ -88,15 +91,6 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
     });
   }
 
-  void _showPendingContract() {
-    final localizations = AppLocalizations.of(context);
-    setState(() {
-      _error = localizations.nativeUploadContractPending;
-      _urlInvalid = false;
-      _statusTone = DownloadNoticeTone.neutral;
-    });
-  }
-
   Future<void> _createDownload() async {
     final job = await ref
         .read(downloadIntakeControllerProvider.notifier)
@@ -106,10 +100,35 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
     unawaited(DownloadDetailRoute(jobId: job.id).push<void>(context));
   }
 
+  void _handleUploadResult(ContentUploadResult result) {
+    ref.read(contentUploadControllerProvider.notifier).reset();
+    if (result.kind == ContentUploadKind.video) {
+      ref.invalidate(downloadHistoryProvider);
+      unawaited(
+        DownloadDetailRoute(jobId: result.resourceId).push<void>(context),
+      );
+      return;
+    }
+    ref.invalidate(documentListProvider);
+    setState(() {
+      _selectedIndex = 2;
+      _visitedIndexes.add(2);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final intake = ref.watch(downloadIntakeControllerProvider);
+    final upload = ref.watch(contentUploadControllerProvider);
+    ref.listen(
+      contentUploadControllerProvider.select((state) => state.result),
+      (previous, next) {
+        if (next != null && !identical(previous, next)) {
+          _handleUploadResult(next);
+        }
+      },
+    );
     final remoteError = intake.error;
     final error = remoteError == null
         ? _error
@@ -120,7 +139,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
         index: _selectedIndex,
         children: [
           DownloadHomeContent(
-            busy: intake.busy,
+            busy: intake.busy || upload.busy,
             controller: _urlController,
             error: error,
             invalid: _urlInvalid,
@@ -135,7 +154,9 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             },
             onClear: _clear,
             onModeChanged: (mode) {
+              if (upload.busy) return;
               ref.read(downloadIntakeControllerProvider.notifier).clearResult();
+              ref.read(contentUploadControllerProvider.notifier).reset();
               setState(() {
                 _selectedIntakeMode = mode;
                 _error = null;
@@ -143,9 +164,11 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
                 _statusTone = DownloadNoticeTone.destructive;
               });
             },
-            onPendingAction: _showPendingContract,
             onSubmit: () {
               _submit();
+            },
+            onUploadAction: (kind) {
+              ref.read(contentUploadControllerProvider.notifier).start(kind);
             },
             result:
                 _selectedIntakeMode == ContentIntakeMode.link &&
@@ -168,6 +191,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             statusTone: remoteError == null
                 ? _statusTone
                 : DownloadNoticeTone.destructive,
+            uploadState: upload,
           ),
           _lazyPage(1, const DownloadHistoryScreen()),
           _lazyPage(2, const DocumentListScreen()),

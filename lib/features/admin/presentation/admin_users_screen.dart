@@ -6,6 +6,7 @@ import 'package:framegrab/features/admin/data/admin_repository.dart';
 import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -77,20 +78,20 @@ final class AdminUsersScreen extends ConsumerWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: AppSpacing.large),
-                  DropdownButtonFormField<UserRole>(
-                    initialValue: role,
-                    decoration: InputDecoration(labelText: l10n.adminRoleLabel),
-                    items: [
-                      DropdownMenuItem(
+                  AppDropdownField<UserRole>(
+                    value: role,
+                    label: l10n.adminRoleLabel,
+                    options: [
+                      AppDropdownOption(
                         value: UserRole.user,
-                        child: Text(l10n.adminRoleUser),
+                        label: l10n.adminRoleUser,
                       ),
-                      DropdownMenuItem(
+                      AppDropdownOption(
                         value: UserRole.admin,
-                        child: Text(l10n.adminRoleAdmin),
+                        label: l10n.adminRoleAdmin,
                       ),
                     ],
-                    onChanged: (value) {
+                    onSelected: (value) {
                       if (value != null) setSheetState(() => role = value);
                     },
                   ),

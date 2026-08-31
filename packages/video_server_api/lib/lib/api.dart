@@ -15,6 +15,7 @@ import 'package:video_server_api/lib/api/app_auth_api.dart';
 import 'package:video_server_api/lib/api/documents_api.dart';
 import 'package:video_server_api/lib/api/downloads_api.dart';
 import 'package:video_server_api/lib/api/inspections_api.dart';
+import 'package:video_server_api/lib/api/media_imports_api.dart';
 import 'package:video_server_api/lib/api/providers_api.dart';
 import 'package:video_server_api/lib/api/source_discoveries_api.dart';
 
@@ -172,6 +173,12 @@ class VideoServerApi {
   /// by doing that all interceptors will not be executed
   InspectionsApi getInspectionsApi() {
     return InspectionsApi(dio, serializers);
+  }
+
+  /// Get MediaImportsApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  MediaImportsApi getMediaImportsApi() {
+    return MediaImportsApi(dio, serializers);
   }
 
   /// Get ProvidersApi instance, base route and serializer can be overridden by a given but be careful,

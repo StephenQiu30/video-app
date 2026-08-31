@@ -505,7 +505,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get videoIntakeDescription =>
-      '选择你拥有或已获授权的明文视频文件，服务端完成隔离校验后进入下载记录与 AI 分析。';
+      '选择你拥有或已获授权的 MP4 视频，服务端完成隔离校验后进入下载记录与 AI 分析。';
 
   @override
   String get selectVideoFile => '选择视频文件';
@@ -515,10 +515,44 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get screenplayIntakeDescription =>
-      '选择 TXT、DOCX 或 PDF 剧本，服务端将提取规范化预览并支持分析与改写。';
+      '选择 DOCX、PDF、TXT、Markdown 或 Fountain 剧本，服务端将提取规范化预览并支持分析与改写。';
 
   @override
   String get selectScreenplayFile => '选择剧本文件';
+
+  @override
+  String get choosingUploadFile => '正在选择文件…';
+
+  @override
+  String get hashingUploadFile => '正在校验文件…';
+
+  @override
+  String get creatingUpload => '正在创建上传任务…';
+
+  @override
+  String get uploadingFile => '正在上传…';
+
+  @override
+  String get completingUpload => '正在完成上传…';
+
+  @override
+  String get emptyUploadFileError => '请选择包含内容的文件。';
+
+  @override
+  String get invalidVideoFileError => '当前只支持上传 MP4 视频。';
+
+  @override
+  String get invalidDocumentFileError =>
+      '支持 DOCX、PDF、TXT、Markdown 和 Fountain 剧本。';
+
+  @override
+  String get documentTooLargeError => '剧本文档不能超过 50 MB。';
+
+  @override
+  String get inaccessibleFileError => '无法读取所选文件，请重新选择。';
+
+  @override
+  String get fileUploadFailed => '文件上传失败，请检查网络后重试。';
 
   @override
   String get mediaUrlHint => '粘贴公开链接或整段分享文案';
@@ -537,10 +571,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get mediaUrlError => '请输入有效的公开 HTTP(S) 视频地址。';
-
-  @override
-  String get nativeUploadContractPending =>
-      '页面结构与原生登录已经就绪；上传与文件授权契约尚未冻结，暂不能选择或提交真实文件。';
 
   @override
   String get operationFailed => '操作未完成，请稍后重试。';

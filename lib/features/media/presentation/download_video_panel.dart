@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,6 @@ import 'package:framegrab/features/media/data/media_repository.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/features/media/presentation/media_action_bar.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -21,12 +21,13 @@ final class DownloadVideoPanel extends ConsumerStatefulWidget {
 
 final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
   VideoPlayerController? _controller;
+  ChewieController? _chewieController;
   MediaAction? _busyAction;
   String? _error;
 
   @override
   void dispose() {
-    _controller?.removeListener(_playerChanged);
+    _chewieController?.dispose();
     _controller?.dispose();
     super.dispose();
   }
@@ -43,13 +44,21 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
           .issueDownloadUrl(widget.job.id);
       final controller = VideoPlayerController.networkUrl(uri);
       await controller.initialize();
-      controller.addListener(_playerChanged);
-      await controller.play();
+      final chewieController = ChewieController(
+        videoPlayerController: controller,
+        autoPlay: true,
+        allowedScreenSleep: false,
+        allowFullScreen: true,
+        showControlsOnInitialize: true,
+      );
       if (!mounted) {
+        chewieController.dispose();
         await controller.dispose();
         return;
       }
-      _controller?.removeListener(_playerChanged);
+      final previousChewie = _chewieController;
+      _chewieController = chewieController;
+      previousChewie?.dispose();
       await _controller?.dispose();
       setState(() => _controller = controller);
     } catch (_) {
@@ -57,10 +66,6 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
     } finally {
       if (mounted) setState(() => _busyAction = null);
     }
-  }
-
-  void _playerChanged() {
-    if (mounted) setState(() {});
   }
 
   Future<void> _download() async {
@@ -89,6 +94,7 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
         widget.job.status.name == 'succeeded' && widget.job.fileAvailable;
     final playbackSupported = supportsNativePlayback(widget.job);
     final controller = _controller;
+    final chewieController = _chewieController;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -98,8 +104,11 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
             pending: !isTerminalDownloadStatus(widget.job.status.name),
             source: widget.job.thumbnailUrl,
           )
-        else
-          _VideoPlayerSurface(controller: controller),
+        else if (chewieController != null)
+          _VideoPlayerSurface(
+            chewieController: chewieController,
+            controller: controller,
+          ),
         if (canUseFile) ...[
           const SizedBox(height: 16),
           MediaActionBar(
@@ -127,8 +136,12 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
 }
 
 final class _VideoPlayerSurface extends StatelessWidget {
-  const _VideoPlayerSurface({required this.controller});
+  const _VideoPlayerSurface({
+    required this.chewieController,
+    required this.controller,
+  });
 
+  final ChewieController chewieController;
   final VideoPlayerController controller;
 
   @override
@@ -137,25 +150,7 @@ final class _VideoPlayerSurface extends StatelessWidget {
       aspectRatio: controller.value.aspectRatio == 0
           ? 16 / 9
           : controller.value.aspectRatio,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          VideoPlayer(controller),
-          VideoProgressIndicator(controller, allowScrubbing: true),
-          Center(
-            child: IconButton.filledTonal(
-              onPressed: () => controller.value.isPlaying
-                  ? controller.pause()
-                  : controller.play(),
-              icon: Icon(
-                controller.value.isPlaying
-                    ? LucideIcons.pause
-                    : LucideIcons.play,
-              ),
-            ),
-          ),
-        ],
-      ),
+      child: Chewie(controller: chewieController),
     );
   }
 }

@@ -7,7 +7,7 @@
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android-111827)](#scope-and-limitations)
 [![License: MIT](https://img.shields.io/badge/license-MIT-16a34a.svg)](LICENSE)
 
-**FrameFetch is an open-source Flutter client for self-hosted media workflows on iOS and Android.** It connects to [`video-server`](https://github.com/StephenQiu30/video-server) to inspect authorized public-video links, select server-provided formats, create and track download jobs, access completed media, inspect provider health, and run server-side AI video analysis.
+**FrameFetch is an open-source Flutter client for self-hosted media workflows on iOS and Android.** It connects to [`video-server`](https://github.com/StephenQiu30/video-server) to inspect authorized public-video links, upload local MP4 videos and screenplays, create and track download jobs, access completed media, inspect provider health, and run server-side AI video analysis.
 
 FrameFetch does not run extractors, transcoders, or AI models on the phone. It does not bypass DRM, memberships, regional controls, or provider access rules.
 
@@ -44,7 +44,7 @@ Version `0.1.0+1` is intended for self-hosted evaluation and open-source collabo
 | History, details, private covers, playback, and file access | Available | Playback depends on platform codec support |
 | Video AI analysis | Available | `video-server` runs inference; the app configures jobs and renders results |
 | Screenplay document list | Available | Reads real server data with loading, empty, failure, and refresh states |
-| Local-video and screenplay upload | Planned | Upload contracts are not frozen; remote actions remain fail closed |
+| Local-video and screenplay upload | Available | System picker, streaming SHA-256, bounded multipart PUT, ETag validation, and real completion requests |
 | Document AI and native report export | Planned | Require dedicated contracts, design, and acceptance evidence |
 | WebSocket token updates | Planned | Active jobs and analyses currently converge through controlled polling |
 | Offline AI, persistent background downloads, offline library | Out of scope for the first release | No mobile extractor or embedded AI model |
@@ -101,6 +101,8 @@ The app does not maintain parallel server DTOs. Its REST client is generated fro
 - Riverpod for state and dependency assembly
 - go_router for typed navigation and auth redirects
 - Dio plus OpenAPI Generator 7.22.0 for the generated REST client
+- Chewie plus video_player for standard controls and device-codec capability checks
+- file_selector for Flutter-maintained system file access without broad photo or storage permissions
 - flutter_secure_storage for Keychain/Keystore-backed credentials
 - shared_preferences for the non-sensitive light/dark theme preference
 - Material 3 and ARB localization for Chinese and English
@@ -110,7 +112,7 @@ The app does not maintain parallel server DTOs. Its REST client is generated fro
 - Process only public content you own or are explicitly authorized to use.
 - Access tokens stay in memory; refresh credentials use platform secure storage.
 - Tokens, cookies, full media URL queries, presigned URLs, user media, and raw AI responses must not enter logs or analytics.
-- Inspection, downloading, and AI inference run on the user's `video-server`, not inside the mobile client.
+- Inspection, downloading, and AI inference run on the user's `video-server`; explicitly selected local files are sent only through its authorized object-storage sessions.
 - Read [`SECURITY.md`](SECURITY.md) before reporting a vulnerability; never disclose credentials or exploit details in a public issue.
 
 ## Verification
@@ -130,7 +132,7 @@ Integration tests require a usable server and device/simulator environment. See 
 ## Scope and limitations
 
 - Android and iOS only; this repository does not enable Flutter Web or desktop platforms.
-- Public, single-media workflows only. Provider cookies, platform secrets, arbitrary downloader arguments, shell input, private-network URLs, DRM, and membership bypasses are not supported.
+- Public, single-media workflows and explicitly selected MP4/screenplay files only. Provider cookies, platform secrets, arbitrary downloader arguments, shell input, private-network URLs, DRM, and membership bypasses are not supported.
 - Native playback depends on device codecs; incompatible formats can still be retrieved through an authorized server URL.
 - No App Store or Google Play binaries are currently published; build from source.
 

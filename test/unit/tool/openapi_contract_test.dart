@@ -36,13 +36,13 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(34));
+    expect(selectedPaths, hasLength(40));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      35,
+      42,
     );
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
@@ -55,6 +55,22 @@ void main() {
     expect(selectedPaths, contains('/api/downloads/{download_id}/analyses'));
     expect(selectedPaths, contains('/api/downloads/{download_id}/analysis'));
     expect(selectedPaths, contains('/api/analyses/{analysis_id}'));
+    expect(selectedPaths, contains('/api/media-imports'));
+    expect(
+      selectedPaths,
+      contains('/api/media-imports/{resource_id}/upload-sessions'),
+    );
+    expect(
+      selectedPaths,
+      contains('/api/media-imports/{resource_id}/complete'),
+    );
+    expect(selectedPaths['/api/documents'], contains('post'));
+    expect(
+      selectedPaths,
+      contains('/api/documents/{document_id}/upload-sessions'),
+    );
+    expect(selectedPaths, contains('/api/documents/{document_id}/complete'));
+    expect(selectedPaths, contains('/api/documents/{document_id}/cancel'));
     expect(
       selectedPaths['/api/analyses/{analysis_id}'],
       containsPair('get', isA<Map<String, dynamic>>()),
@@ -93,6 +109,10 @@ void main() {
     expect(schemas, contains('AnalysisSkillResponse'));
     expect(schemas, contains('VideoAnalysisResultResponse'));
     expect(schemas, contains('VideoArticleResultResponse'));
+    expect(schemas, contains('MediaImportRequest'));
+    expect(schemas, contains('MediaUploadSessionResponse'));
+    expect(schemas, contains('DocumentImportRequest'));
+    expect(schemas, contains('DocumentUploadSessionResponse'));
     final thumbnail =
         selectedPaths['/api/downloads/{job_id}/thumbnail']
             as Map<String, dynamic>;

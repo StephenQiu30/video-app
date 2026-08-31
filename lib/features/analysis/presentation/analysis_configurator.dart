@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -83,15 +84,16 @@ final class _AnalysisConfiguratorState extends State<AnalysisConfigurator> {
       key: const Key('analysis-configurator'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DropdownButtonFormField<String>(
+        AppDropdownField<String>(
           key: const Key('analysis-skill-field'),
-          initialValue: _skillId,
-          decoration: InputDecoration(labelText: l10n.analysisSkillLabel),
-          items: [
+          value: selected.id,
+          label: l10n.analysisSkillLabel,
+          options: [
             for (final skill in widget.skills)
-              DropdownMenuItem(value: skill.id, child: Text(skill.displayName)),
+              AppDropdownOption(value: skill.id, label: skill.displayName),
           ],
-          onChanged: widget.busy ? null : _selectSkill,
+          enabled: !widget.busy,
+          onSelected: _selectSkill,
         ),
         const SizedBox(height: AppSpacing.xSmall),
         Text(
@@ -101,24 +103,21 @@ final class _AnalysisConfiguratorState extends State<AnalysisConfigurator> {
           ),
         ),
         const SizedBox(height: AppSpacing.large),
-        DropdownButtonFormField<String>(
+        AppDropdownField<String>(
           key: const Key('analysis-language-field'),
-          initialValue: _language,
-          decoration: InputDecoration(
-            labelText: l10n.analysisOutputLanguageLabel,
-          ),
-          items: [
-            DropdownMenuItem(
+          value: _language,
+          label: l10n.analysisOutputLanguageLabel,
+          options: [
+            AppDropdownOption(
               value: 'zh-CN',
-              child: Text(l10n.simplifiedChineseLabel),
+              label: l10n.simplifiedChineseLabel,
             ),
-            DropdownMenuItem(value: 'en-US', child: Text(l10n.englishLabel)),
+            AppDropdownOption(value: 'en-US', label: l10n.englishLabel),
           ],
-          onChanged: widget.busy
-              ? null
-              : (value) {
-                  if (value != null) setState(() => _language = value);
-                },
+          enabled: !widget.busy,
+          onSelected: (value) {
+            if (value != null) setState(() => _language = value);
+          },
         ),
         const SizedBox(height: AppSpacing.large),
         Row(

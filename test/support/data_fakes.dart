@@ -4,10 +4,14 @@ import 'package:framegrab/features/providers/data/provider_status_repository.dar
 import 'package:video_server_api/video_server_api.dart';
 
 final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
-  FakeDownloadHistoryRepository({DownloadHistoryResponse? data, this.error})
-    : data = data ?? emptyDownloadHistory();
+  FakeDownloadHistoryRepository({
+    DownloadHistoryResponse? data,
+    this.detail,
+    this.error,
+  }) : data = data ?? emptyDownloadHistory();
 
   DownloadHistoryResponse data;
+  DownloadResponse? detail;
   Object? error;
   int calls = 0;
   final List<String> detailCalls = [];
@@ -22,7 +26,7 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   Future<DownloadResponse> fetchDetail(String jobId) async {
     detailCalls.add(jobId);
     if (error case final failure?) throw failure;
-    return downloadDetailFixture(jobId: jobId);
+    return detail ?? downloadDetailFixture(jobId: jobId);
   }
 
   @override
@@ -135,6 +139,7 @@ DownloadHistoryResponse downloadHistoryFixture() {
 
 DownloadResponse downloadDetailFixture({
   String jobId = '00000000-0000-0000-0000-000000000101',
+  String title = '真实下载任务',
 }) {
   final now = DateTime.utc(2026, 8, 30, 12, 30);
   return DownloadResponse(
@@ -152,7 +157,7 @@ DownloadResponse downloadDetailFixture({
       ..updatedAt = now
       ..finishedAt = now
       ..fileAvailable = true
-      ..title = '真实下载任务'
+      ..title = title
       ..extractorKey = 'youtube'
       ..durationSeconds = 124
       ..format.update(

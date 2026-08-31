@@ -26,16 +26,23 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AnalysisStatus.serializer)
       ..add(AudioCodecFamily.serializer)
       ..add(CompatibilityProfile.serializer)
+      ..add(CompleteDocumentImportRequest.serializer)
+      ..add(CompleteMediaImportRequest.serializer)
+      ..add(CompletedPartRequest.serializer)
       ..add(ContainerPreference.serializer)
+      ..add(DeclaredOrigin.serializer)
       ..add(DiscoveredItemInspectionSource.serializer)
       ..add(DiscoveredItemInspectionSourceKindEnum.serializer)
       ..add(DiscoveryDecisionHint.serializer)
       ..add(DiscoveryItemKind.serializer)
       ..add(DiscoveryItemStatus.serializer)
       ..add(DiscoveryStatus.serializer)
+      ..add(DocumentImportRequest.serializer)
+      ..add(DocumentImportResponse.serializer)
       ..add(DocumentPageResponse.serializer)
       ..add(DocumentResponse.serializer)
       ..add(DocumentSourceFormat.serializer)
+      ..add(DocumentUploadSessionResponse.serializer)
       ..add(DownloadAnalyticsDailyResponse.serializer)
       ..add(DownloadAnalyticsResponse.serializer)
       ..add(DownloadAnalyticsSourceResponse.serializer)
@@ -60,11 +67,15 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(HighlightResponse.serializer)
       ..add(IdentityState.serializer)
       ..add(ImportErrorCode.serializer)
+      ..add(ImportSourceFormat.serializer)
       ..add(ImportStatus.serializer)
       ..add(InspectionRequest.serializer)
       ..add(InspectionResponse.serializer)
       ..add(ManagedUserListResponse.serializer)
       ..add(ManagedUserResponse.serializer)
+      ..add(MediaImportRequest.serializer)
+      ..add(MediaImportResponse.serializer)
+      ..add(MediaUploadSessionResponse.serializer)
       ..add(ModelSource.serializer)
       ..add(NativeLogoutRequest.serializer)
       ..add(NativeRefreshRequest.serializer)
@@ -107,6 +118,7 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(StoredFileResponse.serializer)
       ..add(UpdateProviderCatalogEntryRequest.serializer)
       ..add(UpdateUserAccessRequest.serializer)
+      ..add(UploadPartResponse.serializer)
       ..add(UserResponse.serializer)
       ..add(UserRole.serializer)
       ..add(VideoAnalysisResultResponse.serializer)
@@ -129,6 +141,14 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(AnalysisReportArtifactResponse)]),
           () => ListBuilder<AnalysisReportArtifactResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(CompletedPartRequest)]),
+          () => ListBuilder<CompletedPartRequest>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(CompletedPartRequest)]),
+          () => ListBuilder<CompletedPartRequest>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DocumentResponse)]),
           () => ListBuilder<DocumentResponse>())
@@ -262,6 +282,12 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UploadPartResponse)]),
+          () => ListBuilder<UploadPartResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UploadPartResponse)]),
+          () => ListBuilder<UploadPartResponse>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(VideoArticleEvidenceResponse)]),
