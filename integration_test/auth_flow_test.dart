@@ -20,8 +20,11 @@ void main() {
     app.main();
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
+    await tester.tap(find.byKey(const Key('public-home-login')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
     await tester.tap(find.byKey(const Key('go-register-button')));
     await tester.pumpAndSettle();
 
@@ -78,7 +81,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('logout-button')));
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
   });
 

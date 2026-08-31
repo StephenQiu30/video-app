@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/app/presentation/root_screen.dart';
 import 'package:framegrab/features/admin/presentation/admin_ai_providers_screen.dart';
 import 'package:framegrab/features/admin/presentation/admin_analytics_screen.dart';
 import 'package:framegrab/features/admin/presentation/admin_home_screen.dart';
@@ -10,7 +11,6 @@ import 'package:framegrab/features/auth/application/auth_session_controller.dart
 import 'package:framegrab/features/auth/presentation/login_screen.dart';
 import 'package:framegrab/features/auth/presentation/register_screen.dart';
 import 'package:framegrab/features/auth/presentation/session_restore_screen.dart';
-import 'package:framegrab/features/download/presentation/download_home_screen.dart';
 import 'package:framegrab/features/history/presentation/download_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,12 +46,14 @@ String? _redirectForAuth({
   final isEntry = location == '/auth/login' || location == '/auth/register';
   final isRestore = location == '/auth/restoring';
   final isAuthLocation = location.startsWith('/auth/');
+  final isPublicHome = location == '/';
 
   if (phase == AuthSessionPhase.restoring) {
     return isRestore ? null : '/auth/restoring';
   }
   if (phase == AuthSessionPhase.signedOut) {
-    return isEntry ? null : '/auth/login';
+    if (isRestore) return '/';
+    return isEntry || isPublicHome ? null : '/auth/login';
   }
   if (phase == AuthSessionPhase.signedIn && isAuthLocation) return '/';
   if (phase == AuthSessionPhase.signedIn &&
@@ -133,7 +135,7 @@ final class DownloadHomeRoute extends GoRouteData with $DownloadHomeRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const DownloadHomeScreen();
+    return const RootScreen();
   }
 }
 

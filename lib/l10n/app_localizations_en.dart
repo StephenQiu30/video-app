@@ -289,6 +289,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get switchToLightTheme => 'Switch to light theme';
 
   @override
+  String get publicHomeTitle => 'Open-source, self-hosted\nvideo workflows.';
+
+  @override
+  String get publicHomeDescription =>
+      'Process public video, screenplay documents, and AI video analysis on infrastructure you control.';
+
+  @override
+  String get publicHomeCapabilitiesTitle =>
+      'From public media to verifiable artifacts';
+
+  @override
+  String get publicVideoTitle => 'Public video workflows';
+
+  @override
+  String get publicVideoDescription =>
+      'Inspect public links you are authorized to process, then sign in to select formats and create traceable downloads.';
+
+  @override
+  String get publicDocumentTitle => 'Screenplay and document workflows';
+
+  @override
+  String get publicDocumentDescription =>
+      'Import screenplay documents, review structured content, and continue into analysis or rewriting.';
+
+  @override
+  String get publicAnalysisTitle => 'Structured AI video analysis';
+
+  @override
+  String get publicAnalysisDescription =>
+      'Run scene, shot, hook, and article analysis against verified video artifacts.';
+
+  @override
+  String get publicTrustTitle => 'Open source without giving up data control';
+
+  @override
+  String get publicTrustDescription =>
+      'Framegrab runs on infrastructure you control. Sign-in protects tasks, files, and account data.';
+
+  @override
   String get downloadDetailNavigation => 'Task details';
 
   @override

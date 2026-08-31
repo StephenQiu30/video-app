@@ -25,12 +25,13 @@ FrameFetch does not run extractors, transcoders, or AI models on the phone. It d
 
 ## Workflow
 
-1. Sign in to a self-hosted `video-server` with the native Bearer session.
-2. Paste a public media link you own or are authorized to process.
-3. Review the server's access decision, metadata, and available formats.
-4. Create a download job and track progress in the native app.
-5. Preview or retrieve the completed artifact through a short-lived server authorization.
-6. Optionally start a server-side AI analysis and read its structured result.
+1. Review the open-source, self-hosted project overview without signing in.
+2. Sign in to a self-hosted `video-server` with the native Bearer session.
+3. Paste a public media link you own or are authorized to process.
+4. Review the server's access decision, metadata, and available formats.
+5. Create a download job and track progress in the native app.
+6. Preview or retrieve the completed artifact through a short-lived server authorization.
+7. Optionally start a server-side AI analysis and read its structured result.
 
 ## Feature status
 
@@ -101,6 +102,7 @@ The app does not maintain parallel server DTOs. Its REST client is generated fro
 - go_router for typed navigation and auth redirects
 - Dio plus OpenAPI Generator 7.22.0 for the generated REST client
 - flutter_secure_storage for Keychain/Keystore-backed credentials
+- shared_preferences for the non-sensitive light/dark theme preference
 - Material 3 and ARB localization for Chinese and English
 
 ## Security and privacy

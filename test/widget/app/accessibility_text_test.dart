@@ -6,6 +6,7 @@ import 'package:framegrab/features/download/presentation/content_intake_controls
 import 'package:go_router/go_router.dart';
 
 import '../../support/analysis_fakes.dart';
+import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import 'test_app.dart';
 
@@ -134,6 +135,23 @@ void main() {
       },
     );
   }
+
+  testWidgets('keeps the public home usable with accessibility text', (
+    tester,
+  ) async {
+    await setMobileViewport(tester);
+    setAccessibilityTextScale(tester);
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(),
+      credentialStore: MemoryCredentialStore(),
+    );
+
+    expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-login')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-register')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('keeps the AI analysis entry usable with accessibility text', (
     tester,

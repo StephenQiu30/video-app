@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/app/app.dart';
+import 'package:framegrab/core/theme/theme_preference_store.dart';
 import 'package:framegrab/features/analysis/data/analysis_repository.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/data/refresh_credential_store.dart';
@@ -14,6 +15,7 @@ import '../../support/analysis_fakes.dart';
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import '../../support/intake_fakes.dart';
+import '../../support/theme_fakes.dart';
 
 Future<void> pumpFramegrabApp(
   WidgetTester tester, {
@@ -24,6 +26,7 @@ Future<void> pumpFramegrabApp(
   DownloadIntakeRepository? downloadIntakeRepository,
   DownloadHistoryRepository? downloadHistoryRepository,
   ProviderStatusRepository? providerStatusRepository,
+  ThemePreferenceStore? themePreferenceStore,
   Locale locale = const Locale('zh'),
 }) async {
   await tester.pumpWidget(
@@ -49,6 +52,9 @@ Future<void> pumpFramegrabApp(
         ),
         providerStatusRepositoryProvider.overrideWithValue(
           providerStatusRepository ?? FakeProviderStatusRepository(),
+        ),
+        themePreferenceStoreProvider.overrideWithValue(
+          themePreferenceStore ?? MemoryThemePreferenceStore(),
         ),
       ],
       child: FramegrabApp(locale: locale),

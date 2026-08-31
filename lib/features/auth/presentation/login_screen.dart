@@ -49,7 +49,6 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
     final session = ref.watch(authSessionProvider);
     final failure = session.failure;
     return AuthPageScaffold(
-      showBackButton: false,
       title: localizations.welcomeBack,
       description: localizations.loginDescription,
       child: AutofillGroup(

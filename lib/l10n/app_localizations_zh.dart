@@ -281,6 +281,40 @@ class AppLocalizationsZh extends AppLocalizations {
   String get switchToLightTheme => '切换到浅色主题';
 
   @override
+  String get publicHomeTitle => '开源、自托管的\n视频工作流。';
+
+  @override
+  String get publicHomeDescription =>
+      '在自己的设备与服务上处理公开视频、剧本文档和 AI 视频分析，数据控制权始终属于你。';
+
+  @override
+  String get publicHomeCapabilitiesTitle => '从公开媒体到可验证制品';
+
+  @override
+  String get publicVideoTitle => '公开视频工作流';
+
+  @override
+  String get publicVideoDescription => '解析你有权处理的公开链接，登录后选择格式并创建可追踪的下载任务。';
+
+  @override
+  String get publicDocumentTitle => '剧本与文档处理';
+
+  @override
+  String get publicDocumentDescription => '导入剧本文档，查看结构化内容，并继续完成分析与改写。';
+
+  @override
+  String get publicAnalysisTitle => '结构化 AI 视频分析';
+
+  @override
+  String get publicAnalysisDescription => '基于已验证的视频制品执行场景、镜头、钩子与文章化分析。';
+
+  @override
+  String get publicTrustTitle => '开源，不交出数据控制权';
+
+  @override
+  String get publicTrustDescription => '帧取可部署在你自己的基础设施中。登录只用于保护任务、文件和账户数据。';
+
+  @override
   String get downloadDetailNavigation => '任务详情';
 
   @override

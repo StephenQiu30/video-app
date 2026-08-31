@@ -638,6 +638,72 @@ abstract class AppLocalizations {
   /// **'切换到浅色主题'**
   String get switchToLightTheme;
 
+  /// No description provided for @publicHomeTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开源、自托管的\n视频工作流。'**
+  String get publicHomeTitle;
+
+  /// No description provided for @publicHomeDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'在自己的设备与服务上处理公开视频、剧本文档和 AI 视频分析，数据控制权始终属于你。'**
+  String get publicHomeDescription;
+
+  /// No description provided for @publicHomeCapabilitiesTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'从公开媒体到可验证制品'**
+  String get publicHomeCapabilitiesTitle;
+
+  /// No description provided for @publicVideoTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'公开视频工作流'**
+  String get publicVideoTitle;
+
+  /// No description provided for @publicVideoDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析你有权处理的公开链接，登录后选择格式并创建可追踪的下载任务。'**
+  String get publicVideoDescription;
+
+  /// No description provided for @publicDocumentTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本与文档处理'**
+  String get publicDocumentTitle;
+
+  /// No description provided for @publicDocumentDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入剧本文档，查看结构化内容，并继续完成分析与改写。'**
+  String get publicDocumentDescription;
+
+  /// No description provided for @publicAnalysisTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'结构化 AI 视频分析'**
+  String get publicAnalysisTitle;
+
+  /// No description provided for @publicAnalysisDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'基于已验证的视频制品执行场景、镜头、钩子与文章化分析。'**
+  String get publicAnalysisDescription;
+
+  /// No description provided for @publicTrustTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开源，不交出数据控制权'**
+  String get publicTrustTitle;
+
+  /// No description provided for @publicTrustDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'帧取可部署在你自己的基础设施中。登录只用于保护任务、文件和账户数据。'**
+  String get publicTrustDescription;
+
   /// No description provided for @downloadDetailNavigation.
   ///
   /// In zh, this message translates to:

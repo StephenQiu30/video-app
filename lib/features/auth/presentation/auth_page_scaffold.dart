@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:framegrab/core/theme/theme_toggle_button.dart';
 import 'package:framegrab/shared/presentation/app_brand.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -30,7 +31,7 @@ final class AuthPageScaffold extends StatelessWidget {
                   if (context.canPop()) {
                     context.pop();
                   } else {
-                    context.go('/auth/login');
+                    context.go('/');
                   }
                 },
                 icon: const Icon(LucideIcons.arrowLeft),
@@ -38,6 +39,7 @@ final class AuthPageScaffold extends StatelessWidget {
             : null,
         title: const AppBrand(),
         toolbarHeight: 72,
+        actions: const [ThemeToggleButton(), SizedBox(width: 8)],
       ),
       body: SafeArea(
         top: false,

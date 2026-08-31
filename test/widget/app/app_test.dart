@@ -8,6 +8,7 @@ import '../../support/analysis_fakes.dart';
 import '../../support/auth_fakes.dart';
 import '../../support/data_fakes.dart';
 import '../../support/intake_fakes.dart';
+import '../../support/theme_fakes.dart';
 import 'test_app.dart';
 
 void main() {
@@ -480,7 +481,8 @@ void main() {
   ) async {
     tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
     addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
-    await pumpFramegrabApp(tester);
+    final preferenceStore = MemoryThemePreferenceStore();
+    await pumpFramegrabApp(tester, themePreferenceStore: preferenceStore);
 
     expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
     await tester.tap(find.byKey(const Key('navbar-theme-toggle')));
@@ -488,6 +490,7 @@ void main() {
 
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.themeMode, ThemeMode.dark);
+    expect(preferenceStore.value, ThemeMode.dark);
 
     await tester.tap(find.byKey(const Key('app-tab-4')));
     await tester.pumpAndSettle();
@@ -543,15 +546,41 @@ void main() {
       credentialStore: MemoryCredentialStore(),
     );
 
-    expect(find.text('欢迎回来'), findsOneWidget);
-    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
+    expect(find.text('开源、自托管的\n视频工作流。'), findsOneWidget);
+    expect(find.byKey(const Key('public-home-login')), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
     expect(find.text('把素材，\n带回本地。'), findsNothing);
+    expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('public-home-login')));
+    await tester.pumpAndSettle();
+    expect(find.text('欢迎回来'), findsOneWidget);
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('go-register-button')));
     await tester.pumpAndSettle();
     expect(find.text('创建你的帧取账户'), findsOneWidget);
     expect(find.byKey(const Key('register-username-field')), findsOneWidget);
+  });
+
+  testWidgets('keeps protected deep links behind native authentication', (
+    tester,
+  ) async {
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(),
+      credentialStore: MemoryCredentialStore(),
+    );
+
+    tester
+        .element(find.byKey(const Key('public-home-screen')))
+        .go('/downloads/00000000-0000-0000-0000-000000000101');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
   });
 
   testWidgets('validates login fields before making a request', (tester) async {
@@ -560,6 +589,8 @@ void main() {
       authGateway: FakeAuthGateway(),
       credentialStore: MemoryCredentialStore(),
     );
+    await tester.tap(find.byKey(const Key('public-home-login')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('login-submit-button')));
     await tester.pump();
 
@@ -575,6 +606,8 @@ void main() {
       authGateway: gateway,
       credentialStore: store,
     );
+    await tester.tap(find.byKey(const Key('public-home-login')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('go-register-button')));
     await tester.pumpAndSettle();
 
@@ -606,7 +639,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('logout-button')));
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('login-email-field')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
     expect(store.value, isNull);
     expect(gateway.logoutCalls, 1);
@@ -618,6 +651,8 @@ void main() {
       authGateway: FakeAuthGateway(failure: AuthFailureKind.invalidCredentials),
       credentialStore: MemoryCredentialStore(),
     );
+    await tester.tap(find.byKey(const Key('public-home-login')));
+    await tester.pumpAndSettle();
     await tester.enterText(
       find.byKey(const Key('login-email-field')),
       'member@example.com',
