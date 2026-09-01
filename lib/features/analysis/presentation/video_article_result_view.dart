@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:framegrab/features/analysis/presentation/analysis_report_preview.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -58,12 +59,7 @@ final class VideoArticleResultView extends StatelessWidget {
             tilePadding: EdgeInsets.zero,
             childrenPadding: const EdgeInsets.only(bottom: AppSpacing.large),
             title: Text(l10n.analysisReportTab),
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: SelectableText(report),
-              ),
-            ],
+            children: [AnalysisReportPreview(markdown: report)],
           ),
         ],
       ],

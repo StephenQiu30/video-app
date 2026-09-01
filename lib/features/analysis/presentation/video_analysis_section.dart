@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_presentation_labels.dart';
+import 'package:framegrab/features/analysis/presentation/analysis_report_preview.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -54,7 +55,8 @@ final class _VideoAnalysisSectionState extends State<VideoAnalysisSection> {
           _asset(context, item),
       ],
       'report' => [
-        if (widget.reportMarkdown case final value?) SelectableText(value),
+        if (widget.reportMarkdown case final value?)
+          AnalysisReportPreview(markdown: value),
       ],
       _ => const <Widget>[],
     };
