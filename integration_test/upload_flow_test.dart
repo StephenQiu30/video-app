@@ -15,75 +15,102 @@ import 'package:video_server_api/video_server_api.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('uploads a real MP4 and screenplay through generated APIs', (
-    _,
-  ) async {
-    final directory = await Directory.systemTemp.createTemp(
-      'framegrab-upload-integration',
-    );
-    addTearDown(() => directory.delete(recursive: true));
-    final video = File('${directory.path}/black.mp4');
-    await video.writeAsBytes(base64Decode(_tinyMp4Base64));
-    final screenplay = File('${directory.path}/scene.fountain');
-    await screenplay.writeAsString(
-      'INT. TEST LAB - NIGHT\n\nA verified upload reaches the server.\n',
-    );
+  testWidgets(
+    'uploads and deletes a real MP4 and screenplay through generated APIs',
+    (_) async {
+      final directory = await Directory.systemTemp.createTemp(
+        'framegrab-upload-integration',
+      );
+      addTearDown(() => directory.delete(recursive: true));
+      final video = File('${directory.path}/black.mp4');
+      await video.writeAsBytes(base64Decode(_tinyMp4Base64));
+      final screenplay = File('${directory.path}/scene.fountain');
+      await screenplay.writeAsString(
+        'INT. TEST LAB - NIGHT\n\nA verified upload reaches the server.\n',
+      );
 
-    final client = VideoServerApi(
-      dio: Dio(BaseOptions(baseUrl: AppConfig.serverBaseUrl)),
-    );
-    final gateway = GeneratedNativeAuthGateway(client);
-    final suffix = DateTime.now().microsecondsSinceEpoch.toString();
-    final username = 'uploadqa${suffix.substring(suffix.length - 10)}';
-    final session = await gateway.register(
-      username: username,
-      email: '$username@example.com',
-      password: 'strong-pass-123',
-    );
-    addTearDown(() => gateway.logout(session.refreshToken));
-    final request = AuthenticatedRequest(
-      client: client,
-      accessToken: () => session.accessToken,
-      refreshSession: () async => false,
-      expireSession: () async {},
-    );
-    final repository = GeneratedContentUploadRepository(
-      request,
-      MultipartUploader(),
-    );
-    final phases = <ContentUploadPhase>[];
-    final progress = <int>[];
+      final client = VideoServerApi(
+        dio: Dio(BaseOptions(baseUrl: AppConfig.serverBaseUrl)),
+      );
+      final gateway = GeneratedNativeAuthGateway(client);
+      final suffix = DateTime.now().microsecondsSinceEpoch.toString();
+      final username = 'uploadqa${suffix.substring(suffix.length - 10)}';
+      final session = await gateway.register(
+        username: username,
+        email: '$username@example.com',
+        password: 'strong-pass-123',
+      );
+      addTearDown(() => gateway.logout(session.refreshToken));
+      final request = AuthenticatedRequest(
+        client: client,
+        accessToken: () => session.accessToken,
+        refreshSession: () async => false,
+        expireSession: () async {},
+      );
+      final repository = GeneratedContentUploadRepository(
+        request,
+        MultipartUploader(),
+      );
+      final phases = <ContentUploadPhase>[];
+      final progress = <int>[];
 
-    final videoResult = await repository.upload(
-      cancelToken: CancelToken(),
-      file: await _selected(video),
-      kind: ContentUploadKind.video,
-      onPhase: phases.add,
-      onProgress: progress.add,
-    );
-    final documentResult = await repository.upload(
-      cancelToken: CancelToken(),
-      file: await _selected(screenplay),
-      kind: ContentUploadKind.screenplay,
-      onPhase: phases.add,
-      onProgress: progress.add,
-    );
+      final videoResult = await repository.upload(
+        cancelToken: CancelToken(),
+        file: await _selected(video),
+        kind: ContentUploadKind.video,
+        onPhase: phases.add,
+        onProgress: progress.add,
+      );
+      final documentResult = await repository.upload(
+        cancelToken: CancelToken(),
+        file: await _selected(screenplay),
+        kind: ContentUploadKind.screenplay,
+        onPhase: phases.add,
+        onProgress: progress.add,
+      );
 
-    expect(videoResult.kind, ContentUploadKind.video);
-    expect(videoResult.resourceId, isNotEmpty);
-    expect(documentResult.kind, ContentUploadKind.screenplay);
-    expect(documentResult.resourceId, isNotEmpty);
-    expect(
-      phases,
-      containsAll([
-        ContentUploadPhase.hashing,
-        ContentUploadPhase.creating,
-        ContentUploadPhase.uploading,
-        ContentUploadPhase.completing,
-      ]),
-    );
-    expect(progress, contains(100));
-  });
+      expect(videoResult.kind, ContentUploadKind.video);
+      expect(videoResult.resourceId, isNotEmpty);
+      expect(documentResult.kind, ContentUploadKind.screenplay);
+      expect(documentResult.resourceId, isNotEmpty);
+      expect(
+        phases,
+        containsAll([
+          ContentUploadPhase.hashing,
+          ContentUploadPhase.creating,
+          ContentUploadPhase.uploading,
+          ContentUploadPhase.completing,
+        ]),
+      );
+      expect(progress, contains(100));
+
+      await request.execute(
+        (api) =>
+            api.getDownloadsApi().deleteDownload(jobId: videoResult.resourceId),
+      );
+      await request.execute(
+        (api) => api.getDocumentsApi().deleteDocument(
+          documentId: documentResult.resourceId,
+        ),
+      );
+
+      final history = await request.execute(
+        (api) =>
+            api.getDownloadsApi().getDownloadHistory(page: 1, pageSize: 20),
+      );
+      final documents = await request.execute(
+        (api) => api.getDocumentsApi().listDocuments(page: 1, pageSize: 20),
+      );
+      expect(
+        history.data?.items.map((item) => item.id),
+        isNot(contains(videoResult.resourceId)),
+      );
+      expect(
+        documents.data?.items.map((item) => item.id),
+        isNot(contains(documentResult.resourceId)),
+      );
+    },
+  );
 }
 
 Future<LocalContentFile> _selected(File file) async => LocalContentFile(

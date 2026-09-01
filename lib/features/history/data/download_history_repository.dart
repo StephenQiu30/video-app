@@ -16,6 +16,8 @@ abstract interface class DownloadHistoryRepository {
 
   Future<DownloadResponse> fetchDetail(String jobId);
 
+  Future<void> delete(String jobId);
+
   Future<DownloadResponse> cancel(String jobId);
 
   Future<DownloadResponse> retry(String jobId);
@@ -26,6 +28,13 @@ final class GeneratedDownloadHistoryRepository
   const GeneratedDownloadHistoryRepository(this._request);
 
   final AuthenticatedRequest _request;
+
+  @override
+  Future<void> delete(String jobId) {
+    return _request.execute((client) async {
+      await client.getDownloadsApi().deleteDownload(jobId: jobId);
+    });
+  }
 
   @override
   Future<DownloadResponse> cancel(String jobId) {

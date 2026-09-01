@@ -15,6 +15,7 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   Object? error;
   int calls = 0;
   final List<String> detailCalls = [];
+  final List<String> deleteCalls = [];
 
   @override
   Future<DownloadResponse> cancel(String jobId) async {
@@ -27,6 +28,12 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
     detailCalls.add(jobId);
     if (error case final failure?) throw failure;
     return detail ?? downloadDetailFixture(jobId: jobId);
+  }
+
+  @override
+  Future<void> delete(String jobId) async {
+    deleteCalls.add(jobId);
+    if (error case final failure?) throw failure;
   }
 
   @override
@@ -50,6 +57,13 @@ final class FakeDocumentRepository implements DocumentRepository {
   DocumentPageResponse data;
   Object? error;
   int calls = 0;
+  final List<String> deleteCalls = [];
+
+  @override
+  Future<void> delete(String documentId) async {
+    deleteCalls.add(documentId);
+    if (error case final failure?) throw failure;
+  }
 
   @override
   Future<DocumentPageResponse> fetchFirstPage() async {

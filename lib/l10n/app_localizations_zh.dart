@@ -42,11 +42,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accountNavigation => '我的';
 
   @override
-  String get downloadHistoryDescription => '查看当前账户的下载任务、处理进度、失败原因与文件状态。';
+  String get downloadHistoryDescription => '继续查看、获取或分析已创建的任务。';
 
   @override
-  String get screenplayDocumentsDescription =>
-      '查看剧本文档的导入状态、提取规模、规范化预览，以及分析与改写结果。';
+  String get screenplayDocumentsDescription => '核对导入状态、提取规模和规范化剧本文本。';
 
   @override
   String get providerStatusDescription =>
@@ -65,7 +64,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get retryAction => '重新加载';
 
   @override
-  String get refreshAction => '刷新数据';
+  String get refreshAction => '刷新';
 
   @override
   String get totalLabel => '全部';
@@ -89,13 +88,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noLabel => '否';
 
   @override
-  String get downloadHistoryEmptyTitle => '暂无下载记录';
+  String get downloadHistoryEmptyTitle => '没有匹配的下载记录';
 
   @override
-  String get downloadHistoryEmptyDescription => '你创建或导入的任务会显示在这里。当前结果来自你的真实账户。';
+  String get downloadHistoryEmptyDescription => '调整筛选条件，或新建一个下载任务。';
 
   @override
-  String get downloadStatusQueued => '等待中';
+  String get downloadStatusQueued => '排队中';
 
   @override
   String get downloadStatusRunning => '下载中';
@@ -143,22 +142,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failureGeneric => '处理未完成';
 
   @override
-  String get documentEmptyTitle => '暂无剧本文档';
+  String get documentEmptyTitle => '还没有剧本文档';
 
   @override
-  String get documentEmptyDescription => '你导入的剧本文档会显示在这里。当前结果来自你的真实账户。';
+  String get documentEmptyDescription => '完成剧本文档上传后，可在这里核对解析状态与正文。';
 
   @override
-  String get documentStatusUploading => '上传中';
+  String get documentStatusUploading => '等待上传';
 
   @override
-  String get documentStatusVerifying => '校验中';
+  String get documentStatusVerifying => '正在解析';
 
   @override
-  String get documentStatusReady => '可用';
+  String get documentStatusReady => '可以核对';
 
   @override
-  String get documentStatusFailed => '失败';
+  String get documentStatusFailed => '解析失败';
 
   @override
   String get documentStatusCancelled => '已取消';
@@ -1043,4 +1042,37 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get retryDownloadAction => '重新下载';
+
+  @override
+  String get deleteDownloadAction => '删除任务';
+
+  @override
+  String get deleteDownloadTitle => '删除任务与文件？';
+
+  @override
+  String get deleteDownloadDescription =>
+      '下载记录、视频文件、本地上传源文件和私有封面将永久删除。此操作不可撤销。';
+
+  @override
+  String get deleteDownloadActiveDescription =>
+      '当前任务会先被取消。下载记录、视频文件、本地上传源文件和私有封面将永久删除。此操作不可撤销。';
+
+  @override
+  String get keepDownloadAction => '保留任务';
+
+  @override
+  String get deleteDocumentAction => '删除文档';
+
+  @override
+  String get deleteDocumentTitle => '删除剧本文档？';
+
+  @override
+  String get deleteDocumentDescription =>
+      '原始文件、规范化剧本和当前文档记录将永久删除。正在使用该文档的分析需先结束。此操作不可撤销。';
+
+  @override
+  String get keepDocumentAction => '保留文档';
+
+  @override
+  String get confirmDeleteAction => '确认删除';
 }

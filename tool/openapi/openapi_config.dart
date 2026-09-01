@@ -52,6 +52,10 @@ const appOpenApiConfig = AppOpenApiConfig(
     ),
     OpenApiOperationSelection(method: 'get', path: '/api/downloads/{job_id}'),
     OpenApiOperationSelection(
+      method: 'delete',
+      path: '/api/downloads/{job_id}',
+    ),
+    OpenApiOperationSelection(
       method: 'get',
       path: '/api/downloads/{job_id}/thumbnail',
     ),
@@ -111,6 +115,10 @@ const appOpenApiConfig = AppOpenApiConfig(
     ),
     OpenApiOperationSelection(method: 'post', path: '/api/documents'),
     OpenApiOperationSelection(method: 'get', path: '/api/documents'),
+    OpenApiOperationSelection(
+      method: 'delete',
+      path: '/api/documents/{document_id}',
+    ),
     OpenApiOperationSelection(
       method: 'post',
       path: '/api/documents/{document_id}/upload-sessions',

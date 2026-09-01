@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_colors.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:framegrab/features/documents/presentation/document_delete_button.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
@@ -29,39 +30,51 @@ final class DocumentListItem extends StatelessWidget {
     return Semantics(
       container: true,
       label: '${item.title}, $status, ${item.originalFilename}',
-      child: ExcludeSemantics(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(item.title, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: AppSpacing.xSmall),
-              Text(
-                item.originalFilename,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ExcludeSemantics(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      item.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: AppSpacing.xSmall),
+                    Text(
+                      item.originalFilename,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.small),
+                    DataStatusLabel(
+                      color: _statusColor(context, item.status.name),
+                      label: status,
+                    ),
+                    const SizedBox(height: AppSpacing.small),
+                    Text(
+                      detailValues.join(' · '),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: AppSpacing.small),
+                    Text(
+                      '${localizations.updatedAtLabel} ${formatDataTime(context, item.updatedAt)}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.small),
-              DataStatusLabel(
-                color: _statusColor(context, item.status.name),
-                label: status,
-              ),
-              const SizedBox(height: AppSpacing.small),
-              Text(
-                detailValues.join(' · '),
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: AppSpacing.small),
-              Text(
-                '${localizations.updatedAtLabel} ${formatDataTime(context, item.updatedAt)}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(width: AppSpacing.small),
+            DocumentDeleteButton(documentId: item.id),
+          ],
         ),
       ),
     );

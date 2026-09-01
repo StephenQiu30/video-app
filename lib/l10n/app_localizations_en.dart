@@ -44,11 +44,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadHistoryDescription =>
-      'View downloads for the current account, including progress, failures, and file availability.';
+      'Continue reviewing, retrieving, or analyzing created tasks.';
 
   @override
   String get screenplayDocumentsDescription =>
-      'Review screenplay import state, extracted size, normalized previews, and analysis or rewrite results.';
+      'Review import status, extracted size, and normalized screenplay text.';
 
   @override
   String get providerStatusDescription =>
@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retryAction => 'Reload';
 
   @override
-  String get refreshAction => 'Refresh data';
+  String get refreshAction => 'Refresh';
 
   @override
   String get totalLabel => 'Total';
@@ -92,11 +92,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noLabel => 'No';
 
   @override
-  String get downloadHistoryEmptyTitle => 'No downloads yet';
+  String get downloadHistoryEmptyTitle => 'No matching download records';
 
   @override
   String get downloadHistoryEmptyDescription =>
-      'Tasks you create or import will appear here. This result comes from your live account.';
+      'Adjust the filters or create a new download task.';
 
   @override
   String get downloadStatusQueued => 'Queued';
@@ -153,19 +153,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documentEmptyDescription =>
-      'Screenplays you import will appear here. This result comes from your live account.';
+      'Once a screenplay is uploaded, review its parsing state and content here.';
 
   @override
-  String get documentStatusUploading => 'Uploading';
+  String get documentStatusUploading => 'Waiting for upload';
 
   @override
-  String get documentStatusVerifying => 'Verifying';
+  String get documentStatusVerifying => 'Parsing';
 
   @override
-  String get documentStatusReady => 'Ready';
+  String get documentStatusReady => 'Ready to review';
 
   @override
-  String get documentStatusFailed => 'Failed';
+  String get documentStatusFailed => 'Parsing failed';
 
   @override
   String get documentStatusCancelled => 'Cancelled';
@@ -1116,4 +1116,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retryDownloadAction => 'Download again';
+
+  @override
+  String get deleteDownloadAction => 'Delete task';
+
+  @override
+  String get deleteDownloadTitle => 'Delete task and files?';
+
+  @override
+  String get deleteDownloadDescription =>
+      'The download record, video file, local upload source, and private cover will be permanently deleted. This cannot be undone.';
+
+  @override
+  String get deleteDownloadActiveDescription =>
+      'The active task will be cancelled first. The download record, video file, local upload source, and private cover will be permanently deleted. This cannot be undone.';
+
+  @override
+  String get keepDownloadAction => 'Keep task';
+
+  @override
+  String get deleteDocumentAction => 'Delete document';
+
+  @override
+  String get deleteDocumentTitle => 'Delete screenplay document?';
+
+  @override
+  String get deleteDocumentDescription =>
+      'The original file, normalized screenplay, and current document record will be permanently deleted. Any analysis using it must finish first. This cannot be undone.';
+
+  @override
+  String get keepDocumentAction => 'Keep document';
+
+  @override
+  String get confirmDeleteAction => 'Confirm delete';
 }

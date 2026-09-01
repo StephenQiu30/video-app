@@ -167,13 +167,13 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看当前账户的下载任务、处理进度、失败原因与文件状态。'**
+  /// **'继续查看、获取或分析已创建的任务。'**
   String get downloadHistoryDescription;
 
   /// No description provided for @screenplayDocumentsDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看剧本文档的导入状态、提取规模、规范化预览，以及分析与改写结果。'**
+  /// **'核对导入状态、提取规模和规范化剧本文本。'**
   String get screenplayDocumentsDescription;
 
   /// No description provided for @providerStatusDescription.
@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @refreshAction.
   ///
   /// In zh, this message translates to:
-  /// **'刷新数据'**
+  /// **'刷新'**
   String get refreshAction;
 
   /// No description provided for @totalLabel.
@@ -257,19 +257,19 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryEmptyTitle.
   ///
   /// In zh, this message translates to:
-  /// **'暂无下载记录'**
+  /// **'没有匹配的下载记录'**
   String get downloadHistoryEmptyTitle;
 
   /// No description provided for @downloadHistoryEmptyDescription.
   ///
   /// In zh, this message translates to:
-  /// **'你创建或导入的任务会显示在这里。当前结果来自你的真实账户。'**
+  /// **'调整筛选条件，或新建一个下载任务。'**
   String get downloadHistoryEmptyDescription;
 
   /// No description provided for @downloadStatusQueued.
   ///
   /// In zh, this message translates to:
-  /// **'等待中'**
+  /// **'排队中'**
   String get downloadStatusQueued;
 
   /// No description provided for @downloadStatusRunning.
@@ -365,37 +365,37 @@ abstract class AppLocalizations {
   /// No description provided for @documentEmptyTitle.
   ///
   /// In zh, this message translates to:
-  /// **'暂无剧本文档'**
+  /// **'还没有剧本文档'**
   String get documentEmptyTitle;
 
   /// No description provided for @documentEmptyDescription.
   ///
   /// In zh, this message translates to:
-  /// **'你导入的剧本文档会显示在这里。当前结果来自你的真实账户。'**
+  /// **'完成剧本文档上传后，可在这里核对解析状态与正文。'**
   String get documentEmptyDescription;
 
   /// No description provided for @documentStatusUploading.
   ///
   /// In zh, this message translates to:
-  /// **'上传中'**
+  /// **'等待上传'**
   String get documentStatusUploading;
 
   /// No description provided for @documentStatusVerifying.
   ///
   /// In zh, this message translates to:
-  /// **'校验中'**
+  /// **'正在解析'**
   String get documentStatusVerifying;
 
   /// No description provided for @documentStatusReady.
   ///
   /// In zh, this message translates to:
-  /// **'可用'**
+  /// **'可以核对'**
   String get documentStatusReady;
 
   /// No description provided for @documentStatusFailed.
   ///
   /// In zh, this message translates to:
-  /// **'失败'**
+  /// **'解析失败'**
   String get documentStatusFailed;
 
   /// No description provided for @documentStatusCancelled.
@@ -2125,6 +2125,66 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'重新下载'**
   String get retryDownloadAction;
+
+  /// No description provided for @deleteDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除任务'**
+  String get deleteDownloadAction;
+
+  /// No description provided for @deleteDownloadTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除任务与文件？'**
+  String get deleteDownloadTitle;
+
+  /// No description provided for @deleteDownloadDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载记录、视频文件、本地上传源文件和私有封面将永久删除。此操作不可撤销。'**
+  String get deleteDownloadDescription;
+
+  /// No description provided for @deleteDownloadActiveDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前任务会先被取消。下载记录、视频文件、本地上传源文件和私有封面将永久删除。此操作不可撤销。'**
+  String get deleteDownloadActiveDescription;
+
+  /// No description provided for @keepDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'保留任务'**
+  String get keepDownloadAction;
+
+  /// No description provided for @deleteDocumentAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除文档'**
+  String get deleteDocumentAction;
+
+  /// No description provided for @deleteDocumentTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除剧本文档？'**
+  String get deleteDocumentTitle;
+
+  /// No description provided for @deleteDocumentDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'原始文件、规范化剧本和当前文档记录将永久删除。正在使用该文档的分析需先结束。此操作不可撤销。'**
+  String get deleteDocumentDescription;
+
+  /// No description provided for @keepDocumentAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'保留文档'**
+  String get keepDocumentAction;
+
+  /// No description provided for @confirmDeleteAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认删除'**
+  String get confirmDeleteAction;
 }
 
 class _AppLocalizationsDelegate

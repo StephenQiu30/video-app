@@ -307,8 +307,8 @@ void main() {
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
 
-    expect(find.text('暂无下载记录'), findsOneWidget);
-    expect(find.textContaining('真实账户'), findsOneWidget);
+    expect(find.text('没有匹配的下载记录'), findsOneWidget);
+    expect(find.textContaining('调整筛选条件'), findsOneWidget);
 
     final title = tester.getSemantics(
       find.byKey(const Key('page-title-heading')),
@@ -318,13 +318,13 @@ void main() {
     );
     expect(title.label, '下载记录');
     expect(title.flagsCollection.isHeader, isTrue);
-    expect(description.label, contains('当前账户的下载任务'));
+    expect(description.label, contains('继续查看、获取或分析'));
     expect(description.flagsCollection.isHeader, isFalse);
 
     await tester.tap(find.byKey(const Key('app-tab-2')));
     await tester.pumpAndSettle();
-    expect(find.text('暂无剧本文档'), findsOneWidget);
-    expect(find.textContaining('真实账户'), findsOneWidget);
+    expect(find.text('还没有剧本文档'), findsOneWidget);
+    expect(find.textContaining('完成剧本文档上传后'), findsOneWidget);
   });
 
   testWidgets('renders typed live records from all three repositories', (
@@ -395,6 +395,94 @@ void main() {
     expect(find.text('下载记录'), findsOneWidget);
     expect(find.text('真实下载任务'), findsOneWidget);
     expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
+  });
+
+  testWidgets('deletes an owned download from history after confirmation', (
+    tester,
+  ) async {
+    final repository = FakeDownloadHistoryRepository(
+      data: downloadHistoryFixture(),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('delete-download-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('删除任务与文件？'), findsOneWidget);
+    expect(find.textContaining('此操作不可撤销'), findsOneWidget);
+    await tester.tap(find.text('保留任务'));
+    await tester.pumpAndSettle();
+    expect(repository.deleteCalls, isEmpty);
+
+    await tester.tap(
+      find.byKey(
+        const Key('delete-download-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('确认删除'));
+    await tester.pumpAndSettle();
+
+    expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000101']);
+  });
+
+  testWidgets('deletes an owned screenplay document after confirmation', (
+    tester,
+  ) async {
+    final repository = FakeDocumentRepository(data: documentFixture());
+    await pumpFramegrabApp(tester, documentRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('delete-document-00000000-0000-0000-0000-000000000102'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('删除剧本文档？'), findsOneWidget);
+    expect(find.textContaining('正在使用该文档的分析需先结束'), findsOneWidget);
+    await tester.tap(find.text('确认删除'));
+    await tester.pumpAndSettle();
+
+    expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000102']);
+  });
+
+  testWidgets('deletes a download from its detail and returns safely', (
+    tester,
+  ) async {
+    final repository = FakeDownloadHistoryRepository(
+      data: downloadHistoryFixture(),
+    );
+    await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final deleteButton = find.byKey(
+      const Key('delete-download-detail-00000000-0000-0000-0000-000000000101'),
+    );
+    await tester.ensureVisible(deleteButton);
+    await tester.pumpAndSettle();
+    await tester.tap(deleteButton);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('确认删除'));
+    await tester.pumpAndSettle();
+
+    expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000101']);
+    expect(find.text('下载记录'), findsOneWidget);
   });
 
   testWidgets('offers a safe back action for a directly opened task detail', (

@@ -6,6 +6,7 @@ import 'package:framegrab/features/history/application/download_history_provider
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -41,6 +42,30 @@ final class _DownloadTaskActionsState
     });
   }
 
+  Future<void> _delete() async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDestructiveConfirmation(
+      context: context,
+      title: l10n.deleteDownloadTitle,
+      description: isActiveDownloadStatus(widget.job.status.name)
+          ? l10n.deleteDownloadActiveDescription
+          : l10n.deleteDownloadDescription,
+      cancelLabel: l10n.keepDownloadAction,
+      confirmLabel: l10n.confirmDeleteAction,
+    );
+    if (!confirmed || !mounted) return;
+    await _run(() async {
+      await ref.read(downloadHistoryRepositoryProvider).delete(widget.job.id);
+      ref.invalidate(downloadHistoryProvider);
+      if (!mounted) return;
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      } else {
+        const DownloadHomeRoute().go(context);
+      }
+    });
+  }
+
   Future<void> _run(Future<void> Function() operation) async {
     if (_busy) return;
     setState(() => _busy = true);
@@ -66,20 +91,37 @@ final class _DownloadTaskActionsState
         status == 'failed' ||
         status == 'cancelled' ||
         (status == 'succeeded' && !widget.job.fileAvailable);
-    if (!canCancel && !canRetry) return const SizedBox.shrink();
+    final primaryAction = canCancel
+        ? OutlinedButton.icon(
+            onPressed: _busy ? null : _cancel,
+            icon: const Icon(LucideIcons.x, size: 18),
+            label: Text(l10n.cancelDownloadAction),
+          )
+        : canRetry
+        ? FilledButton.icon(
+            onPressed: _busy ? null : _retry,
+            icon: const Icon(LucideIcons.refreshCw, size: 18),
+            label: Text(l10n.retryDownloadAction),
+          )
+        : null;
     return Align(
       alignment: Alignment.centerLeft,
-      child: canCancel
-          ? OutlinedButton.icon(
-              onPressed: _busy ? null : _cancel,
-              icon: const Icon(LucideIcons.x, size: 18),
-              label: Text(l10n.cancelDownloadAction),
-            )
-          : FilledButton.icon(
-              onPressed: _busy ? null : _retry,
-              icon: const Icon(LucideIcons.refreshCw, size: 18),
-              label: Text(l10n.retryDownloadAction),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          ?primaryAction,
+          TextButton.icon(
+            key: Key('delete-download-detail-${widget.job.id}'),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
             ),
+            onPressed: _busy ? null : _delete,
+            icon: const Icon(LucideIcons.trash2, size: 18),
+            label: Text(l10n.deleteDownloadAction),
+          ),
+        ],
+      ),
     );
   }
 }

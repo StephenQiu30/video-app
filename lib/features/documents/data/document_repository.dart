@@ -9,12 +9,21 @@ final documentRepositoryProvider = Provider<DocumentRepository>(
 
 abstract interface class DocumentRepository {
   Future<DocumentPageResponse> fetchFirstPage();
+
+  Future<void> delete(String documentId);
 }
 
 final class GeneratedDocumentRepository implements DocumentRepository {
   const GeneratedDocumentRepository(this._request);
 
   final AuthenticatedRequest _request;
+
+  @override
+  Future<void> delete(String documentId) {
+    return _request.execute((client) async {
+      await client.getDocumentsApi().deleteDocument(documentId: documentId);
+    });
+  }
 
   @override
   Future<DocumentPageResponse> fetchFirstPage() {

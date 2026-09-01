@@ -36,13 +36,13 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(40));
+    expect(selectedPaths, hasLength(41));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      42,
+      44,
     );
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
@@ -50,6 +50,7 @@ void main() {
     expect(selectedPaths, contains('/api/inspections/{inspection_id}'));
     expect(selectedPaths, contains('/api/downloads'));
     expect(selectedPaths, contains('/api/downloads/{job_id}'));
+    expect(selectedPaths['/api/downloads/{job_id}'], contains('delete'));
     expect(selectedPaths, contains('/api/downloads/{job_id}/download-url'));
     expect(selectedPaths, contains('/api/analysis-skills'));
     expect(selectedPaths, contains('/api/downloads/{download_id}/analyses'));
@@ -65,6 +66,7 @@ void main() {
       contains('/api/media-imports/{resource_id}/complete'),
     );
     expect(selectedPaths['/api/documents'], contains('post'));
+    expect(selectedPaths['/api/documents/{document_id}'], contains('delete'));
     expect(
       selectedPaths,
       contains('/api/documents/{document_id}/upload-sessions'),

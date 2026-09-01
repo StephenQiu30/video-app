@@ -72,6 +72,9 @@ final class _SequencedDownloadHistoryRepository
   }
 
   @override
+  Future<void> delete(String jobId) => throw UnimplementedError();
+
+  @override
   Future<DownloadResponse> cancel(String jobId) => throw UnimplementedError();
 
   @override

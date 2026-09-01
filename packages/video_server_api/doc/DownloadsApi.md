@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**cancelDownload**](DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
 [**createDownload**](DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
+[**deleteDownload**](DownloadsApi.md#deletedownload) | **DELETE** /api/downloads/{job_id} | 删除下载任务及其私有文件
 [**getDownload**](DownloadsApi.md#getdownload) | **GET** /api/downloads/{job_id} | 查询下载任务
 [**getDownloadHistory**](DownloadsApi.md#getdownloadhistory) | **GET** /api/downloads/history | 查询下载历史
 [**getDownloadThumbnail**](DownloadsApi.md#getdownloadthumbnail) | **GET** /api/downloads/{job_id}/thumbnail | 读取下载任务封面
@@ -102,6 +103,48 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteDownload**
+> deleteDownload(jobId)
+
+删除下载任务及其私有文件
+
+删除当前用户的任务、下载制品、本地上传源文件与私有封面。
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getDownloadsApi();
+final String jobId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+
+try {
+    api.deleteDownload(jobId);
+} on DioException catch (e) {
+    print('Exception when calling DownloadsApi->deleteDownload: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **jobId** | **String**|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

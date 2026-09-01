@@ -90,9 +90,11 @@ Class | Method | HTTP request | Description
 [*DocumentsApi*](doc/DocumentsApi.md) | [**completeDocumentImport**](doc/DocumentsApi.md#completedocumentimport) | **POST** /api/documents/{document_id}/complete | 完成文档上传并触发验证
 [*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentImport**](doc/DocumentsApi.md#createdocumentimport) | **POST** /api/documents | 创建剧本文档导入
 [*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentUploadSession**](doc/DocumentsApi.md#createdocumentuploadsession) | **POST** /api/documents/{document_id}/upload-sessions | 创建或刷新文档上传会话
+[*DocumentsApi*](doc/DocumentsApi.md) | [**deleteDocument**](doc/DocumentsApi.md#deletedocument) | **DELETE** /api/documents/{document_id} | 删除剧本文档及其制品
 [*DocumentsApi*](doc/DocumentsApi.md) | [**listDocuments**](doc/DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
 [*DownloadsApi*](doc/DownloadsApi.md) | [**cancelDownload**](doc/DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**createDownload**](doc/DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
+[*DownloadsApi*](doc/DownloadsApi.md) | [**deleteDownload**](doc/DownloadsApi.md#deletedownload) | **DELETE** /api/downloads/{job_id} | 删除下载任务及其私有文件
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownload**](doc/DownloadsApi.md#getdownload) | **GET** /api/downloads/{job_id} | 查询下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownloadHistory**](doc/DownloadsApi.md#getdownloadhistory) | **GET** /api/downloads/history | 查询下载历史
 [*DownloadsApi*](doc/DownloadsApi.md) | [**getDownloadThumbnail**](doc/DownloadsApi.md#getdownloadthumbnail) | **GET** /api/downloads/{job_id}/thumbnail | 读取下载任务封面
