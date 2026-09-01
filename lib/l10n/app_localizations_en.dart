@@ -47,6 +47,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Continue reviewing, retrieving, or analyzing created tasks.';
 
   @override
+  String get downloadRowActionsHint => 'Swipe left to reveal task actions.';
+
+  @override
   String get screenplayDocumentsDescription =>
       'Review import status, extracted size, and normalized screenplay text.';
 

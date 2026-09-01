@@ -45,6 +45,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloadHistoryDescription => '继续查看、获取或分析已创建的任务。';
 
   @override
+  String get downloadRowActionsHint => '向左轻扫可查看任务操作。';
+
+  @override
   String get screenplayDocumentsDescription => '核对导入状态、提取规模和规范化剧本文本。';
 
   @override

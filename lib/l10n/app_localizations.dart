@@ -170,6 +170,12 @@ abstract class AppLocalizations {
   /// **'继续查看、获取或分析已创建的任务。'**
   String get downloadHistoryDescription;
 
+  /// No description provided for @downloadRowActionsHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'向左轻扫可查看任务操作。'**
+  String get downloadRowActionsHint;
+
   /// No description provided for @screenplayDocumentsDescription.
   ///
   /// In zh, this message translates to:

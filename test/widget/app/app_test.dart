@@ -367,6 +367,38 @@ void main() {
     expect(providerRepository.calls, 1);
   });
 
+  testWidgets('centers download metrics in a full-width phone summary', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await pumpFramegrabApp(
+      tester,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+    );
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+
+    final centers = [
+      tester.getCenter(find.byKey(const Key('download-summary-total'))),
+      tester.getCenter(find.byKey(const Key('download-summary-succeeded'))),
+      tester.getCenter(find.byKey(const Key('download-summary-active'))),
+      tester.getCenter(find.byKey(const Key('download-summary-failed'))),
+    ];
+    expect(centers.map((center) => center.dy).toSet(), hasLength(1));
+    final gaps = [
+      centers[1].dx - centers[0].dx,
+      centers[2].dx - centers[1].dx,
+      centers[3].dx - centers[2].dx,
+    ];
+    expect(gaps[0], closeTo(gaps[1], 0.1));
+    expect(gaps[1], closeTo(gaps[2], 0.1));
+    expect((centers.first.dx + centers.last.dx) / 2, closeTo(195, 0.1));
+  });
+
   testWidgets('opens a live download detail from history', (tester) async {
     final repository = FakeDownloadHistoryRepository(
       data: downloadHistoryFixture(),
@@ -407,11 +439,18 @@ void main() {
 
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
-    await tester.tap(
-      find.byKey(
-        const Key('delete-download-00000000-0000-0000-0000-000000000101'),
-      ),
+    final item = find.byKey(
+      const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
     );
+    final deleteAction = find.byKey(
+      const Key('delete-download-00000000-0000-0000-0000-000000000101'),
+    );
+    expect(deleteAction.hitTestable(), findsNothing);
+
+    await tester.drag(item, const Offset(-320, 0));
+    await tester.pumpAndSettle();
+    expect(deleteAction.hitTestable(), findsOneWidget);
+    await tester.tap(deleteAction);
     await tester.pumpAndSettle();
 
     expect(find.text('删除任务与文件？'), findsOneWidget);
@@ -420,11 +459,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(repository.deleteCalls, isEmpty);
 
-    await tester.tap(
-      find.byKey(
-        const Key('delete-download-00000000-0000-0000-0000-000000000101'),
-      ),
-    );
+    await tester.drag(item, const Offset(-320, 0));
+    await tester.pumpAndSettle();
+    await tester.tap(deleteAction);
     await tester.pumpAndSettle();
     await tester.tap(find.text('确认删除'));
     await tester.pumpAndSettle();

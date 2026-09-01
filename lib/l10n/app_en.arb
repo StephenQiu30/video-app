@@ -12,6 +12,7 @@
   "statusTab": "Status",
   "accountNavigation": "Me",
   "downloadHistoryDescription": "Continue reviewing, retrieving, or analyzing created tasks.",
+  "downloadRowActionsHint": "Swipe left to reveal task actions.",
   "screenplayDocumentsDescription": "Review import status, extracted size, and normalized screenplay text.",
   "providerStatusDescription": "View provider integration, access modes, latest checks, real download evidence, and complete analysis evidence without exposing accounts, cookies, egress, or probes.",
   "loadingData": "Loading live data…",

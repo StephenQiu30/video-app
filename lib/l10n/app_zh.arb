@@ -12,6 +12,7 @@
   "statusTab": "状态",
   "accountNavigation": "我的",
   "downloadHistoryDescription": "继续查看、获取或分析已创建的任务。",
+  "downloadRowActionsHint": "向左轻扫可查看任务操作。",
   "screenplayDocumentsDescription": "核对导入状态、提取规模和规范化剧本文本。",
   "providerStatusDescription": "查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。",
   "loadingData": "正在读取真实数据…",
