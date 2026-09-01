@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/presentation/document_list_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -54,23 +56,32 @@ final class DocumentListScreen extends ConsumerWidget {
       ];
     }
     return [
-      Wrap(
-        spacing: AppSpacing.xLarge,
-        children: [
-          DataMetric(label: localizations.totalLabel, value: data.total),
-          DataMetric(
+      DataMetricGrid(
+        keyPrefix: 'document-summary',
+        metrics: [
+          DataMetricValue(
+            key: 'total',
+            label: localizations.totalLabel,
+            value: '${data.total}',
+          ),
+          DataMetricValue(
+            key: 'available',
             label: localizations.availableLabel,
-            value: data.items
-                .where((item) => item.status.name == 'ready')
-                .length,
+            value:
+                '${data.items.where((item) => item.status.name == 'ready').length}',
           ),
         ],
       ),
       const SizedBox(height: AppSpacing.xLarge),
-      for (final (index, item) in data.items.indexed) ...[
-        if (index > 0) const Divider(),
-        DocumentListItem(item: item),
-      ],
+      SwipeActionHint(label: localizations.documentRowActionsHint),
+      const SizedBox(height: AppSpacing.small),
+      SlidableAutoCloseBehavior(
+        child: Column(
+          children: [
+            for (final item in data.items) DocumentListItem(item: item),
+          ],
+        ),
+      ),
       if (data.total > data.items.length) ...[
         const SizedBox(height: AppSpacing.large),
         Text(

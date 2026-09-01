@@ -33,6 +33,51 @@ void main() {
       AppTheme.dark.extension<AppColors>()?.success,
       const Color(0xFF54C58B),
     );
+    expect(
+      AppTheme.light.extension<AppColors>()?.warning,
+      const Color(0xFF854D0E),
+    );
+    expect(
+      AppTheme.dark.extension<AppColors>()?.warning,
+      const Color(0xFFFBBF24),
+    );
+  });
+
+  test('maps every Material surface role to the Web monochrome palette', () {
+    final light = AppTheme.light.colorScheme;
+    final dark = AppTheme.dark.colorScheme;
+
+    expect(light.secondaryContainer, const Color(0xFFF5F5F5));
+    expect(light.onSecondaryContainer, const Color(0xFF111111));
+    expect(light.tertiaryContainer, const Color(0xFFECECEC));
+    expect(light.surfaceContainerLow, Colors.white);
+    expect(light.surfaceContainerHigh, const Color(0xFFF1F1F1));
+    expect(light.surfaceContainerHighest, const Color(0xFFECECEC));
+
+    expect(dark.secondaryContainer, const Color(0xFF1F1F1F));
+    expect(dark.onSecondaryContainer, const Color(0xFFF5F5F5));
+    expect(dark.tertiaryContainer, const Color(0xFF262626));
+    expect(dark.surfaceContainerLow, const Color(0xFF111111));
+    expect(dark.surfaceContainerHigh, const Color(0xFF1F1F1F));
+    expect(dark.surfaceContainerHighest, const Color(0xFF262626));
+
+    for (final scheme in [light, dark]) {
+      for (final color in [
+        scheme.primary,
+        scheme.primaryContainer,
+        scheme.secondary,
+        scheme.secondaryContainer,
+        scheme.tertiary,
+        scheme.tertiaryContainer,
+        scheme.surface,
+        scheme.surfaceContainerLow,
+        scheme.surfaceContainerHigh,
+        scheme.surfaceContainerHighest,
+      ]) {
+        expect(_isAchromatic(color), isTrue, reason: '$color has a hue');
+      }
+      expect(scheme.surfaceTint, Colors.transparent);
+    }
   });
 
   test('centralizes the editorial type and spacing scale', () {
@@ -43,7 +88,16 @@ void main() {
     expect(textTheme.displaySmall?.fontSize, 40);
     expect(textTheme.bodyLarge?.fontSize, 15);
     expect(AppSpacing.section, 40);
+    expect(AppTheme.radius, 6);
   });
+}
+
+bool _isAchromatic(Color color) {
+  final argb = color.toARGB32();
+  final red = (argb >> 16) & 0xff;
+  final green = (argb >> 8) & 0xff;
+  final blue = argb & 0xff;
+  return red == green && green == blue;
 }
 
 double _contrastRatio(Color first, Color second) {

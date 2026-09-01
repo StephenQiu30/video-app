@@ -54,6 +54,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Review import status, extracted size, and normalized screenplay text.';
 
   @override
+  String get documentRowActionsHint =>
+      'Swipe left to manage screenplay documents.';
+
+  @override
   String get providerStatusDescription =>
       'View provider integration, access modes, latest checks, real download evidence, and complete analysis evidence without exposing accounts, cookies, egress, or probes.';
 
@@ -605,6 +609,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'The operation did not complete. Try again later.';
 
   @override
+  String get deletionBlockedByAnalysis =>
+      'This resource is being used by an analysis. Finish the related analysis before deleting it.';
+
+  @override
   String get inspectionResultTitle => 'Inspection result';
 
   @override
@@ -918,6 +926,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analysisReportTab => 'Report preview';
+
+  @override
+  String get openAnalysisReportAction => 'Open report preview';
+
+  @override
+  String get analysisReportLoading => 'Preparing the report preview…';
+
+  @override
+  String get downloadAnalysisReportAction => 'Download Markdown';
+
+  @override
+  String get exportAnalysisReportAction => 'Export report';
+
+  @override
+  String get analysisReportDownloaded =>
+      'The report was saved to your chosen location.';
+
+  @override
+  String get analysisReportDownloadFailed =>
+      'The report could not be saved. Try again later.';
+
+  @override
+  String get analysisReportExportFailed =>
+      'The report could not be exported. Try again later.';
 
   @override
   String get analysisEmptySection =>

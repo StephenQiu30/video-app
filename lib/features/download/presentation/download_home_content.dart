@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_hero.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
@@ -41,7 +42,7 @@ final class DownloadHomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final horizontalPadding = MediaQuery.sizeOf(context).width > 640
         ? 32.0
-        : 16.0;
+        : AppSpacing.pageHorizontal;
 
     return SafeArea(
       top: false,
@@ -50,7 +51,7 @@ final class DownloadHomeContent extends StatelessWidget {
           SliverPadding(
             padding: EdgeInsets.fromLTRB(
               horizontalPadding,
-              40,
+              AppSpacing.pageTop,
               horizontalPadding,
               24,
             ),

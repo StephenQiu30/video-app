@@ -51,6 +51,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get screenplayDocumentsDescription => '核对导入状态、提取规模和规范化剧本文本。';
 
   @override
+  String get documentRowActionsHint => '向左轻扫可管理剧本文档。';
+
+  @override
   String get providerStatusDescription =>
       '查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。';
 
@@ -578,6 +581,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get operationFailed => '操作未完成，请稍后重试。';
 
   @override
+  String get deletionBlockedByAnalysis => '资源正在被分析使用，请先结束相关分析后再删除。';
+
+  @override
   String get inspectionResultTitle => '解析结果';
 
   @override
@@ -856,6 +862,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get analysisReportTab => '报告预览';
+
+  @override
+  String get openAnalysisReportAction => '打开报告预览';
+
+  @override
+  String get analysisReportLoading => '正在准备报告预览…';
+
+  @override
+  String get downloadAnalysisReportAction => '下载 Markdown';
+
+  @override
+  String get exportAnalysisReportAction => '导出报告';
+
+  @override
+  String get analysisReportDownloaded => '报告已保存到你选择的位置。';
+
+  @override
+  String get analysisReportDownloadFailed => '无法保存报告，请稍后重试。';
+
+  @override
+  String get analysisReportExportFailed => '无法导出报告，请稍后重试。';
 
   @override
   String get analysisEmptySection => '当前分类没有识别结果。';

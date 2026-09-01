@@ -51,8 +51,7 @@ final class _AdminProvidersScreenState
           ref.refresh(adminProviderCatalogProvider.future).then((_) {}),
       children: result.when(
         data: (data) => [
-          for (final (index, item) in data.items.indexed) ...[
-            if (index > 0) const Divider(),
+          for (final item in data.items)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.small),
               child: SwitchListTile(
@@ -68,7 +67,6 @@ final class _AdminProvidersScreenState
                     : (value) => _toggle(item, value),
               ),
             ),
-          ],
         ],
         error: (_, _) => adminError(
           action: l10n.retryAction,

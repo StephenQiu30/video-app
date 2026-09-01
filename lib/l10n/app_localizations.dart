@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'核对导入状态、提取规模和规范化剧本文本。'**
   String get screenplayDocumentsDescription;
 
+  /// No description provided for @documentRowActionsHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'向左轻扫可管理剧本文档。'**
+  String get documentRowActionsHint;
+
   /// No description provided for @providerStatusDescription.
   ///
   /// In zh, this message translates to:
@@ -1226,6 +1232,12 @@ abstract class AppLocalizations {
   /// **'操作未完成，请稍后重试。'**
   String get operationFailed;
 
+  /// No description provided for @deletionBlockedByAnalysis.
+  ///
+  /// In zh, this message translates to:
+  /// **'资源正在被分析使用，请先结束相关分析后再删除。'**
+  String get deletionBlockedByAnalysis;
+
   /// No description provided for @inspectionResultTitle.
   ///
   /// In zh, this message translates to:
@@ -1777,6 +1789,48 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'报告预览'**
   String get analysisReportTab;
+
+  /// No description provided for @openAnalysisReportAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'打开报告预览'**
+  String get openAnalysisReportAction;
+
+  /// No description provided for @analysisReportLoading.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在准备报告预览…'**
+  String get analysisReportLoading;
+
+  /// No description provided for @downloadAnalysisReportAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载 Markdown'**
+  String get downloadAnalysisReportAction;
+
+  /// No description provided for @exportAnalysisReportAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'导出报告'**
+  String get exportAnalysisReportAction;
+
+  /// No description provided for @analysisReportDownloaded.
+  ///
+  /// In zh, this message translates to:
+  /// **'报告已保存到你选择的位置。'**
+  String get analysisReportDownloaded;
+
+  /// No description provided for @analysisReportDownloadFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法保存报告，请稍后重试。'**
+  String get analysisReportDownloadFailed;
+
+  /// No description provided for @analysisReportExportFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法导出报告，请稍后重试。'**
+  String get analysisReportExportFailed;
 
   /// No description provided for @analysisEmptySection.
   ///

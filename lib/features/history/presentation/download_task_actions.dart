@@ -6,6 +6,7 @@ import 'package:framegrab/features/history/application/download_history_provider
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -63,18 +64,26 @@ final class _DownloadTaskActionsState
       } else {
         const DownloadHomeRoute().go(context);
       }
-    });
+    }, failureMessage: (error) => deletionFailureMessage(l10n, error));
   }
 
-  Future<void> _run(Future<void> Function() operation) async {
+  Future<void> _run(
+    Future<void> Function() operation, {
+    String Function(Object error)? failureMessage,
+  }) async {
     if (_busy) return;
     setState(() => _busy = true);
     try {
       await operation();
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context).operationFailed)),
+          SnackBar(
+            content: Text(
+              failureMessage?.call(error) ??
+                  AppLocalizations.of(context).operationFailed,
+            ),
+          ),
         );
       }
     } finally {
@@ -92,7 +101,7 @@ final class _DownloadTaskActionsState
         status == 'cancelled' ||
         (status == 'succeeded' && !widget.job.fileAvailable);
     final primaryAction = canCancel
-        ? OutlinedButton.icon(
+        ? FilledButton.tonalIcon(
             onPressed: _busy ? null : _cancel,
             icon: const Icon(LucideIcons.x, size: 18),
             label: Text(l10n.cancelDownloadAction),

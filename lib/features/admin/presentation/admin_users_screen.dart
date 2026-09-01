@@ -27,14 +27,12 @@ final class AdminUsersScreen extends ConsumerWidget {
         data: (data) => [
           Text(l10n.adminUserCount(data.total)),
           const SizedBox(height: AppSpacing.medium),
-          for (final (index, user) in data.items.indexed) ...[
-            if (index > 0) const Divider(),
+          for (final user in data.items)
             _UserRow(
               user: user,
               isCurrent: user.id == currentUserId,
               onEdit: () => _editUser(context, ref, user),
             ),
-          ],
         ],
         error: (_, _) => adminError(
           action: l10n.retryAction,

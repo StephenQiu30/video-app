@@ -32,7 +32,12 @@ final class PublicHomeScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 40, 16, 48),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.pageHorizontal,
+                AppSpacing.pageTop,
+                AppSpacing.pageHorizontal,
+                48,
+              ),
               sliver: SliverToBoxAdapter(
                 child: Center(
                   child: ConstrainedBox(
@@ -64,8 +69,6 @@ final class PublicHomeScreen extends StatelessWidget {
                           child: Text(localizations.registerAction),
                         ),
                         const SizedBox(height: AppSpacing.section),
-                        const Divider(),
-                        const SizedBox(height: AppSpacing.section),
                         Text(
                           localizations.publicHomeCapabilitiesTitle,
                           style: Theme.of(context).textTheme.headlineSmall,
@@ -86,8 +89,6 @@ final class PublicHomeScreen extends StatelessWidget {
                           icon: LucideIcons.sparkles,
                           title: localizations.publicAnalysisTitle,
                         ),
-                        const SizedBox(height: AppSpacing.medium),
-                        const Divider(),
                         const SizedBox(height: AppSpacing.section),
                         Icon(
                           LucideIcons.shieldCheck,

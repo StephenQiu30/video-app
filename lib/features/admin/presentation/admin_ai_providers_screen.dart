@@ -55,8 +55,7 @@ final class _AdminAiProvidersScreenState
                 : l10n.adminAgentUnavailable,
           ),
           const SizedBox(height: AppSpacing.medium),
-          for (final (index, item) in data.items.indexed) ...[
-            if (index > 0) const Divider(),
+          for (final item in data.items)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
               child: Row(
@@ -108,7 +107,6 @@ final class _AdminAiProvidersScreenState
                 ],
               ),
             ),
-          ],
         ],
         error: (_, _) => adminError(
           action: l10n.retryAction,

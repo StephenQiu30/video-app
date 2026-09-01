@@ -30,7 +30,12 @@ final class DataPageView extends StatelessWidget {
         semanticsLabel: refreshLabel,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 40, 16, 32),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.pageHorizontal,
+            AppSpacing.pageTop,
+            AppSpacing.pageHorizontal,
+            AppSpacing.pageBottom,
+          ),
           children: [
             Center(
               child: ConstrainedBox(
@@ -44,11 +49,107 @@ final class DataPageView extends StatelessWidget {
                       title: title,
                     ),
                     const SizedBox(height: AppSpacing.section),
-                    const Divider(),
-                    const SizedBox(height: AppSpacing.xLarge),
                     ...children,
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+final class DataMetricValue {
+  const DataMetricValue({
+    required this.key,
+    required this.label,
+    required this.value,
+  });
+
+  final String key;
+  final String label;
+  final String value;
+}
+
+/// A responsive, full-width metric group shared by summary and analytics pages.
+///
+/// Four values stay on one line at the standard phone width. Large accessibility
+/// text intentionally falls back to two columns so labels are not clipped.
+final class DataMetricGrid extends StatelessWidget {
+  const DataMetricGrid({
+    required this.keyPrefix,
+    required this.metrics,
+    super.key,
+  });
+
+  final String keyPrefix;
+  final List<DataMetricValue> metrics;
+
+  @override
+  Widget build(BuildContext context) {
+    assert(metrics.isNotEmpty);
+    final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columnCount = constraints.maxWidth >= 340 && textScale <= 1.25
+            ? metrics.length
+            : metrics.length.clamp(1, 2);
+        const gap = AppSpacing.xSmall;
+        final width =
+            (constraints.maxWidth - (columnCount - 1) * gap) / columnCount;
+        return Wrap(
+          spacing: gap,
+          runSpacing: AppSpacing.large,
+          children: [
+            for (final metric in metrics)
+              SizedBox(
+                key: Key('$keyPrefix-${metric.key}'),
+                width: width,
+                child: _CenteredDataMetric(
+                  label: metric.label,
+                  value: metric.value,
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+final class _CenteredDataMetric extends StatelessWidget {
+  const _CenteredDataMetric({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Semantics(
+      container: true,
+      label: '$label: $value',
+      child: ExcludeSemantics(
+        child: Column(
+          children: [
+            Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -105,34 +206,6 @@ final class DataStateMessage extends StatelessWidget {
             ],
           ],
         ),
-      ),
-    );
-  }
-}
-
-final class DataMetric extends StatelessWidget {
-  const DataMetric({required this.label, required this.value, super.key});
-
-  final String label;
-  final int value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return SizedBox(
-      width: 120,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('$value', style: theme.textTheme.headlineSmall),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
       ),
     );
   }

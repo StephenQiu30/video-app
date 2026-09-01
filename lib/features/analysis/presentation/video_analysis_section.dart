@@ -56,7 +56,7 @@ final class _VideoAnalysisSectionState extends State<VideoAnalysisSection> {
       ],
       'report' => [
         if (widget.reportMarkdown case final value?)
-          AnalysisReportPreview(markdown: value),
+          AnalysisReportLauncher(markdown: value, title: widget.result.title),
       ],
       _ => const <Widget>[],
     };
@@ -70,10 +70,7 @@ final class _VideoAnalysisSectionState extends State<VideoAnalysisSection> {
       key: Key('analysis-section-${widget.section}'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (final (index, child) in children.indexed) ...[
-          if (index > 0) const Divider(),
-          child,
-        ],
+        ...children,
         if (limit < total)
           TextButton(
             key: const Key('load-more-analysis-results'),

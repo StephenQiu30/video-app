@@ -49,15 +49,13 @@ final class AdminHomeScreen extends StatelessWidget {
       refreshLabel: l10n.refreshAction,
       onRefresh: () async {},
       children: [
-        for (final (index, item) in items.indexed) ...[
-          if (index > 0) const Divider(),
+        for (final item in items)
           AdminSectionLink(
             title: item.$1,
             description: item.$2,
             icon: item.$3,
             onTap: () => context.push(item.$4),
           ),
-        ],
       ],
     );
   }

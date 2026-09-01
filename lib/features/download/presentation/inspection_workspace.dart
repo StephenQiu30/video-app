@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/features/download/application/download_intake_controller.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
@@ -38,7 +39,7 @@ final class InspectionWorkspace extends StatelessWidget {
         const SizedBox(height: 12),
         AuthenticatedMediaCover(
           alt: localizations.mediaCoverLabel,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppTheme.radius),
           source: inspection.thumbnailUrl,
         ),
         const SizedBox(height: 18),
@@ -145,7 +146,7 @@ final class _FormatOption extends StatelessWidget {
       color: selected
           ? theme.colorScheme.primaryContainer
           : theme.colorScheme.surfaceContainerLow,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(AppTheme.radius),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         key: Key('format-option-${format.id}'),

@@ -51,21 +51,24 @@ final class ProviderStatusScreen extends ConsumerWidget {
       ];
     }
     return [
-      Wrap(
-        spacing: AppSpacing.xLarge,
-        children: [
-          DataMetric(label: localizations.totalLabel, value: data.items.length),
-          DataMetric(
+      DataMetricGrid(
+        keyPrefix: 'provider-summary',
+        metrics: [
+          DataMetricValue(
+            key: 'total',
+            label: localizations.totalLabel,
+            value: '${data.items.length}',
+          ),
+          DataMetricValue(
+            key: 'available',
             label: localizations.availableLabel,
-            value: data.items.where((item) => item.downloadAvailable).length,
+            value:
+                '${data.items.where((item) => item.downloadAvailable).length}',
           ),
         ],
       ),
       const SizedBox(height: AppSpacing.xLarge),
-      for (final (index, item) in data.items.indexed) ...[
-        if (index > 0) const Divider(),
-        ProviderStatusItem(item: item),
-      ],
+      for (final item in data.items) ProviderStatusItem(item: item),
     ];
   }
 }
@@ -88,7 +91,6 @@ final class ProviderStatusSkeleton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (var index = 0; index < 3; index += 1) ...[
-              if (index > 0) const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
                 child: Column(

@@ -4,6 +4,7 @@ import 'package:framegrab/features/analysis/presentation/video_analysis_section.
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
+import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 enum _VisualResultSection { scenes, shots, highlights, assets, report }
@@ -44,20 +45,26 @@ final class _VideoAnalysisResultViewState
       children: [
         Text(result.title, style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: AppSpacing.xLarge),
-        Wrap(
-          spacing: AppSpacing.medium,
-          runSpacing: AppSpacing.large,
-          children: [
-            _Metric(label: l10n.shotCountLabel, value: '${result.shotCount}'),
-            _Metric(
+        DataMetricGrid(
+          keyPrefix: 'analysis-result-summary',
+          metrics: [
+            DataMetricValue(
+              key: 'shots',
+              label: l10n.shotCountLabel,
+              value: '${result.shotCount}',
+            ),
+            DataMetricValue(
+              key: 'scenes',
               label: l10n.sceneCountLabel,
               value: '${result.scenes.length}',
             ),
-            _Metric(
+            DataMetricValue(
+              key: 'duration',
               label: l10n.durationLabel,
               value: formatDurationClock(result.media.durationMs ~/ 1000),
             ),
-            _Metric(
+            DataMetricValue(
+              key: 'assets',
               label: l10n.visualAssetCountLabel,
               value: '${result.assets.length}',
             ),
@@ -113,30 +120,3 @@ String _sectionLabel(AppLocalizations l10n, _VisualResultSection section) =>
       _VisualResultSection.assets => l10n.analysisAssetsTab,
       _VisualResultSection.report => l10n.analysisReportTab,
     };
-
-final class _Metric extends StatelessWidget {
-  const _Metric({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 132,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(value, style: Theme.of(context).textTheme.headlineSmall),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

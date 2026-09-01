@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +36,7 @@ void main() {
     expect(find.text('本地视频'), findsOneWidget);
     expect(find.text('剧本文档'), findsOneWidget);
     expect(find.textContaining('有权处理的公开链接'), findsOneWidget);
+    expect(find.textContaining('账号或访问凭据'), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
     expect(find.text('首页'), findsOneWidget);
     expect(find.text('历史'), findsOneWidget);
@@ -44,6 +46,24 @@ void main() {
     expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
     expect(find.byKey(const Key('app-tab-3')), findsOneWidget);
     expect(find.byKey(const Key('app-tab-4')), findsOneWidget);
+
+    final wordmarkRect = tester.getRect(wordmark);
+    final titleRect = tester.getRect(find.text('把素材，\n带回本地。'));
+    expect(
+      titleRect.top - wordmarkRect.bottom,
+      lessThanOrEqualTo(40),
+      reason: '移动端 Navbar 与主标题之间应保持紧凑的首屏节奏。',
+    );
+
+    final privacyRect = tester.getRect(find.textContaining('账号或访问凭据'));
+    final navigationRect = tester.getRect(
+      find.byKey(const Key('app-bottom-navigation')),
+    );
+    expect(
+      privacyRect.bottom,
+      lessThanOrEqualTo(navigationRect.top - 12),
+      reason: '390×844 首屏应完整露出两条信任提示，不需要先滚动。',
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -467,6 +487,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000101']);
+    expect(find.text('真实下载任务'), findsNothing);
   });
 
   testWidgets('deletes an owned screenplay document after confirmation', (
@@ -477,11 +498,18 @@ void main() {
 
     await tester.tap(find.byKey(const Key('app-tab-2')));
     await tester.pumpAndSettle();
-    await tester.tap(
-      find.byKey(
-        const Key('delete-document-00000000-0000-0000-0000-000000000102'),
-      ),
+    final item = find.byKey(
+      const Key('document-slidable-00000000-0000-0000-0000-000000000102'),
     );
+    final deleteAction = find.byKey(
+      const Key('delete-document-00000000-0000-0000-0000-000000000102'),
+    );
+    expect(deleteAction.hitTestable(), findsNothing);
+
+    await tester.drag(item, const Offset(-320, 0));
+    await tester.pumpAndSettle();
+    expect(deleteAction.hitTestable(), findsOneWidget);
+    await tester.tap(deleteAction);
     await tester.pumpAndSettle();
 
     expect(find.text('删除剧本文档？'), findsOneWidget);
@@ -490,6 +518,57 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000102']);
+    expect(find.text('真实剧本'), findsNothing);
+  });
+
+  testWidgets('keeps a document and explains an active analysis conflict', (
+    tester,
+  ) async {
+    final repository = FakeDocumentRepository(
+      data: documentFixture(),
+      deleteError: const DataRequestFailure(
+        DataRequestFailureKind.unknown,
+        code: 'invalid_state',
+        statusCode: 409,
+      ),
+    );
+    await pumpFramegrabApp(tester, documentRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    final item = find.byKey(
+      const Key('document-slidable-00000000-0000-0000-0000-000000000102'),
+    );
+    await tester.drag(item, const Offset(-320, 0));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('delete-document-00000000-0000-0000-0000-000000000102'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('确认删除'));
+    await tester.pumpAndSettle();
+
+    expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000102']);
+    expect(find.text('资源正在被分析使用，请先结束相关分析后再删除。'), findsOneWidget);
+    expect(find.text('真实剧本'), findsOneWidget);
+  });
+
+  testWidgets('keeps authenticated data pages free of decorative dividers', (
+    tester,
+  ) async {
+    await pumpFramegrabApp(
+      tester,
+      downloadHistoryRepository: FakeDownloadHistoryRepository(
+        data: downloadHistoryFixture(),
+      ),
+    );
+
+    await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(Divider), findsNothing);
   });
 
   testWidgets('deletes a download from its detail and returns safely', (

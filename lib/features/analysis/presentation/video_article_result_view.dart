@@ -55,12 +55,7 @@ final class VideoArticleResultView extends StatelessWidget {
         ),
         if (reportMarkdown case final report?) ...[
           const SizedBox(height: AppSpacing.xLarge),
-          ExpansionTile(
-            tilePadding: EdgeInsets.zero,
-            childrenPadding: const EdgeInsets.only(bottom: AppSpacing.large),
-            title: Text(l10n.analysisReportTab),
-            children: [AnalysisReportPreview(markdown: report)],
-          ),
+          AnalysisReportLauncher(markdown: report, title: result.title),
         ],
       ],
     );

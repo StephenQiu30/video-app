@@ -25,7 +25,12 @@ final class SettingsScreen extends ConsumerWidget {
     return SafeArea(
       top: false,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 40, 16, 32),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.pageHorizontal,
+          AppSpacing.pageTop,
+          AppSpacing.pageHorizontal,
+          AppSpacing.pageBottom,
+        ),
         children: [
           Center(
             child: ConstrainedBox(

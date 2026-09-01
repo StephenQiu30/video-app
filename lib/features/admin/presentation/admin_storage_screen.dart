@@ -99,8 +99,7 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
               title: l10n.adminFilesEmpty,
               description: l10n.adminFilesEmptyDescription,
             ),
-          for (final (index, file) in data.items.indexed) ...[
-            if (index > 0) const Divider(),
+          for (final file in data.items)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
               child: Column(
@@ -121,7 +120,6 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
                 ],
               ),
             ),
-          ],
         ],
         error: (_, _) => adminError(
           action: l10n.retryAction,

@@ -12,6 +12,7 @@ import 'package:framegrab/features/history/presentation/download_presentation_la
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -65,18 +66,26 @@ final class _DownloadHistoryItemState
     await _run(() async {
       await ref.read(downloadHistoryRepositoryProvider).delete(widget.item.id);
       ref.invalidate(downloadHistoryProvider);
-    });
+    }, failureMessage: (error) => deletionFailureMessage(localizations, error));
   }
 
-  Future<void> _run(Future<void> Function() operation) async {
+  Future<void> _run(
+    Future<void> Function() operation, {
+    String Function(Object error)? failureMessage,
+  }) async {
     if (_busy) return;
     setState(() => _busy = true);
     try {
       await operation();
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context).operationFailed)),
+          SnackBar(
+            content: Text(
+              failureMessage?.call(error) ??
+                  AppLocalizations.of(context).operationFailed,
+            ),
+          ),
         );
       }
     } finally {

@@ -51,17 +51,29 @@ final class _AdminAnalyticsScreenState
               ],
             ),
             const SizedBox(height: AppSpacing.large),
-            Wrap(
-              spacing: AppSpacing.large,
-              runSpacing: AppSpacing.large,
-              children: [
-                DataMetric(label: l10n.totalLabel, value: summary.total),
-                DataMetric(
-                  label: l10n.succeededLabel,
-                  value: summary.succeeded,
+            DataMetricGrid(
+              keyPrefix: 'admin-analytics-summary',
+              metrics: [
+                DataMetricValue(
+                  key: 'total',
+                  label: l10n.totalLabel,
+                  value: '${summary.total}',
                 ),
-                DataMetric(label: l10n.failedLabel, value: summary.failed),
-                DataMetric(label: l10n.activeLabel, value: summary.active),
+                DataMetricValue(
+                  key: 'succeeded',
+                  label: l10n.succeededLabel,
+                  value: '${summary.succeeded}',
+                ),
+                DataMetricValue(
+                  key: 'failed',
+                  label: l10n.failedLabel,
+                  value: '${summary.failed}',
+                ),
+                DataMetricValue(
+                  key: 'active',
+                  label: l10n.activeLabel,
+                  value: '${summary.active}',
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.xLarge),
@@ -75,7 +87,6 @@ final class _AdminAnalyticsScreenState
               style: Theme.of(context).textTheme.titleMedium,
             ),
             for (final source in data.sources) ...[
-              const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.small),
                 child: Row(

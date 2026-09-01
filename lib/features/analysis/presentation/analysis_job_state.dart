@@ -89,7 +89,7 @@ final class AnalysisJobState extends StatelessWidget {
           runSpacing: AppSpacing.small,
           children: [
             if (_active)
-              OutlinedButton.icon(
+              FilledButton.tonalIcon(
                 key: const Key('cancel-analysis-button'),
                 onPressed: busy ? null : () => _confirmCancel(context),
                 icon: const Icon(LucideIcons.x, size: 18),
@@ -106,8 +106,11 @@ final class AnalysisJobState extends StatelessWidget {
                       : l10n.retryAnalysisAction,
                 ),
               ),
-            OutlinedButton.icon(
+            TextButton.icon(
               key: const Key('delete-analysis-button'),
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error,
+              ),
               onPressed: busy ? null : () => _confirmDelete(context),
               icon: const Icon(LucideIcons.trash2, size: 18),
               label: Text(

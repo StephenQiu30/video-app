@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -53,7 +54,7 @@ final class SourceDiscoveryWorkspace extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10),
               child: Material(
                 color: theme.colorScheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppTheme.radius),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   key: Key('source-candidate-${item.itemRef}'),

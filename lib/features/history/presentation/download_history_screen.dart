@@ -7,6 +7,7 @@ import 'package:framegrab/features/history/application/download_history_provider
 import 'package:framegrab/features/history/presentation/download_history_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -56,24 +57,43 @@ final class DownloadHistoryScreen extends ConsumerWidget {
     }
     final summary = data.summary;
     return [
-      _DownloadHistorySummary(
-        total: summary.total,
-        succeeded: summary.succeeded,
-        active: summary.active,
-        failed: summary.failed,
+      DataMetricGrid(
+        keyPrefix: 'download-summary',
+        metrics: [
+          DataMetricValue(
+            key: 'total',
+            label: localizations.totalLabel,
+            value: '${summary.total}',
+          ),
+          DataMetricValue(
+            key: 'succeeded',
+            label: localizations.succeededLabel,
+            value: '${summary.succeeded}',
+          ),
+          DataMetricValue(
+            key: 'active',
+            label: localizations.activeLabel,
+            value: '${summary.active}',
+          ),
+          DataMetricValue(
+            key: 'failed',
+            label: localizations.failedLabel,
+            value: '${summary.failed}',
+          ),
+        ],
       ),
       const SizedBox(height: AppSpacing.xLarge),
+      SwipeActionHint(label: localizations.downloadRowActionsHint),
+      const SizedBox(height: AppSpacing.small),
       SlidableAutoCloseBehavior(
         child: Column(
           children: [
-            for (final (index, item) in data.items.indexed) ...[
-              if (index > 0) const Divider(),
+            for (final item in data.items)
               DownloadHistoryItem(
                 item: item,
                 onTap: () =>
                     DownloadDetailRoute(jobId: item.id).push<void>(context),
               ),
-            ],
           ],
         ),
       ),
@@ -87,94 +107,5 @@ final class DownloadHistoryScreen extends ConsumerWidget {
         ),
       ],
     ];
-  }
-}
-
-final class _DownloadHistorySummary extends StatelessWidget {
-  const _DownloadHistorySummary({
-    required this.total,
-    required this.succeeded,
-    required this.active,
-    required this.failed,
-  });
-
-  final int total;
-  final int succeeded;
-  final int active;
-  final int failed;
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    final metrics = [
-      (key: 'total', label: localizations.totalLabel, value: total),
-      (key: 'succeeded', label: localizations.succeededLabel, value: succeeded),
-      (key: 'active', label: localizations.activeLabel, value: active),
-      (key: 'failed', label: localizations.failedLabel, value: failed),
-    ];
-    final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columnCount = constraints.maxWidth >= 340 && textScale <= 1.25
-            ? 4
-            : 2;
-        const gap = AppSpacing.xSmall;
-        final width =
-            (constraints.maxWidth - (columnCount - 1) * gap) / columnCount;
-        return Wrap(
-          spacing: gap,
-          runSpacing: AppSpacing.large,
-          children: [
-            for (final metric in metrics)
-              SizedBox(
-                key: Key('download-summary-${metric.key}'),
-                width: width,
-                child: _CenteredDataMetric(
-                  label: metric.label,
-                  value: metric.value,
-                ),
-              ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-final class _CenteredDataMetric extends StatelessWidget {
-  const _CenteredDataMetric({required this.label, required this.value});
-
-  final String label;
-  final int value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Semantics(
-      container: true,
-      label: '$label: $value',
-      child: ExcludeSemantics(
-        child: Column(
-          children: [
-            Text(
-              '$value',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

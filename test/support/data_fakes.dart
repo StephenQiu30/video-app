@@ -6,11 +6,13 @@ import 'package:video_server_api/video_server_api.dart';
 final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   FakeDownloadHistoryRepository({
     DownloadHistoryResponse? data,
+    this.deleteError,
     this.detail,
     this.error,
   }) : data = data ?? emptyDownloadHistory();
 
   DownloadHistoryResponse data;
+  Object? deleteError;
   DownloadResponse? detail;
   Object? error;
   int calls = 0;
@@ -33,7 +35,32 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   @override
   Future<void> delete(String jobId) async {
     deleteCalls.add(jobId);
+    if (deleteError case final failure?) throw failure;
     if (error case final failure?) throw failure;
+    final remaining = data.items.where((item) => item.id != jobId).toList();
+    data = data.rebuild((builder) {
+      builder.items.replace(remaining);
+      builder
+        ..total = remaining.length
+        ..summary.update((summary) {
+          summary
+            ..total = remaining.length
+            ..succeeded = remaining
+                .where((item) => item.status == DownloadStatus.succeeded)
+                .length
+            ..active = remaining
+                .where(
+                  (item) =>
+                      item.status == DownloadStatus.queued ||
+                      item.status == DownloadStatus.running ||
+                      item.status == DownloadStatus.retryWait,
+                )
+                .length
+            ..failed = remaining
+                .where((item) => item.status == DownloadStatus.failed)
+                .length;
+        });
+    });
   }
 
   @override
@@ -51,10 +78,14 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
 }
 
 final class FakeDocumentRepository implements DocumentRepository {
-  FakeDocumentRepository({DocumentPageResponse? data, this.error})
-    : data = data ?? emptyDocuments();
+  FakeDocumentRepository({
+    DocumentPageResponse? data,
+    this.deleteError,
+    this.error,
+  }) : data = data ?? emptyDocuments();
 
   DocumentPageResponse data;
+  Object? deleteError;
   Object? error;
   int calls = 0;
   final List<String> deleteCalls = [];
@@ -62,7 +93,16 @@ final class FakeDocumentRepository implements DocumentRepository {
   @override
   Future<void> delete(String documentId) async {
     deleteCalls.add(documentId);
+    if (deleteError case final failure?) throw failure;
     if (error case final failure?) throw failure;
+    final remaining = data.items
+        .where((item) => item.id != documentId)
+        .toList();
+    data = data.rebuild(
+      (builder) => builder
+        ..items.replace(remaining)
+        ..total = remaining.length,
+    );
   }
 
   @override

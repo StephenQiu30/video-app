@@ -16,6 +16,7 @@ dependencies:
   file_selector: ^1.1.0
   flutter:
     sdk: flutter
+  flutter_file_saver: ^0.10.0
   flutter_localizations:
     sdk: flutter
   flutter_markdown_plus: ^1.0.12
@@ -29,10 +30,16 @@ dependencies:
   media_kit_libs_video: ^1.0.7
   media_kit_video: ^2.0.1
   one_of: ^1.5.0
+  # These releases match the project's current AGP 9 compatibility mode.
+  # Upgrade them together with the Android built-in Kotlin migration.
+  package_info_plus: 9.0.1
+  share_plus: 12.0.1
   shared_preferences: ^2.5.5
   url_launcher: ^6.3.2
   video_server_api:
     path: packages/video_server_api
+  # See the AGP 9 compatibility note above package_info_plus.
+  wakelock_plus: 1.5.2
 
 dev_dependencies:
   build_runner: ^2.15.1
@@ -44,5 +51,10 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  # media_kit's native iOS libraries are currently CocoaPods-only. Keeping the
+  # project on one dependency manager ensures those frameworks are embedded in
+  # simulator and device builds instead of being split across Pods and SPM.
+  config:
+    enable-swift-package-manager: false
   generate: true
   uses-material-design: true

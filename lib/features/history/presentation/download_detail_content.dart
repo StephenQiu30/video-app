@@ -55,8 +55,6 @@ final class DownloadDetailContent extends StatelessWidget {
         const SizedBox(height: AppSpacing.large),
         DownloadTaskActions(job: job),
         const SizedBox(height: AppSpacing.xLarge),
-        const Divider(),
-        const SizedBox(height: AppSpacing.small),
         _DetailLine(label: localizations.sourceLabel, value: _source(job)),
         _DetailLine(
           label: localizations.formatLabel,
@@ -94,8 +92,6 @@ final class DownloadDetailContent extends StatelessWidget {
           ),
         if (job.status == DownloadStatus.succeeded) ...[
           const SizedBox(height: AppSpacing.section),
-          const Divider(),
-          const SizedBox(height: AppSpacing.section),
           AnalysisPanel(downloadId: job.id),
         ],
       ],
@@ -119,7 +115,6 @@ final class DownloadDetailSkeleton extends StatelessWidget {
           children: [
             Container(width: 112, height: 18, color: color),
             const SizedBox(height: AppSpacing.xLarge),
-            const Divider(),
             for (var index = 0; index < 6; index += 1) ...[
               const SizedBox(height: AppSpacing.large),
               Container(
