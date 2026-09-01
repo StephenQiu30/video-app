@@ -220,7 +220,6 @@
   "watchVideoAction": "Watch",
   "getFileAction": "Get file",
   "playbackFailed": "The video could not be played. Request a new playback URL and retry.",
-  "playbackUnsupported": "This format cannot be previewed on this device. You can still get the original file.",
   "downloadOpenFailed": "The system download could not be opened. Try again later.",
   "aiAnalysisTitle": "AI analysis",
   "aiAnalysisDescription": "Let AI review the video to create a continuous shot breakdown, visual highlights, an asset catalog, or an article draft.",

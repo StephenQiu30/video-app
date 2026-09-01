@@ -1418,12 +1418,6 @@ abstract class AppLocalizations {
   /// **'暂时无法播放视频，请重新获取播放地址。'**
   String get playbackFailed;
 
-  /// No description provided for @playbackUnsupported.
-  ///
-  /// In zh, this message translates to:
-  /// **'当前视频格式暂不支持在此设备内预览，你仍可获取原文件。'**
-  String get playbackUnsupported;
-
   /// No description provided for @downloadOpenFailed.
   ///
   /// In zh, this message translates to:

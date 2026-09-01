@@ -721,10 +721,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'The video could not be played. Request a new playback URL and retry.';
 
   @override
-  String get playbackUnsupported =>
-      'This format cannot be previewed on this device. You can still get the original file.';
-
-  @override
   String get downloadOpenFailed =>
       'The system download could not be opened. Try again later.';
 

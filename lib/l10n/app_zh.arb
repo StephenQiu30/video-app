@@ -220,7 +220,6 @@
   "watchVideoAction": "观看",
   "getFileAction": "获取文件",
   "playbackFailed": "暂时无法播放视频，请重新获取播放地址。",
-  "playbackUnsupported": "当前视频格式暂不支持在此设备内预览，你仍可获取原文件。",
   "downloadOpenFailed": "无法打开系统下载，请稍后重试。",
   "aiAnalysisTitle": "AI 智能分析",
   "aiAnalysisDescription": "由 AI 观察视频画面，生成连续分镜、视觉高光、资产目录，或将视频整理成文章。",

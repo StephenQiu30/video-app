@@ -1,13 +1,14 @@
-import 'package:chewie/chewie.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/features/media/data/media_repository.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/features/media/presentation/media_action_bar.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadVideoPanel extends ConsumerStatefulWidget {
@@ -20,20 +21,21 @@ final class DownloadVideoPanel extends ConsumerStatefulWidget {
 }
 
 final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
-  VideoPlayerController? _controller;
-  ChewieController? _chewieController;
+  Player? _player;
+  VideoController? _videoController;
+  StreamSubscription<String>? _playbackErrorSubscription;
   MediaAction? _busyAction;
   String? _error;
 
   @override
   void dispose() {
-    _chewieController?.dispose();
-    _controller?.dispose();
+    unawaited(_playbackErrorSubscription?.cancel());
+    unawaited(_player?.dispose());
     super.dispose();
   }
 
   Future<void> _watch() async {
-    if (_busyAction != null || !supportsNativePlayback(widget.job)) return;
+    if (_busyAction != null) return;
     setState(() {
       _busyAction = MediaAction.watch;
       _error = null;
@@ -42,25 +44,34 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
       final uri = await ref
           .read(mediaRepositoryProvider)
           .issueDownloadUrl(widget.job.id);
-      final controller = VideoPlayerController.networkUrl(uri);
-      await controller.initialize();
-      final chewieController = ChewieController(
-        videoPlayerController: controller,
-        autoPlay: true,
-        allowedScreenSleep: false,
-        allowFullScreen: true,
-        showControlsOnInitialize: true,
-      );
+      final player = Player();
+      final videoController = VideoController(player);
+      final errorSubscription = player.stream.error.listen((_) {
+        if (mounted && identical(_player, player)) {
+          setState(() => _error = 'playback');
+        }
+      });
+      try {
+        await player.open(Media(uri.toString()), play: true);
+      } catch (_) {
+        await errorSubscription.cancel();
+        await player.dispose();
+        rethrow;
+      }
       if (!mounted) {
-        chewieController.dispose();
-        await controller.dispose();
+        await errorSubscription.cancel();
+        await player.dispose();
         return;
       }
-      final previousChewie = _chewieController;
-      _chewieController = chewieController;
-      previousChewie?.dispose();
-      await _controller?.dispose();
-      setState(() => _controller = controller);
+      final previousPlayer = _player;
+      final previousSubscription = _playbackErrorSubscription;
+      setState(() {
+        _player = player;
+        _videoController = videoController;
+        _playbackErrorSubscription = errorSubscription;
+      });
+      await previousSubscription?.cancel();
+      await previousPlayer?.dispose();
     } catch (_) {
       if (mounted) setState(() => _error = 'playback');
     } finally {
@@ -92,23 +103,18 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
     final localizations = AppLocalizations.of(context);
     final canUseFile =
         widget.job.status.name == 'succeeded' && widget.job.fileAvailable;
-    final playbackSupported = supportsNativePlayback(widget.job);
-    final controller = _controller;
-    final chewieController = _chewieController;
+    final videoController = _videoController;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (controller == null)
+        if (videoController == null)
           AuthenticatedMediaCover(
             alt: localizations.mediaCoverLabel,
             pending: !isTerminalDownloadStatus(widget.job.status.name),
             source: widget.job.thumbnailUrl,
           )
-        else if (chewieController != null)
-          _VideoPlayerSurface(
-            chewieController: chewieController,
-            controller: controller,
-          ),
+        else
+          _VideoPlayerSurface(controller: videoController),
         if (canUseFile) ...[
           const SizedBox(height: 16),
           MediaActionBar(
@@ -116,8 +122,6 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
             downloadLabel: localizations.getFileAction,
             onDownload: _download,
             onWatch: _watch,
-            playbackSupported: playbackSupported,
-            unsupportedLabel: localizations.playbackUnsupported,
             watchLabel: localizations.watchVideoAction,
           ),
         ],
@@ -136,33 +140,18 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
 }
 
 final class _VideoPlayerSurface extends StatelessWidget {
-  const _VideoPlayerSurface({
-    required this.chewieController,
-    required this.controller,
-  });
+  const _VideoPlayerSurface({required this.controller});
 
-  final ChewieController chewieController;
-  final VideoPlayerController controller;
+  final VideoController controller;
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: controller.value.aspectRatio == 0
-          ? 16 / 9
-          : controller.value.aspectRatio,
-      child: Chewie(controller: chewieController),
+      aspectRatio: 16 / 9,
+      child: Video(controller: controller, fit: BoxFit.contain),
     );
   }
 }
 
 bool isTerminalDownloadStatus(String status) =>
     status == 'succeeded' || status == 'failed' || status == 'cancelled';
-
-bool supportsNativePlayback(DownloadResponse job, {TargetPlatform? platform}) {
-  final targetPlatform = platform ?? defaultTargetPlatform;
-  if (targetPlatform != TargetPlatform.iOS) return true;
-  final format = job.format;
-  if (format?.containerPreference.name == 'webm') return false;
-  return format?.videoCodecFamily.name != 'vp9' &&
-      format?.videoCodecFamily.name != 'av1';
-}

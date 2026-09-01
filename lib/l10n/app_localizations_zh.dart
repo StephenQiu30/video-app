@@ -674,9 +674,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playbackFailed => '暂时无法播放视频，请重新获取播放地址。';
 
   @override
-  String get playbackUnsupported => '当前视频格式暂不支持在此设备内预览，你仍可获取原文件。';
-
-  @override
   String get downloadOpenFailed => '无法打开系统下载，请稍后重试。';
 
   @override
