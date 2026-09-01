@@ -179,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @screenplayDocumentsDescription.
   ///
   /// In zh, this message translates to:
-  /// **'核对导入状态、提取规模和规范化剧本文本。'**
+  /// **'查看导入状态、解析信息和剧本正文。'**
   String get screenplayDocumentsDescription;
 
   /// No description provided for @documentRowActionsHint.
@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @providerStatusDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。'**
+  /// **'查看各平台当前是否可用，以及需要的访问方式。'**
   String get providerStatusDescription;
 
   /// No description provided for @loadingData.
@@ -269,14 +269,20 @@ abstract class AppLocalizations {
   /// No description provided for @downloadHistoryEmptyTitle.
   ///
   /// In zh, this message translates to:
-  /// **'没有匹配的下载记录'**
+  /// **'还没有下载记录'**
   String get downloadHistoryEmptyTitle;
 
   /// No description provided for @downloadHistoryEmptyDescription.
   ///
   /// In zh, this message translates to:
-  /// **'调整筛选条件，或新建一个下载任务。'**
+  /// **'从首页解析链接或导入本地视频后，下载任务会显示在这里。'**
   String get downloadHistoryEmptyDescription;
+
+  /// No description provided for @createDownloadFromHomeAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'去首页创建任务'**
+  String get createDownloadFromHomeAction;
 
   /// No description provided for @downloadStatusQueued.
   ///
@@ -383,8 +389,14 @@ abstract class AppLocalizations {
   /// No description provided for @documentEmptyDescription.
   ///
   /// In zh, this message translates to:
-  /// **'完成剧本文档上传后，可在这里核对解析状态与正文。'**
+  /// **'从首页上传剧本文档后，可在这里查看解析状态与正文。'**
   String get documentEmptyDescription;
+
+  /// No description provided for @goToScreenplayUploadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'去首页上传剧本'**
+  String get goToScreenplayUploadAction;
 
   /// No description provided for @documentStatusUploading.
   ///
@@ -611,7 +623,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountDescription.
   ///
   /// In zh, this message translates to:
-  /// **'管理个人资料与登录状态。'**
+  /// **'查看当前账户，管理登录状态。'**
   String get accountDescription;
 
   /// No description provided for @appearanceSection.
@@ -1085,7 +1097,7 @@ abstract class AppLocalizations {
   /// No description provided for @linkIntakeSupport.
   ///
   /// In zh, this message translates to:
-  /// **'支持直接粘贴公开链接或平台分享文案；微信文章发现多个视频后必须明确选择。'**
+  /// **'支持粘贴公开链接或分享文案；文章包含多个视频时，请选择要处理的内容。'**
   String get linkIntakeSupport;
 
   /// No description provided for @videoIntakeTitle.
@@ -1115,7 +1127,7 @@ abstract class AppLocalizations {
   /// No description provided for @screenplayIntakeDescription.
   ///
   /// In zh, this message translates to:
-  /// **'选择 DOCX、PDF、TXT、Markdown 或 Fountain 剧本，服务端将提取规范化预览并支持分析与改写。'**
+  /// **'选择 DOCX、PDF、TXT、Markdown 或 Fountain 文件，服务端会生成可分析和改写的规范化预览。'**
   String get screenplayIntakeDescription;
 
   /// No description provided for @selectScreenplayFile.

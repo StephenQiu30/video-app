@@ -83,7 +83,8 @@ final class DownloadHomeContent extends StatelessWidget {
                         result!,
                       ],
                       const SizedBox(height: 64),
-                      const DownloadTrustFooter(),
+                      if (mode == ContentIntakeMode.link)
+                        const DownloadTrustFooter(),
                     ],
                   ),
                 ),

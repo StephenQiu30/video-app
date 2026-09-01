@@ -164,11 +164,13 @@ final class DataStateMessage extends StatelessWidget {
     required this.description,
     required this.title,
     this.actionLabel,
+    this.actionIcon = LucideIcons.refreshCw,
     this.icon = LucideIcons.inbox,
     this.onAction,
     super.key,
   });
 
+  final IconData actionIcon;
   final String? actionLabel;
   final String description;
   final IconData icon;
@@ -200,7 +202,7 @@ final class DataStateMessage extends StatelessWidget {
               const SizedBox(height: AppSpacing.large),
               TextButton.icon(
                 onPressed: onAction,
-                icon: const Icon(LucideIcons.refreshCw, size: 18),
+                icon: Icon(actionIcon, size: 18),
                 label: Text(actionLabel!),
               ),
             ],

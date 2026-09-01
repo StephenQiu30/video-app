@@ -12,7 +12,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadHistoryScreen extends ConsumerWidget {
-  const DownloadHistoryScreen({super.key});
+  const DownloadHistoryScreen({this.onCreateDownload, super.key});
+
+  final VoidCallback? onCreateDownload;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,6 +54,11 @@ final class DownloadHistoryScreen extends ConsumerWidget {
         DataStateMessage(
           title: localizations.downloadHistoryEmptyTitle,
           description: localizations.downloadHistoryEmptyDescription,
+          actionLabel: onCreateDownload == null
+              ? null
+              : localizations.createDownloadFromHomeAction,
+          actionIcon: LucideIcons.chevronRight,
+          onAction: onCreateDownload,
         ),
       ];
     }

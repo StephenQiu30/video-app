@@ -51,7 +51,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get screenplayDocumentsDescription =>
-      'Review import status, extracted size, and normalized screenplay text.';
+      'Review import status, parsing details, and screenplay text.';
 
   @override
   String get documentRowActionsHint =>
@@ -59,7 +59,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get providerStatusDescription =>
-      'View provider integration, access modes, latest checks, real download evidence, and complete analysis evidence without exposing accounts, cookies, egress, or probes.';
+      'See which providers are available and what access they require.';
 
   @override
   String get loadingData => 'Loading live data…';
@@ -99,11 +99,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noLabel => 'No';
 
   @override
-  String get downloadHistoryEmptyTitle => 'No matching download records';
+  String get downloadHistoryEmptyTitle => 'No download records yet';
 
   @override
   String get downloadHistoryEmptyDescription =>
-      'Adjust the filters or create a new download task.';
+      'Inspect a link or import a local video from Home, and the created task will appear here.';
+
+  @override
+  String get createDownloadFromHomeAction => 'Create from Home';
 
   @override
   String get downloadStatusQueued => 'Queued';
@@ -160,7 +163,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documentEmptyDescription =>
-      'Once a screenplay is uploaded, review its parsing state and content here.';
+      'Upload a screenplay from Home to review its parsing state and content here.';
+
+  @override
+  String get goToScreenplayUploadAction => 'Upload from Home';
 
   @override
   String get documentStatusUploading => 'Waiting for upload';
@@ -275,7 +281,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notYetVerified => 'Not yet verified';
 
   @override
-  String get accountDescription => 'Manage your profile and signed-in session.';
+  String get accountDescription =>
+      'View your account and manage your signed-in session.';
 
   @override
   String get appearanceSection => 'Appearance';
@@ -527,7 +534,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get linkIntakeSupport =>
-      'Paste a public link or a platform share message. Multiple videos discovered in WeChat articles require an explicit choice.';
+      'Paste a public link or share message. If an article contains multiple videos, choose the one to process.';
 
   @override
   String get videoIntakeTitle => 'Import a local video';
@@ -544,7 +551,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get screenplayIntakeDescription =>
-      'Choose a DOCX, PDF, TXT, Markdown, or Fountain screenplay for normalized preview, analysis, and rewriting on the service.';
+      'Choose a DOCX, PDF, TXT, Markdown, or Fountain file for a normalized preview, analysis, and rewriting on the service.';
 
   @override
   String get selectScreenplayFile => 'Choose screenplay file';

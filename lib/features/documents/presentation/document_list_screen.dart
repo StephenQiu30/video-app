@@ -11,7 +11,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DocumentListScreen extends ConsumerWidget {
-  const DocumentListScreen({super.key});
+  const DocumentListScreen({this.onUpload, super.key});
+
+  final VoidCallback? onUpload;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,6 +54,11 @@ final class DocumentListScreen extends ConsumerWidget {
           title: localizations.documentEmptyTitle,
           description: localizations.documentEmptyDescription,
           icon: LucideIcons.fileText,
+          actionLabel: onUpload == null
+              ? null
+              : localizations.goToScreenplayUploadAction,
+          actionIcon: LucideIcons.chevronRight,
+          onAction: onUpload,
         ),
       ];
     }

@@ -48,14 +48,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloadRowActionsHint => '向左轻扫可查看任务操作。';
 
   @override
-  String get screenplayDocumentsDescription => '核对导入状态、提取规模和规范化剧本文本。';
+  String get screenplayDocumentsDescription => '查看导入状态、解析信息和剧本正文。';
 
   @override
   String get documentRowActionsHint => '向左轻扫可管理剧本文档。';
 
   @override
-  String get providerStatusDescription =>
-      '查看平台接入、访问模式、最近状态检查、真实下载证据与完整分析证据，不展示账号、Cookie、出口或探针地址。';
+  String get providerStatusDescription => '查看各平台当前是否可用，以及需要的访问方式。';
 
   @override
   String get loadingData => '正在读取真实数据…';
@@ -94,10 +93,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noLabel => '否';
 
   @override
-  String get downloadHistoryEmptyTitle => '没有匹配的下载记录';
+  String get downloadHistoryEmptyTitle => '还没有下载记录';
 
   @override
-  String get downloadHistoryEmptyDescription => '调整筛选条件，或新建一个下载任务。';
+  String get downloadHistoryEmptyDescription => '从首页解析链接或导入本地视频后，下载任务会显示在这里。';
+
+  @override
+  String get createDownloadFromHomeAction => '去首页创建任务';
 
   @override
   String get downloadStatusQueued => '排队中';
@@ -151,7 +153,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentEmptyTitle => '还没有剧本文档';
 
   @override
-  String get documentEmptyDescription => '完成剧本文档上传后，可在这里核对解析状态与正文。';
+  String get documentEmptyDescription => '从首页上传剧本文档后，可在这里查看解析状态与正文。';
+
+  @override
+  String get goToScreenplayUploadAction => '去首页上传剧本';
 
   @override
   String get documentStatusUploading => '等待上传';
@@ -265,7 +270,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notYetVerified => '尚未验证';
 
   @override
-  String get accountDescription => '管理个人资料与登录状态。';
+  String get accountDescription => '查看当前账户，管理登录状态。';
 
   @override
   String get appearanceSection => '外观';
@@ -503,7 +508,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get screenplayIntakeMode => '剧本文档';
 
   @override
-  String get linkIntakeSupport => '支持直接粘贴公开链接或平台分享文案；微信文章发现多个视频后必须明确选择。';
+  String get linkIntakeSupport => '支持粘贴公开链接或分享文案；文章包含多个视频时，请选择要处理的内容。';
 
   @override
   String get videoIntakeTitle => '导入本地视频';
@@ -520,7 +525,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get screenplayIntakeDescription =>
-      '选择 DOCX、PDF、TXT、Markdown 或 Fountain 剧本，服务端将提取规范化预览并支持分析与改写。';
+      '选择 DOCX、PDF、TXT、Markdown 或 Fountain 文件，服务端会生成可分析和改写的规范化预览。';
 
   @override
   String get selectScreenplayFile => '选择剧本文件';

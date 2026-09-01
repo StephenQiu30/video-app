@@ -103,8 +103,12 @@ abstract final class AppTheme {
           onTertiaryFixedVariant: accentForeground,
           error: error,
           onError: Colors.white,
-          errorContainer: error,
-          onErrorContainer: Colors.white,
+          errorContainer: brightness == Brightness.dark
+              ? const Color(0xFF3B1616)
+              : const Color(0xFFFEE2E2),
+          onErrorContainer: brightness == Brightness.dark
+              ? const Color(0xFFFCA5A5)
+              : const Color(0xFF991B1B),
           surface: surface,
           onSurface: foreground,
           surfaceDim: brightness == Brightness.dark ? background : accent,

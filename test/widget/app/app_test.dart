@@ -80,6 +80,8 @@ void main() {
     expect(find.text('导入本地视频'), findsOneWidget);
     expect(find.text('选择视频文件'), findsOneWidget);
     expect(find.byKey(const Key('media-url-input')), findsNothing);
+    expect(find.textContaining('有权处理的公开链接'), findsNothing);
+    expect(find.textContaining('账号或访问凭据'), findsNothing);
 
     await tester.tap(find.text('选择视频文件'));
     await tester.pumpAndSettle();
@@ -327,8 +329,9 @@ void main() {
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
 
-    expect(find.text('没有匹配的下载记录'), findsOneWidget);
-    expect(find.textContaining('调整筛选条件'), findsOneWidget);
+    expect(find.text('还没有下载记录'), findsOneWidget);
+    expect(find.textContaining('从首页解析链接'), findsOneWidget);
+    expect(find.text('去首页创建任务'), findsOneWidget);
 
     final title = tester.getSemantics(
       find.byKey(const Key('page-title-heading')),
@@ -344,7 +347,14 @@ void main() {
     await tester.tap(find.byKey(const Key('app-tab-2')));
     await tester.pumpAndSettle();
     expect(find.text('还没有剧本文档'), findsOneWidget);
-    expect(find.textContaining('完成剧本文档上传后'), findsOneWidget);
+    expect(find.textContaining('从首页上传剧本文档'), findsOneWidget);
+    expect(find.text('去首页上传剧本'), findsOneWidget);
+
+    await tester.tap(find.text('去首页上传剧本'));
+    await tester.pumpAndSettle();
+    expect(find.text('导入剧本文档'), findsOneWidget);
+    expect(find.textContaining('有权处理的公开链接'), findsNothing);
+    expect(find.textContaining('账号或访问凭据'), findsNothing);
   });
 
   testWidgets('renders typed live records from all three repositories', (

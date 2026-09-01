@@ -116,6 +116,14 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
     });
   }
 
+  void _openIntake(ContentIntakeMode mode) {
+    setState(() {
+      _selectedIndex = 0;
+      _visitedIndexes.add(0);
+      _selectedIntakeMode = mode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -193,8 +201,18 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
                 : DownloadNoticeTone.destructive,
             uploadState: upload,
           ),
-          _lazyPage(1, const DownloadHistoryScreen()),
-          _lazyPage(2, const DocumentListScreen()),
+          _lazyPage(
+            1,
+            DownloadHistoryScreen(
+              onCreateDownload: () => _openIntake(ContentIntakeMode.link),
+            ),
+          ),
+          _lazyPage(
+            2,
+            DocumentListScreen(
+              onUpload: () => _openIntake(ContentIntakeMode.screenplay),
+            ),
+          ),
           _lazyPage(3, const ProviderStatusScreen()),
           _lazyPage(4, const SettingsScreen()),
         ],

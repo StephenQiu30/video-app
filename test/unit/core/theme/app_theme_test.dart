@@ -43,6 +43,26 @@ void main() {
     );
   });
 
+  test('uses low-intensity error surfaces with readable text', () {
+    expect(AppTheme.light.colorScheme.errorContainer, const Color(0xFFFEE2E2));
+    expect(
+      AppTheme.light.colorScheme.onErrorContainer,
+      const Color(0xFF991B1B),
+    );
+    expect(AppTheme.dark.colorScheme.errorContainer, const Color(0xFF3B1616));
+    expect(AppTheme.dark.colorScheme.onErrorContainer, const Color(0xFFFCA5A5));
+
+    for (final theme in [AppTheme.light, AppTheme.dark]) {
+      expect(
+        _contrastRatio(
+          theme.colorScheme.onErrorContainer,
+          theme.colorScheme.errorContainer,
+        ),
+        greaterThanOrEqualTo(4.5),
+      );
+    }
+  });
+
   test('maps every Material surface role to the Web monochrome palette', () {
     final light = AppTheme.light.colorScheme;
     final dark = AppTheme.dark.colorScheme;
