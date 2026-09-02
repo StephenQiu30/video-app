@@ -212,7 +212,7 @@ void main() {
 
     expect(repository.publicUrls, ['https://media.example/video']);
     expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
-    expect(find.text('真实解析视频'), findsOneWidget);
+    expect(find.text('真实解析视频'), findsWidgets);
     expect(find.text('1080p MP4'), findsOneWidget);
     expect(find.text('720p MP4'), findsOneWidget);
     expect(find.byKey(const Key('create-download-button')), findsOneWidget);
@@ -376,7 +376,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
-    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(find.text('真实下载任务'), findsWidgets);
     expect(find.text('已完成'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('app-tab-2')));
@@ -445,7 +445,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('download-detail-content')), findsOneWidget);
-    expect(find.text('1920×1080 · MP4 · H264'), findsOneWidget);
+    expect(find.text('1920×1080 · MP4 · H264'), findsWidgets);
     expect(find.text('文件可获取'), findsOneWidget);
     expect(find.text('2:04'), findsOneWidget);
     final backButton = find.byKey(const Key('navbar-back-button'));
@@ -455,7 +455,7 @@ void main() {
     await tester.tap(backButton);
     await tester.pumpAndSettle();
     expect(find.text('下载记录'), findsOneWidget);
-    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(find.text('真实下载任务'), findsWidgets);
     expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
   });
 
@@ -790,7 +790,7 @@ void main() {
       ..data = downloadHistoryFixture();
     await tester.tap(find.text('重新加载'));
     await tester.pumpAndSettle();
-    expect(find.text('真实下载任务'), findsOneWidget);
+    expect(find.text('真实下载任务'), findsWidgets);
     expect(repository.calls, 2);
   });
 

@@ -720,7 +720,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mediaCoverPending => 'Generating cover';
 
   @override
-  String get mediaCoverUnavailable => 'Cover unavailable';
+  String get mediaCoverUnavailable => 'No cover available';
 
   @override
   String get mediaCoverLabel => 'Video cover';

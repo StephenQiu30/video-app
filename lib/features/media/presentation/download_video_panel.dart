@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/features/media/data/media_repository.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/features/media/presentation/media_action_bar.dart';
@@ -110,8 +111,11 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
         if (videoController == null)
           AuthenticatedMediaCover(
             alt: localizations.mediaCoverLabel,
+            detail: downloadFormatLabel(localizations, widget.job.format),
+            eyebrow: _sourceLabel(widget.job),
             pending: !isTerminalDownloadStatus(widget.job.status.name),
             source: widget.job.thumbnailUrl,
+            title: widget.job.title,
           )
         else
           _VideoPlayerSurface(controller: videoController),
@@ -137,6 +141,16 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
       ],
     );
   }
+}
+
+String _sourceLabel(DownloadResponse job) {
+  final extractor = job.extractorKey?.trim();
+  if (extractor == null ||
+      extractor.isEmpty ||
+      extractor.toLowerCase() == job.sourceLabel.toLowerCase()) {
+    return job.sourceLabel;
+  }
+  return '${job.sourceLabel} · $extractor';
 }
 
 final class _VideoPlayerSurface extends StatelessWidget {

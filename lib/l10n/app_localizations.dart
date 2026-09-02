@@ -1415,7 +1415,7 @@ abstract class AppLocalizations {
   /// No description provided for @mediaCoverUnavailable.
   ///
   /// In zh, this message translates to:
-  /// **'封面不可用'**
+  /// **'暂无封面'**
   String get mediaCoverUnavailable;
 
   /// No description provided for @mediaCoverLabel.

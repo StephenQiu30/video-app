@@ -193,8 +193,12 @@ final class _DownloadHistoryItemState
                       child: AuthenticatedMediaCover(
                         alt: '${item.title} ${localizations.mediaCoverLabel}',
                         borderRadius: BorderRadius.circular(6),
+                        compact: true,
+                        detail: item.formatName,
+                        eyebrow: item.sourceLabel,
                         pending: isActiveDownloadStatus(item.status.name),
                         source: item.thumbnailUrl,
+                        title: item.title,
                       ),
                     ),
                     const SizedBox(width: AppSpacing.medium),

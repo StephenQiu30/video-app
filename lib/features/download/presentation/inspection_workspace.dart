@@ -40,7 +40,10 @@ final class InspectionWorkspace extends StatelessWidget {
         AuthenticatedMediaCover(
           alt: localizations.mediaCoverLabel,
           borderRadius: BorderRadius.circular(AppTheme.radius),
+          detail: _duration(inspection.durationSeconds),
+          eyebrow: inspection.extractorKey.toUpperCase(),
           source: inspection.thumbnailUrl,
+          title: inspection.title,
         ),
         const SizedBox(height: 18),
         Text(

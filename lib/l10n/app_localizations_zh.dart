@@ -670,7 +670,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mediaCoverPending => '封面生成中';
 
   @override
-  String get mediaCoverUnavailable => '封面不可用';
+  String get mediaCoverUnavailable => '暂无封面';
 
   @override
   String get mediaCoverLabel => '视频封面';

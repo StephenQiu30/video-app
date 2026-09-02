@@ -219,7 +219,7 @@
   "legalMediaStatus": "请仅提交你有权处理的公开链接",
   "privacyStatus": "请勿提交包含账号或访问凭据的链接",
   "mediaCoverPending": "封面生成中",
-  "mediaCoverUnavailable": "封面不可用",
+  "mediaCoverUnavailable": "暂无封面",
   "mediaCoverLabel": "视频封面",
   "watchVideoAction": "观看",
   "getFileAction": "获取文件",

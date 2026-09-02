@@ -219,7 +219,7 @@
   "legalMediaStatus": "Submit only public links you are authorized to process",
   "privacyStatus": "Do not submit links containing accounts or access credentials",
   "mediaCoverPending": "Generating cover",
-  "mediaCoverUnavailable": "Cover unavailable",
+  "mediaCoverUnavailable": "No cover available",
   "mediaCoverLabel": "Video cover",
   "watchVideoAction": "Watch",
   "getFileAction": "Get file",
