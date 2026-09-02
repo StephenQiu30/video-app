@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/config/app_config.dart';
+import 'package:framegrab/core/network/dio_http_client.dart';
 import 'package:video_server_api/video_server_api.dart';
 
+final dioHttpClientProvider = Provider<DioHttpClient>((ref) {
+  final client = DioHttpClient(
+    baseUrl: AppConfig.serverBaseUrl,
+    connectTimeout: AppConfig.apiConnectTimeout,
+    receiveTimeout: AppConfig.apiReceiveTimeout,
+  );
+  ref.onDispose(client.close);
+  return client;
+});
+
 final videoServerApiProvider = Provider<VideoServerApi>(
-  (ref) => VideoServerApi(
-    dio: Dio(
-      BaseOptions(
-        baseUrl: AppConfig.serverBaseUrl,
-        connectTimeout: AppConfig.apiConnectTimeout,
-        receiveTimeout: AppConfig.apiReceiveTimeout,
-      ),
-    ),
-  ),
+  (ref) => ref.watch(dioHttpClientProvider).api,
 );
 
 final nativeAuthGatewayProvider = Provider<NativeAuthGateway>(
