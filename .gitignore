@@ -45,3 +45,6 @@ test-results/
 .tmp/
 tmp/
 temp/
+
+# Local QA screenshots and reports
+qa-output/
