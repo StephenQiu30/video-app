@@ -136,6 +136,37 @@ void main() {
     );
   }
 
+  for (final scenario in [
+    (locale: const Locale('zh'), title: '把素材，\n带回本地。', deployment: '阅读部署说明'),
+    (
+      locale: const Locale('en'),
+      title: 'Bring content\nback to your device.',
+      deployment: 'Read deployment guide',
+    ),
+  ]) {
+    testWidgets(
+      'keeps the public project introduction readable in ${scenario.locale.languageCode}',
+      (tester) async {
+        await setMobileViewport(tester);
+        setAccessibilityTextScale(tester);
+        await pumpFramegrabApp(
+          tester,
+          authGateway: FakeAuthGateway(),
+          credentialStore: MemoryCredentialStore(),
+          locale: scenario.locale,
+        );
+
+        expect(find.text(scenario.title), findsOneWidget);
+        final deployment = find.text(scenario.deployment);
+        expect(deployment, findsOneWidget);
+        await tester.ensureVisible(deployment);
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
   testWidgets('keeps the public home usable with accessibility text', (
     tester,
   ) async {

@@ -54,10 +54,11 @@ final class DocumentListScreen extends ConsumerWidget {
           title: localizations.documentEmptyTitle,
           description: localizations.documentEmptyDescription,
           icon: LucideIcons.fileText,
+          actionEmphasis: DataStateActionEmphasis.primary,
           actionLabel: onUpload == null
               ? null
               : localizations.goToScreenplayUploadAction,
-          actionIcon: LucideIcons.chevronRight,
+          actionIcon: null,
           onAction: onUpload,
         ),
       ];

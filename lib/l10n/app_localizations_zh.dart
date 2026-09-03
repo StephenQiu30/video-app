@@ -291,38 +291,122 @@ class AppLocalizationsZh extends AppLocalizations {
   String get switchToLightTheme => '切换到浅色主题';
 
   @override
-  String get publicHomeTitle => '开源、自托管的\n视频工作流。';
+  String get publicHomeEyebrow => 'FrameFetch · Open Source';
+
+  @override
+  String get publicHomeTitle => '把素材，\n带回本地。';
 
   @override
   String get publicHomeDescription =>
-      '在自己的设备与服务上处理公开视频、剧本文档和 AI 视频分析，数据控制权始终属于你。';
+      '开源、自托管地完成公开视频解析、本地视频与剧本文档导入、制品管理和 AI 分析。数据与运行边界由你掌控。';
+
+  @override
+  String get publicRegisterAction => '创建本地账户';
+
+  @override
+  String get publicSourceAction => '查看源代码';
+
+  @override
+  String get publicWorkflowTitle => '一套可审计的完整链路';
+
+  @override
+  String get publicWorkflowInspectTitle => '解析';
+
+  @override
+  String get publicWorkflowInspectDescription => '识别公开媒体或文章中的候选视频';
+
+  @override
+  String get publicWorkflowSelectTitle => '选择';
+
+  @override
+  String get publicWorkflowSelectDescription => '确认目标与格式，避免隐式下载';
+
+  @override
+  String get publicWorkflowExecuteTitle => '执行';
+
+  @override
+  String get publicWorkflowExecuteDescription => '由隔离 Worker 处理下载、导入和分析';
+
+  @override
+  String get publicWorkflowDeliverTitle => '交付';
+
+  @override
+  String get publicWorkflowDeliverDescription => '通过授权短时入口预览或获取制品';
+
+  @override
+  String get publicCapabilitiesEyebrow => 'Product capabilities';
 
   @override
   String get publicHomeCapabilitiesTitle => '从公开媒体到可验证制品';
 
   @override
+  String get publicHomeCapabilitiesDescription =>
+      'Web 控制面、API 与 Worker 共享同一套权限、任务和制品模型，适合个人本地使用，也便于团队自托管。';
+
+  @override
+  String get publicVideoEyebrow => '01 · MEDIA';
+
+  @override
   String get publicVideoTitle => '公开视频工作流';
 
   @override
-  String get publicVideoDescription => '解析你有权处理的公开链接，登录后选择格式并创建可追踪的下载任务。';
+  String get publicVideoDescription => '解析有权处理的公开链接，选择真实可用格式，并跟踪下载与最终制品。';
+
+  @override
+  String get publicDocumentEyebrow => '02 · SCREENPLAY';
 
   @override
   String get publicDocumentTitle => '剧本与文档处理';
 
   @override
-  String get publicDocumentDescription => '导入剧本文档，查看结构化内容，并继续完成分析与改写。';
+  String get publicDocumentDescription => '导入获授权的剧本文档，在同一工作区完成规范化、分析与处理记录。';
+
+  @override
+  String get publicAnalysisEyebrow => '03 · ANALYSIS';
 
   @override
   String get publicAnalysisTitle => '结构化 AI 视频分析';
 
   @override
-  String get publicAnalysisDescription => '基于已验证的视频制品执行场景、镜头、钩子与文章化分析。';
+  String get publicAnalysisDescription => '围绕场景、分镜、高光和内容资产生成结构化结果与运行证据。';
+
+  @override
+  String get publicTrustEyebrow => 'Built for self-hosting';
 
   @override
   String get publicTrustTitle => '开源，不交出数据控制权';
 
   @override
-  String get publicTrustDescription => '帧取可部署在你自己的基础设施中。登录只用于保护任务、文件和账户数据。';
+  String get publicTrustDescription =>
+      'FastAPI、Next.js、PostgreSQL、RabbitMQ、MinIO、FFmpeg 与 yt-dlp 组成可独立部署的工作流。MIT 许可证允许你免费检查、修改和自托管。';
+
+  @override
+  String get publicSafeguardSession => '浏览器会话采用 HttpOnly Cookie；原生客户端使用可轮换令牌。';
+
+  @override
+  String get publicSafeguardWorkers => '下载、导入与 AI 分析通过独立队列和 Worker 执行。';
+
+  @override
+  String get publicSafeguardArtifacts => '短时制品入口、所有者隔离与授权边界贯穿完整链路。';
+
+  @override
+  String get publicSafeguardAuthorization => '公开视频并不等于可自由使用，请仅处理已获授权的内容。';
+
+  @override
+  String get publicStartEyebrow => 'Start locally';
+
+  @override
+  String get publicStartTitle => '在自己的基础设施上运行 FrameFetch';
+
+  @override
+  String get publicStartDescription =>
+      '从仓库的 Quick Start、架构文档和安全边界开始，按需启用媒体解析、剧本工作流与 AI 服务。';
+
+  @override
+  String get publicDeploymentAction => '阅读部署说明';
+
+  @override
+  String get publicExternalLinkError => '暂时无法打开外部链接';
 
   @override
   String get downloadDetailNavigation => '任务详情';

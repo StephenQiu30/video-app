@@ -3,6 +3,8 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+enum DataStateActionEmphasis { subtle, primary }
+
 final class DataPageView extends StatelessWidget {
   const DataPageView({
     required this.children,
@@ -163,6 +165,7 @@ final class DataStateMessage extends StatelessWidget {
   const DataStateMessage({
     required this.description,
     required this.title,
+    this.actionEmphasis = DataStateActionEmphasis.subtle,
     this.actionLabel,
     this.actionIcon = LucideIcons.refreshCw,
     this.icon = LucideIcons.inbox,
@@ -170,7 +173,8 @@ final class DataStateMessage extends StatelessWidget {
     super.key,
   });
 
-  final IconData actionIcon;
+  final DataStateActionEmphasis actionEmphasis;
+  final IconData? actionIcon;
   final String? actionLabel;
   final String description;
   final IconData icon;
@@ -200,11 +204,23 @@ final class DataStateMessage extends StatelessWidget {
             ),
             if (actionLabel != null && onAction != null) ...[
               const SizedBox(height: AppSpacing.large),
-              TextButton.icon(
-                onPressed: onAction,
-                icon: Icon(actionIcon, size: 18),
-                label: Text(actionLabel!),
-              ),
+              if (actionEmphasis == DataStateActionEmphasis.primary)
+                if (actionIcon == null)
+                  FilledButton(onPressed: onAction, child: Text(actionLabel!))
+                else
+                  FilledButton.icon(
+                    onPressed: onAction,
+                    icon: Icon(actionIcon, size: 18),
+                    label: Text(actionLabel!),
+                  )
+              else if (actionIcon == null)
+                TextButton(onPressed: onAction, child: Text(actionLabel!))
+              else
+                TextButton.icon(
+                  onPressed: onAction,
+                  icon: Icon(actionIcon, size: 18),
+                  label: Text(actionLabel!),
+                ),
             ],
           ],
         ),

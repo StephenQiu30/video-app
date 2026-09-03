@@ -53,3 +53,39 @@ No actionable P0/P1/P2 mismatch remains in the requested Web/App style-parity sc
 - P3: individual feature screens can still be reviewed route-by-route for content-density refinements, but no remaining issue blocks this global style-system change.
 
 final result: passed
+
+---
+
+# Design QA — 剧本文档空状态 CTA
+
+## Comparison context
+
+- Source: `/var/folders/r5/lm_1_1hd321dzlfq0lctjdnw0000gn/T/codex-clipboard-7fb6cb83-511c-4fff-a723-8eb0b0f29232.png`
+- Implementation: `qa-output/documents-empty-cta/01-empty-state.png`
+- Comparison: `qa-output/documents-empty-cta/comparison.png`
+- Source pixels: 886 × 1902, including the Simulator window chrome; the device display was cropped to 788 × 1714 for comparison.
+- Implementation pixels: 1320 × 2868 at 3× density, equivalent to a 440 × 956 pt iPhone 17 Pro Max viewport.
+- State: authenticated, zh-CN, light theme, empty screenplay-document list.
+
+## Evidence
+
+- Full empty state: `qa-output/documents-empty-cta/01-empty-state.png`
+- CTA destination: `qa-output/documents-empty-cta/02-upload-destination.png`
+- Side-by-side focused comparison: `qa-output/documents-empty-cta/comparison.png`
+
+## Findings
+
+- The upload prompt now uses the existing primary `FilledButton` treatment: `#111111` foreground surface, white label, 64 pt minimum height, and the shared 6 pt radius.
+- The button is centered and visually separated from the explanatory copy by the shared 20 pt spacing token.
+- The document icon remains because it identifies the empty content type. The chevron was removed because the button label already describes the complete navigation action and the icon added no distinct meaning.
+- The hierarchy remains consistent with the rest of the product: page title and description, restrained Lucide empty-state icon, short title, supporting copy, then one primary action.
+- The 64 pt button height exceeds the project's 44 pt minimum touch target. Existing accessibility-text widget coverage passes.
+- Activating the CTA opens Home with the screenplay intake mode selected and exposes the “选择剧本文件” action.
+
+## Iteration history
+
+1. Source: a bare text action with a leading chevron was visually weak and looked disconnected from the app's primary actions.
+2. First implementation: promoted the action to the shared primary button style.
+3. Final implementation: removed the redundant chevron while retaining the useful document-state icon.
+
+final result: passed

@@ -303,43 +303,134 @@ class AppLocalizationsEn extends AppLocalizations {
   String get switchToLightTheme => 'Switch to light theme';
 
   @override
-  String get publicHomeTitle => 'Open-source, self-hosted\nvideo workflows.';
+  String get publicHomeEyebrow => 'FrameFetch · Open Source';
+
+  @override
+  String get publicHomeTitle => 'Bring content\nback to your device.';
 
   @override
   String get publicHomeDescription =>
-      'Process public video, screenplay documents, and AI video analysis on infrastructure you control.';
+      'Parse public media, import local videos and screenplay documents, manage artifacts, and run AI analysis with open-source, self-hosted workflows. You control the data and execution boundaries.';
+
+  @override
+  String get publicRegisterAction => 'Create a local account';
+
+  @override
+  String get publicSourceAction => 'View source code';
+
+  @override
+  String get publicWorkflowTitle => 'A complete, auditable workflow';
+
+  @override
+  String get publicWorkflowInspectTitle => 'Inspect';
+
+  @override
+  String get publicWorkflowInspectDescription =>
+      'Identify candidate videos in public media or articles';
+
+  @override
+  String get publicWorkflowSelectTitle => 'Select';
+
+  @override
+  String get publicWorkflowSelectDescription =>
+      'Confirm the target and format to avoid implicit downloads';
+
+  @override
+  String get publicWorkflowExecuteTitle => 'Execute';
+
+  @override
+  String get publicWorkflowExecuteDescription =>
+      'Use isolated workers for downloads, imports, and analysis';
+
+  @override
+  String get publicWorkflowDeliverTitle => 'Deliver';
+
+  @override
+  String get publicWorkflowDeliverDescription =>
+      'Preview or retrieve artifacts through authorized short-lived access';
+
+  @override
+  String get publicCapabilitiesEyebrow => 'Product capabilities';
 
   @override
   String get publicHomeCapabilitiesTitle =>
       'From public media to verifiable artifacts';
 
   @override
+  String get publicHomeCapabilitiesDescription =>
+      'The Web console, API, and workers share one permission, task, and artifact model for personal use and team self-hosting.';
+
+  @override
+  String get publicVideoEyebrow => '01 · MEDIA';
+
+  @override
   String get publicVideoTitle => 'Public video workflows';
 
   @override
   String get publicVideoDescription =>
-      'Inspect public links you are authorized to process, then sign in to select formats and create traceable downloads.';
+      'Parse authorized public links, select real available formats, and track downloads through their final artifacts.';
+
+  @override
+  String get publicDocumentEyebrow => '02 · SCREENPLAY';
 
   @override
   String get publicDocumentTitle => 'Screenplay and document workflows';
 
   @override
   String get publicDocumentDescription =>
-      'Import screenplay documents, review structured content, and continue into analysis or rewriting.';
+      'Import authorized screenplay documents, then normalize, analyze, and retain processing records in one workspace.';
+
+  @override
+  String get publicAnalysisEyebrow => '03 · ANALYSIS';
 
   @override
   String get publicAnalysisTitle => 'Structured AI video analysis';
 
   @override
   String get publicAnalysisDescription =>
-      'Run scene, shot, hook, and article analysis against verified video artifacts.';
+      'Generate structured results and execution evidence for scenes, shots, highlights, and content assets.';
+
+  @override
+  String get publicTrustEyebrow => 'Built for self-hosting';
 
   @override
   String get publicTrustTitle => 'Open source without giving up data control';
 
   @override
   String get publicTrustDescription =>
-      'Framegrab runs on infrastructure you control. Sign-in protects tasks, files, and account data.';
+      'FastAPI, Next.js, PostgreSQL, RabbitMQ, MinIO, FFmpeg, and yt-dlp form an independently deployable workflow. The MIT license lets you inspect, modify, and self-host it for free.';
+
+  @override
+  String get publicSafeguardSession =>
+      'Browser sessions use HttpOnly cookies; native clients use rotatable tokens.';
+
+  @override
+  String get publicSafeguardWorkers =>
+      'Downloads, imports, and AI analysis run through independent queues and workers.';
+
+  @override
+  String get publicSafeguardArtifacts =>
+      'Short-lived artifact access, owner isolation, and authorization boundaries span the full workflow.';
+
+  @override
+  String get publicSafeguardAuthorization =>
+      'Public media is not automatically free to use. Only process content you are authorized to handle.';
+
+  @override
+  String get publicStartEyebrow => 'Start locally';
+
+  @override
+  String get publicStartTitle => 'Run FrameFetch on your own infrastructure';
+
+  @override
+  String get publicStartDescription =>
+      'Start with the repository Quick Start, architecture documentation, and security boundaries, then enable media parsing, screenplay workflows, and AI services as needed.';
+
+  @override
+  String get publicDeploymentAction => 'Read deployment guide';
+
+  @override
+  String get publicExternalLinkError => 'The external link could not be opened';
 
   @override
   String get downloadDetailNavigation => 'Task details';

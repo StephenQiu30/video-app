@@ -662,23 +662,113 @@ abstract class AppLocalizations {
   /// **'切换到浅色主题'**
   String get switchToLightTheme;
 
+  /// No description provided for @publicHomeEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'FrameFetch · Open Source'**
+  String get publicHomeEyebrow;
+
   /// No description provided for @publicHomeTitle.
   ///
   /// In zh, this message translates to:
-  /// **'开源、自托管的\n视频工作流。'**
+  /// **'把素材，\n带回本地。'**
   String get publicHomeTitle;
 
   /// No description provided for @publicHomeDescription.
   ///
   /// In zh, this message translates to:
-  /// **'在自己的设备与服务上处理公开视频、剧本文档和 AI 视频分析，数据控制权始终属于你。'**
+  /// **'开源、自托管地完成公开视频解析、本地视频与剧本文档导入、制品管理和 AI 分析。数据与运行边界由你掌控。'**
   String get publicHomeDescription;
+
+  /// No description provided for @publicRegisterAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'创建本地账户'**
+  String get publicRegisterAction;
+
+  /// No description provided for @publicSourceAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看源代码'**
+  String get publicSourceAction;
+
+  /// No description provided for @publicWorkflowTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'一套可审计的完整链路'**
+  String get publicWorkflowTitle;
+
+  /// No description provided for @publicWorkflowInspectTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析'**
+  String get publicWorkflowInspectTitle;
+
+  /// No description provided for @publicWorkflowInspectDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'识别公开媒体或文章中的候选视频'**
+  String get publicWorkflowInspectDescription;
+
+  /// No description provided for @publicWorkflowSelectTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择'**
+  String get publicWorkflowSelectTitle;
+
+  /// No description provided for @publicWorkflowSelectDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认目标与格式，避免隐式下载'**
+  String get publicWorkflowSelectDescription;
+
+  /// No description provided for @publicWorkflowExecuteTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'执行'**
+  String get publicWorkflowExecuteTitle;
+
+  /// No description provided for @publicWorkflowExecuteDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'由隔离 Worker 处理下载、导入和分析'**
+  String get publicWorkflowExecuteDescription;
+
+  /// No description provided for @publicWorkflowDeliverTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'交付'**
+  String get publicWorkflowDeliverTitle;
+
+  /// No description provided for @publicWorkflowDeliverDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'通过授权短时入口预览或获取制品'**
+  String get publicWorkflowDeliverDescription;
+
+  /// No description provided for @publicCapabilitiesEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'Product capabilities'**
+  String get publicCapabilitiesEyebrow;
 
   /// No description provided for @publicHomeCapabilitiesTitle.
   ///
   /// In zh, this message translates to:
   /// **'从公开媒体到可验证制品'**
   String get publicHomeCapabilitiesTitle;
+
+  /// No description provided for @publicHomeCapabilitiesDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'Web 控制面、API 与 Worker 共享同一套权限、任务和制品模型，适合个人本地使用，也便于团队自托管。'**
+  String get publicHomeCapabilitiesDescription;
+
+  /// No description provided for @publicVideoEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'01 · MEDIA'**
+  String get publicVideoEyebrow;
 
   /// No description provided for @publicVideoTitle.
   ///
@@ -689,8 +779,14 @@ abstract class AppLocalizations {
   /// No description provided for @publicVideoDescription.
   ///
   /// In zh, this message translates to:
-  /// **'解析你有权处理的公开链接，登录后选择格式并创建可追踪的下载任务。'**
+  /// **'解析有权处理的公开链接，选择真实可用格式，并跟踪下载与最终制品。'**
   String get publicVideoDescription;
+
+  /// No description provided for @publicDocumentEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'02 · SCREENPLAY'**
+  String get publicDocumentEyebrow;
 
   /// No description provided for @publicDocumentTitle.
   ///
@@ -701,8 +797,14 @@ abstract class AppLocalizations {
   /// No description provided for @publicDocumentDescription.
   ///
   /// In zh, this message translates to:
-  /// **'导入剧本文档，查看结构化内容，并继续完成分析与改写。'**
+  /// **'导入获授权的剧本文档，在同一工作区完成规范化、分析与处理记录。'**
   String get publicDocumentDescription;
+
+  /// No description provided for @publicAnalysisEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'03 · ANALYSIS'**
+  String get publicAnalysisEyebrow;
 
   /// No description provided for @publicAnalysisTitle.
   ///
@@ -713,8 +815,14 @@ abstract class AppLocalizations {
   /// No description provided for @publicAnalysisDescription.
   ///
   /// In zh, this message translates to:
-  /// **'基于已验证的视频制品执行场景、镜头、钩子与文章化分析。'**
+  /// **'围绕场景、分镜、高光和内容资产生成结构化结果与运行证据。'**
   String get publicAnalysisDescription;
+
+  /// No description provided for @publicTrustEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'Built for self-hosting'**
+  String get publicTrustEyebrow;
 
   /// No description provided for @publicTrustTitle.
   ///
@@ -725,8 +833,62 @@ abstract class AppLocalizations {
   /// No description provided for @publicTrustDescription.
   ///
   /// In zh, this message translates to:
-  /// **'帧取可部署在你自己的基础设施中。登录只用于保护任务、文件和账户数据。'**
+  /// **'FastAPI、Next.js、PostgreSQL、RabbitMQ、MinIO、FFmpeg 与 yt-dlp 组成可独立部署的工作流。MIT 许可证允许你免费检查、修改和自托管。'**
   String get publicTrustDescription;
+
+  /// No description provided for @publicSafeguardSession.
+  ///
+  /// In zh, this message translates to:
+  /// **'浏览器会话采用 HttpOnly Cookie；原生客户端使用可轮换令牌。'**
+  String get publicSafeguardSession;
+
+  /// No description provided for @publicSafeguardWorkers.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载、导入与 AI 分析通过独立队列和 Worker 执行。'**
+  String get publicSafeguardWorkers;
+
+  /// No description provided for @publicSafeguardArtifacts.
+  ///
+  /// In zh, this message translates to:
+  /// **'短时制品入口、所有者隔离与授权边界贯穿完整链路。'**
+  String get publicSafeguardArtifacts;
+
+  /// No description provided for @publicSafeguardAuthorization.
+  ///
+  /// In zh, this message translates to:
+  /// **'公开视频并不等于可自由使用，请仅处理已获授权的内容。'**
+  String get publicSafeguardAuthorization;
+
+  /// No description provided for @publicStartEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'Start locally'**
+  String get publicStartEyebrow;
+
+  /// No description provided for @publicStartTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'在自己的基础设施上运行 FrameFetch'**
+  String get publicStartTitle;
+
+  /// No description provided for @publicStartDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'从仓库的 Quick Start、架构文档和安全边界开始，按需启用媒体解析、剧本工作流与 AI 服务。'**
+  String get publicStartDescription;
+
+  /// No description provided for @publicDeploymentAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'阅读部署说明'**
+  String get publicDeploymentAction;
+
+  /// No description provided for @publicExternalLinkError.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂时无法打开外部链接'**
+  String get publicExternalLinkError;
 
   /// No description provided for @downloadDetailNavigation.
   ///

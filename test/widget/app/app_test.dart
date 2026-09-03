@@ -373,9 +373,15 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('还没有剧本文档'), findsOneWidget);
     expect(find.textContaining('从首页上传剧本文档'), findsOneWidget);
-    expect(find.text('去首页上传剧本'), findsOneWidget);
+    final uploadFromHome = find.widgetWithText(FilledButton, '去首页上传剧本');
+    expect(uploadFromHome, findsOneWidget);
+    expect(
+      find.descendant(of: uploadFromHome, matching: find.byType(Icon)),
+      findsNothing,
+      reason: '主按钮文案已经明确，不应再放置无额外语义的箭头图标。',
+    );
 
-    await tester.tap(find.text('去首页上传剧本'));
+    await tester.tap(uploadFromHome);
     await tester.pumpAndSettle();
     expect(find.text('导入剧本文档'), findsOneWidget);
     expect(find.textContaining('有权处理的公开链接'), findsNothing);
@@ -910,11 +916,26 @@ void main() {
     );
 
     expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
-    expect(find.text('开源、自托管的\n视频工作流。'), findsOneWidget);
+    expect(find.text('FrameFetch · Open Source'), findsOneWidget);
+    expect(find.text('把素材，\n带回本地。'), findsOneWidget);
+    expect(find.textContaining('数据与运行边界由你掌控'), findsOneWidget);
+    expect(find.text('创建本地账户'), findsOneWidget);
+    expect(find.text('查看源代码'), findsOneWidget);
+    expect(find.text('一套可审计的完整链路'), findsOneWidget);
+    expect(find.text('解析'), findsOneWidget);
+    expect(find.text('选择'), findsOneWidget);
+    expect(find.text('执行'), findsOneWidget);
+    expect(find.text('交付'), findsOneWidget);
+    expect(find.text('从公开媒体到可验证制品'), findsOneWidget);
+    expect(find.text('开源，不交出数据控制权'), findsOneWidget);
+    expect(find.text('在自己的基础设施上运行 FrameFetch'), findsOneWidget);
+    expect(find.text('阅读部署说明'), findsOneWidget);
     expect(find.byKey(const Key('public-home-login')), findsOneWidget);
     expect(find.byKey(const Key('app-bottom-navigation')), findsNothing);
-    expect(find.text('把素材，\n带回本地。'), findsNothing);
     expect(find.byKey(const Key('navbar-theme-toggle')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-workflow')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-capabilities')), findsOneWidget);
+    expect(find.byKey(const Key('public-home-safeguards')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('public-home-login')));
     await tester.pumpAndSettle();

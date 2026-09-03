@@ -1,17 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/core/theme/theme_toggle_button.dart';
+import 'package:framegrab/features/landing/domain/public_home_links.dart';
+import 'package:framegrab/features/landing/presentation/public_home_details.dart';
+import 'package:framegrab/features/landing/presentation/public_home_section_intro.dart';
+import 'package:framegrab/features/landing/presentation/public_home_workflow.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_brand.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final class PublicHomeScreen extends StatelessWidget {
   const PublicHomeScreen({super.key});
 
+  Future<void> _openExternal(
+    BuildContext context,
+    Uri uri,
+    String errorMessage,
+  ) async {
+    try {
+      final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (opened) return;
+    } catch (_) {
+      // Surface the same localized failure for rejected and unavailable links.
+    }
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       key: const Key('public-home-screen'),
       appBar: AppBar(
@@ -22,7 +45,7 @@ final class PublicHomeScreen extends StatelessWidget {
           TextButton(
             key: const Key('public-home-login'),
             onPressed: () => context.push('/auth/login'),
-            child: Text(localizations.loginAction),
+            child: Text(l10n.loginAction),
           ),
           const SizedBox(width: 8),
         ],
@@ -45,70 +68,124 @@ final class PublicHomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Semantics(
-                          header: true,
-                          child: Text(
-                            localizations.publicHomeTitle,
-                            style: Theme.of(context).textTheme.headlineLarge,
+                        PublicHomeSectionIntro(
+                          description: l10n.publicHomeDescription,
+                          eyebrow: l10n.publicHomeEyebrow,
+                          prominent: true,
+                          title: l10n.publicHomeTitle,
+                          titleKey: const Key('public-home-title'),
+                        ),
+                        const SizedBox(height: AppSpacing.xLarge),
+                        Wrap(
+                          spacing: AppSpacing.small,
+                          runSpacing: AppSpacing.small,
+                          children: [
+                            FilledButton.icon(
+                              key: const Key('public-home-register'),
+                              onPressed: () => context.push('/auth/register'),
+                              icon: const Icon(LucideIcons.arrowRight),
+                              label: Text(l10n.publicRegisterAction),
+                            ),
+                            FilledButton.tonalIcon(
+                              key: const Key('public-home-source'),
+                              onPressed: () => _openExternal(
+                                context,
+                                PublicHomeLinks.repository,
+                                l10n.publicExternalLinkError,
+                              ),
+                              icon: const Icon(LucideIcons.codeXml),
+                              label: Text(l10n.publicSourceAction),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        PublicHomeWorkflow(
+                          title: l10n.publicWorkflowTitle,
+                          items: [
+                            (
+                              title: l10n.publicWorkflowInspectTitle,
+                              description:
+                                  l10n.publicWorkflowInspectDescription,
+                            ),
+                            (
+                              title: l10n.publicWorkflowSelectTitle,
+                              description: l10n.publicWorkflowSelectDescription,
+                            ),
+                            (
+                              title: l10n.publicWorkflowExecuteTitle,
+                              description:
+                                  l10n.publicWorkflowExecuteDescription,
+                            ),
+                            (
+                              title: l10n.publicWorkflowDeliverTitle,
+                              description:
+                                  l10n.publicWorkflowDeliverDescription,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        PublicHomeSectionIntro(
+                          description: l10n.publicHomeCapabilitiesDescription,
+                          eyebrow: l10n.publicCapabilitiesEyebrow,
+                          title: l10n.publicHomeCapabilitiesTitle,
+                        ),
+                        const SizedBox(height: AppSpacing.xLarge),
+                        PublicHomeCapabilities(
+                          items: [
+                            (
+                              eyebrow: l10n.publicVideoEyebrow,
+                              title: l10n.publicVideoTitle,
+                              description: l10n.publicVideoDescription,
+                              icon: LucideIcons.video,
+                            ),
+                            (
+                              eyebrow: l10n.publicDocumentEyebrow,
+                              title: l10n.publicDocumentTitle,
+                              description: l10n.publicDocumentDescription,
+                              icon: LucideIcons.fileText,
+                            ),
+                            (
+                              eyebrow: l10n.publicAnalysisEyebrow,
+                              title: l10n.publicAnalysisTitle,
+                              description: l10n.publicAnalysisDescription,
+                              icon: LucideIcons.sparkles,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        PublicHomeSectionIntro(
+                          description: l10n.publicTrustDescription,
+                          eyebrow: l10n.publicTrustEyebrow,
+                          title: l10n.publicTrustTitle,
+                        ),
+                        const SizedBox(height: AppSpacing.xLarge),
+                        PublicHomeSafeguards(
+                          items: [
+                            l10n.publicSafeguardSession,
+                            l10n.publicSafeguardWorkers,
+                            l10n.publicSafeguardArtifacts,
+                            l10n.publicSafeguardAuthorization,
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        PublicHomeSectionIntro(
+                          description: l10n.publicStartDescription,
+                          eyebrow: l10n.publicStartEyebrow,
+                          title: l10n.publicStartTitle,
+                        ),
+                        const SizedBox(height: AppSpacing.xLarge),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FilledButton.tonalIcon(
+                            key: const Key('public-home-deployment'),
+                            onPressed: () => _openExternal(
+                              context,
+                              PublicHomeLinks.quickStart,
+                              l10n.publicExternalLinkError,
+                            ),
+                            icon: const Icon(LucideIcons.externalLink),
+                            label: Text(l10n.publicDeploymentAction),
                           ),
-                        ),
-                        const SizedBox(height: AppSpacing.medium),
-                        Text(
-                          localizations.publicHomeDescription,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
-                              ),
-                        ),
-                        const SizedBox(height: AppSpacing.xLarge),
-                        FilledButton(
-                          key: const Key('public-home-register'),
-                          onPressed: () => context.push('/auth/register'),
-                          child: Text(localizations.registerAction),
-                        ),
-                        const SizedBox(height: AppSpacing.section),
-                        Text(
-                          localizations.publicHomeCapabilitiesTitle,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(height: AppSpacing.xLarge),
-                        _Capability(
-                          description: localizations.publicVideoDescription,
-                          icon: LucideIcons.video,
-                          title: localizations.publicVideoTitle,
-                        ),
-                        _Capability(
-                          description: localizations.publicDocumentDescription,
-                          icon: LucideIcons.fileText,
-                          title: localizations.publicDocumentTitle,
-                        ),
-                        _Capability(
-                          description: localizations.publicAnalysisDescription,
-                          icon: LucideIcons.sparkles,
-                          title: localizations.publicAnalysisTitle,
-                        ),
-                        const SizedBox(height: AppSpacing.section),
-                        Icon(
-                          LucideIcons.shieldCheck,
-                          size: 28,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(height: AppSpacing.medium),
-                        Text(
-                          localizations.publicTrustTitle,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(height: AppSpacing.small),
-                        Text(
-                          localizations.publicTrustDescription,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
-                              ),
                         ),
                       ],
                     ),
@@ -118,51 +195,6 @@ final class PublicHomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-final class _Capability extends StatelessWidget {
-  const _Capability({
-    required this.description,
-    required this.icon,
-    required this.title,
-  });
-
-  final String description;
-  final IconData icon;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xLarge),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            icon,
-            size: 22,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(width: AppSpacing.medium),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: AppSpacing.xSmall),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
