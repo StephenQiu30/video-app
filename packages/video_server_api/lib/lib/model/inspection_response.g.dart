@@ -18,6 +18,10 @@ class _$InspectionResponse extends InspectionResponse {
   @override
   final int durationSeconds;
   @override
+  final MediaKind mediaKind;
+  @override
+  final int assetCount;
+  @override
   final String? thumbnailUrl;
   @override
   final DateTime expiresAt;
@@ -52,6 +56,8 @@ class _$InspectionResponse extends InspectionResponse {
       required this.providerMediaId,
       required this.title,
       required this.durationSeconds,
+      required this.mediaKind,
+      required this.assetCount,
       this.thumbnailUrl,
       required this.expiresAt,
       required this.formats,
@@ -83,6 +89,8 @@ class _$InspectionResponse extends InspectionResponse {
         providerMediaId == other.providerMediaId &&
         title == other.title &&
         durationSeconds == other.durationSeconds &&
+        mediaKind == other.mediaKind &&
+        assetCount == other.assetCount &&
         thumbnailUrl == other.thumbnailUrl &&
         expiresAt == other.expiresAt &&
         formats == other.formats &&
@@ -105,6 +113,8 @@ class _$InspectionResponse extends InspectionResponse {
     _$hash = $jc(_$hash, providerMediaId.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, durationSeconds.hashCode);
+    _$hash = $jc(_$hash, mediaKind.hashCode);
+    _$hash = $jc(_$hash, assetCount.hashCode);
     _$hash = $jc(_$hash, thumbnailUrl.hashCode);
     _$hash = $jc(_$hash, expiresAt.hashCode);
     _$hash = $jc(_$hash, formats.hashCode);
@@ -129,6 +139,8 @@ class _$InspectionResponse extends InspectionResponse {
           ..add('providerMediaId', providerMediaId)
           ..add('title', title)
           ..add('durationSeconds', durationSeconds)
+          ..add('mediaKind', mediaKind)
+          ..add('assetCount', assetCount)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('expiresAt', expiresAt)
           ..add('formats', formats)
@@ -170,6 +182,14 @@ class InspectionResponseBuilder
   int? get durationSeconds => _$this._durationSeconds;
   set durationSeconds(int? durationSeconds) =>
       _$this._durationSeconds = durationSeconds;
+
+  MediaKind? _mediaKind;
+  MediaKind? get mediaKind => _$this._mediaKind;
+  set mediaKind(MediaKind? mediaKind) => _$this._mediaKind = mediaKind;
+
+  int? _assetCount;
+  int? get assetCount => _$this._assetCount;
+  set assetCount(int? assetCount) => _$this._assetCount = assetCount;
 
   String? _thumbnailUrl;
   String? get thumbnailUrl => _$this._thumbnailUrl;
@@ -241,6 +261,8 @@ class InspectionResponseBuilder
       _providerMediaId = $v.providerMediaId;
       _title = $v.title;
       _durationSeconds = $v.durationSeconds;
+      _mediaKind = $v.mediaKind;
+      _assetCount = $v.assetCount;
       _thumbnailUrl = $v.thumbnailUrl;
       _expiresAt = $v.expiresAt;
       _formats = $v.formats.toBuilder();
@@ -286,6 +308,10 @@ class InspectionResponseBuilder
                 title, r'InspectionResponse', 'title'),
             durationSeconds: BuiltValueNullFieldError.checkNotNull(
                 durationSeconds, r'InspectionResponse', 'durationSeconds'),
+            mediaKind: BuiltValueNullFieldError.checkNotNull(
+                mediaKind, r'InspectionResponse', 'mediaKind'),
+            assetCount: BuiltValueNullFieldError.checkNotNull(
+                assetCount, r'InspectionResponse', 'assetCount'),
             thumbnailUrl: thumbnailUrl,
             expiresAt: BuiltValueNullFieldError.checkNotNull(
                 expiresAt, r'InspectionResponse', 'expiresAt'),

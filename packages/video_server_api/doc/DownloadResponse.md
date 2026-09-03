@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **attempt** | **int** |  |
 **version** | **int** |  |
 **errorCode** | [**DownloadErrorCode**](DownloadErrorCode.md) |  |
+**errorMessage** | **String** |  |
 **createdAt** | [**DateTime**](DateTime.md) |  |
 **updatedAt** | [**DateTime**](DateTime.md) |  |
 **finishedAt** | [**DateTime**](DateTime.md) |  |
@@ -26,6 +27,8 @@ Name | Type | Description | Notes
 **title** | **String** |  |
 **extractorKey** | **String** |  |
 **durationSeconds** | **int** |  |
+**mediaKind** | [**MediaKind**](MediaKind.md) |  |
+**assetCount** | **int** |  |
 **thumbnailUrl** | **String** |  |
 **format** | [**SemanticPlanResponse**](SemanticPlanResponse.md) |  |
 

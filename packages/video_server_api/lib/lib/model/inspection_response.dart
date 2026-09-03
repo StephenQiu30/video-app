@@ -8,6 +8,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:video_server_api/lib/model/format_response.dart';
 import 'package:video_server_api/lib/model/rights_basis.dart';
 import 'package:video_server_api/lib/model/protection_state.dart';
+import 'package:video_server_api/lib/model/media_kind.dart';
 import 'package:video_server_api/lib/model/access_decision.dart';
 import 'package:video_server_api/lib/model/entitlement_state.dart';
 import 'package:video_server_api/lib/model/execution_mode.dart';
@@ -25,6 +26,8 @@ part 'inspection_response.g.dart';
 /// * [providerMediaId]
 /// * [title]
 /// * [durationSeconds]
+/// * [mediaKind]
+/// * [assetCount]
 /// * [thumbnailUrl]
 /// * [expiresAt]
 /// * [formats]
@@ -54,6 +57,13 @@ abstract class InspectionResponse
 
   @BuiltValueField(wireName: r'duration_seconds')
   int get durationSeconds;
+
+  @BuiltValueField(wireName: r'media_kind')
+  MediaKind get mediaKind;
+  // enum mediaKindEnum {  video,  image_gallery,  video_collection,  };
+
+  @BuiltValueField(wireName: r'asset_count')
+  int get assetCount;
 
   @BuiltValueField(wireName: r'thumbnail_url')
   String? get thumbnailUrl;
@@ -147,6 +157,16 @@ class _$InspectionResponseSerializer
     yield r'duration_seconds';
     yield serializers.serialize(
       object.durationSeconds,
+      specifiedType: const FullType(int),
+    );
+    yield r'media_kind';
+    yield serializers.serialize(
+      object.mediaKind,
+      specifiedType: const FullType(MediaKind),
+    );
+    yield r'asset_count';
+    yield serializers.serialize(
+      object.assetCount,
       specifiedType: const FullType(int),
     );
     yield r'thumbnail_url';
@@ -276,6 +296,20 @@ class _$InspectionResponseSerializer
             specifiedType: const FullType(int),
           ) as int;
           result.durationSeconds = valueDes;
+          break;
+        case r'media_kind':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(MediaKind),
+          ) as MediaKind;
+          result.mediaKind = valueDes;
+          break;
+        case r'asset_count':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.assetCount = valueDes;
           break;
         case r'thumbnail_url':
           final valueDes = serializers.deserialize(

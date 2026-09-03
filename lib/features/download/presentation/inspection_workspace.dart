@@ -100,7 +100,9 @@ final class InspectionWorkspace extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final format = inspection.formats[index];
                   return _FormatOption(
+                    assetCount: inspection.assetCount,
                     format: format,
+                    mediaKind: inspection.mediaKind,
                     onTap: state.busy ? null : () => onSelectFormat(format.id),
                     selected: state.selectedFormatId == format.id,
                   );
@@ -132,12 +134,16 @@ final class InspectionWorkspace extends StatelessWidget {
 
 final class _FormatOption extends StatelessWidget {
   const _FormatOption({
+    required this.assetCount,
     required this.format,
+    required this.mediaKind,
     required this.onTap,
     required this.selected,
   });
 
+  final int assetCount;
   final FormatResponse format;
+  final MediaKind mediaKind;
   final VoidCallback? onTap;
   final bool selected;
 
@@ -145,6 +151,19 @@ final class _FormatOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final plan = format.plan;
+    final localizations = AppLocalizations.of(context);
+    final details = plan == null
+        ? switch (mediaKind) {
+            MediaKind.imageGallery => localizations.imageGalleryFormatDetails(
+              assetCount,
+            ),
+            MediaKind.videoCollection =>
+              localizations.videoCollectionFormatDetails(assetCount),
+            _ => localizations.formatUnavailable,
+          }
+        : '${plan.width}×${plan.height} · '
+              '${plan.containerPreference.name.toUpperCase()} · '
+              '${plan.videoCodecFamily.name.toUpperCase()}';
     return Material(
       color: selected
           ? theme.colorScheme.primaryContainer
@@ -173,9 +192,7 @@ final class _FormatOption extends StatelessWidget {
                     Text(format.displayName, style: theme.textTheme.titleSmall),
                     const SizedBox(height: 4),
                     Text(
-                      '${plan.width}×${plan.height} · '
-                      '${plan.containerPreference.name.toUpperCase()} · '
-                      '${plan.videoCodecFamily.name.toUpperCase()}',
+                      details,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

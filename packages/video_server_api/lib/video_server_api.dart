@@ -87,6 +87,7 @@ export 'package:video_server_api/lib/model/managed_user_list_response.dart';
 export 'package:video_server_api/lib/model/managed_user_response.dart';
 export 'package:video_server_api/lib/model/media_import_request.dart';
 export 'package:video_server_api/lib/model/media_import_response.dart';
+export 'package:video_server_api/lib/model/media_kind.dart';
 export 'package:video_server_api/lib/model/media_upload_session_response.dart';
 export 'package:video_server_api/lib/model/model_source.dart';
 export 'package:video_server_api/lib/model/native_logout_request.dart';

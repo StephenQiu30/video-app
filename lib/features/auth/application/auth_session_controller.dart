@@ -151,6 +151,7 @@ final class AuthSessionController extends Notifier<AuthSessionState> {
 
   Future<void> _clear({AuthFailureKind? failure}) async {
     _accessToken = null;
+    ref.read(videoServerApiProvider).removeBearerAuth('NativeBearerAuth');
     await _store.clear();
     state = AuthSessionState(
       phase: AuthSessionPhase.signedOut,

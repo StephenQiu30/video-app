@@ -85,6 +85,8 @@ InspectionResponse inspectionFixture({
       ..providerMediaId = 'media-301'
       ..title = '真实解析视频'
       ..durationSeconds = 125
+      ..mediaKind = MediaKind.video
+      ..assetCount = 1
       ..thumbnailUrl =
           '/api/inspections/00000000-0000-0000-0000-000000000301/thumbnail'
       ..expiresAt = DateTime.utc(2026, 8, 30, 13)
@@ -149,7 +151,9 @@ DownloadResponse intakeDownloadFixture() {
       ..fileAvailable = false
       ..title = '真实解析视频'
       ..extractorKey = 'youtube'
-      ..durationSeconds = 125,
+      ..durationSeconds = 125
+      ..mediaKind = MediaKind.video
+      ..assetCount = 1,
   );
 }
 

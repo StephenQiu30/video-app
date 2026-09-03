@@ -583,6 +583,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mediaUrlError => '请输入有效的公开 HTTP(S) 视频地址。';
 
   @override
+  String get publicInputRequired => '请输入公开链接或完整分享文案。';
+
+  @override
   String get operationFailed => '操作未完成，请稍后重试。';
 
   @override
@@ -623,6 +626,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noFormatsAvailable => '解析成功，但没有可创建任务的下载格式。';
+
+  @override
+  String imageGalleryFormatDetails(Object count) {
+    return '$count 张原图 · ZIP';
+  }
+
+  @override
+  String videoCollectionFormatDetails(Object count) {
+    return '$count 个视频 · ZIP';
+  }
 
   @override
   String get inspectionFailedError => '媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。';

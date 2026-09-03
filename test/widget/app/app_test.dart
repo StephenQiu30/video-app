@@ -189,11 +189,11 @@ void main() {
     final repository = FakeDownloadIntakeRepository();
     await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
-    await tester.enterText(find.byKey(const Key('media-url-input')), '无效地址');
+    await tester.enterText(find.byKey(const Key('media-url-input')), '');
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pump();
 
-    expect(find.text('请输入有效的公开 HTTP(S) 视频地址。'), findsOneWidget);
+    expect(find.text('请输入公开链接或完整分享文案。'), findsOneWidget);
     expect(repository.publicUrls, isEmpty);
   });
 
@@ -218,20 +218,43 @@ void main() {
     expect(find.byKey(const Key('create-download-button')), findsOneWidget);
   });
 
-  testWidgets('passes only the normalized URL to the generated client flow', (
+  testWidgets(
+    'passes the original share message to the generated client flow',
+    (tester) async {
+      final repository = FakeDownloadIntakeRepository();
+      await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+
+      await tester.enterText(
+        find.byKey(const Key('media-url-input')),
+        '复制链接 https://media.example/video?id=42。 打开帧取',
+      );
+      await tester.tap(find.byKey(const Key('inspect-media-button')));
+      await tester.pumpAndSettle();
+
+      expect(repository.publicUrls, [
+        '复制链接 https://media.example/video?id=42。 打开帧取',
+      ]);
+    },
+  );
+
+  testWidgets('preserves the complete Hongguo share message for the server', (
     tester,
   ) async {
     final repository = FakeDownloadIntakeRepository();
     await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
+    const shareMessage =
+        '漫剧《死对头校花竟是我网恋女友》 - 免费好剧，尽在红果\n'
+        '点击链接打开👉https://novelquickapp.com/s/QVcr7YNEMwI/\n'
+        '复制本条消息后，打开「红果短剧App」后免费看全集~';
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
-      '复制链接 https://media.example/video?id=42。 打开帧取',
+      shareMessage,
     );
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(repository.publicUrls, ['https://media.example/video?id=42']);
+    expect(repository.publicUrls, [shareMessage]);
   });
 
   testWidgets('submits the URL embedded in a copied Douyin share message', (
@@ -240,16 +263,18 @@ void main() {
     final repository = FakeDownloadIntakeRepository();
     await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
 
+    const shareMessage =
+        '0.53 复制打开抖音，看看【喵了个喵-的图文作品】你笑面如花 '
+        '真想与你情定香格里拉.# 我与天坛 '
+        'https://v.douyin.com/Z8wTCSQ-1_g/ M@j.cn EHv:/ 04/10 :3pm';
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
-      '0.53 复制打开抖音，看看【喵了个喵-的图文作品】你笑面如花 '
-      '真想与你情定香格里拉.# 我与天坛 '
-      'https://v.douyin.com/Z8wTCSQ-1_g/ M@j.cn EHv:/ 04/10 :3pm',
+      shareMessage,
     );
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(repository.publicUrls, ['https://v.douyin.com/Z8wTCSQ-1_g/']);
+    expect(repository.publicUrls, [shareMessage]);
   });
 
   testWidgets('discovers and opens an article candidate', (tester) async {

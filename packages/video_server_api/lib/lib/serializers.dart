@@ -81,6 +81,7 @@ import 'package:video_server_api/lib/model/managed_user_list_response.dart';
 import 'package:video_server_api/lib/model/managed_user_response.dart';
 import 'package:video_server_api/lib/model/media_import_request.dart';
 import 'package:video_server_api/lib/model/media_import_response.dart';
+import 'package:video_server_api/lib/model/media_kind.dart';
 import 'package:video_server_api/lib/model/media_upload_session_response.dart';
 import 'package:video_server_api/lib/model/model_source.dart';
 import 'package:video_server_api/lib/model/native_logout_request.dart';
@@ -200,6 +201,7 @@ part 'serializers.g.dart';
   ManagedUserResponse,
   MediaImportRequest,
   MediaImportResponse,
+  MediaKind,
   MediaUploadSessionResponse,
   ModelSource,
   NativeLogoutRequest,

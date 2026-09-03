@@ -75,6 +75,7 @@ doc/ManagedUserResponse.md
 doc/MediaImportRequest.md
 doc/MediaImportResponse.md
 doc/MediaImportsApi.md
+doc/MediaKind.md
 doc/MediaUploadSessionResponse.md
 doc/ModelSource.md
 doc/NativeLogoutRequest.md
@@ -210,6 +211,7 @@ lib/lib/model/managed_user_list_response.dart
 lib/lib/model/managed_user_response.dart
 lib/lib/model/media_import_request.dart
 lib/lib/model/media_import_response.dart
+lib/lib/model/media_kind.dart
 lib/lib/model/media_upload_session_response.dart
 lib/lib/model/model_source.dart
 lib/lib/model/native_logout_request.dart

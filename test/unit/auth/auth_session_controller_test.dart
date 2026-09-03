@@ -96,6 +96,22 @@ void main() {
       expect(container.read(authSessionProvider.notifier).accessToken, isNull);
     },
   );
+
+  test(
+    'clearing a session removes the generated client bearer token',
+    () async {
+      final store = _MemoryCredentialStore('refresh-live');
+      final container = _container(_FakeAuthGateway(), store);
+      addTearDown(container.dispose);
+      final client = container.read(videoServerApiProvider);
+      client.setBearerAuth('NativeBearerAuth', 'stale-access');
+
+      await container.read(authSessionProvider.notifier).expireSession();
+
+      final bearer = client.dio.interceptors.whereType<BearerAuthInterceptor>();
+      expect(bearer.single.tokens, isEmpty);
+    },
+  );
 }
 
 ProviderContainer _container(

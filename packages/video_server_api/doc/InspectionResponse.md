@@ -13,6 +13,8 @@ Name | Type | Description | Notes
 **providerMediaId** | **String** |  |
 **title** | **String** |  |
 **durationSeconds** | **int** |  |
+**mediaKind** | [**MediaKind**](MediaKind.md) |  |
+**assetCount** | **int** |  |
 **thumbnailUrl** | **String** |  |
 **expiresAt** | [**DateTime**](DateTime.md) |  |
 **formats** | [**BuiltList&lt;FormatResponse&gt;**](FormatResponse.md) |  |

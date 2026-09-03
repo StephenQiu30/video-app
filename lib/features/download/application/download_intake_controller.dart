@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
+import 'package:framegrab/features/download/application/public_input.dart';
 import 'package:framegrab/features/download/data/download_intake_repository.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -77,7 +78,7 @@ final class DownloadIntakeController extends Notifier<DownloadIntakeState> {
     if (state.busy) return;
     state = const DownloadIntakeState(phase: DownloadIntakePhase.inspecting);
     try {
-      if (_isWeChatArticle(url)) {
+      if (containsWeChatArticleInput(url)) {
         final discovery = await _repository.discoverArticle(
           idempotencyKey: _keys.value('discover', url),
           url: url,
@@ -159,11 +160,6 @@ final class DownloadIntakeController extends Notifier<DownloadIntakeState> {
       selectedFormatId: inspection.formats.firstOrNull?.id,
     );
   }
-}
-
-bool _isWeChatArticle(String value) {
-  final uri = Uri.tryParse(value);
-  return uri?.scheme == 'https' && uri?.host == 'mp.weixin.qq.com';
 }
 
 final class _StableKeys {

@@ -7,7 +7,7 @@ import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/presentation/document_list_screen.dart';
 import 'package:framegrab/features/download/application/download_intake_controller.dart';
-import 'package:framegrab/features/download/application/media_url_input.dart';
+import 'package:framegrab/features/download/application/public_input.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/features/download/presentation/download_home_content.dart';
@@ -61,10 +61,10 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
 
   Future<void> _submit() async {
     final localizations = AppLocalizations.of(context);
-    final normalized = normalizeMediaUrl(_urlController.text);
-    if (normalized == null) {
+    final input = _urlController.text.trim();
+    if (!hasPublicInput(input)) {
       setState(() {
-        _error = localizations.mediaUrlError;
+        _error = localizations.publicInputRequired;
         _urlInvalid = true;
         _statusTone = DownloadNoticeTone.destructive;
       });
@@ -76,9 +76,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
       _urlInvalid = false;
       _statusTone = DownloadNoticeTone.destructive;
     });
-    await ref
-        .read(downloadIntakeControllerProvider.notifier)
-        .inspect(normalized);
+    await ref.read(downloadIntakeControllerProvider.notifier).inspect(input);
   }
 
   void _clear() {

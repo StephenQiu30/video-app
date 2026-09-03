@@ -180,6 +180,7 @@ Class | Method | HTTP request | Description
  - [ManagedUserResponse](doc/ManagedUserResponse.md)
  - [MediaImportRequest](doc/MediaImportRequest.md)
  - [MediaImportResponse](doc/MediaImportResponse.md)
+ - [MediaKind](doc/MediaKind.md)
  - [MediaUploadSessionResponse](doc/MediaUploadSessionResponse.md)
  - [ModelSource](doc/ModelSource.md)
  - [NativeLogoutRequest](doc/NativeLogoutRequest.md)

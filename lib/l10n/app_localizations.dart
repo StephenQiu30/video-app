@@ -1238,6 +1238,12 @@ abstract class AppLocalizations {
   /// **'请输入有效的公开 HTTP(S) 视频地址。'**
   String get mediaUrlError;
 
+  /// No description provided for @publicInputRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'请输入公开链接或完整分享文案。'**
+  String get publicInputRequired;
+
   /// No description provided for @operationFailed.
   ///
   /// In zh, this message translates to:
@@ -1321,6 +1327,18 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'解析成功，但没有可创建任务的下载格式。'**
   String get noFormatsAvailable;
+
+  /// No description provided for @imageGalleryFormatDetails.
+  ///
+  /// In zh, this message translates to:
+  /// **'{count} 张原图 · ZIP'**
+  String imageGalleryFormatDetails(Object count);
+
+  /// No description provided for @videoCollectionFormatDetails.
+  ///
+  /// In zh, this message translates to:
+  /// **'{count} 个视频 · ZIP'**
+  String videoCollectionFormatDetails(Object count);
 
   /// No description provided for @inspectionFailedError.
   ///

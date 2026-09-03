@@ -25,7 +25,7 @@ abstract class FormatResponse
   String get displayName;
 
   @BuiltValueField(wireName: r'plan')
-  SemanticPlanResponse get plan;
+  SemanticPlanResponse? get plan;
 
   FormatResponse._();
 
@@ -64,10 +64,12 @@ class _$FormatResponseSerializer
       specifiedType: const FullType(String),
     );
     yield r'plan';
-    yield serializers.serialize(
-      object.plan,
-      specifiedType: const FullType(SemanticPlanResponse),
-    );
+    yield object.plan == null
+        ? null
+        : serializers.serialize(
+            object.plan,
+            specifiedType: const FullType.nullable(SemanticPlanResponse),
+          );
   }
 
   @override
@@ -110,8 +112,9 @@ class _$FormatResponseSerializer
         case r'plan':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(SemanticPlanResponse),
-          ) as SemanticPlanResponse;
+            specifiedType: const FullType.nullable(SemanticPlanResponse),
+          ) as SemanticPlanResponse?;
+          if (valueDes == null) continue;
           result.plan.replace(valueDes);
           break;
         default:

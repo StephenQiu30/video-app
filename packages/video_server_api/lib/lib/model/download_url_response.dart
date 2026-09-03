@@ -13,6 +13,7 @@ part 'download_url_response.g.dart';
 /// Properties:
 /// * [url]
 /// * [expiresAt]
+/// * [filename]
 @BuiltValue()
 abstract class DownloadUrlResponse
     implements Built<DownloadUrlResponse, DownloadUrlResponseBuilder> {
@@ -21,6 +22,9 @@ abstract class DownloadUrlResponse
 
   @BuiltValueField(wireName: r'expires_at')
   DateTime get expiresAt;
+
+  @BuiltValueField(wireName: r'filename')
+  String get filename;
 
   DownloadUrlResponse._();
 
@@ -61,6 +65,11 @@ class _$DownloadUrlResponseSerializer
       object.expiresAt,
       specifiedType: const FullType(DateTime),
     );
+    yield r'filename';
+    yield serializers.serialize(
+      object.filename,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -99,6 +108,13 @@ class _$DownloadUrlResponseSerializer
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.expiresAt = valueDes;
+          break;
+        case r'filename':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.filename = valueDes;
           break;
         default:
           unhandled.add(key);

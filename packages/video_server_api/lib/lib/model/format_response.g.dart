@@ -12,13 +12,12 @@ class _$FormatResponse extends FormatResponse {
   @override
   final String displayName;
   @override
-  final SemanticPlanResponse plan;
+  final SemanticPlanResponse? plan;
 
   factory _$FormatResponse([void Function(FormatResponseBuilder)? updates]) =>
       (FormatResponseBuilder()..update(updates))._build();
 
-  _$FormatResponse._(
-      {required this.id, required this.displayName, required this.plan})
+  _$FormatResponse._({required this.id, required this.displayName, this.plan})
       : super._();
   @override
   FormatResponse rebuild(void Function(FormatResponseBuilder) updates) =>
@@ -82,7 +81,7 @@ class FormatResponseBuilder
     if ($v != null) {
       _id = $v.id;
       _displayName = $v.displayName;
-      _plan = $v.plan.toBuilder();
+      _plan = $v.plan?.toBuilder();
       _$v = null;
     }
     return this;
@@ -110,13 +109,13 @@ class FormatResponseBuilder
                 id, r'FormatResponse', 'id'),
             displayName: BuiltValueNullFieldError.checkNotNull(
                 displayName, r'FormatResponse', 'displayName'),
-            plan: plan.build(),
+            plan: _plan?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'plan';
-        plan.build();
+        _plan?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FormatResponse', _$failedField, e.toString());

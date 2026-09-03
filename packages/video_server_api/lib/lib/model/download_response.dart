@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element, unused_element_parameter
 import 'package:video_server_api/lib/model/download_error_code.dart';
 import 'package:video_server_api/lib/model/download_status.dart';
+import 'package:video_server_api/lib/model/media_kind.dart';
 import 'package:video_server_api/lib/model/semantic_plan_response.dart';
 import 'package:video_server_api/lib/model/download_source_kind.dart';
 import 'package:video_server_api/lib/model/download_stage.dart';
@@ -27,6 +28,7 @@ part 'download_response.g.dart';
 /// * [attempt]
 /// * [version]
 /// * [errorCode]
+/// * [errorMessage]
 /// * [createdAt]
 /// * [updatedAt]
 /// * [finishedAt]
@@ -34,6 +36,8 @@ part 'download_response.g.dart';
 /// * [title]
 /// * [extractorKey]
 /// * [durationSeconds]
+/// * [mediaKind]
+/// * [assetCount]
 /// * [thumbnailUrl]
 /// * [format]
 @BuiltValue()
@@ -76,6 +80,9 @@ abstract class DownloadResponse
   DownloadErrorCode? get errorCode;
   // enum errorCodeEnum {  cancelled,  download_timeout,  format_unavailable,  inspection_timeout,  internal_error,  media_validation_failed,  output_limit_exceeded,  provider_auth_required,  provider_content_restricted,  provider_drm_protected,  provider_geo_restricted,  provider_link_unavailable,  provider_media_unsupported,  provider_rate_limited,  provider_session_expired,  provider_temporarily_unavailable,  provider_unsupported,  provider_verification_failed,  storage_unavailable,  temp_space_exhausted,  transcode_required,  unsupported_source,  worker_lost,  };
 
+  @BuiltValueField(wireName: r'error_message')
+  String? get errorMessage;
+
   @BuiltValueField(wireName: r'created_at')
   DateTime get createdAt;
 
@@ -96,6 +103,13 @@ abstract class DownloadResponse
 
   @BuiltValueField(wireName: r'duration_seconds')
   int? get durationSeconds;
+
+  @BuiltValueField(wireName: r'media_kind')
+  MediaKind get mediaKind;
+  // enum mediaKindEnum {  video,  image_gallery,  video_collection,  };
+
+  @BuiltValueField(wireName: r'asset_count')
+  int get assetCount;
 
   @BuiltValueField(wireName: r'thumbnail_url')
   String? get thumbnailUrl;
@@ -192,6 +206,13 @@ class _$DownloadResponseSerializer
             object.errorCode,
             specifiedType: const FullType.nullable(DownloadErrorCode),
           );
+    yield r'error_message';
+    yield object.errorMessage == null
+        ? null
+        : serializers.serialize(
+            object.errorMessage,
+            specifiedType: const FullType.nullable(String),
+          );
     yield r'created_at';
     yield serializers.serialize(
       object.createdAt,
@@ -235,6 +256,16 @@ class _$DownloadResponseSerializer
             object.durationSeconds,
             specifiedType: const FullType.nullable(int),
           );
+    yield r'media_kind';
+    yield serializers.serialize(
+      object.mediaKind,
+      specifiedType: const FullType(MediaKind),
+    );
+    yield r'asset_count';
+    yield serializers.serialize(
+      object.assetCount,
+      specifiedType: const FullType(int),
+    );
     yield r'thumbnail_url';
     yield object.thumbnailUrl == null
         ? null
@@ -355,6 +386,14 @@ class _$DownloadResponseSerializer
           if (valueDes == null) continue;
           result.errorCode = valueDes;
           break;
+        case r'error_message':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.errorMessage = valueDes;
+          break;
         case r'created_at':
           final valueDes = serializers.deserialize(
             value,
@@ -407,6 +446,20 @@ class _$DownloadResponseSerializer
           ) as int?;
           if (valueDes == null) continue;
           result.durationSeconds = valueDes;
+          break;
+        case r'media_kind':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(MediaKind),
+          ) as MediaKind;
+          result.mediaKind = valueDes;
+          break;
+        case r'asset_count':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.assetCount = valueDes;
           break;
         case r'thumbnail_url':
           final valueDes = serializers.deserialize(

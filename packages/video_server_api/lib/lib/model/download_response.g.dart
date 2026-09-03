@@ -30,6 +30,8 @@ class _$DownloadResponse extends DownloadResponse {
   @override
   final DownloadErrorCode? errorCode;
   @override
+  final String? errorMessage;
+  @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -43,6 +45,10 @@ class _$DownloadResponse extends DownloadResponse {
   final String? extractorKey;
   @override
   final int? durationSeconds;
+  @override
+  final MediaKind mediaKind;
+  @override
+  final int assetCount;
   @override
   final String? thumbnailUrl;
   @override
@@ -64,6 +70,7 @@ class _$DownloadResponse extends DownloadResponse {
       required this.attempt,
       required this.version,
       this.errorCode,
+      this.errorMessage,
       required this.createdAt,
       required this.updatedAt,
       this.finishedAt,
@@ -71,6 +78,8 @@ class _$DownloadResponse extends DownloadResponse {
       this.title,
       this.extractorKey,
       this.durationSeconds,
+      required this.mediaKind,
+      required this.assetCount,
       this.thumbnailUrl,
       this.format})
       : super._();
@@ -97,6 +106,7 @@ class _$DownloadResponse extends DownloadResponse {
         attempt == other.attempt &&
         version == other.version &&
         errorCode == other.errorCode &&
+        errorMessage == other.errorMessage &&
         createdAt == other.createdAt &&
         updatedAt == other.updatedAt &&
         finishedAt == other.finishedAt &&
@@ -104,6 +114,8 @@ class _$DownloadResponse extends DownloadResponse {
         title == other.title &&
         extractorKey == other.extractorKey &&
         durationSeconds == other.durationSeconds &&
+        mediaKind == other.mediaKind &&
+        assetCount == other.assetCount &&
         thumbnailUrl == other.thumbnailUrl &&
         format == other.format;
   }
@@ -122,6 +134,7 @@ class _$DownloadResponse extends DownloadResponse {
     _$hash = $jc(_$hash, attempt.hashCode);
     _$hash = $jc(_$hash, version.hashCode);
     _$hash = $jc(_$hash, errorCode.hashCode);
+    _$hash = $jc(_$hash, errorMessage.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jc(_$hash, finishedAt.hashCode);
@@ -129,6 +142,8 @@ class _$DownloadResponse extends DownloadResponse {
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, extractorKey.hashCode);
     _$hash = $jc(_$hash, durationSeconds.hashCode);
+    _$hash = $jc(_$hash, mediaKind.hashCode);
+    _$hash = $jc(_$hash, assetCount.hashCode);
     _$hash = $jc(_$hash, thumbnailUrl.hashCode);
     _$hash = $jc(_$hash, format.hashCode);
     _$hash = $jf(_$hash);
@@ -149,6 +164,7 @@ class _$DownloadResponse extends DownloadResponse {
           ..add('attempt', attempt)
           ..add('version', version)
           ..add('errorCode', errorCode)
+          ..add('errorMessage', errorMessage)
           ..add('createdAt', createdAt)
           ..add('updatedAt', updatedAt)
           ..add('finishedAt', finishedAt)
@@ -156,6 +172,8 @@ class _$DownloadResponse extends DownloadResponse {
           ..add('title', title)
           ..add('extractorKey', extractorKey)
           ..add('durationSeconds', durationSeconds)
+          ..add('mediaKind', mediaKind)
+          ..add('assetCount', assetCount)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('format', format))
         .toString();
@@ -211,6 +229,10 @@ class DownloadResponseBuilder
   DownloadErrorCode? get errorCode => _$this._errorCode;
   set errorCode(DownloadErrorCode? errorCode) => _$this._errorCode = errorCode;
 
+  String? _errorMessage;
+  String? get errorMessage => _$this._errorMessage;
+  set errorMessage(String? errorMessage) => _$this._errorMessage = errorMessage;
+
   DateTime? _createdAt;
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
@@ -241,6 +263,14 @@ class DownloadResponseBuilder
   set durationSeconds(int? durationSeconds) =>
       _$this._durationSeconds = durationSeconds;
 
+  MediaKind? _mediaKind;
+  MediaKind? get mediaKind => _$this._mediaKind;
+  set mediaKind(MediaKind? mediaKind) => _$this._mediaKind = mediaKind;
+
+  int? _assetCount;
+  int? get assetCount => _$this._assetCount;
+  set assetCount(int? assetCount) => _$this._assetCount = assetCount;
+
   String? _thumbnailUrl;
   String? get thumbnailUrl => _$this._thumbnailUrl;
   set thumbnailUrl(String? thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
@@ -268,6 +298,7 @@ class DownloadResponseBuilder
       _attempt = $v.attempt;
       _version = $v.version;
       _errorCode = $v.errorCode;
+      _errorMessage = $v.errorMessage;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
       _finishedAt = $v.finishedAt;
@@ -275,6 +306,8 @@ class DownloadResponseBuilder
       _title = $v.title;
       _extractorKey = $v.extractorKey;
       _durationSeconds = $v.durationSeconds;
+      _mediaKind = $v.mediaKind;
+      _assetCount = $v.assetCount;
       _thumbnailUrl = $v.thumbnailUrl;
       _format = $v.format?.toBuilder();
       _$v = null;
@@ -318,6 +351,7 @@ class DownloadResponseBuilder
             version: BuiltValueNullFieldError.checkNotNull(
                 version, r'DownloadResponse', 'version'),
             errorCode: errorCode,
+            errorMessage: errorMessage,
             createdAt: BuiltValueNullFieldError.checkNotNull(
                 createdAt, r'DownloadResponse', 'createdAt'),
             updatedAt: BuiltValueNullFieldError.checkNotNull(
@@ -328,6 +362,10 @@ class DownloadResponseBuilder
             title: title,
             extractorKey: extractorKey,
             durationSeconds: durationSeconds,
+            mediaKind: BuiltValueNullFieldError.checkNotNull(
+                mediaKind, r'DownloadResponse', 'mediaKind'),
+            assetCount: BuiltValueNullFieldError.checkNotNull(
+                assetCount, r'DownloadResponse', 'assetCount'),
             thumbnailUrl: thumbnailUrl,
             format: _format?.build(),
           );

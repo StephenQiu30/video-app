@@ -11,12 +11,15 @@ class _$DownloadUrlResponse extends DownloadUrlResponse {
   final String url;
   @override
   final DateTime expiresAt;
+  @override
+  final String filename;
 
   factory _$DownloadUrlResponse(
           [void Function(DownloadUrlResponseBuilder)? updates]) =>
       (DownloadUrlResponseBuilder()..update(updates))._build();
 
-  _$DownloadUrlResponse._({required this.url, required this.expiresAt})
+  _$DownloadUrlResponse._(
+      {required this.url, required this.expiresAt, required this.filename})
       : super._();
   @override
   DownloadUrlResponse rebuild(
@@ -32,7 +35,8 @@ class _$DownloadUrlResponse extends DownloadUrlResponse {
     if (identical(other, this)) return true;
     return other is DownloadUrlResponse &&
         url == other.url &&
-        expiresAt == other.expiresAt;
+        expiresAt == other.expiresAt &&
+        filename == other.filename;
   }
 
   @override
@@ -40,6 +44,7 @@ class _$DownloadUrlResponse extends DownloadUrlResponse {
     var _$hash = 0;
     _$hash = $jc(_$hash, url.hashCode);
     _$hash = $jc(_$hash, expiresAt.hashCode);
+    _$hash = $jc(_$hash, filename.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -48,7 +53,8 @@ class _$DownloadUrlResponse extends DownloadUrlResponse {
   String toString() {
     return (newBuiltValueToStringHelper(r'DownloadUrlResponse')
           ..add('url', url)
-          ..add('expiresAt', expiresAt))
+          ..add('expiresAt', expiresAt)
+          ..add('filename', filename))
         .toString();
   }
 }
@@ -65,6 +71,10 @@ class DownloadUrlResponseBuilder
   DateTime? get expiresAt => _$this._expiresAt;
   set expiresAt(DateTime? expiresAt) => _$this._expiresAt = expiresAt;
 
+  String? _filename;
+  String? get filename => _$this._filename;
+  set filename(String? filename) => _$this._filename = filename;
+
   DownloadUrlResponseBuilder() {
     DownloadUrlResponse._defaults(this);
   }
@@ -74,6 +84,7 @@ class DownloadUrlResponseBuilder
     if ($v != null) {
       _url = $v.url;
       _expiresAt = $v.expiresAt;
+      _filename = $v.filename;
       _$v = null;
     }
     return this;
@@ -99,6 +110,8 @@ class DownloadUrlResponseBuilder
               url, r'DownloadUrlResponse', 'url'),
           expiresAt: BuiltValueNullFieldError.checkNotNull(
               expiresAt, r'DownloadUrlResponse', 'expiresAt'),
+          filename: BuiltValueNullFieldError.checkNotNull(
+              filename, r'DownloadUrlResponse', 'filename'),
         );
     replace(_$result);
     return _$result;

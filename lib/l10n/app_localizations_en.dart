@@ -612,6 +612,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mediaUrlError => 'Enter a valid public HTTP(S) video address.';
 
   @override
+  String get publicInputRequired =>
+      'Enter a public link or full share message.';
+
+  @override
   String get operationFailed =>
       'The operation did not complete. Try again later.';
 
@@ -659,6 +663,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noFormatsAvailable =>
       'Inspection succeeded, but no format is available for creating a download task.';
+
+  @override
+  String imageGalleryFormatDetails(Object count) {
+    return '$count original images · ZIP';
+  }
+
+  @override
+  String videoCollectionFormatDetails(Object count) {
+    return '$count videos · ZIP';
+  }
 
   @override
   String get inspectionFailedError =>

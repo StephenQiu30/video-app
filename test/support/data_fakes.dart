@@ -214,6 +214,8 @@ DownloadResponse downloadDetailFixture({
       ..title = title
       ..extractorKey = 'youtube'
       ..durationSeconds = 124
+      ..mediaKind = MediaKind.video
+      ..assetCount = 1
       ..format.update(
         (format) => format
           ..height = 1080
