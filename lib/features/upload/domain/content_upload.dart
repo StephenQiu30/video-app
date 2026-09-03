@@ -16,6 +16,7 @@ enum ContentUploadFailureCode {
   invalidVideo,
   invalidDocument,
   documentTooLarge,
+  fileSelectionFailed,
   inaccessibleFile,
   invalidSession,
   uploadFailed,

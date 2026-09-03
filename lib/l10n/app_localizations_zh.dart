@@ -643,6 +643,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentTooLargeError => '剧本文档不能超过 50 MB。';
 
   @override
+  String get fileSelectionFailedError => '无法打开系统文件选择器，请重试。';
+
+  @override
   String get inaccessibleFileError => '无法读取所选文件，请重新选择。';
 
   @override

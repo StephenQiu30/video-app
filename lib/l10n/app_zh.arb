@@ -209,6 +209,7 @@
   "invalidVideoFileError": "当前只支持上传 MP4 视频。",
   "invalidDocumentFileError": "支持 DOCX、PDF、TXT、Markdown 和 Fountain 剧本。",
   "documentTooLargeError": "剧本文档不能超过 50 MB。",
+  "fileSelectionFailedError": "无法打开系统文件选择器，请重试。",
   "inaccessibleFileError": "无法读取所选文件，请重新选择。",
   "fileUploadFailed": "文件上传失败，请检查网络后重试。",
   "mediaUrlHint": "粘贴公开链接或整段分享文案",

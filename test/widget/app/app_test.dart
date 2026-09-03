@@ -126,6 +126,25 @@ void main() {
     expect(upload.uploadedKinds, isEmpty);
   });
 
+  testWidgets('distinguishes a native picker failure from an upload failure', (
+    tester,
+  ) async {
+    final picker = FakeLocalContentPicker(
+      error: const ContentUploadFailure(
+        ContentUploadFailureCode.fileSelectionFailed,
+      ),
+    );
+    await pumpFramegrabApp(tester, localContentPicker: picker);
+
+    await tester.tap(find.text('剧本文档').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('选择剧本文件'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('无法打开系统文件选择器，请重试。'), findsOneWidget);
+    expect(find.text('文件上传失败，请检查网络后重试。'), findsNothing);
+  });
+
   testWidgets('uploads a local MP4 and opens its download detail', (
     tester,
   ) async {

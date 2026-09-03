@@ -116,6 +116,8 @@ String _failureLabel(BuildContext context, ContentUploadFailureCode failure) {
     ContentUploadFailureCode.invalidVideo => l10n.invalidVideoFileError,
     ContentUploadFailureCode.invalidDocument => l10n.invalidDocumentFileError,
     ContentUploadFailureCode.documentTooLarge => l10n.documentTooLargeError,
+    ContentUploadFailureCode.fileSelectionFailed =>
+      l10n.fileSelectionFailedError,
     ContentUploadFailureCode.inaccessibleFile => l10n.inaccessibleFileError,
     ContentUploadFailureCode.invalidSession ||
     ContentUploadFailureCode.uploadFailed => l10n.fileUploadFailed,

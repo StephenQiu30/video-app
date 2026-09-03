@@ -4,14 +4,16 @@ import 'package:framegrab/features/upload/data/local_content_picker.dart';
 import 'package:framegrab/features/upload/domain/content_upload.dart';
 
 final class FakeLocalContentPicker implements LocalContentPicker {
-  FakeLocalContentPicker({this.file});
+  FakeLocalContentPicker({this.error, this.file});
 
+  Object? error;
   LocalContentFile? file;
   final List<ContentUploadKind> requestedKinds = [];
 
   @override
   Future<LocalContentFile?> pick(ContentUploadKind kind) async {
     requestedKinds.add(kind);
+    if (error case final failure?) throw failure;
     return file;
   }
 }

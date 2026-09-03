@@ -677,6 +677,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Screenplay documents must be 50 MB or smaller.';
 
   @override
+  String get fileSelectionFailedError =>
+      'The system file picker could not be opened. Try again.';
+
+  @override
   String get inaccessibleFileError =>
       'The selected file could not be read. Choose it again.';
 

@@ -54,6 +54,12 @@ void main() {
 
     final infoPlist = File('ios/Runner/Info.plist').readAsStringSync();
     expect(infoPlist, contains('<string>帧取</string>'));
+    expect(infoPlist, contains('<key>UTExportedTypeDeclarations</key>'));
+    expect(
+      infoPlist,
+      contains('<string>com.stephenqiu.framegrab.fountain</string>'),
+    );
+    expect(infoPlist, contains('<string>fountain</string>'));
     final project = File(
       'ios/Runner.xcodeproj/project.pbxproj',
     ).readAsStringSync();

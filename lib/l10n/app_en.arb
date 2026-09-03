@@ -209,6 +209,7 @@
   "invalidVideoFileError": "Only MP4 video uploads are supported.",
   "invalidDocumentFileError": "DOCX, PDF, TXT, Markdown, and Fountain screenplays are supported.",
   "documentTooLargeError": "Screenplay documents must be 50 MB or smaller.",
+  "fileSelectionFailedError": "The system file picker could not be opened. Try again.",
   "inaccessibleFileError": "The selected file could not be read. Choose it again.",
   "fileUploadFailed": "The file upload failed. Check your connection and retry.",
   "mediaUrlHint": "Paste a public link or full share message",

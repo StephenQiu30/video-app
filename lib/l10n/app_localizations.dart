@@ -1352,6 +1352,12 @@ abstract class AppLocalizations {
   /// **'剧本文档不能超过 50 MB。'**
   String get documentTooLargeError;
 
+  /// No description provided for @fileSelectionFailedError.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法打开系统文件选择器，请重试。'**
+  String get fileSelectionFailedError;
+
   /// No description provided for @inaccessibleFileError.
   ///
   /// In zh, this message translates to:
