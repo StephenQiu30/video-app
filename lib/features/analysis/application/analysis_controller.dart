@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/features/analysis/application/analysis_operation_keys.dart';
 import 'package:framegrab/features/analysis/application/analysis_state.dart';
+import 'package:framegrab/features/analysis/application/analysis_target.dart';
 import 'package:framegrab/features/analysis/data/analysis_repository.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -13,12 +14,14 @@ final analysisPollingIntervalProvider = Provider<Duration>(
 );
 
 final analysisControllerProvider = AsyncNotifierProvider.autoDispose
-    .family<AnalysisController, AnalysisState, String>(AnalysisController.new);
+    .family<AnalysisController, AnalysisState, AnalysisTarget>(
+      AnalysisController.new,
+    );
 
 final class AnalysisController extends AsyncNotifier<AnalysisState> {
-  AnalysisController(this.downloadId);
+  AnalysisController(this.target);
 
-  final String downloadId;
+  final AnalysisTarget target;
   final _keys = AnalysisOperationKeys();
   Timer? _pollTimer;
   late Duration _pollingInterval;
@@ -29,12 +32,17 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
     _repository = ref.watch(analysisRepositoryProvider);
     _pollingInterval = ref.watch(analysisPollingIntervalProvider);
     ref.onDispose(() => _pollTimer?.cancel());
-    final job = await _repository.fetchLatest(downloadId);
+    final job = await _repository.fetchLatest(
+      inputKind: target.inputKind,
+      sourceId: target.id,
+    );
     if (job != null) {
       _schedulePoll(job);
       return AnalysisState(job: job);
     }
-    return AnalysisState(skills: await _repository.fetchVideoSkills());
+    return AnalysisState(
+      skills: await _repository.fetchSkills(target.inputKind),
+    );
   }
 
   Future<void> start({
@@ -43,15 +51,17 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
     required String skillId,
   }) async {
     final payload =
-        '$downloadId\u0000$skillId\u0000$outputLanguage\u0000$customPrompt';
+        '${target.inputKind.name}\u0000${target.id}\u0000$skillId\u0000'
+        '$outputLanguage\u0000$customPrompt';
     await _mutate(
       AnalysisAction.start,
       () => _repository.create(
         customPrompt: customPrompt,
-        downloadId: downloadId,
+        inputKind: target.inputKind,
         idempotencyKey: _keys.value('create', payload),
         outputLanguage: outputLanguage,
         skillId: skillId,
+        sourceId: target.id,
       ),
     );
   }
@@ -86,7 +96,7 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
     _setAction(current, AnalysisAction.delete);
     try {
       await _repository.delete(job.id);
-      final skills = await _repository.fetchVideoSkills();
+      final skills = await _repository.fetchSkills(target.inputKind);
       if (!ref.mounted) return;
       _pollTimer?.cancel();
       _keys.clearAll();
@@ -102,9 +112,12 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
     if (current == null || current.busy) return;
     _setAction(current, AnalysisAction.refresh);
     try {
-      final job = await _repository.fetchLatest(downloadId);
+      final job = await _repository.fetchLatest(
+        inputKind: target.inputKind,
+        sourceId: target.id,
+      );
       final skills = job == null && current.skills.isEmpty
-          ? await _repository.fetchVideoSkills()
+          ? await _repository.fetchSkills(target.inputKind)
           : current.skills;
       if (!ref.mounted) return;
       final next = AnalysisState(job: job, skills: skills);

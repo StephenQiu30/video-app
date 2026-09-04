@@ -440,6 +440,264 @@ abstract class AppLocalizations {
   /// **'状态未知'**
   String get documentStatusUnknown;
 
+  /// No description provided for @openDocumentDetailsHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'打开剧本文档详情'**
+  String get openDocumentDetailsHint;
+
+  /// No description provided for @screenplayDocumentDetailNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档详情'**
+  String get screenplayDocumentDetailNavigation;
+
+  /// No description provided for @screenplayDocumentDetailDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看导入信息、解析摘要和规范化剧本。'**
+  String get screenplayDocumentDetailDescription;
+
+  /// No description provided for @documentInformationTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'导入信息'**
+  String get documentInformationTitle;
+
+  /// No description provided for @documentImportSummary.
+  ///
+  /// In zh, this message translates to:
+  /// **'第 {attempt} 次导入 · 版本 {version}'**
+  String documentImportSummary(int attempt, int version);
+
+  /// No description provided for @documentStoragePolicyLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'存储策略'**
+  String get documentStoragePolicyLabel;
+
+  /// No description provided for @documentStoragePersistent.
+  ///
+  /// In zh, this message translates to:
+  /// **'持久保存'**
+  String get documentStoragePersistent;
+
+  /// No description provided for @documentBasicParsingTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'基础解析'**
+  String get documentBasicParsingTitle;
+
+  /// No description provided for @documentPageCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'页数'**
+  String get documentPageCountLabel;
+
+  /// No description provided for @documentParagraphCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'段落'**
+  String get documentParagraphCountLabel;
+
+  /// No description provided for @documentHeadingCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'标题'**
+  String get documentHeadingCountLabel;
+
+  /// No description provided for @documentListItemCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'列表项'**
+  String get documentListItemCountLabel;
+
+  /// No description provided for @documentTableCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'表格'**
+  String get documentTableCountLabel;
+
+  /// No description provided for @documentDialogueBlockCountLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'对白块'**
+  String get documentDialogueBlockCountLabel;
+
+  /// No description provided for @waitingForParsing.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待解析'**
+  String get waitingForParsing;
+
+  /// No description provided for @chineseLanguage.
+  ///
+  /// In zh, this message translates to:
+  /// **'中文'**
+  String get chineseLanguage;
+
+  /// No description provided for @englishLanguage.
+  ///
+  /// In zh, this message translates to:
+  /// **'英文'**
+  String get englishLanguage;
+
+  /// No description provided for @mixedLanguage.
+  ///
+  /// In zh, this message translates to:
+  /// **'中英混合'**
+  String get mixedLanguage;
+
+  /// No description provided for @unknownLanguage.
+  ///
+  /// In zh, this message translates to:
+  /// **'未知'**
+  String get unknownLanguage;
+
+  /// No description provided for @normalizedScreenplayTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'规范化剧本'**
+  String get normalizedScreenplayTitle;
+
+  /// No description provided for @markdownPreviewLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'Markdown 正文预览'**
+  String get markdownPreviewLabel;
+
+  /// No description provided for @documentPreviewUploading.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件尚未完成上传，上传完成后将自动开始解析。'**
+  String get documentPreviewUploading;
+
+  /// No description provided for @documentPreviewVerifying.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在提取结构和正文，页面会自动更新。'**
+  String get documentPreviewVerifying;
+
+  /// No description provided for @documentPreviewEmpty.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析已完成，但没有可显示的正文。'**
+  String get documentPreviewEmpty;
+
+  /// No description provided for @documentPreviewFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本文档未能完成解析，请根据错误信息重新上传。'**
+  String get documentPreviewFailed;
+
+  /// No description provided for @documentPreviewCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'这次剧本文档导入已经取消。'**
+  String get documentPreviewCancelled;
+
+  /// No description provided for @documentPreviewExpired.
+  ///
+  /// In zh, this message translates to:
+  /// **'上传会话已经过期，请返回首页重新上传。'**
+  String get documentPreviewExpired;
+
+  /// No description provided for @documentPreviewTruncatedTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前显示节选'**
+  String get documentPreviewTruncatedTitle;
+
+  /// No description provided for @documentPreviewTruncatedDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档正文较长，此处只显示服务端返回的规范化预览。'**
+  String get documentPreviewTruncatedDescription;
+
+  /// No description provided for @documentParsingIncompleteTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析尚未完成'**
+  String get documentParsingIncompleteTitle;
+
+  /// No description provided for @documentManualReviewTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'建议人工核对'**
+  String get documentManualReviewTitle;
+
+  /// No description provided for @documentStorageUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件存储暂时不可用，请稍后重试。'**
+  String get documentStorageUnavailable;
+
+  /// No description provided for @documentUploadSessionExpired.
+  ///
+  /// In zh, this message translates to:
+  /// **'上传会话已过期，请重新上传。'**
+  String get documentUploadSessionExpired;
+
+  /// No description provided for @documentUploadIncomplete.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件上传不完整，请重新上传。'**
+  String get documentUploadIncomplete;
+
+  /// No description provided for @documentSizeMismatch.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件大小校验失败，请重新选择原文件。'**
+  String get documentSizeMismatch;
+
+  /// No description provided for @documentIntegrityMismatch.
+  ///
+  /// In zh, this message translates to:
+  /// **'文件完整性校验失败，请重新上传。'**
+  String get documentIntegrityMismatch;
+
+  /// No description provided for @documentFormatUnsupported.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端不支持这个文档格式。'**
+  String get documentFormatUnsupported;
+
+  /// No description provided for @documentEncrypted.
+  ///
+  /// In zh, this message translates to:
+  /// **'无法解析受密码保护的文档。'**
+  String get documentEncrypted;
+
+  /// No description provided for @documentArchiveUnsafe.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档压缩结构不安全，已停止处理。'**
+  String get documentArchiveUnsafe;
+
+  /// No description provided for @documentTextUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档中没有可提取的文本。'**
+  String get documentTextUnavailable;
+
+  /// No description provided for @documentStructureInvalid.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档结构无法识别。'**
+  String get documentStructureInvalid;
+
+  /// No description provided for @documentSceneHeadingMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'部分场景缺少标准场景标题。'**
+  String get documentSceneHeadingMissing;
+
+  /// No description provided for @documentManualReviewRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析结果需要人工核对。'**
+  String get documentManualReviewRequired;
+
   /// No description provided for @fileSizeLabel.
   ///
   /// In zh, this message translates to:
@@ -455,7 +713,7 @@ abstract class AppLocalizations {
   /// No description provided for @characterCountLabel.
   ///
   /// In zh, this message translates to:
-  /// **'角色'**
+  /// **'字符'**
   String get characterCountLabel;
 
   /// No description provided for @languageLabel.
@@ -1646,6 +1904,18 @@ abstract class AppLocalizations {
   /// **'由 AI 观察视频画面，生成连续分镜、视觉高光、资产目录，或将视频整理成文章。'**
   String get aiAnalysisDescription;
 
+  /// No description provided for @screenplayAnalysisTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'剧本分析与改写'**
+  String get screenplayAnalysisTitle;
+
+  /// No description provided for @screenplayAnalysisDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择综合分析、结构审阅或中英文改写；任务绑定当前规范化剧本，不会修改原文。'**
+  String get screenplayAnalysisDescription;
+
   /// No description provided for @analysisSkillLabel.
   ///
   /// In zh, this message translates to:
@@ -1703,7 +1973,7 @@ abstract class AppLocalizations {
   /// No description provided for @analysisSkillsEmpty.
   ///
   /// In zh, this message translates to:
-  /// **'当前没有可用的视频分析 Skill，请检查 AI 服务配置后重试。'**
+  /// **'当前没有可用的分析 Skill，请检查 AI 服务配置后重试。'**
   String get analysisSkillsEmpty;
 
   /// No description provided for @analysisLoadFailed.
@@ -1904,6 +2174,72 @@ abstract class AppLocalizations {
   /// **'AI 返回结果未通过结构与证据校验，请重新分析。'**
   String get analysisInvalidResult;
 
+  /// No description provided for @screenplayStoryOverview.
+  ///
+  /// In zh, this message translates to:
+  /// **'故事概览'**
+  String get screenplayStoryOverview;
+
+  /// No description provided for @screenplayLoglineLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'一句话梗概'**
+  String get screenplayLoglineLabel;
+
+  /// No description provided for @screenplaySynopsisLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'故事梗概'**
+  String get screenplaySynopsisLabel;
+
+  /// No description provided for @screenplaySceneCoverageLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'逐场景覆盖'**
+  String get screenplaySceneCoverageLabel;
+
+  /// No description provided for @screenplayMainCharactersLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'主要人物'**
+  String get screenplayMainCharactersLabel;
+
+  /// No description provided for @screenplaySourceScenesLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'源场景'**
+  String get screenplaySourceScenesLabel;
+
+  /// No description provided for @screenplayOutputScenesLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'输出场景'**
+  String get screenplayOutputScenesLabel;
+
+  /// No description provided for @screenplayRewriteSummaryTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'修改摘要'**
+  String get screenplayRewriteSummaryTitle;
+
+  /// No description provided for @screenplayGlossaryTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'统一术语'**
+  String get screenplayGlossaryTitle;
+
+  /// No description provided for @screenplayFullReportTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'完整报告'**
+  String get screenplayFullReportTitle;
+
+  /// No description provided for @screenplayStructuredResultTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'结构化结果'**
+  String get screenplayStructuredResultTitle;
+
   /// No description provided for @analysisResourceLimit.
   ///
   /// In zh, this message translates to:
@@ -1915,6 +2251,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'用于分析的视频文件已不可用，请重新创建下载任务。'**
   String get analysisInputUnavailable;
+
+  /// No description provided for @screenplayAnalysisInputUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'用于分析的剧本文档已不可用，请重新上传剧本。'**
+  String get screenplayAnalysisInputUnavailable;
 
   /// No description provided for @analysisUsageLimited.
   ///

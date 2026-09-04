@@ -11,6 +11,7 @@ import 'package:video_server_api/video_server_api.dart';
 final class AnalysisJobState extends StatelessWidget {
   const AnalysisJobState({
     required this.action,
+    required this.isScreenplay,
     required this.job,
     required this.onCancel,
     required this.onDelete,
@@ -20,6 +21,7 @@ final class AnalysisJobState extends StatelessWidget {
   });
 
   final AnalysisAction action;
+  final bool isScreenplay;
   final AnalysisResponse job;
   final Future<void> Function() onCancel;
   final Future<void> Function() onDelete;
@@ -43,21 +45,28 @@ final class AnalysisJobState extends StatelessWidget {
       key: const Key('analysis-job-state'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          runSpacing: AppSpacing.xSmall,
+          spacing: AppSpacing.large,
           children: [
-            Expanded(
-              child: DataStatusLabel(
-                color: analysisStatusColor(context, job.status),
-                label: analysisStatusLabel(l10n, job.status),
-              ),
+            DataStatusLabel(
+              color: analysisStatusColor(context, job.status),
+              label: analysisStatusLabel(l10n, job.status),
             ),
-            IconButton(
-              key: const Key('refresh-analysis-button'),
-              tooltip: l10n.refreshAnalysisAction,
-              onPressed: busy ? null : onRefresh,
-              icon: const Icon(LucideIcons.refreshCw, size: 18),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  key: const Key('refresh-analysis-button'),
+                  tooltip: l10n.refreshAnalysisAction,
+                  onPressed: busy ? null : onRefresh,
+                  icon: const Icon(LucideIcons.refreshCw, size: 18),
+                ),
+                Text('${job.progress}%'),
+              ],
             ),
-            Text('${job.progress}%'),
           ],
         ),
         if (_active) ...[
@@ -69,8 +78,10 @@ final class AnalysisJobState extends StatelessWidget {
         ],
         const SizedBox(height: AppSpacing.small),
         Text(
-          '${l10n.analysisRunSummary(job.runNo, job.attempt)} · '
-          '${analysisStageLabel(l10n, job.stage)}',
+          _active
+              ? '${l10n.analysisRunSummary(job.runNo, job.attempt)} · '
+                    '${analysisStageLabel(l10n, job.stage)}'
+              : l10n.analysisRunSummary(job.runNo, job.attempt),
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
@@ -78,7 +89,11 @@ final class AnalysisJobState extends StatelessWidget {
         if (job.status == AnalysisStatus.failed) ...[
           const SizedBox(height: AppSpacing.medium),
           Text(
-            analysisFailureMessage(l10n, job.errorCode),
+            analysisFailureMessage(
+              l10n,
+              job.errorCode,
+              isScreenplay: isScreenplay,
+            ),
             key: const Key('analysis-failure-message'),
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),

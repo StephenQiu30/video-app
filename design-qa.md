@@ -56,6 +56,54 @@ final result: passed
 
 ---
 
+# Design QA — 剧本文档四项指标单行布局
+
+## Comparison target
+
+- Source visual truth: `qa-output/022-document-metrics-row/source-before.png`
+- Revised implementation: `qa-output/022-document-metrics-row/implementation-after.png`
+- Full comparison: `qa-output/022-document-metrics-row/full-comparison.png`
+- Focused comparison: `qa-output/022-document-metrics-row/focused-metrics-comparison.png`
+
+## Viewport and normalization
+
+- Source pixels: 886 × 1902，包含 Simulator 工具栏与设备边框；比较时裁出 788 × 1712 的设备显示区域，再缩放为 660 × 1434。
+- Implementation pixels: 1320 × 2868，iPhone 17 Pro Max 模拟器 3× 截图；缩放为 660 × 1434。
+- State: 已登录、zh-CN、深色主题、同一份 DOCX 文档。源截图处于轻微下滚状态，修订截图位于页面顶部，因此完整页面只用于检查整体密度；指标区使用独立裁切进行直接比较。
+
+## Findings
+
+没有剩余可执行的 P0/P1/P2 差异。
+
+- Fonts and typography: 四个值继续使用共享 `headlineSmall` 层级，标签继续使用次级 `labelMedium`；短值保持原字号，长格式名仅在列宽不足时等比缩小，不截断、不换行。
+- Spacing and layout rhythm: DOCX、中文、场景数、字符数现在在标准手机宽度上形成等宽四列，中心点位于同一水平线；指标区高度减少，下面的文件元数据更早进入视野。
+- Colors and visual tokens: 沿用现有 Material 深色语义色和成功状态色，没有引入新的颜色、阴影或容器。
+- Image quality and asset fidelity: 该区域没有图片或装饰资产，现有系统图标未被替换。
+- Copy and content: “格式 / 语言 / 场景 / 字符”及数值保持不变，没有通过缩写换取布局空间。
+- Responsive/accessibility: 标准 390 px 手机宽度使用四列；宽度小于 340 px 或文字缩放超过 1.25 时保留两列回退，避免大字体被强行压缩。
+
+## Focused comparison
+
+`focused-metrics-comparison.png` 将修改前的 2 × 2 指标区与修改后的 1 × 4 指标区放在同一画面。四列的视觉基线、间距和信息层级一致，且没有产生横向溢出。该局部比较足以覆盖本次唯一变更区域。
+
+## Comparison history
+
+1. Earlier finding — P2: 同级的四项核心导入指标使用 2 × 2 排列，增加页面高度并削弱横向比较。
+2. Fix: 移除剧本文档页的两列例外，让共享指标组件统一使用四列；为较长格式值增加保持行高的等比缩放。
+3. Post-fix evidence: `implementation-after.png` 与 `focused-metrics-comparison.png` 显示四项指标单行等距排列，DOCX、中文、1、7908 均完整可读。
+
+## Implementation checklist
+
+- [x] 标准手机宽度单行展示四项指标。
+- [x] 四个单元格等宽、同一水平基线。
+- [x] 长格式名不截断。
+- [x] 超窄屏和辅助功能大字体保留两列回退。
+- [x] Flutter analyzer 与相关 Widget 测试通过。
+
+final result: passed
+
+---
+
 # Design QA — 剧本文档空状态 CTA
 
 ## Comparison context

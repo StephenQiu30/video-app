@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framegrab/features/analysis/presentation/screenplay_analysis_result_view.dart';
 import 'package:framegrab/features/analysis/presentation/video_analysis_result_view.dart';
 import 'package:framegrab/features/analysis/presentation/video_article_result_view.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
@@ -21,6 +22,16 @@ final class AnalysisResultView extends StatelessWidget {
         reportMarkdown: job.reportMarkdown,
         result: article,
       ),
+      final ScreenplayAnalysisResultResponse screenplay =>
+        ScreenplayAnalysisResultView(
+          reportMarkdown: job.reportMarkdown,
+          result: screenplay,
+        ),
+      final ScreenplayRewriteResultResponse rewrite =>
+        ScreenplayRewriteResultView(
+          reportMarkdown: job.reportMarkdown,
+          result: rewrite,
+        ),
       _ => Text(AppLocalizations.of(context).analysisInvalidResult),
     };
   }

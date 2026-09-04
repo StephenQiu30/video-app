@@ -116,8 +116,20 @@ const appOpenApiConfig = AppOpenApiConfig(
     OpenApiOperationSelection(method: 'post', path: '/api/documents'),
     OpenApiOperationSelection(method: 'get', path: '/api/documents'),
     OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/documents/{document_id}',
+    ),
+    OpenApiOperationSelection(
       method: 'delete',
       path: '/api/documents/{document_id}',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/documents/{document_id}/analyses',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/documents/{document_id}/analysis',
     ),
     OpenApiOperationSelection(
       method: 'post',

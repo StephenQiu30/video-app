@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**createDocumentImport**](DocumentsApi.md#createdocumentimport) | **POST** /api/documents | 创建剧本文档导入
 [**createDocumentUploadSession**](DocumentsApi.md#createdocumentuploadsession) | **POST** /api/documents/{document_id}/upload-sessions | 创建或刷新文档上传会话
 [**deleteDocument**](DocumentsApi.md#deletedocument) | **DELETE** /api/documents/{document_id} | 删除剧本文档及其制品
+[**getDocumentImport**](DocumentsApi.md#getdocumentimport) | **GET** /api/documents/{document_id} | 查询剧本文档导入
 [**listDocuments**](DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
 
 
@@ -213,6 +214,47 @@ Name | Type | Description  | Notes
 ### Return type
 
 void (empty response body)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getDocumentImport**
+> DocumentDetailResponse getDocumentImport(documentId)
+
+查询剧本文档导入
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getDocumentsApi();
+final String documentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+
+try {
+    final response = api.getDocumentImport(documentId);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling DocumentsApi->getDocumentImport: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **documentId** | **String**|  |
+
+### Return type
+
+[**DocumentDetailResponse**](DocumentDetailResponse.md)
 
 ### Authorization
 

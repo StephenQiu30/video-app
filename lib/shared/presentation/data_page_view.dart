@@ -131,18 +131,30 @@ final class _CenteredDataMetric extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final valueStyle = theme.textTheme.headlineSmall;
+    final valueLine = TextPainter(
+      text: TextSpan(text: 'Ag', style: valueStyle),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout();
     return Semantics(
       container: true,
       label: '$label: $value',
       child: ExcludeSemantics(
         child: Column(
           children: [
-            Text(
-              value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.headlineSmall,
+            SizedBox(
+              height: valueLine.height,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  value,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  style: valueStyle,
+                ),
+              ),
             ),
             const SizedBox(height: 2),
             Text(

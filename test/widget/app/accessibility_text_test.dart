@@ -221,4 +221,55 @@ void main() {
     expect(tester.takeException(), isNull);
     semanticsHandle.dispose();
   });
+
+  testWidgets(
+    'keeps the screenplay detail usable with English accessibility text',
+    (tester) async {
+      await setMobileViewport(tester);
+      setAccessibilityTextScale(tester);
+      await pumpFramegrabApp(
+        tester,
+        documentRepository: FakeDocumentRepository(data: documentFixture()),
+        locale: const Locale('en'),
+      );
+
+      tester
+          .element(find.byKey(const Key('app-bottom-navigation')))
+          .go('/documents/00000000-0000-0000-0000-000000000102');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Import information'), findsOneWidget);
+      expect(find.text('Import attempt 1 · Version 1'), findsOneWidget);
+      expect(find.text('Markdown screenplay preview'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'keeps completed screenplay analysis usable with accessibility text',
+    (tester) async {
+      await setMobileViewport(tester);
+      setAccessibilityTextScale(tester);
+      await pumpFramegrabApp(
+        tester,
+        analysisRepository: FakeAnalysisRepository(
+          latest: screenplayAnalysisJobFixture(),
+          skills: [screenplayAnalysisSkillFixture()],
+        ),
+        documentRepository: FakeDocumentRepository(data: documentFixture()),
+        locale: const Locale('en'),
+      );
+
+      tester
+          .element(find.byKey(const Key('app-bottom-navigation')))
+          .go('/documents/00000000-0000-0000-0000-000000000102');
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(const Key('screenplay-analysis-result')),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

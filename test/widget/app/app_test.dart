@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
@@ -509,6 +511,118 @@ void main() {
     expect(find.byKey(const Key('app-tab-1')), findsOneWidget);
   });
 
+  testWidgets('opens a parsed screenplay detail and returns to documents', (
+    tester,
+  ) async {
+    final repository = FakeDocumentRepository(data: documentFixture());
+    await pumpFramegrabApp(tester, documentRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    final item = find.byKey(
+      const Key('document-list-item-00000000-0000-0000-0000-000000000102'),
+    );
+    final semantics = tester.getSemantics(item);
+    expect(semantics.flagsCollection.isButton, isTrue);
+    expect(semantics.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+
+    await tester.tap(item);
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('document-detail-content')), findsOneWidget);
+    expect(find.text('规范化剧本'), findsOneWidget);
+    expect(find.text('基础解析'), findsOneWidget);
+    expect(find.text('编辑室内，剪辑师正在核对剧本。'), findsOneWidget);
+    expect(find.byType(MarkdownBody), findsOneWidget);
+    expect(repository.detailCalls, ['00000000-0000-0000-0000-000000000102']);
+
+    await tester.tap(find.byKey(const Key('navbar-back-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('剧本文档'), findsOneWidget);
+    expect(find.text('真实剧本'), findsOneWidget);
+    expect(find.byKey(const Key('app-tab-2')), findsOneWidget);
+  });
+
+  testWidgets('deletes a screenplay from its detail and returns safely', (
+    tester,
+  ) async {
+    final repository = FakeDocumentRepository(data: documentFixture());
+    await pumpFramegrabApp(tester, documentRepository: repository);
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('document-list-item-00000000-0000-0000-0000-000000000102'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('delete-document-detail')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('确认删除'));
+    await tester.pumpAndSettle();
+
+    expect(repository.deleteCalls, ['00000000-0000-0000-0000-000000000102']);
+    expect(find.text('剧本文档'), findsOneWidget);
+    expect(find.text('真实剧本'), findsNothing);
+  });
+
+  testWidgets('offers a safe back action for a directly opened document', (
+    tester,
+  ) async {
+    final repository = FakeDocumentRepository(data: documentFixture());
+    await pumpFramegrabApp(tester, documentRepository: repository);
+
+    tester
+        .element(find.byKey(const Key('app-bottom-navigation')))
+        .go('/documents/00000000-0000-0000-0000-000000000102');
+    await tester.pumpAndSettle();
+
+    final backButton = find.byKey(const Key('navbar-back-button'));
+    expect(backButton, findsOneWidget);
+    expect(tester.getSize(backButton).width, greaterThanOrEqualTo(44));
+    expect(tester.getSemantics(backButton).label, isNotEmpty);
+
+    await tester.tap(backButton);
+    await tester.pumpAndSettle();
+
+    expect(find.text('把素材，\n带回本地。'), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-navigation')), findsOneWidget);
+  });
+
+  testWidgets('restores screenplay analysis on a parsed document', (
+    tester,
+  ) async {
+    final analysis = FakeAnalysisRepository(
+      latest: screenplayAnalysisJobFixture(),
+      skills: [screenplayAnalysisSkillFixture()],
+    );
+    await pumpFramegrabApp(
+      tester,
+      analysisRepository: analysis,
+      documentRepository: FakeDocumentRepository(data: documentFixture()),
+    );
+
+    await tester.tap(find.byKey(const Key('app-tab-2')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(
+        const Key('document-list-item-00000000-0000-0000-0000-000000000102'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final result = find.byKey(const Key('screenplay-analysis-result')).last;
+    await tester.ensureVisible(result);
+    await tester.pumpAndSettle();
+
+    expect(result, findsOneWidget);
+    expect(find.text('一位剪辑师必须在首映前找回丢失的结局。'), findsOneWidget);
+    expect(find.text('剧本分析报告'), findsOneWidget);
+    expect(find.textContaining('等待调度'), findsNothing);
+    expect(analysis.latestInputKinds, [AnalysisInputKind.screenplay]);
+  });
+
   testWidgets('deletes an owned download from history after confirmation', (
     tester,
   ) async {
@@ -758,6 +872,7 @@ void main() {
       expect(find.byKey(const Key('video-analysis-result')), findsOneWidget);
       expect(find.text('舞台表演视觉分析'), findsOneWidget);
       expect(find.text('镜头围绕主体动作与舞台调度形成连续节奏。'), findsOneWidget);
+      expect(find.textContaining('等待调度'), findsNothing);
       expect(find.byKey(const Key('download-video-file')), findsOneWidget);
     },
   );

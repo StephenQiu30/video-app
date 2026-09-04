@@ -37,9 +37,11 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(DiscoveryItemKind.serializer)
       ..add(DiscoveryItemStatus.serializer)
       ..add(DiscoveryStatus.serializer)
+      ..add(DocumentDetailResponse.serializer)
       ..add(DocumentImportRequest.serializer)
       ..add(DocumentImportResponse.serializer)
       ..add(DocumentPageResponse.serializer)
+      ..add(DocumentParseSummaryResponse.serializer)
       ..add(DocumentResponse.serializer)
       ..add(DocumentSourceFormat.serializer)
       ..add(DocumentUploadSessionResponse.serializer)
@@ -241,6 +243,9 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(StoredFileResponse)]),
           () => ListBuilder<StoredFileResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => ListBuilder<String>())

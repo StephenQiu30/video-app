@@ -180,13 +180,144 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentStatusUnknown => '状态未知';
 
   @override
+  String get openDocumentDetailsHint => '打开剧本文档详情';
+
+  @override
+  String get screenplayDocumentDetailNavigation => '文档详情';
+
+  @override
+  String get screenplayDocumentDetailDescription => '查看导入信息、解析摘要和规范化剧本。';
+
+  @override
+  String get documentInformationTitle => '导入信息';
+
+  @override
+  String documentImportSummary(int attempt, int version) {
+    return '第 $attempt 次导入 · 版本 $version';
+  }
+
+  @override
+  String get documentStoragePolicyLabel => '存储策略';
+
+  @override
+  String get documentStoragePersistent => '持久保存';
+
+  @override
+  String get documentBasicParsingTitle => '基础解析';
+
+  @override
+  String get documentPageCountLabel => '页数';
+
+  @override
+  String get documentParagraphCountLabel => '段落';
+
+  @override
+  String get documentHeadingCountLabel => '标题';
+
+  @override
+  String get documentListItemCountLabel => '列表项';
+
+  @override
+  String get documentTableCountLabel => '表格';
+
+  @override
+  String get documentDialogueBlockCountLabel => '对白块';
+
+  @override
+  String get waitingForParsing => '等待解析';
+
+  @override
+  String get chineseLanguage => '中文';
+
+  @override
+  String get englishLanguage => '英文';
+
+  @override
+  String get mixedLanguage => '中英混合';
+
+  @override
+  String get unknownLanguage => '未知';
+
+  @override
+  String get normalizedScreenplayTitle => '规范化剧本';
+
+  @override
+  String get markdownPreviewLabel => 'Markdown 正文预览';
+
+  @override
+  String get documentPreviewUploading => '文件尚未完成上传，上传完成后将自动开始解析。';
+
+  @override
+  String get documentPreviewVerifying => '正在提取结构和正文，页面会自动更新。';
+
+  @override
+  String get documentPreviewEmpty => '解析已完成，但没有可显示的正文。';
+
+  @override
+  String get documentPreviewFailed => '剧本文档未能完成解析，请根据错误信息重新上传。';
+
+  @override
+  String get documentPreviewCancelled => '这次剧本文档导入已经取消。';
+
+  @override
+  String get documentPreviewExpired => '上传会话已经过期，请返回首页重新上传。';
+
+  @override
+  String get documentPreviewTruncatedTitle => '当前显示节选';
+
+  @override
+  String get documentPreviewTruncatedDescription => '文档正文较长，此处只显示服务端返回的规范化预览。';
+
+  @override
+  String get documentParsingIncompleteTitle => '解析尚未完成';
+
+  @override
+  String get documentManualReviewTitle => '建议人工核对';
+
+  @override
+  String get documentStorageUnavailable => '文件存储暂时不可用，请稍后重试。';
+
+  @override
+  String get documentUploadSessionExpired => '上传会话已过期，请重新上传。';
+
+  @override
+  String get documentUploadIncomplete => '文件上传不完整，请重新上传。';
+
+  @override
+  String get documentSizeMismatch => '文件大小校验失败，请重新选择原文件。';
+
+  @override
+  String get documentIntegrityMismatch => '文件完整性校验失败，请重新上传。';
+
+  @override
+  String get documentFormatUnsupported => '服务端不支持这个文档格式。';
+
+  @override
+  String get documentEncrypted => '无法解析受密码保护的文档。';
+
+  @override
+  String get documentArchiveUnsafe => '文档压缩结构不安全，已停止处理。';
+
+  @override
+  String get documentTextUnavailable => '文档中没有可提取的文本。';
+
+  @override
+  String get documentStructureInvalid => '文档结构无法识别。';
+
+  @override
+  String get documentSceneHeadingMissing => '部分场景缺少标准场景标题。';
+
+  @override
+  String get documentManualReviewRequired => '解析结果需要人工核对。';
+
+  @override
   String get fileSizeLabel => '文件大小';
 
   @override
   String get sceneCountLabel => '场景';
 
   @override
-  String get characterCountLabel => '角色';
+  String get characterCountLabel => '字符';
 
   @override
   String get languageLabel => '语言';
@@ -794,6 +925,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aiAnalysisDescription => '由 AI 观察视频画面，生成连续分镜、视觉高光、资产目录，或将视频整理成文章。';
 
   @override
+  String get screenplayAnalysisTitle => '剧本分析与改写';
+
+  @override
+  String get screenplayAnalysisDescription =>
+      '选择综合分析、结构审阅或中英文改写；任务绑定当前规范化剧本，不会修改原文。';
+
+  @override
   String get analysisSkillLabel => '分析 Skill';
 
   @override
@@ -821,7 +959,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get startingAnalysis => '正在创建分析…';
 
   @override
-  String get analysisSkillsEmpty => '当前没有可用的视频分析 Skill，请检查 AI 服务配置后重试。';
+  String get analysisSkillsEmpty => '当前没有可用的分析 Skill，请检查 AI 服务配置后重试。';
 
   @override
   String get analysisLoadFailed => '暂时无法读取 AI 分析服务。';
@@ -927,10 +1065,46 @@ class AppLocalizationsZh extends AppLocalizations {
   String get analysisInvalidResult => 'AI 返回结果未通过结构与证据校验，请重新分析。';
 
   @override
+  String get screenplayStoryOverview => '故事概览';
+
+  @override
+  String get screenplayLoglineLabel => '一句话梗概';
+
+  @override
+  String get screenplaySynopsisLabel => '故事梗概';
+
+  @override
+  String get screenplaySceneCoverageLabel => '逐场景覆盖';
+
+  @override
+  String get screenplayMainCharactersLabel => '主要人物';
+
+  @override
+  String get screenplaySourceScenesLabel => '源场景';
+
+  @override
+  String get screenplayOutputScenesLabel => '输出场景';
+
+  @override
+  String get screenplayRewriteSummaryTitle => '修改摘要';
+
+  @override
+  String get screenplayGlossaryTitle => '统一术语';
+
+  @override
+  String get screenplayFullReportTitle => '完整报告';
+
+  @override
+  String get screenplayStructuredResultTitle => '结构化结果';
+
+  @override
   String get analysisResourceLimit => '视频超出当前分析资源限制，请使用更短或更小的视频。';
 
   @override
   String get analysisInputUnavailable => '用于分析的视频文件已不可用，请重新创建下载任务。';
+
+  @override
+  String get screenplayAnalysisInputUnavailable => '用于分析的剧本文档已不可用，请重新上传剧本。';
 
   @override
   String get analysisUsageLimited => 'AI 服务当前额度不足或受到限流，请稍后重试。';

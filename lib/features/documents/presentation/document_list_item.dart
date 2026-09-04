@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:framegrab/core/theme/app_colors.dart';
+import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/data/document_repository.dart';
+import 'package:framegrab/features/documents/presentation/document_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
@@ -58,7 +59,7 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
   Widget build(BuildContext context) {
     final item = widget.item;
     final l10n = AppLocalizations.of(context);
-    final status = _statusLabel(l10n, item.status.name);
+    final status = documentStatusLabel(l10n, item.status.name);
     final details = <String>[
       formatByteCount(item.declaredSizeBytes),
       item.sourceFormat.name.toUpperCase(),
@@ -92,49 +93,58 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
         ],
       ),
       child: Semantics(
+        button: true,
         container: true,
         label: '${item.title}, $status, ${item.originalFilename}',
-        hint: l10n.documentRowActionsHint,
+        hint: l10n.openDocumentDetailsHint,
+        onTap: () => unawaited(
+          DocumentDetailRoute(documentId: item.id).push<void>(context),
+        ),
         customSemanticsActions: {deleteAction: () => unawaited(_delete())},
         child: ExcludeSemantics(
           child: Material(
             color: Colors.transparent,
-            child: Padding(
+            child: InkWell(
               key: Key('document-list-item-${item.id}'),
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    item.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.xSmall),
-                  Text(
-                    item.originalFilename,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colors.onSurfaceVariant,
+              onTap: () => unawaited(
+                DocumentDetailRoute(documentId: item.id).push<void>(context),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      item.title,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.small),
-                  DataStatusLabel(
-                    color: _statusColor(context, item.status.name),
-                    label: status,
-                  ),
-                  const SizedBox(height: AppSpacing.small),
-                  Text(
-                    details.join(' · '),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: AppSpacing.small),
-                  Text(
-                    '${l10n.updatedAtLabel} '
-                    '${formatDataTime(context, item.updatedAt)}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colors.onSurfaceVariant,
+                    const SizedBox(height: AppSpacing.xSmall),
+                    Text(
+                      item.originalFilename,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: AppSpacing.small),
+                    DataStatusLabel(
+                      color: documentStatusColor(context, item.status.name),
+                      label: status,
+                    ),
+                    const SizedBox(height: AppSpacing.small),
+                    Text(
+                      details.join(' · '),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: AppSpacing.small),
+                    Text(
+                      '${l10n.updatedAtLabel} '
+                      '${formatDataTime(context, item.updatedAt)}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -143,20 +153,3 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
     );
   }
 }
-
-Color _statusColor(BuildContext context, String status) => switch (status) {
-  'ready' => context.appColors.success,
-  'failed' || 'expired' => Theme.of(context).colorScheme.error,
-  'uploading' || 'verifying' => context.appColors.warning,
-  _ => Theme.of(context).colorScheme.onSurfaceVariant,
-};
-
-String _statusLabel(AppLocalizations l10n, String status) => switch (status) {
-  'uploading' => l10n.documentStatusUploading,
-  'verifying' => l10n.documentStatusVerifying,
-  'ready' => l10n.documentStatusReady,
-  'failed' => l10n.documentStatusFailed,
-  'cancelled' => l10n.documentStatusCancelled,
-  'expired' => l10n.documentStatusExpired,
-  _ => l10n.documentStatusUnknown,
-};

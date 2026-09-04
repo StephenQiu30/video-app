@@ -81,4 +81,41 @@ void main() {
     expect(first.dy, closeTo(second.dy, 0.1));
     expect(third.dy, greaterThan(first.dy));
   });
+
+  testWidgets('keeps long document metrics in one phone row', (tester) async {
+    tester.view
+      ..devicePixelRatio = 1
+      ..physicalSize = const Size(390, 844);
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: DataMetricGrid(
+              keyPrefix: 'document',
+              metrics: [
+                DataMetricValue(key: 'format', label: '格式', value: 'FOUNTAIN'),
+                DataMetricValue(key: 'language', label: '语言', value: '英文'),
+                DataMetricValue(key: 'scenes', label: '场景', value: '1'),
+                DataMetricValue(key: 'characters', label: '字符', value: '162'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final first = tester.getCenter(find.byKey(const Key('document-format')));
+    final second = tester.getCenter(find.byKey(const Key('document-language')));
+    final third = tester.getCenter(find.byKey(const Key('document-scenes')));
+    final fourth = tester.getCenter(
+      find.byKey(const Key('document-characters')),
+    );
+    expect(first.dy, closeTo(second.dy, 0.1));
+    expect(first.dy, closeTo(third.dy, 0.1));
+    expect(first.dy, closeTo(fourth.dy, 0.1));
+    expect(find.text('FOUNTAIN'), findsOneWidget);
+  });
 }

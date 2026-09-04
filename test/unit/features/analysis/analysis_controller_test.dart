@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/analysis/application/analysis_controller.dart';
+import 'package:framegrab/features/analysis/application/analysis_target.dart';
 import 'package:framegrab/features/analysis/data/analysis_repository.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 import '../../../support/analysis_fakes.dart';
 
 void main() {
+  const videoTarget = AnalysisTarget.video('download-1');
+
   test(
     'loads the real skill catalog when no previous analysis exists',
     () async {
@@ -17,7 +20,7 @@ void main() {
       addTearDown(container.dispose);
 
       final state = await container.read(
-        analysisControllerProvider('download-1').future,
+        analysisControllerProvider(videoTarget).future,
       );
 
       expect(state.job, isNull);
@@ -32,9 +35,9 @@ void main() {
     );
     final container = _container(repository);
     addTearDown(container.dispose);
-    await container.read(analysisControllerProvider('download-1').future);
+    await container.read(analysisControllerProvider(videoTarget).future);
     final controller = container.read(
-      analysisControllerProvider('download-1').notifier,
+      analysisControllerProvider(videoTarget).notifier,
     );
 
     await controller.start(
@@ -52,7 +55,7 @@ void main() {
     expect(repository.createKeys, hasLength(2));
     expect(repository.createKeys.first, repository.createKeys.last);
     expect(
-      container.read(analysisControllerProvider('download-1')).value?.job,
+      container.read(analysisControllerProvider(videoTarget)).value?.job,
       isNotNull,
     );
   });
@@ -70,7 +73,7 @@ void main() {
     addTearDown(container.dispose);
     final terminal = Completer<void>();
     final subscription = container.listen(
-      analysisControllerProvider('download-1'),
+      analysisControllerProvider(videoTarget),
       (_, next) {
         if (next.value?.job?.status == AnalysisStatus.succeeded &&
             !terminal.isCompleted) {
@@ -85,7 +88,7 @@ void main() {
     expect(repository.fetchCalls, 2);
     expect(
       container
-          .read(analysisControllerProvider('download-1'))
+          .read(analysisControllerProvider(videoTarget))
           .value
           ?.job
           ?.status,
@@ -99,16 +102,16 @@ void main() {
     );
     final container = _container(repository);
     addTearDown(container.dispose);
-    await container.read(analysisControllerProvider('download-1').future);
+    await container.read(analysisControllerProvider(videoTarget).future);
 
     await container
-        .read(analysisControllerProvider('download-1').notifier)
+        .read(analysisControllerProvider(videoTarget).notifier)
         .cancel();
 
     expect(repository.cancelCalls, 1);
     expect(
       container
-          .read(analysisControllerProvider('download-1'))
+          .read(analysisControllerProvider(videoTarget))
           .value
           ?.job
           ?.status,
@@ -124,20 +127,40 @@ void main() {
       );
       final container = _container(repository);
       addTearDown(container.dispose);
-      await container.read(analysisControllerProvider('download-1').future);
+      await container.read(analysisControllerProvider(videoTarget).future);
 
       await container
-          .read(analysisControllerProvider('download-1').notifier)
+          .read(analysisControllerProvider(videoTarget).notifier)
           .delete();
 
       final state = container
-          .read(analysisControllerProvider('download-1'))
+          .read(analysisControllerProvider(videoTarget))
           .value;
       expect(repository.deleteCalls, 1);
       expect(state?.job, isNull);
       expect(state?.skills.single.id, 'director-breakdown');
     },
   );
+
+  test('uses screenplay skills and document analysis operations', () async {
+    const target = AnalysisTarget.screenplay('document-1');
+    final repository = FakeAnalysisRepository();
+    final container = _container(repository);
+    addTearDown(container.dispose);
+    await container.read(analysisControllerProvider(target).future);
+
+    await container
+        .read(analysisControllerProvider(target).notifier)
+        .start(
+          customPrompt: '检查结构',
+          outputLanguage: 'zh-CN',
+          skillId: 'screenplay-analysis',
+        );
+
+    expect(repository.latestInputKinds, [AnalysisInputKind.screenplay]);
+    expect(repository.skillInputKinds, [AnalysisInputKind.screenplay]);
+    expect(repository.createInputKinds, [AnalysisInputKind.screenplay]);
+  });
 }
 
 ProviderContainer _container(

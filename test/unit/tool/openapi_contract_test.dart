@@ -36,13 +36,13 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(41));
+    expect(selectedPaths, hasLength(43));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      44,
+      47,
     );
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
@@ -67,6 +67,9 @@ void main() {
     );
     expect(selectedPaths['/api/documents'], contains('post'));
     expect(selectedPaths['/api/documents/{document_id}'], contains('delete'));
+    expect(selectedPaths['/api/documents/{document_id}'], contains('get'));
+    expect(selectedPaths, contains('/api/documents/{document_id}/analyses'));
+    expect(selectedPaths, contains('/api/documents/{document_id}/analysis'));
     expect(
       selectedPaths,
       contains('/api/documents/{document_id}/upload-sessions'),
@@ -114,6 +117,8 @@ void main() {
     expect(schemas, contains('MediaImportRequest'));
     expect(schemas, contains('MediaUploadSessionResponse'));
     expect(schemas, contains('DocumentImportRequest'));
+    expect(schemas, contains('DocumentDetailResponse'));
+    expect(schemas, contains('DocumentParseSummaryResponse'));
     expect(schemas, contains('DocumentUploadSessionResponse'));
     final thumbnail =
         selectedPaths['/api/downloads/{job_id}/thumbnail']

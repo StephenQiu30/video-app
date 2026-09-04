@@ -43,9 +43,11 @@ import 'package:video_server_api/lib/model/discovery_decision_hint.dart';
 import 'package:video_server_api/lib/model/discovery_item_kind.dart';
 import 'package:video_server_api/lib/model/discovery_item_status.dart';
 import 'package:video_server_api/lib/model/discovery_status.dart';
+import 'package:video_server_api/lib/model/document_detail_response.dart';
 import 'package:video_server_api/lib/model/document_import_request.dart';
 import 'package:video_server_api/lib/model/document_import_response.dart';
 import 'package:video_server_api/lib/model/document_page_response.dart';
+import 'package:video_server_api/lib/model/document_parse_summary_response.dart';
 import 'package:video_server_api/lib/model/document_response.dart';
 import 'package:video_server_api/lib/model/document_source_format.dart';
 import 'package:video_server_api/lib/model/document_upload_session_response.dart';
@@ -163,9 +165,11 @@ part 'serializers.g.dart';
   DiscoveryItemKind,
   DiscoveryItemStatus,
   DiscoveryStatus,
+  DocumentDetailResponse,
   DocumentImportRequest,
   DocumentImportResponse,
   DocumentPageResponse,
+  DocumentParseSummaryResponse,
   DocumentResponse,
   DocumentSourceFormat,
   DocumentUploadSessionResponse,

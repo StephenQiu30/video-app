@@ -11,6 +11,7 @@ import 'package:framegrab/features/auth/application/auth_session_controller.dart
 import 'package:framegrab/features/auth/presentation/login_screen.dart';
 import 'package:framegrab/features/auth/presentation/register_screen.dart';
 import 'package:framegrab/features/auth/presentation/session_restore_screen.dart';
+import 'package:framegrab/features/documents/presentation/document_detail_screen.dart';
 import 'package:framegrab/features/history/presentation/download_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -148,6 +149,18 @@ final class DownloadDetailRoute extends GoRouteData with $DownloadDetailRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return DownloadDetailScreen(jobId: jobId);
+  }
+}
+
+@TypedGoRoute<DocumentDetailRoute>(path: '/documents/:documentId')
+final class DocumentDetailRoute extends GoRouteData with $DocumentDetailRoute {
+  const DocumentDetailRoute({required this.documentId});
+
+  final String documentId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DocumentDetailScreen(documentId: documentId);
   }
 }
 

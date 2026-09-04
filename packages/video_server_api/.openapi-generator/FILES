@@ -33,9 +33,11 @@ doc/DiscoveryDecisionHint.md
 doc/DiscoveryItemKind.md
 doc/DiscoveryItemStatus.md
 doc/DiscoveryStatus.md
+doc/DocumentDetailResponse.md
 doc/DocumentImportRequest.md
 doc/DocumentImportResponse.md
 doc/DocumentPageResponse.md
+doc/DocumentParseSummaryResponse.md
 doc/DocumentResponse.md
 doc/DocumentSourceFormat.md
 doc/DocumentUploadSessionResponse.md
@@ -173,9 +175,11 @@ lib/lib/model/discovery_decision_hint.dart
 lib/lib/model/discovery_item_kind.dart
 lib/lib/model/discovery_item_status.dart
 lib/lib/model/discovery_status.dart
+lib/lib/model/document_detail_response.dart
 lib/lib/model/document_import_request.dart
 lib/lib/model/document_import_response.dart
 lib/lib/model/document_page_response.dart
+lib/lib/model/document_parse_summary_response.dart
 lib/lib/model/document_response.dart
 lib/lib/model/document_source_format.dart
 lib/lib/model/document_upload_session_response.dart

@@ -120,13 +120,15 @@ final class _AnalysisConfiguratorState extends State<AnalysisConfigurator> {
           },
         ),
         const SizedBox(height: AppSpacing.large),
-        Row(
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          runSpacing: AppSpacing.xSmall,
+          spacing: AppSpacing.large,
           children: [
-            Expanded(
-              child: Text(
-                l10n.analysisPromptLabel,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
+            Text(
+              l10n.analysisPromptLabel,
+              style: Theme.of(context).textTheme.labelLarge,
             ),
             TextButton.icon(
               onPressed: widget.busy

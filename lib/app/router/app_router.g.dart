@@ -15,6 +15,7 @@ List<RouteBase> get $appRoutes => [
   $adminAiProvidersRoute,
   $downloadHomeRoute,
   $downloadDetailRoute,
+  $documentDetailRoute,
   $loginRoute,
   $sessionRestoreRoute,
   $registerRoute,
@@ -224,6 +225,37 @@ mixin $DownloadDetailRoute on GoRouteData {
   @override
   String get location =>
       GoRouteData.$location('/downloads/${Uri.encodeComponent(_self.jobId)}');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $documentDetailRoute => GoRouteData.$route(
+  path: '/documents/:documentId',
+  hasOverriddenOnExit: false,
+  factory: $DocumentDetailRoute._fromState,
+);
+
+mixin $DocumentDetailRoute on GoRouteData {
+  static DocumentDetailRoute _fromState(GoRouterState state) =>
+      DocumentDetailRoute(documentId: state.pathParameters['documentId']!);
+
+  DocumentDetailRoute get _self => this as DocumentDetailRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/documents/${Uri.encodeComponent(_self.documentId)}',
+  );
 
   @override
   void go(BuildContext context) => context.go(location);

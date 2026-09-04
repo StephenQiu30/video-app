@@ -108,7 +108,7 @@ void main() {
     );
     final repository = GeneratedAnalysisRepository(request);
 
-    final skills = await repository.fetchVideoSkills();
+    final skills = await repository.fetchSkills(AnalysisInputKind.video);
     expect(skills, isNotEmpty);
     expect(
       skills.any((skill) => skill.inputKinds.contains(AnalysisInputKind.video)),
@@ -118,10 +118,11 @@ void main() {
     await expectLater(
       repository.create(
         customPrompt: '',
-        downloadId: '00000000-0000-0000-0000-000000000999',
+        inputKind: AnalysisInputKind.video,
         idempotencyKey: 'integration-ai-missing-download-$suffix',
         outputLanguage: 'zh-CN',
         skillId: skills.first.id,
+        sourceId: '00000000-0000-0000-0000-000000000999',
       ),
       throwsA(
         isA<DataRequestFailure>().having(

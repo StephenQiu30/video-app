@@ -190,6 +190,157 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentStatusUnknown => 'Unknown status';
 
   @override
+  String get openDocumentDetailsHint => 'Open screenplay document details';
+
+  @override
+  String get screenplayDocumentDetailNavigation => 'Document details';
+
+  @override
+  String get screenplayDocumentDetailDescription =>
+      'Review import information, parsing summary, and normalized screenplay text.';
+
+  @override
+  String get documentInformationTitle => 'Import information';
+
+  @override
+  String documentImportSummary(int attempt, int version) {
+    return 'Import attempt $attempt · Version $version';
+  }
+
+  @override
+  String get documentStoragePolicyLabel => 'Storage';
+
+  @override
+  String get documentStoragePersistent => 'Persistent';
+
+  @override
+  String get documentBasicParsingTitle => 'Basic parsing';
+
+  @override
+  String get documentPageCountLabel => 'Pages';
+
+  @override
+  String get documentParagraphCountLabel => 'Paragraphs';
+
+  @override
+  String get documentHeadingCountLabel => 'Headings';
+
+  @override
+  String get documentListItemCountLabel => 'List items';
+
+  @override
+  String get documentTableCountLabel => 'Tables';
+
+  @override
+  String get documentDialogueBlockCountLabel => 'Dialogue blocks';
+
+  @override
+  String get waitingForParsing => 'Waiting for parsing';
+
+  @override
+  String get chineseLanguage => 'Chinese';
+
+  @override
+  String get englishLanguage => 'English';
+
+  @override
+  String get mixedLanguage => 'Chinese and English';
+
+  @override
+  String get unknownLanguage => 'Unknown';
+
+  @override
+  String get normalizedScreenplayTitle => 'Normalized screenplay';
+
+  @override
+  String get markdownPreviewLabel => 'Markdown screenplay preview';
+
+  @override
+  String get documentPreviewUploading =>
+      'The file upload is not complete. Parsing will start automatically afterward.';
+
+  @override
+  String get documentPreviewVerifying =>
+      'The service is extracting structure and text. This page will update automatically.';
+
+  @override
+  String get documentPreviewEmpty =>
+      'Parsing finished, but there is no screenplay text to display.';
+
+  @override
+  String get documentPreviewFailed =>
+      'The screenplay could not be parsed. Review the error and upload it again.';
+
+  @override
+  String get documentPreviewCancelled =>
+      'This screenplay import was cancelled.';
+
+  @override
+  String get documentPreviewExpired =>
+      'The upload session expired. Return Home and upload the file again.';
+
+  @override
+  String get documentPreviewTruncatedTitle => 'Showing an excerpt';
+
+  @override
+  String get documentPreviewTruncatedDescription =>
+      'This screenplay is long, so this page shows the normalized preview returned by the service.';
+
+  @override
+  String get documentParsingIncompleteTitle => 'Parsing is not complete';
+
+  @override
+  String get documentManualReviewTitle => 'Manual review recommended';
+
+  @override
+  String get documentStorageUnavailable =>
+      'File storage is temporarily unavailable. Try again later.';
+
+  @override
+  String get documentUploadSessionExpired =>
+      'The upload session expired. Upload the file again.';
+
+  @override
+  String get documentUploadIncomplete =>
+      'The file upload is incomplete. Upload it again.';
+
+  @override
+  String get documentSizeMismatch =>
+      'The file size check failed. Choose the original file again.';
+
+  @override
+  String get documentIntegrityMismatch =>
+      'The file integrity check failed. Upload it again.';
+
+  @override
+  String get documentFormatUnsupported =>
+      'The service does not support this document format.';
+
+  @override
+  String get documentEncrypted =>
+      'Password-protected documents cannot be parsed.';
+
+  @override
+  String get documentArchiveUnsafe =>
+      'The document archive structure is unsafe, so processing stopped.';
+
+  @override
+  String get documentTextUnavailable =>
+      'No extractable text was found in the document.';
+
+  @override
+  String get documentStructureInvalid =>
+      'The document structure could not be recognized.';
+
+  @override
+  String get documentSceneHeadingMissing =>
+      'Some scenes do not have standard scene headings.';
+
+  @override
+  String get documentManualReviewRequired =>
+      'The parsing result needs manual review.';
+
+  @override
   String get fileSizeLabel => 'File size';
 
   @override
@@ -856,6 +1007,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Let AI review the video to create a continuous shot breakdown, visual highlights, an asset catalog, or an article draft.';
 
   @override
+  String get screenplayAnalysisTitle => 'Screenplay analysis and rewriting';
+
+  @override
+  String get screenplayAnalysisDescription =>
+      'Choose comprehensive analysis, structure review, or bilingual rewriting. The task stays bound to this normalized screenplay and never changes the source.';
+
+  @override
   String get analysisSkillLabel => 'Analysis skill';
 
   @override
@@ -885,7 +1043,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analysisSkillsEmpty =>
-      'No video analysis skills are available. Check the AI service configuration and retry.';
+      'No analysis skills are available. Check the AI service configuration and retry.';
 
   @override
   String get analysisLoadFailed => 'AI analysis is temporarily unavailable.';
@@ -998,12 +1156,49 @@ class AppLocalizationsEn extends AppLocalizations {
       'The AI result failed structure and evidence validation. Retry the analysis.';
 
   @override
+  String get screenplayStoryOverview => 'Story overview';
+
+  @override
+  String get screenplayLoglineLabel => 'Logline';
+
+  @override
+  String get screenplaySynopsisLabel => 'Synopsis';
+
+  @override
+  String get screenplaySceneCoverageLabel => 'Scene coverage';
+
+  @override
+  String get screenplayMainCharactersLabel => 'Main characters';
+
+  @override
+  String get screenplaySourceScenesLabel => 'Source scenes';
+
+  @override
+  String get screenplayOutputScenesLabel => 'Output scenes';
+
+  @override
+  String get screenplayRewriteSummaryTitle => 'Change summary';
+
+  @override
+  String get screenplayGlossaryTitle => 'Terminology';
+
+  @override
+  String get screenplayFullReportTitle => 'Full report';
+
+  @override
+  String get screenplayStructuredResultTitle => 'Structured result';
+
+  @override
   String get analysisResourceLimit =>
       'This video exceeds the current analysis limits. Use a shorter or smaller video.';
 
   @override
   String get analysisInputUnavailable =>
       'The source video is no longer available. Create a new download task.';
+
+  @override
+  String get screenplayAnalysisInputUnavailable =>
+      'The screenplay document is no longer available. Upload the screenplay again.';
 
   @override
   String get analysisUsageLimited =>

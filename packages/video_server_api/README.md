@@ -76,8 +76,10 @@ Class | Method | HTTP request | Description
 [*AdminApi*](doc/AdminApi.md) | [**updateUserAccess**](doc/AdminApi.md#updateuseraccess) | **PATCH** /api/admin/users/{user_id} | 更新用户角色与账号状态
 [*AnalysesApi*](doc/AnalysesApi.md) | [**cancelAnalysis**](doc/AnalysesApi.md#cancelanalysis) | **POST** /api/analyses/{analysis_id}/cancel | 取消视频分析任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**createAnalysis**](doc/AnalysesApi.md#createanalysis) | **POST** /api/downloads/{download_id}/analyses | 创建视频分析任务
+[*AnalysesApi*](doc/AnalysesApi.md) | [**createDocumentAnalysis**](doc/AnalysesApi.md#createdocumentanalysis) | **POST** /api/documents/{document_id}/analyses | 创建剧本分析或改写任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**deleteAnalysis**](doc/AnalysesApi.md#deleteanalysis) | **DELETE** /api/analyses/{analysis_id} | 删除视频分析与报告
 [*AnalysesApi*](doc/AnalysesApi.md) | [**getAnalysis**](doc/AnalysesApi.md#getanalysis) | **GET** /api/analyses/{analysis_id} | 查询视频分析任务
+[*AnalysesApi*](doc/AnalysesApi.md) | [**getLatestDocumentAnalysis**](doc/AnalysesApi.md#getlatestdocumentanalysis) | **GET** /api/documents/{document_id}/analysis | 读取文档最近的剧本分析
 [*AnalysesApi*](doc/AnalysesApi.md) | [**getLatestDownloadAnalysis**](doc/AnalysesApi.md#getlatestdownloadanalysis) | **GET** /api/downloads/{download_id}/analysis | 读取下载任务最近的视频分析
 [*AnalysesApi*](doc/AnalysesApi.md) | [**listAnalysisSkills**](doc/AnalysesApi.md#listanalysisskills) | **GET** /api/analysis-skills | 列出输入兼容的分析 Skill
 [*AnalysesApi*](doc/AnalysesApi.md) | [**retryAnalysis**](doc/AnalysesApi.md#retryanalysis) | **POST** /api/analyses/{analysis_id}/retry | 重试原视频分析任务
@@ -91,6 +93,7 @@ Class | Method | HTTP request | Description
 [*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentImport**](doc/DocumentsApi.md#createdocumentimport) | **POST** /api/documents | 创建剧本文档导入
 [*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentUploadSession**](doc/DocumentsApi.md#createdocumentuploadsession) | **POST** /api/documents/{document_id}/upload-sessions | 创建或刷新文档上传会话
 [*DocumentsApi*](doc/DocumentsApi.md) | [**deleteDocument**](doc/DocumentsApi.md#deletedocument) | **DELETE** /api/documents/{document_id} | 删除剧本文档及其制品
+[*DocumentsApi*](doc/DocumentsApi.md) | [**getDocumentImport**](doc/DocumentsApi.md#getdocumentimport) | **GET** /api/documents/{document_id} | 查询剧本文档导入
 [*DocumentsApi*](doc/DocumentsApi.md) | [**listDocuments**](doc/DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
 [*DownloadsApi*](doc/DownloadsApi.md) | [**cancelDownload**](doc/DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**createDownload**](doc/DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
@@ -142,9 +145,11 @@ Class | Method | HTTP request | Description
  - [DiscoveryItemKind](doc/DiscoveryItemKind.md)
  - [DiscoveryItemStatus](doc/DiscoveryItemStatus.md)
  - [DiscoveryStatus](doc/DiscoveryStatus.md)
+ - [DocumentDetailResponse](doc/DocumentDetailResponse.md)
  - [DocumentImportRequest](doc/DocumentImportRequest.md)
  - [DocumentImportResponse](doc/DocumentImportResponse.md)
  - [DocumentPageResponse](doc/DocumentPageResponse.md)
+ - [DocumentParseSummaryResponse](doc/DocumentParseSummaryResponse.md)
  - [DocumentResponse](doc/DocumentResponse.md)
  - [DocumentSourceFormat](doc/DocumentSourceFormat.md)
  - [DocumentUploadSessionResponse](doc/DocumentUploadSessionResponse.md)

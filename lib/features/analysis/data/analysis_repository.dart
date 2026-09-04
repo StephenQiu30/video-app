@@ -9,18 +9,22 @@ final analysisRepositoryProvider = Provider<AnalysisRepository>(
 );
 
 abstract interface class AnalysisRepository {
-  Future<List<AnalysisSkillResponse>> fetchVideoSkills();
+  Future<List<AnalysisSkillResponse>> fetchSkills(AnalysisInputKind inputKind);
 
-  Future<AnalysisResponse?> fetchLatest(String downloadId);
+  Future<AnalysisResponse?> fetchLatest({
+    required AnalysisInputKind inputKind,
+    required String sourceId,
+  });
 
   Future<AnalysisResponse> fetch(String analysisId);
 
   Future<AnalysisResponse> create({
     required String customPrompt,
-    required String downloadId,
+    required AnalysisInputKind inputKind,
     required String idempotencyKey,
     required String outputLanguage,
     required String skillId,
+    required String sourceId,
   });
 
   Future<AnalysisResponse> cancel(String analysisId);
@@ -45,10 +49,11 @@ final class GeneratedAnalysisRepository implements AnalysisRepository {
   @override
   Future<AnalysisResponse> create({
     required String customPrompt,
-    required String downloadId,
+    required AnalysisInputKind inputKind,
     required String idempotencyKey,
     required String outputLanguage,
     required String skillId,
+    required String sourceId,
   }) {
     final prompt = customPrompt.trim();
     final body = AnalysisRequest(
@@ -57,13 +62,20 @@ final class GeneratedAnalysisRepository implements AnalysisRepository {
         ..outputLanguage = outputLanguage
         ..customPrompt = prompt.isEmpty ? null : prompt,
     );
-    return _required(
-      (api) => api.createAnalysis(
-        downloadId: downloadId,
+    return _required((api) {
+      if (inputKind == AnalysisInputKind.screenplay) {
+        return api.createDocumentAnalysis(
+          documentId: sourceId,
+          idempotencyKey: idempotencyKey,
+          analysisRequest: body,
+        );
+      }
+      return api.createAnalysis(
+        downloadId: sourceId,
         idempotencyKey: idempotencyKey,
         analysisRequest: body,
-      ),
-    );
+      );
+    });
   }
 
   @override
@@ -78,20 +90,24 @@ final class GeneratedAnalysisRepository implements AnalysisRepository {
       _required((api) => api.getAnalysis(analysisId: analysisId));
 
   @override
-  Future<AnalysisResponse?> fetchLatest(String downloadId) {
+  Future<AnalysisResponse?> fetchLatest({
+    required AnalysisInputKind inputKind,
+    required String sourceId,
+  }) {
     return _request.execute((client) async {
-      final response = await client.getAnalysesApi().getLatestDownloadAnalysis(
-        downloadId: downloadId,
-      );
+      final api = client.getAnalysesApi();
+      final response = inputKind == AnalysisInputKind.screenplay
+          ? await api.getLatestDocumentAnalysis(documentId: sourceId)
+          : await api.getLatestDownloadAnalysis(downloadId: sourceId);
       return response.data;
     });
   }
 
   @override
-  Future<List<AnalysisSkillResponse>> fetchVideoSkills() {
+  Future<List<AnalysisSkillResponse>> fetchSkills(AnalysisInputKind inputKind) {
     return _request.execute((client) async {
       final response = await client.getAnalysesApi().listAnalysisSkills(
-        inputKind: AnalysisInputKind.video,
+        inputKind: inputKind,
       );
       final data = response.data;
       if (data == null) {

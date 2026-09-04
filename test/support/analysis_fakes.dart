@@ -17,6 +17,9 @@ final class FakeAnalysisRepository implements AnalysisRepository {
   List<AnalysisSkillResponse> skills;
   final List<AnalysisResponse> fetchResults = [];
   final List<String> createKeys = [];
+  final List<AnalysisInputKind> createInputKinds = [];
+  final List<AnalysisInputKind> skillInputKinds = [];
+  final List<AnalysisInputKind> latestInputKinds = [];
   final List<String> retryKeys = [];
   int cancelCalls = 0;
   int deleteCalls = 0;
@@ -33,12 +36,14 @@ final class FakeAnalysisRepository implements AnalysisRepository {
   @override
   Future<AnalysisResponse> create({
     required String customPrompt,
-    required String downloadId,
+    required AnalysisInputKind inputKind,
     required String idempotencyKey,
     required String outputLanguage,
     required String skillId,
+    required String sourceId,
   }) async {
     createKeys.add(idempotencyKey);
+    createInputKinds.add(inputKind);
     if (createError case final failure?) throw failure;
     if (error case final failure?) throw failure;
     return createResult ?? analysisJobFixture(status: AnalysisStatus.queued);
@@ -60,14 +65,21 @@ final class FakeAnalysisRepository implements AnalysisRepository {
   }
 
   @override
-  Future<AnalysisResponse?> fetchLatest(String downloadId) async {
+  Future<AnalysisResponse?> fetchLatest({
+    required AnalysisInputKind inputKind,
+    required String sourceId,
+  }) async {
     latestCalls += 1;
+    latestInputKinds.add(inputKind);
     if (error case final failure?) throw failure;
     return latest;
   }
 
   @override
-  Future<List<AnalysisSkillResponse>> fetchVideoSkills() async {
+  Future<List<AnalysisSkillResponse>> fetchSkills(
+    AnalysisInputKind inputKind,
+  ) async {
+    skillInputKinds.add(inputKind);
     if (error case final failure?) throw failure;
     return skills;
   }
@@ -92,6 +104,89 @@ AnalysisSkillResponse analysisSkillFixture() => AnalysisSkillResponse(
     ..inputKinds.replace([AnalysisInputKind.video])
     ..resultContract = AnalysisResultContract.videoVisualAnalysis,
 );
+
+AnalysisSkillResponse screenplayAnalysisSkillFixture() => AnalysisSkillResponse(
+  (builder) => builder
+    ..id = 'screenplay-analysis'
+    ..displayName = '剧本综合分析'
+    ..description = '分析结构、人物、场景与对白。'
+    ..defaultPrompt = '重点检查结构与人物弧。'
+    ..inputKinds.replace([AnalysisInputKind.screenplay])
+    ..resultContract = AnalysisResultContract.screenplayAnalysis,
+);
+
+AnalysisResponse screenplayAnalysisJobFixture() {
+  const evidence = <String, Object?>{
+    'id': 'act-1',
+    'title': '建立',
+    'description': '建立人物目标。',
+    'evidence_scene_ids': ['scene-1'],
+  };
+  final json = <String, Object?>{
+    'id': '00000000-0000-0000-0000-000000000501',
+    'run_id': '00000000-0000-0000-0000-000000000502',
+    'run_no': 1,
+    'run_trigger': 'create',
+    'version': 1,
+    'skill_id': 'screenplay-analysis',
+    'output_language': 'zh-CN',
+    'input_kind': 'screenplay',
+    'result_contract': 'screenplay-analysis',
+    'status': 'succeeded',
+    'stage': null,
+    'progress': 100,
+    'attempt': 1,
+    'error_code': null,
+    'created_at': '2026-08-31T10:00:00Z',
+    'updated_at': '2026-08-31T10:02:00Z',
+    'finished_at': '2026-08-31T10:02:00Z',
+    'result': {
+      'kind': 'screenplay_analysis',
+      'language': 'zh-CN',
+      'title': '剧本分析',
+      'logline': '一位剪辑师必须在首映前找回丢失的结局。',
+      'synopsis': '主人公追查素材并重新理解自己的创作选择。',
+      'structure': {
+        'acts': [evidence],
+        'turning_points': [
+          {...evidence, 'id': 'turn-1', 'title': '素材消失'},
+        ],
+        'pacing_summary': '开场紧凑，转折清晰。',
+      },
+      'characters': [
+        {
+          'id': 'character-1',
+          'name': '林舟',
+          'goal': '找回结局',
+          'conflict': '必须面对自己的删改',
+          'arc': '从逃避转向承担',
+          'evidence_scene_ids': ['scene-1'],
+        },
+      ],
+      'scenes': [
+        {
+          'id': 'analysis-scene-1',
+          'source_scene_id': 'scene-1',
+          'purpose': '建立危机',
+          'conflict': '时间不足',
+          'turn': '发现备份线索',
+          'pacing': '快速',
+          'findings': ['目标明确'],
+        },
+      ],
+      'dialogue_findings': <Object?>[],
+      'strengths': [evidence],
+      'priority_revisions': <Object?>[],
+    },
+    'report_markdown': '# 剧本分析报告\n\n结构与人物目标清晰。',
+    'current_report_id': '00000000-0000-0000-0000-000000000503',
+    'report': null,
+  };
+  return standardSerializers.deserializeWith(
+    AnalysisResponse.serializer,
+    json,
+  )!;
+}
 
 AnalysisResponse analysisJobFixture({
   int runNo = 1,

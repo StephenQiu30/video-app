@@ -34,7 +34,11 @@ Color analysisStatusColor(BuildContext context, AnalysisStatus status) =>
       _ => Theme.of(context).colorScheme.onSurfaceVariant,
     };
 
-String analysisFailureMessage(AppLocalizations l10n, Object? error) {
+String analysisFailureMessage(
+  AppLocalizations l10n,
+  Object? error, {
+  bool isScreenplay = false,
+}) {
   final code = switch (error) {
     final AnalysisErrorCode value => value.name,
     final DataRequestFailure value => value.code,
@@ -61,7 +65,10 @@ String analysisFailureMessage(AppLocalizations l10n, Object? error) {
     'inputArtifactUnavailable' ||
     'analysisInputExpired' ||
     'input_artifact_unavailable' ||
-    'analysis_input_expired' => l10n.analysisInputUnavailable,
+    'analysis_input_expired' =>
+      isScreenplay
+          ? l10n.screenplayAnalysisInputUnavailable
+          : l10n.analysisInputUnavailable,
     'analysisProviderRateLimited' ||
     'analysisProviderUsageLimited' ||
     'analysis_provider_rate_limited' ||
