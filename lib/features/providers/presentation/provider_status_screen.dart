@@ -8,11 +8,19 @@ import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
-final class ProviderStatusScreen extends ConsumerWidget {
+final class ProviderStatusScreen extends ConsumerStatefulWidget {
   const ProviderStatusScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProviderStatusScreen> createState() =>
+      _ProviderStatusScreenState();
+}
+
+final class _ProviderStatusScreenState
+    extends ConsumerState<ProviderStatusScreen> {
+  String _filter = 'all';
+  @override
+  Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final result = ref.watch(providerStatusProvider);
     return DataPageView(
@@ -20,22 +28,39 @@ final class ProviderStatusScreen extends ConsumerWidget {
       description: localizations.providerStatusDescription,
       refreshLabel: localizations.refreshAction,
       onRefresh: () => ref.refresh(providerStatusProvider.future).then((_) {}),
-      children: result.when(
-        skipLoadingOnRefresh: true,
-        data: (data) => _content(context, data),
-        error: (_, _) => [
-          DataStateMessage(
-            icon: LucideIcons.cloudOff,
-            title: localizations.loadFailedTitle,
-            description: localizations.loadFailedDescription,
-            actionLabel: localizations.retryAction,
-            onAction: () => ref.invalidate(providerStatusProvider),
-          ),
-        ],
-        loading: () => [
-          ProviderStatusSkeleton(label: localizations.loadingData),
-        ],
-      ),
+      children: [
+        Wrap(
+          spacing: 8,
+          children: [
+            for (final entry in {
+              'all': localizations.allStatuses,
+              'available': localizations.availableLabel,
+              'attention': localizations.needsAttention,
+            }.entries)
+              ChoiceChip(
+                label: Text(entry.value),
+                selected: _filter == entry.key,
+                onSelected: (_) => setState(() => _filter = entry.key),
+              ),
+          ],
+        ),
+        ...result.when(
+          skipLoadingOnRefresh: true,
+          data: (data) => _content(context, data),
+          error: (_, _) => [
+            DataStateMessage(
+              icon: LucideIcons.cloudOff,
+              title: localizations.loadFailedTitle,
+              description: localizations.loadFailedDescription,
+              actionLabel: localizations.retryAction,
+              onAction: () => ref.invalidate(providerStatusProvider),
+            ),
+          ],
+          loading: () => [
+            ProviderStatusSkeleton(label: localizations.loadingData),
+          ],
+        ),
+      ],
     );
   }
 
@@ -68,7 +93,12 @@ final class ProviderStatusScreen extends ConsumerWidget {
         ],
       ),
       const SizedBox(height: AppSpacing.xLarge),
-      for (final item in data.items) ProviderStatusItem(item: item),
+      for (final item in data.items.where(
+        (item) =>
+            _filter == 'all' ||
+            item.downloadAvailable == (_filter == 'available'),
+      ))
+        ProviderStatusItem(item: item),
     ];
   }
 }

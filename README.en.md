@@ -45,7 +45,7 @@ Version `0.1.0+1` is intended for self-hosted evaluation and open-source collabo
 | Video AI analysis | Available | `video-server` runs inference; the app configures jobs and renders results |
 | Screenplay document list | Available | Reads real server data with loading, empty, failure, and refresh states |
 | Local-video and screenplay upload | Available | System picker, streaming SHA-256, bounded multipart PUT, ETag validation, and real completion requests |
-| Document AI and native report export | Planned | Require dedicated contracts, design, and acceptance evidence |
+| Document AI and native report export | Available | Screenplay analysis/rewriting, structured reports, and Markdown save/share; see [019 acceptance](docs/acceptance/019-剧本文档详情与跨端一致性验收.md) |
 | WebSocket token updates | Planned | Active jobs and analyses currently converge through controlled polling |
 | Offline AI, persistent background downloads, offline library | Out of scope for the first release | No mobile extractor or embedded AI model |
 

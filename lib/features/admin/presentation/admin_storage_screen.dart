@@ -4,9 +4,11 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/admin/application/admin_providers.dart';
 import 'package:framegrab/features/admin/data/admin_repository.dart';
 import 'package:framegrab/features/admin/presentation/admin_page.dart';
+import 'package:framegrab/features/admin/presentation/storage_cleanup_sheet.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 final class AdminStorageScreen extends ConsumerStatefulWidget {
@@ -23,30 +25,9 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
     final l10n = AppLocalizations.of(context);
     final days = await showModalBottomSheet<int>(
       context: context,
+      isScrollControlled: true,
       showDragHandle: true,
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xLarge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                l10n.adminCleanupTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: AppSpacing.xSmall),
-              Text(l10n.adminCleanupDescription),
-              const SizedBox(height: AppSpacing.large),
-              for (final value in const [7, 30, 90])
-                TextButton(
-                  onPressed: () => Navigator.pop(context, value),
-                  child: Text(l10n.adminCleanupDays(value)),
-                ),
-            ],
-          ),
-        ),
-      ),
+      builder: (_) => const StorageCleanupSheet(),
     );
     if (days == null || !mounted) return;
     setState(() => _busy = true);
@@ -83,6 +64,11 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
       onRefresh: () => ref.refresh(adminFilesProvider.future).then((_) {}),
       children: result.when(
         data: (data) => [
+          ListPagination(
+            page: ref.watch(fileListQueryProvider).page,
+            total: data.total,
+            onPage: ref.read(fileListQueryProvider.notifier).page,
+          ),
           Row(
             children: [
               Expanded(child: Text(l10n.adminFileCount(data.total))),
@@ -111,7 +97,11 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
                   ),
                   const SizedBox(height: AppSpacing.xSmall),
                   Text(
-                    '${file.category.name} · ${formatByteCount(file.sizeBytes)} · '
+                    '${file.category.name == 'video'
+                        ? l10n.videoFile
+                        : file.category.name == 'screenplay'
+                        ? l10n.screenplayDocumentsNavigation
+                        : l10n.analysisReport} · ${formatByteCount(file.sizeBytes)} · '
                     '${formatDataTime(context, file.createdAt)}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,

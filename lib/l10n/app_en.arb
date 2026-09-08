@@ -16,9 +16,9 @@
   "screenplayDocumentsDescription": "Review import status, parsing details, and screenplay text.",
   "documentRowActionsHint": "Swipe left to manage screenplay documents.",
   "providerStatusDescription": "See which providers are available and what access they require.",
-  "loadingData": "Loading live data…",
+  "loadingData": "Loading…",
   "loadFailedTitle": "Data is temporarily unavailable",
-  "loadFailedDescription": "Check your connection and retry. Placeholder content will not replace live data.",
+  "loadFailedDescription": "Check your connection and try again.",
   "retryAction": "Reload",
   "refreshAction": "Refresh",
   "totalLabel": "Total",
@@ -64,8 +64,12 @@
   "documentImportSummary": "Import attempt {attempt} · Version {version}",
   "@documentImportSummary": {
     "placeholders": {
-      "attempt": {"type": "int"},
-      "version": {"type": "int"}
+      "attempt": {
+        "type": "int"
+      },
+      "version": {
+        "type": "int"
+      }
     }
   },
   "documentStoragePolicyLabel": "Storage",
@@ -205,7 +209,7 @@
   "welcomeBack": "Welcome back",
   "loginDescription": "Use your Framegrab account to continue managing downloads, documents, and analysis.",
   "createAccountTitle": "Create your Framegrab account",
-  "registerDescription": "Register to restore sessions across devices and securely access your tasks.",
+  "registerDescription": "Verify your email to create an account and manage downloads, documents and analyses.",
   "emailLabel": "Email",
   "usernameLabel": "Username",
   "usernameHelp": "2–32 characters using letters, numbers, and _-. only.",
@@ -215,7 +219,7 @@
   "hidePassword": "Hide password",
   "loginSubmit": "Sign in",
   "loginSubmitting": "Signing in…",
-  "registerSubmit": "Create account",
+  "registerSubmit": "Register and sign in",
   "registerSubmitting": "Creating…",
   "goRegister": "Create account",
   "goLogin": "Back to sign in",
@@ -254,6 +258,7 @@
   "hashingUploadFile": "Verifying file…",
   "creatingUpload": "Creating upload…",
   "uploadingFile": "Uploading…",
+  "cancelUploadAction": "Cancel upload",
   "completingUpload": "Completing upload…",
   "emptyUploadFileError": "Choose a file that contains data.",
   "invalidVideoFileError": "Only MP4 video uploads are supported.",
@@ -333,9 +338,24 @@
   "analysisStagePublishing": "Publishing the report",
   "analysisStagePending": "Waiting to start",
   "analysisRunSummary": "Run {run} · technical attempt {attempt}",
-  "@analysisRunSummary": {"placeholders": {"run": {"type": "int"}, "attempt": {"type": "int"}}},
+  "@analysisRunSummary": {
+    "placeholders": {
+      "run": {
+        "type": "int"
+      },
+      "attempt": {
+        "type": "int"
+      }
+    }
+  },
   "analysisProgressSemantics": "Analysis progress {progress}%",
-  "@analysisProgressSemantics": {"placeholders": {"progress": {"type": "int"}}},
+  "@analysisProgressSemantics": {
+    "placeholders": {
+      "progress": {
+        "type": "int"
+      }
+    }
+  },
   "refreshAnalysisAction": "Refresh analysis",
   "cancelAnalysisAction": "Cancel analysis",
   "cancelAnalysisTitle": "Cancel this analysis?",
@@ -383,14 +403,20 @@
   "analysisReportTab": "Report preview",
   "openAnalysisReportAction": "Open report preview",
   "analysisReportLoading": "Preparing the report preview…",
-  "downloadAnalysisReportAction": "Download Markdown",
-  "exportAnalysisReportAction": "Export report",
+  "downloadAnalysisReportAction": "Export Markdown",
+  "exportAnalysisReportAction": "Share report",
   "analysisReportDownloaded": "The report was saved to your chosen location.",
   "analysisReportDownloadFailed": "The report could not be saved. Try again later.",
   "analysisReportExportFailed": "The report could not be exported. Try again later.",
   "analysisEmptySection": "No results were identified in this section.",
   "loadMoreAnalysisResults": "Load more ({count} remaining)",
-  "@loadMoreAnalysisResults": {"placeholders": {"count": {"type": "int"}}},
+  "@loadMoreAnalysisResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "highlightScoreLabel": "Score",
   "articleKeyPointsTitle": "Key points",
   "articleClosingTitle": "Closing",
@@ -415,23 +441,56 @@
   "adminAiProvidersTitle": "AI services",
   "adminAiProvidersDescription": "Review analysis routes and select the active provider.",
   "adminDays": "{days} days",
-  "@adminDays": {"placeholders": {"days": {"type": "int"}}},
+  "@adminDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "adminSuccessRate": "Success rate",
   "adminDownloadedBytes": "Downloaded",
   "adminSourceBreakdown": "Source breakdown",
   "adminCleanupTitle": "Clean up expired files",
   "adminCleanupDescription": "Choose a retention period. The service will remove eligible persisted resources older than it.",
   "adminCleanupDays": "Clean up files older than {days} days",
-  "@adminCleanupDays": {"placeholders": {"days": {"type": "int"}}},
+  "@adminCleanupDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "adminCleanupAction": "Clean up files",
   "adminCleanupComplete": "Removed {count} resources and freed {size}.",
-  "@adminCleanupComplete": {"placeholders": {"count": {"type": "int"}, "size": {"type": "String"}}},
+  "@adminCleanupComplete": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
   "adminFileCount": "{count} persisted files",
-  "@adminFileCount": {"placeholders": {"count": {"type": "int"}}},
+  "@adminFileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "adminFilesEmpty": "No persisted files",
   "adminFilesEmptyDescription": "There are no persisted files requiring administrator action.",
   "adminUserCount": "{count} users",
-  "@adminUserCount": {"placeholders": {"count": {"type": "int"}}},
+  "@adminUserCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "adminRoleLabel": "Role",
   "adminRoleUser": "User",
   "adminRoleAdmin": "Administrator",
@@ -461,5 +520,80 @@
   "deleteDocumentTitle": "Delete screenplay document?",
   "deleteDocumentDescription": "The original file, normalized screenplay, and current document record will be permanently deleted. Any analysis using it must finish first. This cannot be undone.",
   "keepDocumentAction": "Keep document",
-  "confirmDeleteAction": "Confirm delete"
+  "confirmDeleteAction": "Confirm delete",
+  "verificationCodeLabel": "Email verification code",
+  "invalidVerificationCode": "Code is incorrect, expired or already used. Check your email and code, or request a new one.",
+  "emailUnavailable": "Registration email is unavailable. Try again later or contact support.",
+  "emailSendFailed": "Email delivery could not be confirmed. Request a new code later.",
+  "sendVerificationCode": "Send code",
+  "sendingVerificationCode": "Sending…",
+  "verificationCodeSent": "Code sent, valid for 10 minutes. Check your spam folder if needed.",
+  "verificationCodeCooldown": "Resend in {seconds}s",
+  "@verificationCodeCooldown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verificationCodeRequired": "Enter the 6-digit code from your email",
+  "verificationRateLimited": "Wait 60 seconds before requesting another code.",
+  "passwordTooLong": "Password cannot exceed 128 characters",
+  "requiredEmail": "Enter your email address",
+  "requiredPassword": "Enter your password",
+  "requiredNewPassword": "Set a password",
+  "requiredConfirmPassword": "Enter your password again",
+  "requiredUsername": "Set a username",
+  "usernameTooShort": "Username must contain at least 2 characters",
+  "usernameTooLong": "Username cannot exceed 32 characters",
+  "usernameInvalidCharacters": "Use letters, numbers, Chinese characters, underscores, hyphens or periods",
+  "previousPage": "Previous",
+  "nextPage": "Next",
+  "profileSaved": "Profile updated.",
+  "saveProfile": "Save profile",
+  "savingProfile": "Saving",
+  "profileTitle": "Profile",
+  "profileDescription": "Manage your public username and account identity.",
+  "searchAction": "Search",
+  "allStatuses": "All statuses",
+  "currentPageAvailable": "Available on this page",
+  "searchDownloads": "Search downloads",
+  "searchUsers": "Search username or email",
+  "statusLabel": "Status",
+  "deleteConfiguration": "Delete configuration?",
+  "deleteConfigurationDescription": "This cannot be undone. Existing tasks and reports will be retained.",
+  "createPlatform": "Add platform",
+  "configurationKey": "Configuration key",
+  "displayName": "Display name",
+  "sortOrder": "Sort order",
+  "platformVisible": "Visible to users",
+  "invalidConfiguration": "Check this field’s format and value.",
+  "createAiProvider": "Add AI service",
+  "engineLabel": "Engine",
+  "authModeLabel": "Authentication",
+  "modelLabel": "Model",
+  "baseUrlLabel": "Service URL",
+  "apiKeyLabel": "API Key",
+  "apiKeyKeepHint": "Leave blank to keep the existing credential",
+  "localCodexRestriction": "This built-in Codex service only allows changes to its display name and model.",
+  "hostLoginLabel": "Host login · no API key",
+  "deleteAction": "Delete",
+  "cancelAction": "Cancel",
+  "exportDocx": "Export DOCX",
+  "cleanupDaysLabel": "Delete files older than this many days",
+  "videoFile": "Video file",
+  "analysisReport": "Analysis report",
+  "uniqueUsers": "Unique users",
+  "averageDuration": "Average video duration (seconds)",
+  "dailyTrend": "Daily trend",
+  "cancelledLabel": "Cancelled",
+  "allRoles": "All roles",
+  "searchPlatforms": "Search platforms",
+  "visiblePlatform": "Visible",
+  "hiddenPlatform": "Hidden",
+  "needsAttention": "Needs attention",
+  "previousAnalysisResult": "Previous completed result",
+  "catalogScopeDescription": "These settings only change the name, order and visibility. They do not add supported download domains or execution capabilities.",
+  "saveConfiguration": "Save configuration",
+  "analysisRateLimited": "Too many AI requests. Try again later."
 }

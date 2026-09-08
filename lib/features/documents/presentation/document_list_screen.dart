@@ -6,6 +6,7 @@ import 'package:framegrab/features/documents/application/document_list_provider.
 import 'package:framegrab/features/documents/presentation/document_list_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -25,7 +26,7 @@ final class DocumentListScreen extends ConsumerWidget {
       refreshLabel: localizations.refreshAction,
       onRefresh: () => ref.refresh(documentListProvider.future).then((_) {}),
       children: result.when(
-        data: (data) => _content(context, data),
+        data: (data) => _content(context, ref, data),
         error: (_, _) => [
           DataStateMessage(
             icon: LucideIcons.cloudOff,
@@ -46,10 +47,19 @@ final class DocumentListScreen extends ConsumerWidget {
     );
   }
 
-  List<Widget> _content(BuildContext context, DocumentPageResponse data) {
+  List<Widget> _content(
+    BuildContext context,
+    WidgetRef ref,
+    DocumentPageResponse data,
+  ) {
     final localizations = AppLocalizations.of(context);
     if (data.items.isEmpty) {
       return [
+        ListPagination(
+          page: ref.watch(documentListQueryProvider).page,
+          total: data.total,
+          onPage: ref.read(documentListQueryProvider.notifier).page,
+        ),
         DataStateMessage(
           title: localizations.documentEmptyTitle,
           description: localizations.documentEmptyDescription,
@@ -74,7 +84,7 @@ final class DocumentListScreen extends ConsumerWidget {
           ),
           DataMetricValue(
             key: 'available',
-            label: localizations.availableLabel,
+            label: localizations.currentPageAvailable,
             value:
                 '${data.items.where((item) => item.status.name == 'ready').length}',
           ),
@@ -90,15 +100,11 @@ final class DocumentListScreen extends ConsumerWidget {
           ],
         ),
       ),
-      if (data.total > data.items.length) ...[
-        const SizedBox(height: AppSpacing.large),
-        Text(
-          localizations.showingFirstPage,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
+      ListPagination(
+        page: ref.watch(documentListQueryProvider).page,
+        total: data.total,
+        onPage: ref.read(documentListQueryProvider.notifier).page,
+      ),
     ];
   }
 }

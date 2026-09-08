@@ -19,6 +19,7 @@ final class DownloadHero extends StatelessWidget {
     required this.onModeChanged,
     required this.onSubmit,
     required this.onUploadAction,
+    required this.onUploadCancel,
     required this.uploadState,
     super.key,
   });
@@ -32,6 +33,7 @@ final class DownloadHero extends StatelessWidget {
   final ValueChanged<ContentIntakeMode> onModeChanged;
   final VoidCallback onSubmit;
   final ValueChanged<ContentUploadKind> onUploadAction;
+  final VoidCallback onUploadCancel;
   final ContentUploadState uploadState;
 
   @override
@@ -88,6 +90,7 @@ final class DownloadHero extends StatelessWidget {
             description: localizations.videoIntakeDescription,
             icon: LucideIcons.video,
             kind: ContentUploadKind.video,
+            onCancel: onUploadCancel,
             onPressed: () => onUploadAction(ContentUploadKind.video),
             state: uploadState,
             title: localizations.videoIntakeTitle,
@@ -98,6 +101,7 @@ final class DownloadHero extends StatelessWidget {
             description: localizations.screenplayIntakeDescription,
             icon: LucideIcons.fileText,
             kind: ContentUploadKind.screenplay,
+            onCancel: onUploadCancel,
             onPressed: () => onUploadAction(ContentUploadKind.screenplay),
             state: uploadState,
             title: localizations.screenplayIntakeTitle,

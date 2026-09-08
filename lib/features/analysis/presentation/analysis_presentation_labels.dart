@@ -70,8 +70,8 @@ String analysisFailureMessage(
           ? l10n.screenplayAnalysisInputUnavailable
           : l10n.analysisInputUnavailable,
     'analysisProviderRateLimited' ||
+    'analysis_provider_rate_limited' => l10n.analysisRateLimited,
     'analysisProviderUsageLimited' ||
-    'analysis_provider_rate_limited' ||
     'analysis_provider_usage_limited' => l10n.analysisUsageLimited,
     'workerLost' || 'worker_lost' => l10n.analysisWorkerLost,
     _ => switch (error) {

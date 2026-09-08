@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/analysis/application/analysis_state.dart';
+import 'package:framegrab/features/analysis/presentation/analysis_docx_button.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_presentation_labels.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_result_view.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
@@ -34,6 +35,7 @@ final class AnalysisJobState extends StatelessWidget {
       job.status == AnalysisStatus.retryWait;
 
   bool get _retryable =>
+      job.status == AnalysisStatus.succeeded ||
       job.status == AnalysisStatus.failed ||
       job.status == AnalysisStatus.cancelled;
 
@@ -103,6 +105,9 @@ final class AnalysisJobState extends StatelessWidget {
           spacing: AppSpacing.small,
           runSpacing: AppSpacing.small,
           children: [
+            if (job.report?.status == 'available' &&
+                (job.report?.artifacts.any((a) => a.format == 'docx') ?? false))
+              AnalysisDocxButton(analysisId: job.id),
             if (_active)
               FilledButton.tonalIcon(
                 key: const Key('cancel-analysis-button'),
@@ -136,7 +141,9 @@ final class AnalysisJobState extends StatelessWidget {
             ),
           ],
         ),
-        if (job.status == AnalysisStatus.succeeded) ...[
+        if (job.result != null) ...[
+          if (job.status != AnalysisStatus.succeeded)
+            Text(l10n.previousAnalysisResult),
           const SizedBox(height: AppSpacing.section),
           AnalysisResultView(job: job),
         ],

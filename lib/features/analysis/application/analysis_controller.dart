@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/features/analysis/application/analysis_job_snapshot.dart';
 import 'package:framegrab/features/analysis/application/analysis_operation_keys.dart';
 import 'package:framegrab/features/analysis/application/analysis_state.dart';
 import 'package:framegrab/features/analysis/application/analysis_target.dart';
@@ -23,25 +24,28 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
 
   final AnalysisTarget target;
   final _keys = AnalysisOperationKeys();
+  int _generation = 0;
   Timer? _pollTimer;
   late Duration _pollingInterval;
   late AnalysisRepository _repository;
 
   @override
   Future<AnalysisState> build() async {
-    _repository = ref.watch(analysisRepositoryProvider);
+    final generation = _invalidateRequests();
+    final repository = _repository = ref.watch(analysisRepositoryProvider);
     _pollingInterval = ref.watch(analysisPollingIntervalProvider);
-    ref.onDispose(() => _pollTimer?.cancel());
-    final job = await _repository.fetchLatest(
+    ref.onDispose(_invalidateRequests);
+    final job = await repository.fetchLatest(
       inputKind: target.inputKind,
       sourceId: target.id,
     );
+    if (!_isCurrent(generation)) return const AnalysisState();
     if (job != null) {
       _schedulePoll(job);
       return AnalysisState(job: job);
     }
     return AnalysisState(
-      skills: await _repository.fetchSkills(target.inputKind),
+      skills: await repository.fetchSkills(target.inputKind),
     );
   }
 
@@ -68,14 +72,15 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
 
   Future<void> cancel() async {
     final job = state.value?.job;
-    if (job == null || !_isActive(job.status)) return;
+    if (job == null || !isActiveAnalysis(job)) return;
     await _mutate(AnalysisAction.cancel, () => _repository.cancel(job.id));
   }
 
   Future<void> retry() async {
     final job = state.value?.job;
     if (job == null ||
-        (job.status != AnalysisStatus.failed &&
+        (job.status != AnalysisStatus.succeeded &&
+            job.status != AnalysisStatus.failed &&
             job.status != AnalysisStatus.cancelled)) {
       return;
     }
@@ -90,66 +95,66 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
   }
 
   Future<void> delete() async {
-    final current = state.value;
-    final job = current?.job;
-    if (current == null || job == null || current.busy) return;
-    _setAction(current, AnalysisAction.delete);
-    try {
-      await _repository.delete(job.id);
-      final skills = await _repository.fetchSkills(target.inputKind);
-      if (!ref.mounted) return;
-      _pollTimer?.cancel();
-      _keys.clearAll();
-      state = AsyncData(AnalysisState(skills: skills));
-    } catch (error) {
-      _setFailure(current, error);
-      _schedulePoll(job);
-    }
+    final job = state.value?.job;
+    if (job == null) return;
+    await _runAction(AnalysisAction.delete, (current, generation) async {
+      final repository = _repository;
+      await repository.delete(job.id);
+      if (!_isCurrent(generation)) return current;
+      return AnalysisState(
+        skills: await repository.fetchSkills(target.inputKind),
+      );
+    }, onSuccess: _keys.clearAll);
   }
 
-  Future<void> refresh() async {
-    final current = state.value;
-    if (current == null || current.busy) return;
-    _setAction(current, AnalysisAction.refresh);
-    try {
-      final job = await _repository.fetchLatest(
-        inputKind: target.inputKind,
-        sourceId: target.id,
-      );
-      final skills = job == null && current.skills.isEmpty
-          ? await _repository.fetchSkills(target.inputKind)
-          : current.skills;
-      if (!ref.mounted) return;
-      final next = AnalysisState(job: job, skills: skills);
-      state = AsyncData(next);
-      _schedulePoll(job);
-    } catch (error) {
-      _setFailure(current, error);
-      _schedulePoll(current.job);
-    }
-  }
+  Future<void> refresh() =>
+      _runAction(AnalysisAction.refresh, (current, generation) async {
+        final repository = _repository;
+        final job = await repository.fetchLatest(
+          inputKind: target.inputKind,
+          sourceId: target.id,
+        );
+        if (!_isCurrent(generation)) return current;
+        final skills = job == null && current.skills.isEmpty
+            ? await repository.fetchSkills(target.inputKind)
+            : current.skills;
+        return AnalysisState(
+          job: latestAnalysisJob(current.job, job),
+          skills: skills,
+        );
+      });
 
   Future<void> _mutate(
     AnalysisAction action,
     Future<AnalysisResponse> Function() operation, {
     void Function()? onSuccess,
+  }) => _runAction(
+    action,
+    (current, _) async => current.copyWith(
+      job: latestAnalysisJob(current.job, await operation()),
+    ),
+    onSuccess: onSuccess,
+  );
+
+  Future<void> _runAction(
+    AnalysisAction action,
+    Future<AnalysisState> Function(AnalysisState, int) operation, {
+    void Function()? onSuccess,
   }) async {
     final current = state.value;
-    if (current == null || current.busy) return;
-    _setAction(current, action);
+    if (current == null || current.busy || state.isLoading) return;
+    final generation = _invalidateRequests();
+    state = AsyncData(current.copyWith(action: action, clearActionError: true));
     try {
-      final job = await operation();
-      if (!ref.mounted) return;
+      final next = await operation(current, generation);
+      if (!_isCurrent(generation)) return;
       onSuccess?.call();
       state = AsyncData(
-        current.copyWith(
-          action: AnalysisAction.idle,
-          clearActionError: true,
-          job: job,
-        ),
+        next.copyWith(action: AnalysisAction.idle, clearActionError: true),
       );
-      _schedulePoll(job);
+      _schedulePoll(next.job);
     } catch (error) {
+      if (!_isCurrent(generation)) return;
       _setFailure(current, error);
       _schedulePoll(current.job);
     }
@@ -157,28 +162,34 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
 
   void _schedulePoll(AnalysisResponse? job) {
     _pollTimer?.cancel();
-    if (job == null || !_isActive(job.status)) return;
-    _pollTimer = Timer(_pollingInterval, _poll);
+    if (!isActiveAnalysis(job)) return;
+    final generation = _generation;
+    _pollTimer = Timer(_pollingInterval, () => _poll(generation));
   }
 
-  Future<void> _poll() async {
+  Future<void> _poll(int generation) async {
+    if (!_isCurrent(generation)) return;
     final current = state.value;
     final job = current?.job;
-    if (!ref.mounted || current == null || job == null) return;
+    if (current == null || current.busy || job == null) return;
     try {
-      final next = await _repository.fetch(job.id);
-      if (!ref.mounted) return;
+      final response = await _repository.fetch(job.id);
+      if (!_isCurrent(generation)) return;
+      final next = latestAnalysisJob(job, response);
       state = AsyncData(current.copyWith(job: next, clearActionError: true));
       _schedulePoll(next);
     } catch (error) {
+      if (!_isCurrent(generation)) return;
       _setFailure(current, error);
     }
   }
 
-  void _setAction(AnalysisState current, AnalysisAction action) {
+  int _invalidateRequests() {
     _pollTimer?.cancel();
-    state = AsyncData(current.copyWith(action: action, clearActionError: true));
+    return ++_generation;
   }
+
+  bool _isCurrent(int generation) => ref.mounted && generation == _generation;
 
   void _setFailure(AnalysisState current, Object error) {
     if (!ref.mounted) return;
@@ -187,8 +198,3 @@ final class AnalysisController extends AsyncNotifier<AnalysisState> {
     );
   }
 }
-
-bool _isActive(AnalysisStatus status) =>
-    status == AnalysisStatus.queued ||
-    status == AnalysisStatus.running ||
-    status == AnalysisStatus.retryWait;

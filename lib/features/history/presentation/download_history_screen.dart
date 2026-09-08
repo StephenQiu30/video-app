@@ -7,6 +7,8 @@ import 'package:framegrab/features/history/application/download_history_provider
 import 'package:framegrab/features/history/presentation/download_history_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/list_filters.dart';
+import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -25,32 +27,62 @@ final class DownloadHistoryScreen extends ConsumerWidget {
       description: localizations.downloadHistoryDescription,
       refreshLabel: localizations.refreshAction,
       onRefresh: () => ref.refresh(downloadHistoryProvider.future).then((_) {}),
-      children: result.when(
-        data: (data) => _content(context, data),
-        error: (_, _) => [
-          DataStateMessage(
-            icon: LucideIcons.cloudOff,
-            title: localizations.loadFailedTitle,
-            description: localizations.loadFailedDescription,
-            actionLabel: localizations.retryAction,
-            onAction: () => ref.invalidate(downloadHistoryProvider),
-          ),
-        ],
-        loading: () => [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 64),
-            child: Center(child: CircularProgressIndicator()),
-          ),
-          Center(child: Text(localizations.loadingData)),
-        ],
-      ),
+      children: [
+        ListFilters(
+          query: ref.watch(downloadListQueryProvider),
+          searchLabel: localizations.searchDownloads,
+          statuses: {
+            for (final status in DownloadStatus.values.where(
+              (v) => v != DownloadStatus.unknownDefaultOpenApi,
+            ))
+              status.name: _statusLabel(status, localizations),
+          },
+          onSearch: (value) => ref
+              .read(downloadListQueryProvider.notifier)
+              .filter(
+                search: value,
+                status: ref.read(downloadListQueryProvider).status,
+              ),
+          onStatus: (value) => ref
+              .read(downloadListQueryProvider.notifier)
+              .filter(status: value),
+        ),
+        ...result.when(
+          data: (data) => _content(context, ref, data),
+          error: (_, _) => [
+            DataStateMessage(
+              icon: LucideIcons.cloudOff,
+              title: localizations.loadFailedTitle,
+              description: localizations.loadFailedDescription,
+              actionLabel: localizations.retryAction,
+              onAction: () => ref.invalidate(downloadHistoryProvider),
+            ),
+          ],
+          loading: () => [
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 64),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            Center(child: Text(localizations.loadingData)),
+          ],
+        ),
+      ],
     );
   }
 
-  List<Widget> _content(BuildContext context, DownloadHistoryResponse data) {
+  List<Widget> _content(
+    BuildContext context,
+    WidgetRef ref,
+    DownloadHistoryResponse data,
+  ) {
     final localizations = AppLocalizations.of(context);
     if (data.items.isEmpty) {
       return [
+        ListPagination(
+          page: ref.watch(downloadListQueryProvider).page,
+          total: data.total,
+          onPage: ref.read(downloadListQueryProvider.notifier).page,
+        ),
         DataStateMessage(
           title: localizations.downloadHistoryEmptyTitle,
           description: localizations.downloadHistoryEmptyDescription,
@@ -104,15 +136,22 @@ final class DownloadHistoryScreen extends ConsumerWidget {
           ],
         ),
       ),
-      if (data.total > data.items.length) ...[
-        const SizedBox(height: AppSpacing.large),
-        Text(
-          localizations.showingFirstPage,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
+      ListPagination(
+        page: ref.watch(downloadListQueryProvider).page,
+        total: data.total,
+        onPage: ref.read(downloadListQueryProvider.notifier).page,
+      ),
     ];
   }
 }
+
+String _statusLabel(DownloadStatus status, AppLocalizations l) =>
+    switch (status.name) {
+      'queued' => l.downloadStatusQueued,
+      'running' => l.downloadStatusRunning,
+      'retryWait' => l.downloadStatusRetryWait,
+      'succeeded' => l.downloadStatusSucceeded,
+      'failed' => l.downloadStatusFailed,
+      'cancelled' => l.downloadStatusCancelled,
+      _ => status.name,
+    };

@@ -18,6 +18,7 @@ final class DownloadHomeContent extends StatelessWidget {
     required this.onModeChanged,
     required this.onSubmit,
     required this.onUploadAction,
+    required this.onUploadCancel,
     required this.result,
     required this.statusTone,
     required this.uploadState,
@@ -34,6 +35,7 @@ final class DownloadHomeContent extends StatelessWidget {
   final ValueChanged<ContentIntakeMode> onModeChanged;
   final VoidCallback onSubmit;
   final ValueChanged<ContentUploadKind> onUploadAction;
+  final VoidCallback onUploadCancel;
   final Widget? result;
   final DownloadNoticeTone statusTone;
   final ContentUploadState uploadState;
@@ -72,6 +74,7 @@ final class DownloadHomeContent extends StatelessWidget {
                         onModeChanged: onModeChanged,
                         onSubmit: onSubmit,
                         onUploadAction: onUploadAction,
+                        onUploadCancel: onUploadCancel,
                         uploadState: uploadState,
                       ),
                       if (error != null) ...[

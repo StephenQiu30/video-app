@@ -11,6 +11,7 @@ final class UploadIntakePanel extends StatelessWidget {
     required this.icon,
     required this.kind,
     required this.onPressed,
+    required this.onCancel,
     required this.state,
     required this.title,
     super.key,
@@ -21,6 +22,7 @@ final class UploadIntakePanel extends StatelessWidget {
   final IconData icon;
   final ContentUploadKind kind;
   final VoidCallback onPressed;
+  final VoidCallback onCancel;
   final ContentUploadState state;
   final String title;
 
@@ -71,6 +73,13 @@ final class UploadIntakePanel extends StatelessWidget {
                   : state.progress / 100,
             ),
           ],
+          if (busy)
+            TextButton.icon(
+              key: const Key('cancel-content-upload'),
+              onPressed: onCancel,
+              icon: const Icon(Icons.close),
+              label: Text(AppLocalizations.of(context).cancelUploadAction),
+            ),
           if (failure != null) ...[
             const SizedBox(height: AppSpacing.large),
             Text(

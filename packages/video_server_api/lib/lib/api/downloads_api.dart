@@ -12,6 +12,7 @@ import 'package:video_server_api/lib/api_util.dart';
 import 'package:video_server_api/lib/model/download_history_response.dart';
 import 'package:video_server_api/lib/model/download_request.dart';
 import 'package:video_server_api/lib/model/download_response.dart';
+import 'package:video_server_api/lib/model/download_status.dart';
 import 'package:video_server_api/lib/model/download_url_response.dart';
 
 class DownloadsApi {
@@ -357,6 +358,8 @@ class DownloadsApi {
   /// Parameters:
   /// * [page]
   /// * [pageSize]
+  /// * [status]
+  /// * [search]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -369,6 +372,8 @@ class DownloadsApi {
   Future<Response<DownloadHistoryResponse>> getDownloadHistory({
     int? page = 1,
     int? pageSize = 20,
+    DownloadStatus? status,
+    String? search,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -401,6 +406,12 @@ class DownloadsApi {
       if (pageSize != null)
         r'page_size':
             encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (status != null)
+        r'status': encodeQueryParameter(
+            _serializers, status, const FullType(DownloadStatus)),
+      if (search != null)
+        r'search':
+            encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(

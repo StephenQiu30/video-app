@@ -7,6 +7,7 @@ import 'package:framegrab/features/auth/application/auth_session_controller.dart
 import 'package:framegrab/features/auth/presentation/auth_error_text.dart';
 import 'package:framegrab/features/auth/presentation/auth_failure_message.dart';
 import 'package:framegrab/features/auth/presentation/auth_page_scaffold.dart';
+import 'package:framegrab/features/auth/presentation/auth_validation.dart';
 import 'package:framegrab/features/auth/presentation/password_field.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +33,7 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    if (ref.read(authSessionProvider).isBusy) return;
     if (!(_formKey.currentState?.validate() ?? false)) return;
     FocusManager.instance.primaryFocus?.unfocus();
     final success = await ref
@@ -64,8 +66,7 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
                 textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.email],
                 autocorrect: false,
-                validator: (value) =>
-                    _validEmail(value) ? null : localizations.invalidEmail,
+                validator: (value) => validateAuthEmail(value, localizations),
                 decoration: InputDecoration(
                   labelText: localizations.emailLabel,
                 ),
@@ -79,9 +80,11 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
                 onToggle: () {
                   setState(() => _obscurePassword = !_obscurePassword);
                 },
-                validator: (value) => (value?.length ?? 0) >= 8
-                    ? null
-                    : localizations.invalidPassword,
+                validator: (value) => validateAuthPassword(
+                  value,
+                  localizations,
+                  registering: false,
+                ),
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) => unawaited(_submit()),
               ),
@@ -118,8 +121,4 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
-}
-
-bool _validEmail(String? value) {
-  return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value?.trim() ?? '');
 }

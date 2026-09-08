@@ -67,17 +67,23 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AdminApi*](doc/AdminApi.md) | [**activateAiProviderProfile**](doc/AdminApi.md#activateaiproviderprofile) | **POST** /api/admin/ai-providers/{provider_key}/activate | 启用 AI 分析 Provider
 [*AdminApi*](doc/AdminApi.md) | [**cleanupStoredFiles**](doc/AdminApi.md#cleanupstoredfiles) | **POST** /api/admin/files/cleanup | 手动清理指定天数前的文件
+[*AdminApi*](doc/AdminApi.md) | [**createAiProviderProfile**](doc/AdminApi.md#createaiproviderprofile) | **POST** /api/admin/ai-providers | 新增 AI 分析 Provider
+[*AdminApi*](doc/AdminApi.md) | [**createProviderCatalogEntry**](doc/AdminApi.md#createprovidercatalogentry) | **POST** /api/admin/providers | 新增平台目录条目
+[*AdminApi*](doc/AdminApi.md) | [**deleteAiProviderProfile**](doc/AdminApi.md#deleteaiproviderprofile) | **DELETE** /api/admin/ai-providers/{provider_key} | 删除 AI 分析 Provider
+[*AdminApi*](doc/AdminApi.md) | [**deleteProviderCatalogEntry**](doc/AdminApi.md#deleteprovidercatalogentry) | **DELETE** /api/admin/providers/{provider_key} | 删除平台目录条目
 [*AdminApi*](doc/AdminApi.md) | [**getDownloadAnalytics**](doc/AdminApi.md#getdownloadanalytics) | **GET** /api/admin/downloads/analytics | 查询下载分析
 [*AdminApi*](doc/AdminApi.md) | [**listAiProviderProfiles**](doc/AdminApi.md#listaiproviderprofiles) | **GET** /api/admin/ai-providers | 查询 AI 分析 Provider
 [*AdminApi*](doc/AdminApi.md) | [**listProviderCatalogEntries**](doc/AdminApi.md#listprovidercatalogentries) | **GET** /api/admin/providers | 查询平台目录
 [*AdminApi*](doc/AdminApi.md) | [**listStoredFiles**](doc/AdminApi.md#liststoredfiles) | **GET** /api/admin/files | 分页查询持久文件
 [*AdminApi*](doc/AdminApi.md) | [**listUsers**](doc/AdminApi.md#listusers) | **GET** /api/admin/users | 查询用户列表
+[*AdminApi*](doc/AdminApi.md) | [**updateAiProviderProfile**](doc/AdminApi.md#updateaiproviderprofile) | **PATCH** /api/admin/ai-providers/{provider_key} | 更新 AI 分析 Provider
 [*AdminApi*](doc/AdminApi.md) | [**updateProviderCatalogEntry**](doc/AdminApi.md#updateprovidercatalogentry) | **PATCH** /api/admin/providers/{provider_key} | 更新平台目录条目
 [*AdminApi*](doc/AdminApi.md) | [**updateUserAccess**](doc/AdminApi.md#updateuseraccess) | **PATCH** /api/admin/users/{user_id} | 更新用户角色与账号状态
 [*AnalysesApi*](doc/AnalysesApi.md) | [**cancelAnalysis**](doc/AnalysesApi.md#cancelanalysis) | **POST** /api/analyses/{analysis_id}/cancel | 取消视频分析任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**createAnalysis**](doc/AnalysesApi.md#createanalysis) | **POST** /api/downloads/{download_id}/analyses | 创建视频分析任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**createDocumentAnalysis**](doc/AnalysesApi.md#createdocumentanalysis) | **POST** /api/documents/{document_id}/analyses | 创建剧本分析或改写任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**deleteAnalysis**](doc/AnalysesApi.md#deleteanalysis) | **DELETE** /api/analyses/{analysis_id} | 删除视频分析与报告
+[*AnalysesApi*](doc/AnalysesApi.md) | [**exportAnalysisReport**](doc/AnalysesApi.md#exportanalysisreport) | **GET** /api/analyses/{analysis_id}/report.docx | 导出视频分析报告
 [*AnalysesApi*](doc/AnalysesApi.md) | [**getAnalysis**](doc/AnalysesApi.md#getanalysis) | **GET** /api/analyses/{analysis_id} | 查询视频分析任务
 [*AnalysesApi*](doc/AnalysesApi.md) | [**getLatestDocumentAnalysis**](doc/AnalysesApi.md#getlatestdocumentanalysis) | **GET** /api/documents/{document_id}/analysis | 读取文档最近的剧本分析
 [*AnalysesApi*](doc/AnalysesApi.md) | [**getLatestDownloadAnalysis**](doc/AnalysesApi.md#getlatestdownloadanalysis) | **GET** /api/downloads/{download_id}/analysis | 读取下载任务最近的视频分析
@@ -88,6 +94,7 @@ Class | Method | HTTP request | Description
 [*AppAuthApi*](doc/AppAuthApi.md) | [**logoutNativeSession**](doc/AppAuthApi.md#logoutnativesession) | **POST** /api/app/v1/auth/logout | 退出原生应用
 [*AppAuthApi*](doc/AppAuthApi.md) | [**refreshNativeSession**](doc/AppAuthApi.md#refreshnativesession) | **POST** /api/app/v1/auth/refresh | 轮换原生应用会话
 [*AppAuthApi*](doc/AppAuthApi.md) | [**registerNativeUser**](doc/AppAuthApi.md#registernativeuser) | **POST** /api/app/v1/auth/register | 注册原生应用用户
+[*AppAuthApi*](doc/AppAuthApi.md) | [**sendNativeRegistrationCode**](doc/AppAuthApi.md#sendnativeregistrationcode) | **POST** /api/app/v1/auth/registration-code | 发送注册邮箱验证码
 [*DocumentsApi*](doc/DocumentsApi.md) | [**cancelDocumentImport**](doc/DocumentsApi.md#canceldocumentimport) | **POST** /api/documents/{document_id}/cancel | 取消剧本文档导入
 [*DocumentsApi*](doc/DocumentsApi.md) | [**completeDocumentImport**](doc/DocumentsApi.md#completedocumentimport) | **POST** /api/documents/{document_id}/complete | 完成文档上传并触发验证
 [*DocumentsApi*](doc/DocumentsApi.md) | [**createDocumentImport**](doc/DocumentsApi.md#createdocumentimport) | **POST** /api/documents | 创建剧本文档导入
@@ -112,6 +119,7 @@ Class | Method | HTTP request | Description
 [*ProvidersApi*](doc/ProvidersApi.md) | [**listProviders**](doc/ProvidersApi.md#listproviders) | **GET** /api/providers | 查询平台能力状态
 [*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**createSourceDiscovery**](doc/SourceDiscoveriesApi.md#createsourcediscovery) | **POST** /api/source-discoveries | 发现微信公众号文章中的视频
 [*SourceDiscoveriesApi*](doc/SourceDiscoveriesApi.md) | [**getSourceDiscovery**](doc/SourceDiscoveriesApi.md#getsourcediscovery) | **GET** /api/source-discoveries/{discovery_id} | 查询文章视频发现结果
+[*UsersApi*](doc/UsersApi.md) | [**updateCurrentUser**](doc/UsersApi.md#updatecurrentuser) | **PATCH** /api/users/me | 更新当前用户资料
 
 
 ## Documentation For Models
@@ -139,6 +147,8 @@ Class | Method | HTTP request | Description
  - [CompleteMediaImportRequest](doc/CompleteMediaImportRequest.md)
  - [CompletedPartRequest](doc/CompletedPartRequest.md)
  - [ContainerPreference](doc/ContainerPreference.md)
+ - [CreateAiProviderProfileRequest](doc/CreateAiProviderProfileRequest.md)
+ - [CreateProviderCatalogEntryRequest](doc/CreateProviderCatalogEntryRequest.md)
  - [DeclaredOrigin](doc/DeclaredOrigin.md)
  - [DiscoveredItemInspectionSource](doc/DiscoveredItemInspectionSource.md)
  - [DiscoveryDecisionHint](doc/DiscoveryDecisionHint.md)
@@ -203,6 +213,8 @@ Class | Method | HTTP request | Description
  - [ProviderSupportStatus](doc/ProviderSupportStatus.md)
  - [PublicUrlInspectionSource](doc/PublicUrlInspectionSource.md)
  - [RegisterRequest](doc/RegisterRequest.md)
+ - [RegistrationCodeRequest](doc/RegistrationCodeRequest.md)
+ - [RegistrationCodeResponse](doc/RegistrationCodeResponse.md)
  - [RightsBasis](doc/RightsBasis.md)
  - [ScreenplayAnalysisResultResponse](doc/ScreenplayAnalysisResultResponse.md)
  - [ScreenplayCharacterResponse](doc/ScreenplayCharacterResponse.md)
@@ -222,6 +234,8 @@ Class | Method | HTTP request | Description
  - [StoredFileCategory](doc/StoredFileCategory.md)
  - [StoredFileListResponse](doc/StoredFileListResponse.md)
  - [StoredFileResponse](doc/StoredFileResponse.md)
+ - [UpdateAiProviderProfileRequest](doc/UpdateAiProviderProfileRequest.md)
+ - [UpdateProfileRequest](doc/UpdateProfileRequest.md)
  - [UpdateProviderCatalogEntryRequest](doc/UpdateProviderCatalogEntryRequest.md)
  - [UpdateUserAccessRequest](doc/UpdateUserAccessRequest.md)
  - [UploadPartResponse](doc/UploadPartResponse.md)

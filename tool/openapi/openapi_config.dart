@@ -27,8 +27,32 @@ const appOpenApiConfig = AppOpenApiConfig(
   generatorVersion: '7.22.0',
   operations: [
     OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/analyses/{analysis_id}/report.docx',
+    ),
+    OpenApiOperationSelection(method: 'patch', path: '/api/users/me'),
+    OpenApiOperationSelection(method: 'post', path: '/api/admin/providers'),
+    OpenApiOperationSelection(
+      method: 'delete',
+      path: '/api/admin/providers/{provider_key}',
+    ),
+    OpenApiOperationSelection(method: 'post', path: '/api/admin/ai-providers'),
+    OpenApiOperationSelection(
+      method: 'patch',
+      path: '/api/admin/ai-providers/{provider_key}',
+    ),
+    OpenApiOperationSelection(
+      method: 'delete',
+      path: '/api/admin/ai-providers/{provider_key}',
+    ),
+
+    OpenApiOperationSelection(
       method: 'post',
       path: '/api/app/v1/auth/register',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/app/v1/auth/registration-code',
     ),
     OpenApiOperationSelection(method: 'post', path: '/api/app/v1/auth/login'),
     OpenApiOperationSelection(method: 'get', path: '/api/app/v1/auth/me'),
@@ -45,11 +69,7 @@ const appOpenApiConfig = AppOpenApiConfig(
       path: '/api/inspections/{inspection_id}',
     ),
     OpenApiOperationSelection(method: 'post', path: '/api/downloads'),
-    OpenApiOperationSelection(
-      method: 'get',
-      path: '/api/downloads/history',
-      queryParameters: {'page', 'page_size'},
-    ),
+    OpenApiOperationSelection(method: 'get', path: '/api/downloads/history'),
     OpenApiOperationSelection(method: 'get', path: '/api/downloads/{job_id}'),
     OpenApiOperationSelection(
       method: 'delete',
@@ -149,17 +169,9 @@ const appOpenApiConfig = AppOpenApiConfig(
       path: '/api/admin/downloads/analytics',
       queryParameters: {'days'},
     ),
-    OpenApiOperationSelection(
-      method: 'get',
-      path: '/api/admin/files',
-      queryParameters: {'page', 'page_size'},
-    ),
+    OpenApiOperationSelection(method: 'get', path: '/api/admin/files'),
     OpenApiOperationSelection(method: 'post', path: '/api/admin/files/cleanup'),
-    OpenApiOperationSelection(
-      method: 'get',
-      path: '/api/admin/users',
-      queryParameters: {'page', 'page_size'},
-    ),
+    OpenApiOperationSelection(method: 'get', path: '/api/admin/users'),
     OpenApiOperationSelection(
       method: 'patch',
       path: '/api/admin/users/{user_id}',

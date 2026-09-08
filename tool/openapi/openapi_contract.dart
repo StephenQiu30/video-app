@@ -24,6 +24,32 @@ Map<String, Object?> buildAppOpenApi(
           )
           .toList(growable: false);
     }
+    // HTTP query null means omission, never an empty value. Dart-dio otherwise
+    // serializes nullable optional parameters as empty strings.
+    operation['parameters'] = _list(operation['parameters'])
+        .map((value) {
+          final parameter = Map<String, Object?>.from(_map(value, 'parameter'));
+          if (parameter['in'] != 'query' || parameter['required'] == true) {
+            return parameter;
+          }
+          final schema = Map<String, Object?>.from(
+            _map(parameter['schema'], 'schema'),
+          );
+          final variants = schema['anyOf'];
+          if (variants is List) {
+            final concrete = variants
+                .where((item) => _map(item, 'variant')['type'] != 'null')
+                .toList();
+            if (concrete.length == 1 && concrete.length < variants.length) {
+              schema.remove('anyOf');
+              schema.addAll(_map(concrete.single, 'variant'));
+              if (schema['default'] == null) schema.remove('default');
+              parameter['schema'] = schema;
+            }
+          }
+          return parameter;
+        })
+        .toList(growable: false);
     final operationId = operation['operationId'];
     if (operationId is! String || operationId.isEmpty) {
       throw FormatException(
@@ -34,7 +60,8 @@ Map<String, Object?> buildAppOpenApi(
       throw FormatException('Duplicate operationId: $operationId.');
     }
     if (operationId == 'getDownloadThumbnail' ||
-        operationId == 'getInspectionThumbnail') {
+        operationId == 'getInspectionThumbnail' ||
+        operationId == 'exportAnalysisReport') {
       _declareBinaryResponse(operation);
     }
     final selectedPath = switch (selectedPaths[selection.path]) {

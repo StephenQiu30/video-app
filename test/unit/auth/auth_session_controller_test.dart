@@ -202,7 +202,17 @@ final class _FakeAuthGateway implements NativeAuthGateway {
   }
 
   @override
+  Future<RegistrationCodeResponse> sendRegistrationCode(String email) async =>
+      RegistrationCodeResponse(
+        (b) => b
+          ..emailSent = true
+          ..retryAfterSeconds = 60
+          ..expiresInSeconds = 600,
+      );
+
+  @override
   Future<NativeSessionResponse> register({
+    required String verificationCode,
     required String username,
     required String email,
     required String password,

@@ -54,16 +54,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentRowActionsHint => '向左轻扫可管理剧本文档。';
 
   @override
-  String get providerStatusDescription => '查看各平台当前是否可用，以及需要的访问方式。';
+  String get providerStatusDescription => '先查看当前下载支持；需要时再展开单个平台，核对探针与真实任务证据。';
 
   @override
-  String get loadingData => '正在读取真实数据…';
+  String get loadingData => '正在加载…';
 
   @override
   String get loadFailedTitle => '暂时无法读取数据';
 
   @override
-  String get loadFailedDescription => '请检查网络连接后重试。已有数据不会被占位内容替代。';
+  String get loadFailedDescription => '请检查网络连接后重试。';
 
   @override
   String get retryAction => '重新加载';
@@ -612,10 +612,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get createAccountTitle => '创建你的帧取账户';
 
   @override
-  String get registerDescription => '注册后可在设备间恢复会话，并安全访问你的任务。';
+  String get registerDescription => '验证邮箱后创建账户，保存和管理你的下载、文档与分析。';
 
   @override
-  String get emailLabel => '邮箱';
+  String get emailLabel => '邮箱地址';
 
   @override
   String get usernameLabel => '用户名';
@@ -642,7 +642,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginSubmitting => '正在登录…';
 
   @override
-  String get registerSubmit => '创建账户';
+  String get registerSubmit => '注册并登录';
 
   @override
   String get registerSubmitting => '正在创建…';
@@ -657,28 +657,28 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noAccountPrompt => '还没有账户？';
 
   @override
-  String get hasAccountPrompt => '已经有账户？';
+  String get hasAccountPrompt => '已有账户？';
 
   @override
-  String get invalidEmail => '请输入有效的邮箱地址。';
+  String get invalidEmail => '请输入有效的邮箱地址';
 
   @override
   String get invalidUsername => '用户名需为 2–32 个字符，仅支持字母、数字、中文以及 _-. 字符。';
 
   @override
-  String get invalidPassword => '密码至少需要 8 个字符。';
+  String get invalidPassword => '密码至少需要 8 个字符';
 
   @override
-  String get passwordMismatch => '两次输入的密码不一致。';
+  String get passwordMismatch => '两次输入的密码不一致';
 
   @override
-  String get invalidCredentialsError => '邮箱或密码不正确。';
+  String get invalidCredentialsError => '邮箱或密码错误，请重新输入。';
 
   @override
-  String get emailRegisteredError => '这个邮箱已经注册，请直接登录。';
+  String get emailRegisteredError => '该邮箱已注册，请直接登录或使用其他邮箱。';
 
   @override
-  String get usernameRegisteredError => '这个用户名已经被使用。';
+  String get usernameRegisteredError => '该用户名已被使用，请更换后重试。';
 
   @override
   String get unauthenticatedError => '登录状态已失效，请重新登录。';
@@ -759,6 +759,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get uploadingFile => '正在上传…';
+
+  @override
+  String get cancelUploadAction => '取消上传';
 
   @override
   String get completingUpload => '正在完成上传…';
@@ -859,7 +862,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get inspectionFailedError => '媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。';
+  String get inspectionFailedError => '暂时无法读取视频信息，请检查链接后重试。';
 
   @override
   String get inspectionTimeoutError => '媒体解析超时，请稍后重新提交。';
@@ -883,7 +886,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get providerLinkError => '分享链接已失效或无法定位视频，请复制新的公开分享链接。';
 
   @override
-  String get providerUnsupportedError => '当前链接不包含受支持的单个公开视频。';
+  String get providerUnsupportedError => '该链接不包含受支持的可下载视频，请更换链接。';
 
   @override
   String get durationLimitError => '该媒体时长超过服务允许的上限。';
@@ -1056,16 +1059,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get analysisExecutionFailed => 'AI 分析执行失败，请稍后重试。';
 
   @override
-  String get analysisServiceUnavailable => 'AI 分析服务暂时不可用，请检查本机分析服务后重试。';
+  String get analysisServiceUnavailable => 'AI 分析服务暂时不可用，请稍后重试。';
 
   @override
-  String get analysisAuthenticationRequired => 'AI 分析服务尚未登录，请完成服务登录后重试。';
+  String get analysisAuthenticationRequired => 'AI 分析服务未登录，请完成登录后重试。';
 
   @override
   String get analysisTimeoutError => 'AI 分析超时，请稍后重试。';
 
   @override
-  String get analysisInvalidResult => 'AI 返回结果未通过结构与证据校验，请重新分析。';
+  String get analysisInvalidResult => 'AI 返回结果未通过校验，请重新分析。';
 
   @override
   String get screenplayStoryOverview => '故事概览';
@@ -1101,7 +1104,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get screenplayStructuredResultTitle => '结构化结果';
 
   @override
-  String get analysisResourceLimit => '视频超出当前分析资源限制，请使用更短或更小的视频。';
+  String get analysisResourceLimit => '视频超出分析资源限制，请使用更短或更小的视频。';
 
   @override
   String get analysisInputUnavailable => '用于分析的视频文件已不可用，请重新创建下载任务。';
@@ -1110,10 +1113,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get screenplayAnalysisInputUnavailable => '用于分析的剧本文档已不可用，请重新上传剧本。';
 
   @override
-  String get analysisUsageLimited => 'AI 服务当前额度不足或受到限流，请稍后重试。';
+  String get analysisUsageLimited => 'AI 服务额度不足，请恢复可用额度后重试。';
 
   @override
-  String get analysisWorkerLost => '分析执行服务连接中断，请确认本机服务正常后重试。';
+  String get analysisWorkerLost => '分析执行服务连接中断，请稍后重试。';
 
   @override
   String get shotCountLabel => '分镜';
@@ -1152,10 +1155,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get analysisReportLoading => '正在准备报告预览…';
 
   @override
-  String get downloadAnalysisReportAction => '下载 Markdown';
+  String get downloadAnalysisReportAction => '导出 Markdown';
 
   @override
-  String get exportAnalysisReportAction => '导出报告';
+  String get exportAnalysisReportAction => '分享报告';
 
   @override
   String get analysisReportDownloaded => '报告已保存到你选择的位置。';
@@ -1229,19 +1232,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get adminUsersTitle => '用户管理';
 
   @override
-  String get adminUsersDescription => '查看用户，并调整角色与账号可用状态。';
+  String get adminUsersDescription => '查找账户，并在不离开当前页面的情况下调整角色与启用状态。';
 
   @override
   String get adminProvidersTitle => '平台目录';
 
   @override
-  String get adminProvidersDescription => '查看平台运行状态并控制用户侧可见性。';
+  String get adminProvidersDescription =>
+      '维护平台状态页的名称、排序与可见性。下载域名和执行能力由系统 Profile 控制。';
 
   @override
   String get adminAiProvidersTitle => 'AI 服务';
 
   @override
-  String get adminAiProvidersDescription => '查看分析线路配置并切换当前活动线路。';
+  String get adminAiProvidersDescription =>
+      '默认使用服务端本机 Codex；可在这里新增并启用第三方 API。切换后从下一次分析任务生效，无需修改环境文件。';
 
   @override
   String adminDays(int days) {
@@ -1261,7 +1266,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get adminCleanupTitle => '清理过期文件';
 
   @override
-  String get adminCleanupDescription => '选择保留周期。服务端将清理更早且符合规则的持久资源。';
+  String get adminCleanupDescription =>
+      '将永久删除指定天数前的视频、剧本文档和分析报告。正在执行分析的源文件会被跳过。';
 
   @override
   String adminCleanupDays(int days) {
@@ -1384,4 +1390,210 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get confirmDeleteAction => '确认删除';
+
+  @override
+  String get verificationCodeLabel => '邮箱验证码';
+
+  @override
+  String get invalidVerificationCode => '验证码错误、已过期或已使用，请检查邮箱和验证码，或重新获取。';
+
+  @override
+  String get emailUnavailable => '注册邮件暂不可用，请稍后重试或联系支持。';
+
+  @override
+  String get emailSendFailed => '邮件发送未能确认，请稍后重新获取验证码。';
+
+  @override
+  String get sendVerificationCode => '获取验证码';
+
+  @override
+  String get sendingVerificationCode => '正在发送…';
+
+  @override
+  String get verificationCodeSent => '验证码已发送，10 分钟内有效。未收到时请检查垃圾邮件。';
+
+  @override
+  String verificationCodeCooldown(int seconds) {
+    return '$seconds 秒后可重发';
+  }
+
+  @override
+  String get verificationCodeRequired => '请输入邮件中的 6 位验证码';
+
+  @override
+  String get verificationRateLimited => '请等待 60 秒后再获取验证码。';
+
+  @override
+  String get passwordTooLong => '密码不能超过 128 个字符';
+
+  @override
+  String get requiredEmail => '请输入邮箱地址';
+
+  @override
+  String get requiredPassword => '请输入密码';
+
+  @override
+  String get requiredNewPassword => '请设置密码';
+
+  @override
+  String get requiredConfirmPassword => '请再次输入密码';
+
+  @override
+  String get requiredUsername => '请设置用户名';
+
+  @override
+  String get usernameTooShort => '用户名至少需要 2 个字符';
+
+  @override
+  String get usernameTooLong => '用户名不能超过 32 个字符';
+
+  @override
+  String get usernameInvalidCharacters => '用户名仅支持字母、数字、中文以及 _-. 字符';
+
+  @override
+  String get previousPage => '上一页';
+
+  @override
+  String get nextPage => '下一页';
+
+  @override
+  String get profileSaved => '个人资料已更新。';
+
+  @override
+  String get saveProfile => '保存资料';
+
+  @override
+  String get savingProfile => '正在保存';
+
+  @override
+  String get profileTitle => '个人资料';
+
+  @override
+  String get profileDescription => '管理公开用户名，并查看不会随任务变化的账户身份信息。';
+
+  @override
+  String get searchAction => '搜索';
+
+  @override
+  String get allStatuses => '全部状态';
+
+  @override
+  String get currentPageAvailable => '本页可用';
+
+  @override
+  String get searchDownloads => '搜索下载记录';
+
+  @override
+  String get searchUsers => '搜索用户名或邮箱';
+
+  @override
+  String get statusLabel => '状态';
+
+  @override
+  String get deleteConfiguration => '删除配置？';
+
+  @override
+  String get deleteConfigurationDescription => '此操作不可撤销。删除配置不会删除已有任务和报告。';
+
+  @override
+  String get createPlatform => '新增平台';
+
+  @override
+  String get configurationKey => '配置标识';
+
+  @override
+  String get displayName => '显示名称';
+
+  @override
+  String get sortOrder => '排序值';
+
+  @override
+  String get platformVisible => '用户侧可见';
+
+  @override
+  String get invalidConfiguration => '请检查此字段的格式和取值。';
+
+  @override
+  String get createAiProvider => '新增 AI 服务';
+
+  @override
+  String get engineLabel => '执行引擎';
+
+  @override
+  String get authModeLabel => '认证方式';
+
+  @override
+  String get modelLabel => '模型';
+
+  @override
+  String get baseUrlLabel => '服务地址';
+
+  @override
+  String get apiKeyLabel => 'API Key';
+
+  @override
+  String get apiKeyKeepHint => '留空保留已有凭据';
+
+  @override
+  String get localCodexRestriction => '这是服务端保留的本机 Codex 线路，只能修改显示名称和模型。';
+
+  @override
+  String get hostLoginLabel => '本机账号登录 · 免 Key';
+
+  @override
+  String get deleteAction => '删除';
+
+  @override
+  String get cancelAction => '取消';
+
+  @override
+  String get exportDocx => '导出 DOCX';
+
+  @override
+  String get cleanupDaysLabel => '清理多少天前的文件';
+
+  @override
+  String get videoFile => '视频文件';
+
+  @override
+  String get analysisReport => '分析报告';
+
+  @override
+  String get uniqueUsers => '独立用户';
+
+  @override
+  String get averageDuration => '平均视频时长（秒）';
+
+  @override
+  String get dailyTrend => '每日趋势';
+
+  @override
+  String get cancelledLabel => '已取消';
+
+  @override
+  String get allRoles => '全部身份';
+
+  @override
+  String get searchPlatforms => '搜索平台';
+
+  @override
+  String get visiblePlatform => '公开显示';
+
+  @override
+  String get hiddenPlatform => '已隐藏';
+
+  @override
+  String get needsAttention => '需要关注';
+
+  @override
+  String get previousAnalysisResult => '上一版已完成的结果';
+
+  @override
+  String get catalogScopeDescription => '此处只维护状态页名称、排序与可见性，不会新增下载域名或执行能力。';
+
+  @override
+  String get saveConfiguration => '保存配置';
+
+  @override
+  String get analysisRateLimited => 'AI 服务请求过于频繁，请稍后重试。';
 }

@@ -14,6 +14,7 @@ void main() {
     final request = AuthenticatedRequest(
       client: client,
       accessToken: () => token,
+      sessionGeneration: () => 0,
       refreshSession: () async {
         refreshes += 1;
         token = 'new-access';
@@ -40,6 +41,7 @@ void main() {
     final request = AuthenticatedRequest(
       client: client,
       accessToken: () => 'access',
+      sessionGeneration: () => 0,
       refreshSession: () async => true,
       expireSession: () async => expirations += 1,
     );
@@ -61,6 +63,7 @@ void main() {
     final request = AuthenticatedRequest(
       client: VideoServerApi(),
       accessToken: () => 'access',
+      sessionGeneration: () => 0,
       refreshSession: () async => fail('must not refresh'),
       expireSession: () async => fail('must not expire'),
     );

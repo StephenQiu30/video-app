@@ -193,7 +193,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDownloadHistory**
-> DownloadHistoryResponse getDownloadHistory(page, pageSize)
+> DownloadHistoryResponse getDownloadHistory(page, pageSize, status, search)
 
 查询下载历史
 
@@ -206,9 +206,11 @@ import 'package:video_server_api/api.dart';
 final api = VideoServerApi().getDownloadsApi();
 final int page = 56; // int |
 final int pageSize = 56; // int |
+final DownloadStatus status = ; // DownloadStatus |
+final String search = search_example; // String |
 
 try {
-    final response = api.getDownloadHistory(page, pageSize);
+    final response = api.getDownloadHistory(page, pageSize, status, search);
     print(response);
 } on DioException catch (e) {
     print('Exception when calling DownloadsApi->getDownloadHistory: $e\n');
@@ -221,6 +223,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int**|  | [optional] [default to 1]
  **pageSize** | **int**|  | [optional] [default to 20]
+ **status** | [**DownloadStatus**](.md)|  | [optional]
+ **search** | **String**|  | [optional]
 
 ### Return type
 

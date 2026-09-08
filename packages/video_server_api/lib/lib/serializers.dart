@@ -37,6 +37,8 @@ import 'package:video_server_api/lib/model/complete_document_import_request.dart
 import 'package:video_server_api/lib/model/complete_media_import_request.dart';
 import 'package:video_server_api/lib/model/completed_part_request.dart';
 import 'package:video_server_api/lib/model/container_preference.dart';
+import 'package:video_server_api/lib/model/create_ai_provider_profile_request.dart';
+import 'package:video_server_api/lib/model/create_provider_catalog_entry_request.dart';
 import 'package:video_server_api/lib/model/declared_origin.dart';
 import 'package:video_server_api/lib/model/discovered_item_inspection_source.dart';
 import 'package:video_server_api/lib/model/discovery_decision_hint.dart';
@@ -101,6 +103,8 @@ import 'package:video_server_api/lib/model/provider_status_response.dart';
 import 'package:video_server_api/lib/model/provider_support_status.dart';
 import 'package:video_server_api/lib/model/public_url_inspection_source.dart';
 import 'package:video_server_api/lib/model/register_request.dart';
+import 'package:video_server_api/lib/model/registration_code_request.dart';
+import 'package:video_server_api/lib/model/registration_code_response.dart';
 import 'package:video_server_api/lib/model/rights_basis.dart';
 import 'package:video_server_api/lib/model/screenplay_analysis_result_response.dart';
 import 'package:video_server_api/lib/model/screenplay_character_response.dart';
@@ -120,6 +124,8 @@ import 'package:video_server_api/lib/model/storage_cleanup_response.dart';
 import 'package:video_server_api/lib/model/stored_file_category.dart';
 import 'package:video_server_api/lib/model/stored_file_list_response.dart';
 import 'package:video_server_api/lib/model/stored_file_response.dart';
+import 'package:video_server_api/lib/model/update_ai_provider_profile_request.dart';
+import 'package:video_server_api/lib/model/update_profile_request.dart';
 import 'package:video_server_api/lib/model/update_provider_catalog_entry_request.dart';
 import 'package:video_server_api/lib/model/update_user_access_request.dart';
 import 'package:video_server_api/lib/model/upload_part_response.dart';
@@ -159,6 +165,8 @@ part 'serializers.g.dart';
   CompleteMediaImportRequest,
   CompletedPartRequest,
   ContainerPreference,
+  CreateAiProviderProfileRequest,
+  CreateProviderCatalogEntryRequest,
   DeclaredOrigin,
   DiscoveredItemInspectionSource,
   DiscoveryDecisionHint,
@@ -223,6 +231,8 @@ part 'serializers.g.dart';
   ProviderSupportStatus,
   PublicUrlInspectionSource,
   RegisterRequest,
+  RegistrationCodeRequest,
+  RegistrationCodeResponse,
   RightsBasis,
   ScreenplayAnalysisResultResponse,
   ScreenplayCharacterResponse,
@@ -242,6 +252,8 @@ part 'serializers.g.dart';
   StoredFileCategory,
   StoredFileListResponse,
   StoredFileResponse,
+  UpdateAiProviderProfileRequest,
+  UpdateProfileRequest,
   UpdateProviderCatalogEntryRequest,
   UpdateUserAccessRequest,
   UploadPartResponse,

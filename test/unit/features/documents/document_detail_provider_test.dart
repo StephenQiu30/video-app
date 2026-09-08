@@ -66,5 +66,6 @@ final class _SequencedDocumentRepository implements DocumentRepository {
   Future<void> delete(String documentId) => throw UnimplementedError();
 
   @override
-  Future<DocumentPageResponse> fetchFirstPage() => throw UnimplementedError();
+  Future<DocumentPageResponse> fetchPage({int page = 1}) =>
+      throw UnimplementedError();
 }

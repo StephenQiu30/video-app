@@ -27,6 +27,8 @@ doc/CompleteDocumentImportRequest.md
 doc/CompleteMediaImportRequest.md
 doc/CompletedPartRequest.md
 doc/ContainerPreference.md
+doc/CreateAiProviderProfileRequest.md
+doc/CreateProviderCatalogEntryRequest.md
 doc/DeclaredOrigin.md
 doc/DiscoveredItemInspectionSource.md
 doc/DiscoveryDecisionHint.md
@@ -96,6 +98,8 @@ doc/ProviderSupportStatus.md
 doc/ProvidersApi.md
 doc/PublicUrlInspectionSource.md
 doc/RegisterRequest.md
+doc/RegistrationCodeRequest.md
+doc/RegistrationCodeResponse.md
 doc/RightsBasis.md
 doc/ScreenplayAnalysisResultResponse.md
 doc/ScreenplayCharacterResponse.md
@@ -116,11 +120,14 @@ doc/StorageCleanupResponse.md
 doc/StoredFileCategory.md
 doc/StoredFileListResponse.md
 doc/StoredFileResponse.md
+doc/UpdateAiProviderProfileRequest.md
+doc/UpdateProfileRequest.md
 doc/UpdateProviderCatalogEntryRequest.md
 doc/UpdateUserAccessRequest.md
 doc/UploadPartResponse.md
 doc/UserResponse.md
 doc/UserRole.md
+doc/UsersApi.md
 doc/VideoAnalysisResultResponse.md
 doc/VideoArticleEvidenceResponse.md
 doc/VideoArticleResultResponse.md
@@ -138,6 +145,7 @@ lib/lib/api/inspections_api.dart
 lib/lib/api/media_imports_api.dart
 lib/lib/api/providers_api.dart
 lib/lib/api/source_discoveries_api.dart
+lib/lib/api/users_api.dart
 lib/lib/api_util.dart
 lib/lib/auth/api_key_auth.dart
 lib/lib/auth/auth.dart
@@ -168,6 +176,8 @@ lib/lib/model/complete_document_import_request.dart
 lib/lib/model/complete_media_import_request.dart
 lib/lib/model/completed_part_request.dart
 lib/lib/model/container_preference.dart
+lib/lib/model/create_ai_provider_profile_request.dart
+lib/lib/model/create_provider_catalog_entry_request.dart
 lib/lib/model/date.dart
 lib/lib/model/declared_origin.dart
 lib/lib/model/discovered_item_inspection_source.dart
@@ -233,6 +243,8 @@ lib/lib/model/provider_status_response.dart
 lib/lib/model/provider_support_status.dart
 lib/lib/model/public_url_inspection_source.dart
 lib/lib/model/register_request.dart
+lib/lib/model/registration_code_request.dart
+lib/lib/model/registration_code_response.dart
 lib/lib/model/rights_basis.dart
 lib/lib/model/screenplay_analysis_result_response.dart
 lib/lib/model/screenplay_character_response.dart
@@ -252,6 +264,8 @@ lib/lib/model/storage_cleanup_response.dart
 lib/lib/model/stored_file_category.dart
 lib/lib/model/stored_file_list_response.dart
 lib/lib/model/stored_file_response.dart
+lib/lib/model/update_ai_provider_profile_request.dart
+lib/lib/model/update_profile_request.dart
 lib/lib/model/update_provider_catalog_entry_request.dart
 lib/lib/model/update_user_access_request.dart
 lib/lib/model/upload_part_response.dart

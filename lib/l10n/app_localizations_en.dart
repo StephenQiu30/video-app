@@ -62,14 +62,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'See which providers are available and what access they require.';
 
   @override
-  String get loadingData => 'Loading live data…';
+  String get loadingData => 'Loading…';
 
   @override
   String get loadFailedTitle => 'Data is temporarily unavailable';
 
   @override
-  String get loadFailedDescription =>
-      'Check your connection and retry. Placeholder content will not replace live data.';
+  String get loadFailedDescription => 'Check your connection and try again.';
 
   @override
   String get retryAction => 'Reload';
@@ -659,7 +658,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registerDescription =>
-      'Register to restore sessions across devices and securely access your tasks.';
+      'Verify your email to create an account and manage downloads, documents and analyses.';
 
   @override
   String get emailLabel => 'Email';
@@ -690,7 +689,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginSubmitting => 'Signing in…';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Register and sign in';
 
   @override
   String get registerSubmitting => 'Creating…';
@@ -813,6 +812,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uploadingFile => 'Uploading…';
+
+  @override
+  String get cancelUploadAction => 'Cancel upload';
 
   @override
   String get completingUpload => 'Completing upload…';
@@ -1249,10 +1251,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analysisReportLoading => 'Preparing the report preview…';
 
   @override
-  String get downloadAnalysisReportAction => 'Download Markdown';
+  String get downloadAnalysisReportAction => 'Export Markdown';
 
   @override
-  String get exportAnalysisReportAction => 'Export report';
+  String get exportAnalysisReportAction => 'Share report';
 
   @override
   String get analysisReportDownloaded =>
@@ -1495,4 +1497,221 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmDeleteAction => 'Confirm delete';
+
+  @override
+  String get verificationCodeLabel => 'Email verification code';
+
+  @override
+  String get invalidVerificationCode =>
+      'Code is incorrect, expired or already used. Check your email and code, or request a new one.';
+
+  @override
+  String get emailUnavailable =>
+      'Registration email is unavailable. Try again later or contact support.';
+
+  @override
+  String get emailSendFailed =>
+      'Email delivery could not be confirmed. Request a new code later.';
+
+  @override
+  String get sendVerificationCode => 'Send code';
+
+  @override
+  String get sendingVerificationCode => 'Sending…';
+
+  @override
+  String get verificationCodeSent =>
+      'Code sent, valid for 10 minutes. Check your spam folder if needed.';
+
+  @override
+  String verificationCodeCooldown(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get verificationCodeRequired =>
+      'Enter the 6-digit code from your email';
+
+  @override
+  String get verificationRateLimited =>
+      'Wait 60 seconds before requesting another code.';
+
+  @override
+  String get passwordTooLong => 'Password cannot exceed 128 characters';
+
+  @override
+  String get requiredEmail => 'Enter your email address';
+
+  @override
+  String get requiredPassword => 'Enter your password';
+
+  @override
+  String get requiredNewPassword => 'Set a password';
+
+  @override
+  String get requiredConfirmPassword => 'Enter your password again';
+
+  @override
+  String get requiredUsername => 'Set a username';
+
+  @override
+  String get usernameTooShort => 'Username must contain at least 2 characters';
+
+  @override
+  String get usernameTooLong => 'Username cannot exceed 32 characters';
+
+  @override
+  String get usernameInvalidCharacters =>
+      'Use letters, numbers, Chinese characters, underscores, hyphens or periods';
+
+  @override
+  String get previousPage => 'Previous';
+
+  @override
+  String get nextPage => 'Next';
+
+  @override
+  String get profileSaved => 'Profile updated.';
+
+  @override
+  String get saveProfile => 'Save profile';
+
+  @override
+  String get savingProfile => 'Saving';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileDescription =>
+      'Manage your public username and account identity.';
+
+  @override
+  String get searchAction => 'Search';
+
+  @override
+  String get allStatuses => 'All statuses';
+
+  @override
+  String get currentPageAvailable => 'Available on this page';
+
+  @override
+  String get searchDownloads => 'Search downloads';
+
+  @override
+  String get searchUsers => 'Search username or email';
+
+  @override
+  String get statusLabel => 'Status';
+
+  @override
+  String get deleteConfiguration => 'Delete configuration?';
+
+  @override
+  String get deleteConfigurationDescription =>
+      'This cannot be undone. Existing tasks and reports will be retained.';
+
+  @override
+  String get createPlatform => 'Add platform';
+
+  @override
+  String get configurationKey => 'Configuration key';
+
+  @override
+  String get displayName => 'Display name';
+
+  @override
+  String get sortOrder => 'Sort order';
+
+  @override
+  String get platformVisible => 'Visible to users';
+
+  @override
+  String get invalidConfiguration => 'Check this field’s format and value.';
+
+  @override
+  String get createAiProvider => 'Add AI service';
+
+  @override
+  String get engineLabel => 'Engine';
+
+  @override
+  String get authModeLabel => 'Authentication';
+
+  @override
+  String get modelLabel => 'Model';
+
+  @override
+  String get baseUrlLabel => 'Service URL';
+
+  @override
+  String get apiKeyLabel => 'API Key';
+
+  @override
+  String get apiKeyKeepHint => 'Leave blank to keep the existing credential';
+
+  @override
+  String get localCodexRestriction =>
+      'This built-in Codex service only allows changes to its display name and model.';
+
+  @override
+  String get hostLoginLabel => 'Host login · no API key';
+
+  @override
+  String get deleteAction => 'Delete';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get exportDocx => 'Export DOCX';
+
+  @override
+  String get cleanupDaysLabel => 'Delete files older than this many days';
+
+  @override
+  String get videoFile => 'Video file';
+
+  @override
+  String get analysisReport => 'Analysis report';
+
+  @override
+  String get uniqueUsers => 'Unique users';
+
+  @override
+  String get averageDuration => 'Average video duration (seconds)';
+
+  @override
+  String get dailyTrend => 'Daily trend';
+
+  @override
+  String get cancelledLabel => 'Cancelled';
+
+  @override
+  String get allRoles => 'All roles';
+
+  @override
+  String get searchPlatforms => 'Search platforms';
+
+  @override
+  String get visiblePlatform => 'Visible';
+
+  @override
+  String get hiddenPlatform => 'Hidden';
+
+  @override
+  String get needsAttention => 'Needs attention';
+
+  @override
+  String get previousAnalysisResult => 'Previous completed result';
+
+  @override
+  String get catalogScopeDescription =>
+      'These settings only change the name, order and visibility. They do not add supported download domains or execution capabilities.';
+
+  @override
+  String get saveConfiguration => 'Save configuration';
+
+  @override
+  String get analysisRateLimited => 'Too many AI requests. Try again later.';
 }

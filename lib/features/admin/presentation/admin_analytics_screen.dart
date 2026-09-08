@@ -81,6 +81,12 @@ final class _AdminAnalyticsScreenState
               '${l10n.adminSuccessRate} ${summary.successRate.toStringAsFixed(1)}% · '
               '${l10n.adminDownloadedBytes} ${formatByteCount(summary.downloadedBytes)}',
             ),
+            Text(
+              '${l10n.uniqueUsers}: ${summary.uniqueUsers} · ${l10n.cancelledLabel}: ${summary.cancelled}',
+            ),
+            Text(
+              '${l10n.averageDuration}: ${summary.averageDurationSeconds.toStringAsFixed(1)}',
+            ),
             const SizedBox(height: AppSpacing.section),
             Text(
               l10n.adminSourceBreakdown,
@@ -92,11 +98,28 @@ final class _AdminAnalyticsScreenState
                 child: Row(
                   children: [
                     Expanded(child: Text(source.sourceName)),
-                    Text('${source.succeeded}/${source.total}'),
+                    Expanded(
+                      child: Text(
+                        '${source.succeeded}/${source.total} · ${source.successRate.toStringAsFixed(1)}%\n${l10n.uniqueUsers}: ${source.uniqueUsers} · ${formatByteCount(source.downloadedBytes)}\n${l10n.failedLabel}: ${source.failed} · ${l10n.cancelledLabel}: ${source.cancelled} · ${l10n.activeLabel}: ${source.active}',
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
+            const SizedBox(height: AppSpacing.section),
+            Text(
+              l10n.dailyTrend,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            for (final day in data.daily)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text('${day.date}'),
+                subtitle: Text(
+                  '${l10n.totalLabel}: ${day.total} · ${l10n.succeededLabel}: ${day.succeeded} · ${l10n.failedLabel}: ${day.failed} · ${l10n.cancelledLabel}: ${day.cancelled}',
+                ),
+              ),
           ];
         },
         error: (_, _) => adminError(

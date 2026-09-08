@@ -13,6 +13,7 @@ part 'register_request.g.dart';
 /// Properties:
 /// * [email]
 /// * [password]
+/// * [verificationCode]
 /// * [username] - 唯一用户名，支持字母、数字、中文以及 _-. 字符。
 @BuiltValue()
 abstract class RegisterRequest
@@ -22,6 +23,9 @@ abstract class RegisterRequest
 
   @BuiltValueField(wireName: r'password')
   String get password;
+
+  @BuiltValueField(wireName: r'verification_code')
+  String get verificationCode;
 
   /// 唯一用户名，支持字母、数字、中文以及 _-. 字符。
   @BuiltValueField(wireName: r'username')
@@ -61,6 +65,11 @@ class _$RegisterRequestSerializer
     yield r'password';
     yield serializers.serialize(
       object.password,
+      specifiedType: const FullType(String),
+    );
+    yield r'verification_code';
+    yield serializers.serialize(
+      object.verificationCode,
       specifiedType: const FullType(String),
     );
     yield r'username';
@@ -106,6 +115,13 @@ class _$RegisterRequestSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.password = valueDes;
+          break;
+        case r'verification_code':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.verificationCode = valueDes;
           break;
         case r'username':
           final valueDes = serializers.deserialize(

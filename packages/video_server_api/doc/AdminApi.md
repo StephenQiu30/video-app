@@ -11,11 +11,16 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**activateAiProviderProfile**](AdminApi.md#activateaiproviderprofile) | **POST** /api/admin/ai-providers/{provider_key}/activate | 启用 AI 分析 Provider
 [**cleanupStoredFiles**](AdminApi.md#cleanupstoredfiles) | **POST** /api/admin/files/cleanup | 手动清理指定天数前的文件
+[**createAiProviderProfile**](AdminApi.md#createaiproviderprofile) | **POST** /api/admin/ai-providers | 新增 AI 分析 Provider
+[**createProviderCatalogEntry**](AdminApi.md#createprovidercatalogentry) | **POST** /api/admin/providers | 新增平台目录条目
+[**deleteAiProviderProfile**](AdminApi.md#deleteaiproviderprofile) | **DELETE** /api/admin/ai-providers/{provider_key} | 删除 AI 分析 Provider
+[**deleteProviderCatalogEntry**](AdminApi.md#deleteprovidercatalogentry) | **DELETE** /api/admin/providers/{provider_key} | 删除平台目录条目
 [**getDownloadAnalytics**](AdminApi.md#getdownloadanalytics) | **GET** /api/admin/downloads/analytics | 查询下载分析
 [**listAiProviderProfiles**](AdminApi.md#listaiproviderprofiles) | **GET** /api/admin/ai-providers | 查询 AI 分析 Provider
 [**listProviderCatalogEntries**](AdminApi.md#listprovidercatalogentries) | **GET** /api/admin/providers | 查询平台目录
 [**listStoredFiles**](AdminApi.md#liststoredfiles) | **GET** /api/admin/files | 分页查询持久文件
 [**listUsers**](AdminApi.md#listusers) | **GET** /api/admin/users | 查询用户列表
+[**updateAiProviderProfile**](AdminApi.md#updateaiproviderprofile) | **PATCH** /api/admin/ai-providers/{provider_key} | 更新 AI 分析 Provider
 [**updateProviderCatalogEntry**](AdminApi.md#updateprovidercatalogentry) | **PATCH** /api/admin/providers/{provider_key} | 更新平台目录条目
 [**updateUserAccess**](AdminApi.md#updateuseraccess) | **PATCH** /api/admin/users/{user_id} | 更新用户角色与账号状态
 
@@ -98,6 +103,168 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createAiProviderProfile**
+> AiProviderProfileResponse createAiProviderProfile(createAiProviderProfileRequest)
+
+新增 AI 分析 Provider
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+final CreateAiProviderProfileRequest createAiProviderProfileRequest = ; // CreateAiProviderProfileRequest |
+
+try {
+    final response = api.createAiProviderProfile(createAiProviderProfileRequest);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->createAiProviderProfile: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createAiProviderProfileRequest** | [**CreateAiProviderProfileRequest**](CreateAiProviderProfileRequest.md)|  |
+
+### Return type
+
+[**AiProviderProfileResponse**](AiProviderProfileResponse.md)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createProviderCatalogEntry**
+> ProviderCatalogEntryResponse createProviderCatalogEntry(createProviderCatalogEntryRequest)
+
+新增平台目录条目
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+final CreateProviderCatalogEntryRequest createProviderCatalogEntryRequest = ; // CreateProviderCatalogEntryRequest |
+
+try {
+    final response = api.createProviderCatalogEntry(createProviderCatalogEntryRequest);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->createProviderCatalogEntry: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createProviderCatalogEntryRequest** | [**CreateProviderCatalogEntryRequest**](CreateProviderCatalogEntryRequest.md)|  |
+
+### Return type
+
+[**ProviderCatalogEntryResponse**](ProviderCatalogEntryResponse.md)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteAiProviderProfile**
+> deleteAiProviderProfile(providerKey)
+
+删除 AI 分析 Provider
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+final String providerKey = providerKey_example; // String |
+
+try {
+    api.deleteAiProviderProfile(providerKey);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->deleteAiProviderProfile: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **providerKey** | **String**|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteProviderCatalogEntry**
+> deleteProviderCatalogEntry(providerKey)
+
+删除平台目录条目
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+final String providerKey = providerKey_example; // String |
+
+try {
+    api.deleteProviderCatalogEntry(providerKey);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->deleteProviderCatalogEntry: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **providerKey** | **String**|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -263,7 +430,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listUsers**
-> ManagedUserListResponse listUsers(page, pageSize)
+> ManagedUserListResponse listUsers(page, pageSize, search, role, isActive)
 
 查询用户列表
 
@@ -274,9 +441,12 @@ import 'package:video_server_api/api.dart';
 final api = VideoServerApi().getAdminApi();
 final int page = 56; // int |
 final int pageSize = 56; // int |
+final String search = search_example; // String |
+final UserRole role = ; // UserRole |
+final bool isActive = true; // bool |
 
 try {
-    final response = api.listUsers(page, pageSize);
+    final response = api.listUsers(page, pageSize, search, role, isActive);
     print(response);
 } on DioException catch (e) {
     print('Exception when calling AdminApi->listUsers: $e\n');
@@ -289,6 +459,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page** | **int**|  | [optional] [default to 1]
  **pageSize** | **int**|  | [optional] [default to 20]
+ **search** | **String**|  | [optional]
+ **role** | [**UserRole**](.md)|  | [optional]
+ **isActive** | **bool**|  | [optional]
 
 ### Return type
 
@@ -301,6 +474,49 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateAiProviderProfile**
+> AiProviderProfileResponse updateAiProviderProfile(providerKey, updateAiProviderProfileRequest)
+
+更新 AI 分析 Provider
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+final String providerKey = providerKey_example; // String |
+final UpdateAiProviderProfileRequest updateAiProviderProfileRequest = ; // UpdateAiProviderProfileRequest |
+
+try {
+    final response = api.updateAiProviderProfile(providerKey, updateAiProviderProfileRequest);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->updateAiProviderProfile: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **providerKey** | **String**|  |
+ **updateAiProviderProfileRequest** | [**UpdateAiProviderProfileRequest**](UpdateAiProviderProfileRequest.md)|  |
+
+### Return type
+
+[**AiProviderProfileResponse**](AiProviderProfileResponse.md)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -10,6 +10,8 @@ import 'package:built_value/serializer.dart';
 part 'audio_codec_family.g.dart';
 
 class AudioCodecFamily extends EnumClass {
+  @BuiltValueEnumConst(wireName: r'none')
+  static const AudioCodecFamily none = _$none;
   @BuiltValueEnumConst(wireName: r'aac')
   static const AudioCodecFamily aac = _$aac;
   @BuiltValueEnumConst(wireName: r'opus')

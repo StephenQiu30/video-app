@@ -12,6 +12,7 @@ final authenticatedRequestProvider = Provider<AuthenticatedRequest>((ref) {
   return AuthenticatedRequest(
     client: ref.watch(videoServerApiProvider),
     accessToken: () => controller.accessToken,
+    sessionGeneration: () => controller.sessionGeneration,
     expireSession: controller.expireSession,
     refreshSession: controller.refreshSession,
   );
@@ -21,20 +22,28 @@ final class AuthenticatedRequest {
   const AuthenticatedRequest({
     required this._client,
     required this._accessToken,
+    required this._sessionGeneration,
     required this._expireSession,
     required this._refreshSession,
   });
 
   final VideoServerApi _client;
   final String? Function() _accessToken;
+  final int Function() _sessionGeneration;
   final Future<void> Function() _expireSession;
   final Future<bool> Function() _refreshSession;
 
+  int get sessionGeneration => _sessionGeneration();
+
   Future<T> execute<T>(AuthenticatedOperation<T> operation) async {
+    final generation = sessionGeneration;
     _applyToken();
     try {
-      return await operation(_client);
+      final result = await operation(_client);
+      _requireSession(generation);
+      return result;
     } on DioException catch (error) {
+      _requireSession(generation);
       if (error.response?.statusCode != 401) throw _mapFailure(error);
     }
 
@@ -42,15 +51,25 @@ final class AuthenticatedRequest {
       throw const DataRequestFailure(DataRequestFailureKind.unauthenticated);
     }
 
+    _requireSession(generation);
     _applyToken();
     try {
-      return await operation(_client);
+      final result = await operation(_client);
+      _requireSession(generation);
+      return result;
     } on DioException catch (error) {
+      _requireSession(generation);
       if (error.response?.statusCode == 401) {
         await _expireSession();
         throw const DataRequestFailure(DataRequestFailureKind.unauthenticated);
       }
       throw _mapFailure(error);
+    }
+  }
+
+  void _requireSession(int generation) {
+    if (generation != sessionGeneration) {
+      throw const DataRequestFailure(DataRequestFailureKind.unauthenticated);
     }
   }
 

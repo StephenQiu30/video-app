@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **email** | **String** |  |
 **password** | **String** |  |
+**verificationCode** | **String** |  |
 **username** | **String** | 唯一用户名，支持字母、数字、中文以及 _-. 字符。 |
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

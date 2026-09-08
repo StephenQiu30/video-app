@@ -7,7 +7,7 @@ import '../../../tool/openapi/openapi_config.dart';
 import '../../../tool/openapi/openapi_contract.dart';
 
 void main() {
-  test('selects reviewed operations and removes unused history filters', () {
+  test('retains business filters and all reviewed App operations', () {
     final decoded =
         jsonDecode(
               File(
@@ -15,14 +15,6 @@ void main() {
               ).readAsStringSync(),
             )
             as Map<String, dynamic>;
-    final paths = decoded['paths'] as Map<String, dynamic>;
-    final history = paths['/api/downloads/history'] as Map<String, dynamic>;
-    final get = history['get'] as Map<String, dynamic>;
-    final parameters = get['parameters'] as List<dynamic>;
-    parameters.addAll([
-      {'name': 'status', 'in': 'query'},
-      {'name': 'search', 'in': 'query'},
-    ]);
 
     final contract = buildAppOpenApi(decoded, appOpenApiConfig);
     final selectedPaths = contract['paths'] as Map<String, dynamic>;
@@ -36,14 +28,21 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(43));
+    expect(selectedPaths, hasLength(47));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      47,
+      55,
     );
+    expect(selectedPaths['/api/users/me'], contains('patch'));
+    expect(selectedPaths['/api/admin/ai-providers'], contains('post'));
+    expect(
+      selectedPaths['/api/admin/ai-providers/{provider_key}'],
+      contains('delete'),
+    );
+    expect(selectedPaths, contains('/api/analyses/{analysis_id}/report.docx'));
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
     expect(selectedPaths, contains('/api/inspections'));
@@ -89,13 +88,13 @@ void main() {
       selectedParameters.map((value) {
         return (value as Map<String, dynamic>)['name'];
       }),
-      ['page', 'page_size'],
+      ['page', 'page_size', 'status', 'search'],
     );
     expect(
       selectedUserParameters.map((value) {
         return (value as Map<String, dynamic>)['name'];
       }),
-      ['page', 'page_size'],
+      ['page', 'page_size', 'search', 'role', 'is_active'],
     );
     final components = contract['components'] as Map<String, dynamic>;
     final schemas = components['schemas'] as Map<String, dynamic>;

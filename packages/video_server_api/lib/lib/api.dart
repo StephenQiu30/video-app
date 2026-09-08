@@ -18,6 +18,7 @@ import 'package:video_server_api/lib/api/inspections_api.dart';
 import 'package:video_server_api/lib/api/media_imports_api.dart';
 import 'package:video_server_api/lib/api/providers_api.dart';
 import 'package:video_server_api/lib/api/source_discoveries_api.dart';
+import 'package:video_server_api/lib/api/users_api.dart';
 
 class VideoServerApi {
   static const String basePath = r'http://localhost';
@@ -191,5 +192,11 @@ class VideoServerApi {
   /// by doing that all interceptors will not be executed
   SourceDiscoveriesApi getSourceDiscoveriesApi() {
     return SourceDiscoveriesApi(dio, serializers);
+  }
+
+  /// Get UsersApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  UsersApi getUsersApi() {
+    return UsersApi(dio, serializers);
   }
 }

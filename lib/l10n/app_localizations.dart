@@ -191,13 +191,13 @@ abstract class AppLocalizations {
   /// No description provided for @providerStatusDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看各平台当前是否可用，以及需要的访问方式。'**
+  /// **'先查看当前下载支持；需要时再展开单个平台，核对探针与真实任务证据。'**
   String get providerStatusDescription;
 
   /// No description provided for @loadingData.
   ///
   /// In zh, this message translates to:
-  /// **'正在读取真实数据…'**
+  /// **'正在加载…'**
   String get loadingData;
 
   /// No description provided for @loadFailedTitle.
@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @loadFailedDescription.
   ///
   /// In zh, this message translates to:
-  /// **'请检查网络连接后重试。已有数据不会被占位内容替代。'**
+  /// **'请检查网络连接后重试。'**
   String get loadFailedDescription;
 
   /// No description provided for @retryAction.
@@ -1295,13 +1295,13 @@ abstract class AppLocalizations {
   /// No description provided for @registerDescription.
   ///
   /// In zh, this message translates to:
-  /// **'注册后可在设备间恢复会话，并安全访问你的任务。'**
+  /// **'验证邮箱后创建账户，保存和管理你的下载、文档与分析。'**
   String get registerDescription;
 
   /// No description provided for @emailLabel.
   ///
   /// In zh, this message translates to:
-  /// **'邮箱'**
+  /// **'邮箱地址'**
   String get emailLabel;
 
   /// No description provided for @usernameLabel.
@@ -1355,7 +1355,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerSubmit.
   ///
   /// In zh, this message translates to:
-  /// **'创建账户'**
+  /// **'注册并登录'**
   String get registerSubmit;
 
   /// No description provided for @registerSubmitting.
@@ -1385,13 +1385,13 @@ abstract class AppLocalizations {
   /// No description provided for @hasAccountPrompt.
   ///
   /// In zh, this message translates to:
-  /// **'已经有账户？'**
+  /// **'已有账户？'**
   String get hasAccountPrompt;
 
   /// No description provided for @invalidEmail.
   ///
   /// In zh, this message translates to:
-  /// **'请输入有效的邮箱地址。'**
+  /// **'请输入有效的邮箱地址'**
   String get invalidEmail;
 
   /// No description provided for @invalidUsername.
@@ -1403,31 +1403,31 @@ abstract class AppLocalizations {
   /// No description provided for @invalidPassword.
   ///
   /// In zh, this message translates to:
-  /// **'密码至少需要 8 个字符。'**
+  /// **'密码至少需要 8 个字符'**
   String get invalidPassword;
 
   /// No description provided for @passwordMismatch.
   ///
   /// In zh, this message translates to:
-  /// **'两次输入的密码不一致。'**
+  /// **'两次输入的密码不一致'**
   String get passwordMismatch;
 
   /// No description provided for @invalidCredentialsError.
   ///
   /// In zh, this message translates to:
-  /// **'邮箱或密码不正确。'**
+  /// **'邮箱或密码错误，请重新输入。'**
   String get invalidCredentialsError;
 
   /// No description provided for @emailRegisteredError.
   ///
   /// In zh, this message translates to:
-  /// **'这个邮箱已经注册，请直接登录。'**
+  /// **'该邮箱已注册，请直接登录或使用其他邮箱。'**
   String get emailRegisteredError;
 
   /// No description provided for @usernameRegisteredError.
   ///
   /// In zh, this message translates to:
-  /// **'这个用户名已经被使用。'**
+  /// **'该用户名已被使用，请更换后重试。'**
   String get usernameRegisteredError;
 
   /// No description provided for @unauthenticatedError.
@@ -1585,6 +1585,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'正在上传…'**
   String get uploadingFile;
+
+  /// No description provided for @cancelUploadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消上传'**
+  String get cancelUploadAction;
 
   /// No description provided for @completingUpload.
   ///
@@ -1775,7 +1781,7 @@ abstract class AppLocalizations {
   /// No description provided for @inspectionFailedError.
   ///
   /// In zh, this message translates to:
-  /// **'媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。'**
+  /// **'暂时无法读取视频信息，请检查链接后重试。'**
   String get inspectionFailedError;
 
   /// No description provided for @inspectionTimeoutError.
@@ -1823,7 +1829,7 @@ abstract class AppLocalizations {
   /// No description provided for @providerUnsupportedError.
   ///
   /// In zh, this message translates to:
-  /// **'当前链接不包含受支持的单个公开视频。'**
+  /// **'该链接不包含受支持的可下载视频，请更换链接。'**
   String get providerUnsupportedError;
 
   /// No description provided for @durationLimitError.
@@ -2159,13 +2165,13 @@ abstract class AppLocalizations {
   /// No description provided for @analysisServiceUnavailable.
   ///
   /// In zh, this message translates to:
-  /// **'AI 分析服务暂时不可用，请检查本机分析服务后重试。'**
+  /// **'AI 分析服务暂时不可用，请稍后重试。'**
   String get analysisServiceUnavailable;
 
   /// No description provided for @analysisAuthenticationRequired.
   ///
   /// In zh, this message translates to:
-  /// **'AI 分析服务尚未登录，请完成服务登录后重试。'**
+  /// **'AI 分析服务未登录，请完成登录后重试。'**
   String get analysisAuthenticationRequired;
 
   /// No description provided for @analysisTimeoutError.
@@ -2177,7 +2183,7 @@ abstract class AppLocalizations {
   /// No description provided for @analysisInvalidResult.
   ///
   /// In zh, this message translates to:
-  /// **'AI 返回结果未通过结构与证据校验，请重新分析。'**
+  /// **'AI 返回结果未通过校验，请重新分析。'**
   String get analysisInvalidResult;
 
   /// No description provided for @screenplayStoryOverview.
@@ -2249,7 +2255,7 @@ abstract class AppLocalizations {
   /// No description provided for @analysisResourceLimit.
   ///
   /// In zh, this message translates to:
-  /// **'视频超出当前分析资源限制，请使用更短或更小的视频。'**
+  /// **'视频超出分析资源限制，请使用更短或更小的视频。'**
   String get analysisResourceLimit;
 
   /// No description provided for @analysisInputUnavailable.
@@ -2267,13 +2273,13 @@ abstract class AppLocalizations {
   /// No description provided for @analysisUsageLimited.
   ///
   /// In zh, this message translates to:
-  /// **'AI 服务当前额度不足或受到限流，请稍后重试。'**
+  /// **'AI 服务额度不足，请恢复可用额度后重试。'**
   String get analysisUsageLimited;
 
   /// No description provided for @analysisWorkerLost.
   ///
   /// In zh, this message translates to:
-  /// **'分析执行服务连接中断，请确认本机服务正常后重试。'**
+  /// **'分析执行服务连接中断，请稍后重试。'**
   String get analysisWorkerLost;
 
   /// No description provided for @shotCountLabel.
@@ -2351,13 +2357,13 @@ abstract class AppLocalizations {
   /// No description provided for @downloadAnalysisReportAction.
   ///
   /// In zh, this message translates to:
-  /// **'下载 Markdown'**
+  /// **'导出 Markdown'**
   String get downloadAnalysisReportAction;
 
   /// No description provided for @exportAnalysisReportAction.
   ///
   /// In zh, this message translates to:
-  /// **'导出报告'**
+  /// **'分享报告'**
   String get exportAnalysisReportAction;
 
   /// No description provided for @analysisReportDownloaded.
@@ -2501,7 +2507,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminUsersDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看用户，并调整角色与账号可用状态。'**
+  /// **'查找账户，并在不离开当前页面的情况下调整角色与启用状态。'**
   String get adminUsersDescription;
 
   /// No description provided for @adminProvidersTitle.
@@ -2513,7 +2519,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminProvidersDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看平台运行状态并控制用户侧可见性。'**
+  /// **'维护平台状态页的名称、排序与可见性。下载域名和执行能力由系统 Profile 控制。'**
   String get adminProvidersDescription;
 
   /// No description provided for @adminAiProvidersTitle.
@@ -2525,7 +2531,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminAiProvidersDescription.
   ///
   /// In zh, this message translates to:
-  /// **'查看分析线路配置并切换当前活动线路。'**
+  /// **'默认使用服务端本机 Codex；可在这里新增并启用第三方 API。切换后从下一次分析任务生效，无需修改环境文件。'**
   String get adminAiProvidersDescription;
 
   /// No description provided for @adminDays.
@@ -2561,7 +2567,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminCleanupDescription.
   ///
   /// In zh, this message translates to:
-  /// **'选择保留周期。服务端将清理更早且符合规则的持久资源。'**
+  /// **'将永久删除指定天数前的视频、剧本文档和分析报告。正在执行分析的源文件会被跳过。'**
   String get adminCleanupDescription;
 
   /// No description provided for @adminCleanupDays.
@@ -2785,6 +2791,414 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'确认删除'**
   String get confirmDeleteAction;
+
+  /// No description provided for @verificationCodeLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'邮箱验证码'**
+  String get verificationCodeLabel;
+
+  /// No description provided for @invalidVerificationCode.
+  ///
+  /// In zh, this message translates to:
+  /// **'验证码错误、已过期或已使用，请检查邮箱和验证码，或重新获取。'**
+  String get invalidVerificationCode;
+
+  /// No description provided for @emailUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'注册邮件暂不可用，请稍后重试或联系支持。'**
+  String get emailUnavailable;
+
+  /// No description provided for @emailSendFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'邮件发送未能确认，请稍后重新获取验证码。'**
+  String get emailSendFailed;
+
+  /// No description provided for @sendVerificationCode.
+  ///
+  /// In zh, this message translates to:
+  /// **'获取验证码'**
+  String get sendVerificationCode;
+
+  /// No description provided for @sendingVerificationCode.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在发送…'**
+  String get sendingVerificationCode;
+
+  /// No description provided for @verificationCodeSent.
+  ///
+  /// In zh, this message translates to:
+  /// **'验证码已发送，10 分钟内有效。未收到时请检查垃圾邮件。'**
+  String get verificationCodeSent;
+
+  /// No description provided for @verificationCodeCooldown.
+  ///
+  /// In zh, this message translates to:
+  /// **'{seconds} 秒后可重发'**
+  String verificationCodeCooldown(int seconds);
+
+  /// No description provided for @verificationCodeRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'请输入邮件中的 6 位验证码'**
+  String get verificationCodeRequired;
+
+  /// No description provided for @verificationRateLimited.
+  ///
+  /// In zh, this message translates to:
+  /// **'请等待 60 秒后再获取验证码。'**
+  String get verificationRateLimited;
+
+  /// No description provided for @passwordTooLong.
+  ///
+  /// In zh, this message translates to:
+  /// **'密码不能超过 128 个字符'**
+  String get passwordTooLong;
+
+  /// No description provided for @requiredEmail.
+  ///
+  /// In zh, this message translates to:
+  /// **'请输入邮箱地址'**
+  String get requiredEmail;
+
+  /// No description provided for @requiredPassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'请输入密码'**
+  String get requiredPassword;
+
+  /// No description provided for @requiredNewPassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'请设置密码'**
+  String get requiredNewPassword;
+
+  /// No description provided for @requiredConfirmPassword.
+  ///
+  /// In zh, this message translates to:
+  /// **'请再次输入密码'**
+  String get requiredConfirmPassword;
+
+  /// No description provided for @requiredUsername.
+  ///
+  /// In zh, this message translates to:
+  /// **'请设置用户名'**
+  String get requiredUsername;
+
+  /// No description provided for @usernameTooShort.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户名至少需要 2 个字符'**
+  String get usernameTooShort;
+
+  /// No description provided for @usernameTooLong.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户名不能超过 32 个字符'**
+  String get usernameTooLong;
+
+  /// No description provided for @usernameInvalidCharacters.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户名仅支持字母、数字、中文以及 _-. 字符'**
+  String get usernameInvalidCharacters;
+
+  /// No description provided for @previousPage.
+  ///
+  /// In zh, this message translates to:
+  /// **'上一页'**
+  String get previousPage;
+
+  /// No description provided for @nextPage.
+  ///
+  /// In zh, this message translates to:
+  /// **'下一页'**
+  String get nextPage;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In zh, this message translates to:
+  /// **'个人资料已更新。'**
+  String get profileSaved;
+
+  /// No description provided for @saveProfile.
+  ///
+  /// In zh, this message translates to:
+  /// **'保存资料'**
+  String get saveProfile;
+
+  /// No description provided for @savingProfile.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在保存'**
+  String get savingProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'个人资料'**
+  String get profileTitle;
+
+  /// No description provided for @profileDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'管理公开用户名，并查看不会随任务变化的账户身份信息。'**
+  String get profileDescription;
+
+  /// No description provided for @searchAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索'**
+  String get searchAction;
+
+  /// No description provided for @allStatuses.
+  ///
+  /// In zh, this message translates to:
+  /// **'全部状态'**
+  String get allStatuses;
+
+  /// No description provided for @currentPageAvailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'本页可用'**
+  String get currentPageAvailable;
+
+  /// No description provided for @searchDownloads.
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索下载记录'**
+  String get searchDownloads;
+
+  /// No description provided for @searchUsers.
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索用户名或邮箱'**
+  String get searchUsers;
+
+  /// No description provided for @statusLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'状态'**
+  String get statusLabel;
+
+  /// No description provided for @deleteConfiguration.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除配置？'**
+  String get deleteConfiguration;
+
+  /// No description provided for @deleteConfigurationDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'此操作不可撤销。删除配置不会删除已有任务和报告。'**
+  String get deleteConfigurationDescription;
+
+  /// No description provided for @createPlatform.
+  ///
+  /// In zh, this message translates to:
+  /// **'新增平台'**
+  String get createPlatform;
+
+  /// No description provided for @configurationKey.
+  ///
+  /// In zh, this message translates to:
+  /// **'配置标识'**
+  String get configurationKey;
+
+  /// No description provided for @displayName.
+  ///
+  /// In zh, this message translates to:
+  /// **'显示名称'**
+  String get displayName;
+
+  /// No description provided for @sortOrder.
+  ///
+  /// In zh, this message translates to:
+  /// **'排序值'**
+  String get sortOrder;
+
+  /// No description provided for @platformVisible.
+  ///
+  /// In zh, this message translates to:
+  /// **'用户侧可见'**
+  String get platformVisible;
+
+  /// No description provided for @invalidConfiguration.
+  ///
+  /// In zh, this message translates to:
+  /// **'请检查此字段的格式和取值。'**
+  String get invalidConfiguration;
+
+  /// No description provided for @createAiProvider.
+  ///
+  /// In zh, this message translates to:
+  /// **'新增 AI 服务'**
+  String get createAiProvider;
+
+  /// No description provided for @engineLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'执行引擎'**
+  String get engineLabel;
+
+  /// No description provided for @authModeLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'认证方式'**
+  String get authModeLabel;
+
+  /// No description provided for @modelLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'模型'**
+  String get modelLabel;
+
+  /// No description provided for @baseUrlLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务地址'**
+  String get baseUrlLabel;
+
+  /// No description provided for @apiKeyLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'API Key'**
+  String get apiKeyLabel;
+
+  /// No description provided for @apiKeyKeepHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'留空保留已有凭据'**
+  String get apiKeyKeepHint;
+
+  /// No description provided for @localCodexRestriction.
+  ///
+  /// In zh, this message translates to:
+  /// **'这是服务端保留的本机 Codex 线路，只能修改显示名称和模型。'**
+  String get localCodexRestriction;
+
+  /// No description provided for @hostLoginLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'本机账号登录 · 免 Key'**
+  String get hostLoginLabel;
+
+  /// No description provided for @deleteAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除'**
+  String get deleteAction;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消'**
+  String get cancelAction;
+
+  /// No description provided for @exportDocx.
+  ///
+  /// In zh, this message translates to:
+  /// **'导出 DOCX'**
+  String get exportDocx;
+
+  /// No description provided for @cleanupDaysLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'清理多少天前的文件'**
+  String get cleanupDaysLabel;
+
+  /// No description provided for @videoFile.
+  ///
+  /// In zh, this message translates to:
+  /// **'视频文件'**
+  String get videoFile;
+
+  /// No description provided for @analysisReport.
+  ///
+  /// In zh, this message translates to:
+  /// **'分析报告'**
+  String get analysisReport;
+
+  /// No description provided for @uniqueUsers.
+  ///
+  /// In zh, this message translates to:
+  /// **'独立用户'**
+  String get uniqueUsers;
+
+  /// No description provided for @averageDuration.
+  ///
+  /// In zh, this message translates to:
+  /// **'平均视频时长（秒）'**
+  String get averageDuration;
+
+  /// No description provided for @dailyTrend.
+  ///
+  /// In zh, this message translates to:
+  /// **'每日趋势'**
+  String get dailyTrend;
+
+  /// No description provided for @cancelledLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'已取消'**
+  String get cancelledLabel;
+
+  /// No description provided for @allRoles.
+  ///
+  /// In zh, this message translates to:
+  /// **'全部身份'**
+  String get allRoles;
+
+  /// No description provided for @searchPlatforms.
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索平台'**
+  String get searchPlatforms;
+
+  /// No description provided for @visiblePlatform.
+  ///
+  /// In zh, this message translates to:
+  /// **'公开显示'**
+  String get visiblePlatform;
+
+  /// No description provided for @hiddenPlatform.
+  ///
+  /// In zh, this message translates to:
+  /// **'已隐藏'**
+  String get hiddenPlatform;
+
+  /// No description provided for @needsAttention.
+  ///
+  /// In zh, this message translates to:
+  /// **'需要关注'**
+  String get needsAttention;
+
+  /// No description provided for @previousAnalysisResult.
+  ///
+  /// In zh, this message translates to:
+  /// **'上一版已完成的结果'**
+  String get previousAnalysisResult;
+
+  /// No description provided for @catalogScopeDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'此处只维护状态页名称、排序与可见性，不会新增下载域名或执行能力。'**
+  String get catalogScopeDescription;
+
+  /// No description provided for @saveConfiguration.
+  ///
+  /// In zh, this message translates to:
+  /// **'保存配置'**
+  String get saveConfiguration;
+
+  /// No description provided for @analysisRateLimited.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 服务请求过于频繁，请稍后重试。'**
+  String get analysisRateLimited;
 }
 
 class _AppLocalizationsDelegate

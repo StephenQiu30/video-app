@@ -78,8 +78,11 @@ final class _SequencedDownloadHistoryRepository
   Future<DownloadResponse> cancel(String jobId) => throw UnimplementedError();
 
   @override
-  Future<DownloadHistoryResponse> fetchFirstPage() =>
-      throw UnimplementedError();
+  Future<DownloadHistoryResponse> fetchPage({
+    int page = 1,
+    String? search,
+    DownloadStatus? status,
+  }) => throw UnimplementedError();
 
   @override
   Future<DownloadResponse> retry(String jobId) => throw UnimplementedError();

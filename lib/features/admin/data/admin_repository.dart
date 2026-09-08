@@ -9,8 +9,13 @@ final adminRepositoryProvider = Provider<AdminRepository>(
 
 abstract interface class AdminRepository {
   Future<DownloadAnalyticsResponse> fetchAnalytics(int days);
-  Future<StoredFileListResponse> fetchFiles();
-  Future<ManagedUserListResponse> fetchUsers();
+  Future<StoredFileListResponse> fetchFiles({int page = 1});
+  Future<ManagedUserListResponse> fetchUsers({
+    int page = 1,
+    String? search,
+    bool? active,
+    UserRole? role,
+  });
   Future<ProviderCatalogListResponse> fetchProviders();
   Future<AiProviderProfileListResponse> fetchAiProviders();
   Future<StorageCleanupResponse> cleanupFiles(int olderThanDays);
@@ -33,14 +38,28 @@ final class GeneratedAdminRepository implements AdminRepository {
   );
 
   @override
-  Future<StoredFileListResponse> fetchFiles() => _required(
-    (api) =>
-        api.listStoredFiles(page: 1, pageSize: 20).then((value) => value.data),
+  Future<StoredFileListResponse> fetchFiles({int page = 1}) => _required(
+    (api) => api
+        .listStoredFiles(page: page, pageSize: 20)
+        .then((value) => value.data),
   );
 
   @override
-  Future<ManagedUserListResponse> fetchUsers() => _required(
-    (api) => api.listUsers(page: 1, pageSize: 20).then((value) => value.data),
+  Future<ManagedUserListResponse> fetchUsers({
+    int page = 1,
+    String? search,
+    bool? active,
+    UserRole? role,
+  }) => _required(
+    (api) => api
+        .listUsers(
+          page: page,
+          pageSize: 20,
+          search: search,
+          isActive: active,
+          role: role,
+        )
+        .then((value) => value.data),
   );
 
   @override

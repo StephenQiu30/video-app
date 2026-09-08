@@ -15,10 +15,10 @@
   "downloadRowActionsHint": "向左轻扫可查看任务操作。",
   "screenplayDocumentsDescription": "查看导入状态、解析信息和剧本正文。",
   "documentRowActionsHint": "向左轻扫可管理剧本文档。",
-  "providerStatusDescription": "查看各平台当前是否可用，以及需要的访问方式。",
-  "loadingData": "正在读取真实数据…",
+  "providerStatusDescription": "先查看当前下载支持；需要时再展开单个平台，核对探针与真实任务证据。",
+  "loadingData": "正在加载…",
   "loadFailedTitle": "暂时无法读取数据",
-  "loadFailedDescription": "请检查网络连接后重试。已有数据不会被占位内容替代。",
+  "loadFailedDescription": "请检查网络连接后重试。",
   "retryAction": "重新加载",
   "refreshAction": "刷新",
   "totalLabel": "全部",
@@ -64,8 +64,12 @@
   "documentImportSummary": "第 {attempt} 次导入 · 版本 {version}",
   "@documentImportSummary": {
     "placeholders": {
-      "attempt": {"type": "int"},
-      "version": {"type": "int"}
+      "attempt": {
+        "type": "int"
+      },
+      "version": {
+        "type": "int"
+      }
     }
   },
   "documentStoragePolicyLabel": "存储策略",
@@ -205,8 +209,8 @@
   "welcomeBack": "欢迎回来",
   "loginDescription": "使用你的帧取账户继续管理下载、文档与分析。",
   "createAccountTitle": "创建你的帧取账户",
-  "registerDescription": "注册后可在设备间恢复会话，并安全访问你的任务。",
-  "emailLabel": "邮箱",
+  "registerDescription": "验证邮箱后创建账户，保存和管理你的下载、文档与分析。",
+  "emailLabel": "邮箱地址",
   "usernameLabel": "用户名",
   "usernameHelp": "2–32 个字符，仅支持字母、数字、中文以及 _-. 字符。",
   "passwordLabel": "密码",
@@ -215,19 +219,19 @@
   "hidePassword": "隐藏密码",
   "loginSubmit": "登录",
   "loginSubmitting": "正在登录…",
-  "registerSubmit": "创建账户",
+  "registerSubmit": "注册并登录",
   "registerSubmitting": "正在创建…",
   "goRegister": "创建账户",
   "goLogin": "返回登录",
   "noAccountPrompt": "还没有账户？",
-  "hasAccountPrompt": "已经有账户？",
-  "invalidEmail": "请输入有效的邮箱地址。",
+  "hasAccountPrompt": "已有账户？",
+  "invalidEmail": "请输入有效的邮箱地址",
   "invalidUsername": "用户名需为 2–32 个字符，仅支持字母、数字、中文以及 _-. 字符。",
-  "invalidPassword": "密码至少需要 8 个字符。",
-  "passwordMismatch": "两次输入的密码不一致。",
-  "invalidCredentialsError": "邮箱或密码不正确。",
-  "emailRegisteredError": "这个邮箱已经注册，请直接登录。",
-  "usernameRegisteredError": "这个用户名已经被使用。",
+  "invalidPassword": "密码至少需要 8 个字符",
+  "passwordMismatch": "两次输入的密码不一致",
+  "invalidCredentialsError": "邮箱或密码错误，请重新输入。",
+  "emailRegisteredError": "该邮箱已注册，请直接登录或使用其他邮箱。",
+  "usernameRegisteredError": "该用户名已被使用，请更换后重试。",
   "unauthenticatedError": "登录状态已失效，请重新登录。",
   "rateLimitedError": "操作过于频繁，请稍后再试。",
   "serviceUnavailableError": "暂时无法连接服务，请检查网络后重试。",
@@ -254,6 +258,7 @@
   "hashingUploadFile": "正在校验文件…",
   "creatingUpload": "正在创建上传任务…",
   "uploadingFile": "正在上传…",
+  "cancelUploadAction": "取消上传",
   "completingUpload": "正在完成上传…",
   "emptyUploadFileError": "请选择包含内容的文件。",
   "invalidVideoFileError": "当前只支持上传 MP4 视频。",
@@ -285,7 +290,7 @@
   "noFormatsAvailable": "解析成功，但没有可创建任务的下载格式。",
   "imageGalleryFormatDetails": "{count} 张原图 · ZIP",
   "videoCollectionFormatDetails": "{count} 个视频 · ZIP",
-  "inspectionFailedError": "媒体平台未返回有效解析结果，请确认这是受支持的公开单视频链接。",
+  "inspectionFailedError": "暂时无法读取视频信息，请检查链接后重试。",
   "inspectionTimeoutError": "媒体解析超时，请稍后重新提交。",
   "providerTemporaryError": "媒体平台当前无法完成验证，请稍后重试。",
   "providerSessionError": "该平台当前需要服务端授权会话，暂时无法解析此内容。",
@@ -293,7 +298,7 @@
   "providerRestrictedError": "该媒体为私有或受访问权限限制，无法处理。",
   "providerDrmError": "该媒体受 DRM 保护，不属于本服务支持范围。",
   "providerLinkError": "分享链接已失效或无法定位视频，请复制新的公开分享链接。",
-  "providerUnsupportedError": "当前链接不包含受支持的单个公开视频。",
+  "providerUnsupportedError": "该链接不包含受支持的可下载视频，请更换链接。",
   "durationLimitError": "该媒体时长超过服务允许的上限。",
   "articleRestrictedError": "文章需要验证、关注或付费，无法安全读取媒体来源。",
   "articleDiscoveryError": "无法读取文章中的媒体来源，请确认文章公开且链接有效。",
@@ -333,9 +338,24 @@
   "analysisStagePublishing": "发布分析报告",
   "analysisStagePending": "等待调度",
   "analysisRunSummary": "第 {run} 次执行 · 本次第 {attempt} 个技术尝试",
-  "@analysisRunSummary": {"placeholders": {"run": {"type": "int"}, "attempt": {"type": "int"}}},
+  "@analysisRunSummary": {
+    "placeholders": {
+      "run": {
+        "type": "int"
+      },
+      "attempt": {
+        "type": "int"
+      }
+    }
+  },
   "analysisProgressSemantics": "分析进度 {progress}%",
-  "@analysisProgressSemantics": {"placeholders": {"progress": {"type": "int"}}},
+  "@analysisProgressSemantics": {
+    "placeholders": {
+      "progress": {
+        "type": "int"
+      }
+    }
+  },
   "refreshAnalysisAction": "刷新分析",
   "cancelAnalysisAction": "取消分析",
   "cancelAnalysisTitle": "取消当前分析任务？",
@@ -351,10 +371,10 @@
   "confirmDeleteAnalysis": "确认删除",
   "analysisOperationFailed": "AI 分析操作未完成，请稍后重试。",
   "analysisExecutionFailed": "AI 分析执行失败，请稍后重试。",
-  "analysisServiceUnavailable": "AI 分析服务暂时不可用，请检查本机分析服务后重试。",
-  "analysisAuthenticationRequired": "AI 分析服务尚未登录，请完成服务登录后重试。",
+  "analysisServiceUnavailable": "AI 分析服务暂时不可用，请稍后重试。",
+  "analysisAuthenticationRequired": "AI 分析服务未登录，请完成登录后重试。",
   "analysisTimeoutError": "AI 分析超时，请稍后重试。",
-  "analysisInvalidResult": "AI 返回结果未通过结构与证据校验，请重新分析。",
+  "analysisInvalidResult": "AI 返回结果未通过校验，请重新分析。",
   "screenplayStoryOverview": "故事概览",
   "screenplayLoglineLabel": "一句话梗概",
   "screenplaySynopsisLabel": "故事梗概",
@@ -366,11 +386,11 @@
   "screenplayGlossaryTitle": "统一术语",
   "screenplayFullReportTitle": "完整报告",
   "screenplayStructuredResultTitle": "结构化结果",
-  "analysisResourceLimit": "视频超出当前分析资源限制，请使用更短或更小的视频。",
+  "analysisResourceLimit": "视频超出分析资源限制，请使用更短或更小的视频。",
   "analysisInputUnavailable": "用于分析的视频文件已不可用，请重新创建下载任务。",
   "screenplayAnalysisInputUnavailable": "用于分析的剧本文档已不可用，请重新上传剧本。",
-  "analysisUsageLimited": "AI 服务当前额度不足或受到限流，请稍后重试。",
-  "analysisWorkerLost": "分析执行服务连接中断，请确认本机服务正常后重试。",
+  "analysisUsageLimited": "AI 服务额度不足，请恢复可用额度后重试。",
+  "analysisWorkerLost": "分析执行服务连接中断，请稍后重试。",
   "shotCountLabel": "分镜",
   "visualAssetCountLabel": "视觉资产",
   "visualSummaryTitle": "视觉摘要",
@@ -383,14 +403,20 @@
   "analysisReportTab": "报告预览",
   "openAnalysisReportAction": "打开报告预览",
   "analysisReportLoading": "正在准备报告预览…",
-  "downloadAnalysisReportAction": "下载 Markdown",
-  "exportAnalysisReportAction": "导出报告",
+  "downloadAnalysisReportAction": "导出 Markdown",
+  "exportAnalysisReportAction": "分享报告",
   "analysisReportDownloaded": "报告已保存到你选择的位置。",
   "analysisReportDownloadFailed": "无法保存报告，请稍后重试。",
   "analysisReportExportFailed": "无法导出报告，请稍后重试。",
   "analysisEmptySection": "当前分类没有识别结果。",
   "loadMoreAnalysisResults": "加载更多（剩余 {count} 项）",
-  "@loadMoreAnalysisResults": {"placeholders": {"count": {"type": "int"}}},
+  "@loadMoreAnalysisResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "highlightScoreLabel": "评分",
   "articleKeyPointsTitle": "核心观点",
   "articleClosingTitle": "结语",
@@ -409,29 +435,62 @@
   "adminFilesTitle": "文件管理",
   "adminFilesDescription": "查看持久文件，并清理超过保留周期的资源。",
   "adminUsersTitle": "用户管理",
-  "adminUsersDescription": "查看用户，并调整角色与账号可用状态。",
+  "adminUsersDescription": "查找账户，并在不离开当前页面的情况下调整角色与启用状态。",
   "adminProvidersTitle": "平台目录",
-  "adminProvidersDescription": "查看平台运行状态并控制用户侧可见性。",
+  "adminProvidersDescription": "维护平台状态页的名称、排序与可见性。下载域名和执行能力由系统 Profile 控制。",
   "adminAiProvidersTitle": "AI 服务",
-  "adminAiProvidersDescription": "查看分析线路配置并切换当前活动线路。",
+  "adminAiProvidersDescription": "默认使用服务端本机 Codex；可在这里新增并启用第三方 API。切换后从下一次分析任务生效，无需修改环境文件。",
   "adminDays": "{days} 天",
-  "@adminDays": {"placeholders": {"days": {"type": "int"}}},
+  "@adminDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "adminSuccessRate": "成功率",
   "adminDownloadedBytes": "下载量",
   "adminSourceBreakdown": "来源分布",
   "adminCleanupTitle": "清理过期文件",
-  "adminCleanupDescription": "选择保留周期。服务端将清理更早且符合规则的持久资源。",
+  "adminCleanupDescription": "将永久删除指定天数前的视频、剧本文档和分析报告。正在执行分析的源文件会被跳过。",
   "adminCleanupDays": "清理 {days} 天前的文件",
-  "@adminCleanupDays": {"placeholders": {"days": {"type": "int"}}},
+  "@adminCleanupDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "adminCleanupAction": "清理文件",
   "adminCleanupComplete": "已清理 {count} 项资源，释放 {size}。",
-  "@adminCleanupComplete": {"placeholders": {"count": {"type": "int"}, "size": {"type": "String"}}},
+  "@adminCleanupComplete": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
   "adminFileCount": "共 {count} 项持久文件",
-  "@adminFileCount": {"placeholders": {"count": {"type": "int"}}},
+  "@adminFileCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "adminFilesEmpty": "暂无持久文件",
   "adminFilesEmptyDescription": "当前没有需要管理员处理的持久文件。",
   "adminUserCount": "共 {count} 位用户",
-  "@adminUserCount": {"placeholders": {"count": {"type": "int"}}},
+  "@adminUserCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "adminRoleLabel": "角色",
   "adminRoleUser": "普通用户",
   "adminRoleAdmin": "管理员",
@@ -461,5 +520,80 @@
   "deleteDocumentTitle": "删除剧本文档？",
   "deleteDocumentDescription": "原始文件、规范化剧本和当前文档记录将永久删除。正在使用该文档的分析需先结束。此操作不可撤销。",
   "keepDocumentAction": "保留文档",
-  "confirmDeleteAction": "确认删除"
+  "confirmDeleteAction": "确认删除",
+  "verificationCodeLabel": "邮箱验证码",
+  "invalidVerificationCode": "验证码错误、已过期或已使用，请检查邮箱和验证码，或重新获取。",
+  "emailUnavailable": "注册邮件暂不可用，请稍后重试或联系支持。",
+  "emailSendFailed": "邮件发送未能确认，请稍后重新获取验证码。",
+  "sendVerificationCode": "获取验证码",
+  "sendingVerificationCode": "正在发送…",
+  "verificationCodeSent": "验证码已发送，10 分钟内有效。未收到时请检查垃圾邮件。",
+  "verificationCodeCooldown": "{seconds} 秒后可重发",
+  "@verificationCodeCooldown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verificationCodeRequired": "请输入邮件中的 6 位验证码",
+  "verificationRateLimited": "请等待 60 秒后再获取验证码。",
+  "passwordTooLong": "密码不能超过 128 个字符",
+  "requiredEmail": "请输入邮箱地址",
+  "requiredPassword": "请输入密码",
+  "requiredNewPassword": "请设置密码",
+  "requiredConfirmPassword": "请再次输入密码",
+  "requiredUsername": "请设置用户名",
+  "usernameTooShort": "用户名至少需要 2 个字符",
+  "usernameTooLong": "用户名不能超过 32 个字符",
+  "usernameInvalidCharacters": "用户名仅支持字母、数字、中文以及 _-. 字符",
+  "previousPage": "上一页",
+  "nextPage": "下一页",
+  "profileSaved": "个人资料已更新。",
+  "saveProfile": "保存资料",
+  "savingProfile": "正在保存",
+  "profileTitle": "个人资料",
+  "profileDescription": "管理公开用户名，并查看不会随任务变化的账户身份信息。",
+  "searchAction": "搜索",
+  "allStatuses": "全部状态",
+  "currentPageAvailable": "本页可用",
+  "searchDownloads": "搜索下载记录",
+  "searchUsers": "搜索用户名或邮箱",
+  "statusLabel": "状态",
+  "deleteConfiguration": "删除配置？",
+  "deleteConfigurationDescription": "此操作不可撤销。删除配置不会删除已有任务和报告。",
+  "createPlatform": "新增平台",
+  "configurationKey": "配置标识",
+  "displayName": "显示名称",
+  "sortOrder": "排序值",
+  "platformVisible": "用户侧可见",
+  "invalidConfiguration": "请检查此字段的格式和取值。",
+  "createAiProvider": "新增 AI 服务",
+  "engineLabel": "执行引擎",
+  "authModeLabel": "认证方式",
+  "modelLabel": "模型",
+  "baseUrlLabel": "服务地址",
+  "apiKeyLabel": "API Key",
+  "apiKeyKeepHint": "留空保留已有凭据",
+  "localCodexRestriction": "这是服务端保留的本机 Codex 线路，只能修改显示名称和模型。",
+  "hostLoginLabel": "本机账号登录 · 免 Key",
+  "deleteAction": "删除",
+  "cancelAction": "取消",
+  "exportDocx": "导出 DOCX",
+  "cleanupDaysLabel": "清理多少天前的文件",
+  "videoFile": "视频文件",
+  "analysisReport": "分析报告",
+  "uniqueUsers": "独立用户",
+  "averageDuration": "平均视频时长（秒）",
+  "dailyTrend": "每日趋势",
+  "cancelledLabel": "已取消",
+  "allRoles": "全部身份",
+  "searchPlatforms": "搜索平台",
+  "visiblePlatform": "公开显示",
+  "hiddenPlatform": "已隐藏",
+  "needsAttention": "需要关注",
+  "previousAnalysisResult": "上一版已完成的结果",
+  "catalogScopeDescription": "此处只维护状态页名称、排序与可见性，不会新增下载域名或执行能力。",
+  "saveConfiguration": "保存配置",
+  "analysisRateLimited": "AI 服务请求过于频繁，请稍后重试。"
 }

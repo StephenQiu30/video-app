@@ -7,6 +7,8 @@ import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
+import 'package:framegrab/shared/presentation/list_filters.dart';
+import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -23,25 +25,61 @@ final class AdminUsersScreen extends ConsumerWidget {
       description: l10n.adminUsersDescription,
       refreshLabel: l10n.refreshAction,
       onRefresh: () => ref.refresh(adminUsersProvider.future).then((_) {}),
-      children: result.when(
-        data: (data) => [
-          Text(l10n.adminUserCount(data.total)),
-          const SizedBox(height: AppSpacing.medium),
-          for (final user in data.items)
-            _UserRow(
-              user: user,
-              isCurrent: user.id == currentUserId,
-              onEdit: () => _editUser(context, ref, user),
-            ),
-        ],
-        error: (_, _) => adminError(
-          action: l10n.retryAction,
-          title: l10n.loadFailedTitle,
-          description: l10n.loadFailedDescription,
-          retry: () => ref.invalidate(adminUsersProvider),
+      children: [
+        DropdownButtonFormField<String>(
+          isExpanded: true,
+          initialValue: ref.watch(userRoleFilterProvider)?.name ?? '',
+          decoration: InputDecoration(labelText: l10n.adminRoleLabel),
+          items: [
+            DropdownMenuItem(value: '', child: Text(l10n.allRoles)),
+            DropdownMenuItem(value: 'user', child: Text(l10n.adminRoleUser)),
+            DropdownMenuItem(value: 'admin', child: Text(l10n.adminRoleAdmin)),
+          ],
+          onChanged: (v) => ref
+              .read(userRoleFilterProvider.notifier)
+              .select(v == null || v.isEmpty ? null : UserRole.valueOf(v)),
         ),
-        loading: () => adminLoading(l10n.loadingData),
-      ),
+        ListFilters(
+          query: ref.watch(userListQueryProvider),
+          searchLabel: l10n.searchUsers,
+          statuses: {
+            'active': l10n.adminAccountEnabled,
+            'inactive': l10n.adminAccountDisabled,
+          },
+          onSearch: (v) => ref
+              .read(userListQueryProvider.notifier)
+              .filter(
+                search: v,
+                status: ref.read(userListQueryProvider).status,
+              ),
+          onStatus: (v) =>
+              ref.read(userListQueryProvider.notifier).filter(status: v),
+        ),
+        ...result.when(
+          data: (data) => [
+            ListPagination(
+              page: ref.watch(userListQueryProvider).page,
+              total: data.total,
+              onPage: ref.read(userListQueryProvider.notifier).page,
+            ),
+            Text(l10n.adminUserCount(data.total)),
+            const SizedBox(height: AppSpacing.medium),
+            for (final user in data.items)
+              _UserRow(
+                user: user,
+                isCurrent: user.id == currentUserId,
+                onEdit: () => _editUser(context, ref, user),
+              ),
+          ],
+          error: (_, _) => adminError(
+            action: l10n.retryAction,
+            title: l10n.loadFailedTitle,
+            description: l10n.loadFailedDescription,
+            retry: () => ref.invalidate(adminUsersProvider),
+          ),
+          loading: () => adminLoading(l10n.loadingData),
+        ),
+      ],
     );
   }
 

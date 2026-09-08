@@ -38,7 +38,15 @@ final class CompletedUploadPart {
 }
 
 final class MultipartUploader {
-  MultipartUploader() : _dio = Dio(BaseOptions(followRedirects: false));
+  MultipartUploader()
+    : _dio = Dio(
+        BaseOptions(
+          followRedirects: false,
+          connectTimeout: const Duration(seconds: 15),
+          sendTimeout: const Duration(minutes: 2),
+          receiveTimeout: const Duration(seconds: 30),
+        ),
+      );
 
   final Dio _dio;
 
@@ -56,6 +64,7 @@ final class MultipartUploader {
       loaded += chunk.length;
       onProgress((loaded * 100 / selected.size).floor().clamp(0, 100));
     }
+    _throwIfCancelled(token);
     input.close();
     return output.value.toString();
   }
@@ -72,6 +81,7 @@ final class MultipartUploader {
     var cursor = 0;
 
     void report(int part, int bytes) {
+      if (token.isCancelled) return;
       loaded[part] = bytes;
       final total = loaded.values.fold<int>(0, (sum, value) => sum + value);
       onProgress((total * 100 / selected.size).floor().clamp(0, 100));
@@ -84,17 +94,21 @@ final class MultipartUploader {
         final target = parts[index];
         final start = (target.number - 1) * session.partSize;
         final end = (start + session.partSize).clamp(0, selected.size);
+        final remaining = session.expiresAt.difference(DateTime.now());
+        if (remaining <= Duration.zero) throw _timeout();
         final response = await _dio.put<void>(
           target.url,
           data: File(selected.path).openRead(start, end),
           cancelToken: token,
           options: Options(
             headers: {Headers.contentLengthHeader: end - start},
-            sendTimeout: session.expiresAt.difference(DateTime.now()),
+            sendTimeout: _minimum(remaining, const Duration(minutes: 2)),
+            receiveTimeout: _minimum(remaining, const Duration(seconds: 30)),
             validateStatus: (status) => status != null && status ~/ 100 == 2,
           ),
           onSendProgress: (sent, _) => report(target.number, sent),
         );
+        _throwIfCancelled(token);
         final etag = response.headers.value('etag')?.trim() ?? '';
         if (!RegExp(
           r'^(?:[0-9a-fA-F]{32}|"[0-9a-fA-F]{32}")$',
@@ -111,13 +125,18 @@ final class MultipartUploader {
       }
     }
 
+    final budget = _minimum(
+      session.expiresAt.difference(DateTime.now()),
+      const Duration(minutes: 15),
+    );
     try {
       await Future.wait(
         List.generate(
           session.maxConcurrency.clamp(1, parts.length),
           (_) => worker(),
         ),
-      );
+        eagerError: true,
+      ).timeout(budget, onTimeout: () => throw _timeout());
     } catch (_) {
       if (!token.isCancelled) token.cancel('multipart part failed');
       rethrow;
@@ -170,3 +189,12 @@ final class _DigestSink implements Sink<Digest> {
 void _throwIfCancelled(CancelToken token) {
   if (token.isCancelled) throw token.cancelError!;
 }
+
+Duration _minimum(Duration first, Duration second) =>
+    first < second ? first : second;
+
+DioException _timeout() => DioException(
+  requestOptions: RequestOptions(path: ''),
+  type: DioExceptionType.receiveTimeout,
+  message: 'Upload time budget exceeded',
+);

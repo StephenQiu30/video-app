@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**createAnalysis**](AnalysesApi.md#createanalysis) | **POST** /api/downloads/{download_id}/analyses | 创建视频分析任务
 [**createDocumentAnalysis**](AnalysesApi.md#createdocumentanalysis) | **POST** /api/documents/{document_id}/analyses | 创建剧本分析或改写任务
 [**deleteAnalysis**](AnalysesApi.md#deleteanalysis) | **DELETE** /api/analyses/{analysis_id} | 删除视频分析与报告
+[**exportAnalysisReport**](AnalysesApi.md#exportanalysisreport) | **GET** /api/analyses/{analysis_id}/report.docx | 导出视频分析报告
 [**getAnalysis**](AnalysesApi.md#getanalysis) | **GET** /api/analyses/{analysis_id} | 查询视频分析任务
 [**getLatestDocumentAnalysis**](AnalysesApi.md#getlatestdocumentanalysis) | **GET** /api/documents/{document_id}/analysis | 读取文档最近的剧本分析
 [**getLatestDownloadAnalysis**](AnalysesApi.md#getlatestdownloadanalysis) | **GET** /api/downloads/{download_id}/analysis | 读取下载任务最近的视频分析
@@ -196,6 +197,49 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **exportAnalysisReport**
+> Uint8List exportAnalysisReport(analysisId)
+
+导出视频分析报告
+
+将已完成的结构化分析结果导出为 DOCX 报告。
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAnalysesApi();
+final String analysisId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+
+try {
+    final response = api.exportAnalysisReport(analysisId);
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AnalysesApi->exportAnalysisReport: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **analysisId** | **String**|  |
+
+### Return type
+
+[**Uint8List**](Uint8List.md)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

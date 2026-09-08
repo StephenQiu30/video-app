@@ -6,6 +6,7 @@ part of 'audio_codec_family.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
+const AudioCodecFamily _$none = const AudioCodecFamily._('none');
 const AudioCodecFamily _$aac = const AudioCodecFamily._('aac');
 const AudioCodecFamily _$opus = const AudioCodecFamily._('opus');
 const AudioCodecFamily _$vorbis = const AudioCodecFamily._('vorbis');
@@ -15,6 +16,8 @@ const AudioCodecFamily _$unknownDefaultOpenApi =
 
 AudioCodecFamily _$valueOf(String name) {
   switch (name) {
+    case 'none':
+      return _$none;
     case 'aac':
       return _$aac;
     case 'opus':
@@ -32,6 +35,7 @@ AudioCodecFamily _$valueOf(String name) {
 
 final BuiltSet<AudioCodecFamily> _$values =
     BuiltSet<AudioCodecFamily>(const <AudioCodecFamily>[
+  _$none,
   _$aac,
   _$opus,
   _$vorbis,
@@ -41,6 +45,7 @@ final BuiltSet<AudioCodecFamily> _$values =
 
 class _$AudioCodecFamilyMeta {
   const _$AudioCodecFamilyMeta();
+  AudioCodecFamily get none => _$none;
   AudioCodecFamily get aac => _$aac;
   AudioCodecFamily get opus => _$opus;
   AudioCodecFamily get vorbis => _$vorbis;
@@ -61,6 +66,7 @@ Serializer<AudioCodecFamily> _$audioCodecFamilySerializer =
 class _$AudioCodecFamilySerializer
     implements PrimitiveSerializer<AudioCodecFamily> {
   static const Map<String, Object> _toWire = const <String, Object>{
+    'none': 'none',
     'aac': 'aac',
     'opus': 'opus',
     'vorbis': 'vorbis',
@@ -68,6 +74,7 @@ class _$AudioCodecFamilySerializer
     'unknownDefaultOpenApi': 'unknown_default_open_api',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
+    'none': 'none',
     'aac': 'aac',
     'opus': 'opus',
     'vorbis': 'vorbis',

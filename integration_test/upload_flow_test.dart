@@ -12,6 +12,8 @@ import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:video_server_api/video_server_api.dart';
 
+import 'registration_mailbox.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -35,7 +37,10 @@ void main() {
       final gateway = GeneratedNativeAuthGateway(client);
       final suffix = DateTime.now().microsecondsSinceEpoch.toString();
       final username = 'uploadqa${suffix.substring(suffix.length - 10)}';
+      await gateway.sendRegistrationCode('$username@example.com');
+      final code = await registrationCodeFromTestInbox('$username@example.com');
       final session = await gateway.register(
+        verificationCode: code,
         username: username,
         email: '$username@example.com',
         password: 'strong-pass-123',
@@ -44,6 +49,7 @@ void main() {
       final request = AuthenticatedRequest(
         client: client,
         accessToken: () => session.accessToken,
+        sessionGeneration: () => 0,
         refreshSession: () async => false,
         expireSession: () async {},
       );

@@ -49,7 +49,7 @@ abstract class SemanticPlanResponse
 
   @BuiltValueField(wireName: r'audio_codec_family')
   AudioCodecFamily get audioCodecFamily;
-  // enum audioCodecFamilyEnum {  aac,  opus,  vorbis,  other,  };
+  // enum audioCodecFamilyEnum {  none,  aac,  opus,  vorbis,  other,  };
 
   @BuiltValueField(wireName: r'audio_language')
   String? get audioLanguage;

@@ -173,6 +173,9 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             onSubmit: () {
               _submit();
             },
+            onUploadCancel: () {
+              ref.read(contentUploadControllerProvider.notifier).cancel();
+            },
             onUploadAction: (kind) {
               ref.read(contentUploadControllerProvider.notifier).start(kind);
             },

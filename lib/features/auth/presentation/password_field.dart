@@ -12,9 +12,11 @@ final class PasswordField extends StatelessWidget {
     required this.validator,
     this.textInputAction = TextInputAction.next,
     this.onFieldSubmitted,
+    this.newPassword = false,
     super.key,
   });
 
+  final bool newPassword;
   final TextEditingController controller;
   final String label;
   final Key fieldKey;
@@ -36,7 +38,9 @@ final class PasswordField extends StatelessWidget {
       obscureText: obscure,
       autocorrect: false,
       enableSuggestions: false,
-      autofillHints: const [AutofillHints.password],
+      autofillHints: [
+        newPassword ? AutofillHints.newPassword : AutofillHints.password,
+      ],
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
       validator: validator,

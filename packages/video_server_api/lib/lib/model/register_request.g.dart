@@ -12,13 +12,18 @@ class _$RegisterRequest extends RegisterRequest {
   @override
   final String password;
   @override
+  final String verificationCode;
+  @override
   final String username;
 
   factory _$RegisterRequest([void Function(RegisterRequestBuilder)? updates]) =>
       (RegisterRequestBuilder()..update(updates))._build();
 
   _$RegisterRequest._(
-      {required this.email, required this.password, required this.username})
+      {required this.email,
+      required this.password,
+      required this.verificationCode,
+      required this.username})
       : super._();
   @override
   RegisterRequest rebuild(void Function(RegisterRequestBuilder) updates) =>
@@ -33,6 +38,7 @@ class _$RegisterRequest extends RegisterRequest {
     return other is RegisterRequest &&
         email == other.email &&
         password == other.password &&
+        verificationCode == other.verificationCode &&
         username == other.username;
   }
 
@@ -41,6 +47,7 @@ class _$RegisterRequest extends RegisterRequest {
     var _$hash = 0;
     _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, password.hashCode);
+    _$hash = $jc(_$hash, verificationCode.hashCode);
     _$hash = $jc(_$hash, username.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -51,6 +58,7 @@ class _$RegisterRequest extends RegisterRequest {
     return (newBuiltValueToStringHelper(r'RegisterRequest')
           ..add('email', email)
           ..add('password', password)
+          ..add('verificationCode', verificationCode)
           ..add('username', username))
         .toString();
   }
@@ -68,6 +76,11 @@ class RegisterRequestBuilder
   String? get password => _$this._password;
   set password(String? password) => _$this._password = password;
 
+  String? _verificationCode;
+  String? get verificationCode => _$this._verificationCode;
+  set verificationCode(String? verificationCode) =>
+      _$this._verificationCode = verificationCode;
+
   String? _username;
   String? get username => _$this._username;
   set username(String? username) => _$this._username = username;
@@ -81,6 +94,7 @@ class RegisterRequestBuilder
     if ($v != null) {
       _email = $v.email;
       _password = $v.password;
+      _verificationCode = $v.verificationCode;
       _username = $v.username;
       _$v = null;
     }
@@ -107,6 +121,8 @@ class RegisterRequestBuilder
               email, r'RegisterRequest', 'email'),
           password: BuiltValueNullFieldError.checkNotNull(
               password, r'RegisterRequest', 'password'),
+          verificationCode: BuiltValueNullFieldError.checkNotNull(
+              verificationCode, r'RegisterRequest', 'verificationCode'),
           username: BuiltValueNullFieldError.checkNotNull(
               username, r'RegisterRequest', 'username'),
         );

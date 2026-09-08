@@ -953,6 +953,8 @@ void main() {
     repository
       ..error = null
       ..data = downloadHistoryFixture();
+    await tester.ensureVisible(find.text('重新加载'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('重新加载'));
     await tester.pumpAndSettle();
     expect(find.text('真实下载任务'), findsWidgets);
@@ -1029,6 +1031,8 @@ void main() {
     final logoutAction = tester.getRect(find.byKey(const Key('logout-button')));
     expect(logoutAction.top, greaterThan(adminEntry.bottom));
     expect(logoutAction.left, adminEntry.left);
+    await tester.ensureVisible(find.byKey(const Key('admin-center-entry')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('admin-center-entry')));
     await tester.pumpAndSettle();
     expect(find.text('管理中心'), findsOneWidget);
@@ -1112,8 +1116,8 @@ void main() {
     await tester.tap(find.byKey(const Key('login-submit-button')));
     await tester.pump();
 
-    expect(find.text('请输入有效的邮箱地址。'), findsOneWidget);
-    expect(find.text('密码至少需要 8 个字符。'), findsOneWidget);
+    expect(find.text('请输入邮箱地址'), findsOneWidget);
+    expect(find.text('请输入密码'), findsOneWidget);
   });
 
   testWidgets('registers, exposes the account, and signs out', (tester) async {
@@ -1145,6 +1149,11 @@ void main() {
       find.byKey(const Key('register-confirm-field')),
       'strong-pass-123',
     );
+    await tester.enterText(
+      find.byKey(const Key('register-code-field')),
+      '123456',
+    );
+    await tester.ensureVisible(find.byKey(const Key('register-submit-button')));
     await tester.tap(find.byKey(const Key('register-submit-button')));
     await tester.pumpAndSettle();
 
@@ -1155,6 +1164,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('member@example.com'), findsOneWidget);
 
+    await tester.ensureVisible(find.byKey(const Key('logout-button')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('logout-button')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
@@ -1182,7 +1193,7 @@ void main() {
     await tester.tap(find.byKey(const Key('login-submit-button')));
     await tester.pumpAndSettle();
 
-    expect(find.text('邮箱或密码不正确。'), findsOneWidget);
+    expect(find.text('邮箱或密码错误，请重新输入。'), findsOneWidget);
   });
 }
 

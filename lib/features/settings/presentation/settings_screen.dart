@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/features/auth/presentation/account_session_section.dart';
+import 'package:framegrab/features/auth/presentation/profile_editor.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +50,8 @@ final class SettingsScreen extends ConsumerWidget {
                     _SectionLabel(label: localizations.accountSection),
                     const SizedBox(height: AppSpacing.small),
                     const AccountSessionSection(),
+                    const SizedBox(height: AppSpacing.large),
+                    const ProfileEditor(),
                     if (isAdmin) ...[
                       const SizedBox(height: AppSpacing.section),
                       _SectionLabel(label: localizations.adminCenterTitle),

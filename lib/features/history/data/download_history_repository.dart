@@ -12,7 +12,11 @@ final downloadHistoryRepositoryProvider = Provider<DownloadHistoryRepository>(
 );
 
 abstract interface class DownloadHistoryRepository {
-  Future<DownloadHistoryResponse> fetchFirstPage();
+  Future<DownloadHistoryResponse> fetchPage({
+    int page = 1,
+    String? search,
+    DownloadStatus? status,
+  });
 
   Future<DownloadResponse> fetchDetail(String jobId);
 
@@ -51,11 +55,17 @@ final class GeneratedDownloadHistoryRepository
   }
 
   @override
-  Future<DownloadHistoryResponse> fetchFirstPage() {
+  Future<DownloadHistoryResponse> fetchPage({
+    int page = 1,
+    String? search,
+    DownloadStatus? status,
+  }) {
     return _request.execute((client) async {
       final response = await client.getDownloadsApi().getDownloadHistory(
-        page: 1,
+        page: page,
         pageSize: 20,
+        search: search,
+        status: status,
       );
       final data = response.data;
       if (data == null) {

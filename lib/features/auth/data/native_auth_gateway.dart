@@ -23,11 +23,15 @@ final nativeAuthGatewayProvider = Provider<NativeAuthGateway>(
 );
 
 enum AuthFailureKind {
+  invalidVerificationCode,
+  emailUnavailable,
+  emailSendFailed,
   invalidCredentials,
   emailRegistered,
   usernameRegistered,
   unauthenticated,
   rateLimited,
+  verificationRateLimited,
   unavailable,
   unknown,
 }
@@ -39,6 +43,7 @@ final class AuthRequestFailure implements Exception {
 }
 
 abstract interface class NativeAuthGateway {
+  Future<RegistrationCodeResponse> sendRegistrationCode(String email);
   Future<NativeSessionResponse> login({
     required String email,
     required String password,
@@ -48,6 +53,7 @@ abstract interface class NativeAuthGateway {
     required String username,
     required String email,
     required String password,
+    required String verificationCode,
   });
 
   Future<NativeSessionResponse> refresh(String refreshCredential);
@@ -61,6 +67,24 @@ final class GeneratedNativeAuthGateway implements NativeAuthGateway {
   final VideoServerApi _client;
 
   AppAuthApi get _api => _client.getAppAuthApi();
+
+  @override
+  Future<RegistrationCodeResponse> sendRegistrationCode(String email) async {
+    try {
+      final response = await _api.sendNativeRegistrationCode(
+        registrationCodeRequest: RegistrationCodeRequest(
+          (builder) => builder..email = email,
+        ),
+      );
+      final result = response.data;
+      if (result == null || result.emailSent != true) {
+        throw const AuthRequestFailure(AuthFailureKind.emailSendFailed);
+      }
+      return result;
+    } on DioException catch (error) {
+      throw _failure(error);
+    }
+  }
 
   @override
   Future<NativeSessionResponse> login({
@@ -113,11 +137,13 @@ final class GeneratedNativeAuthGateway implements NativeAuthGateway {
     required String username,
     required String email,
     required String password,
+    required String verificationCode,
   }) async {
     try {
       final response = await _api.registerNativeUser(
         registerRequest: RegisterRequest(
           (builder) => builder
+            ..verificationCode = verificationCode
             ..username = username
             ..email = email
             ..password = password,
@@ -142,6 +168,10 @@ AuthRequestFailure _failure(DioException error) {
     _ => null,
   };
   final kind = switch (code) {
+    'invalid_verification_code' => AuthFailureKind.invalidVerificationCode,
+    'email_unavailable' => AuthFailureKind.emailUnavailable,
+    'email_send_failed' => AuthFailureKind.emailSendFailed,
+    'verification_rate_limited' => AuthFailureKind.verificationRateLimited,
     'invalid_credentials' => AuthFailureKind.invalidCredentials,
     'email_already_registered' => AuthFailureKind.emailRegistered,
     'username_already_registered' => AuthFailureKind.usernameRegistered,
