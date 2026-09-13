@@ -87,7 +87,7 @@ void main() {
   for (final dimensions in [(160, 90), (90, 160), (100, 100)]) {
     for (final frameWidth in [112.0, 320.0]) {
       testWidgets(
-        'fills width $frameWidth at intrinsic ratio $dimensions without cropping',
+        'uses a stable frame at width $frameWidth for source $dimensions without cropping',
         (tester) async {
           final bytes = await tester.runAsync(() async {
             final recorder = ui.PictureRecorder();
@@ -141,11 +141,11 @@ void main() {
 
           final expectedSize = Size(
             frameWidth,
-            frameWidth * dimensions.$2 / dimensions.$1,
+            frameWidth / mediaFrameAspectRatio,
           );
           expect(
-            tester.getSize(find.byType(AuthenticatedMediaCover)).width,
-            frameWidth,
+            tester.getSize(find.byType(AuthenticatedMediaCover)),
+            expectedSize,
           );
           await tester.runAsync(
             () => precacheImage(
@@ -172,10 +172,10 @@ void main() {
           );
           final fitted = applyBoxFit(image.fit!, source, rendered.size);
           expect(fitted.source, source);
-          expect(fitted.destination.width, closeTo(frameWidth, 0.001));
+          expect(fitted.destination.width, lessThanOrEqualTo(frameWidth));
           expect(
             fitted.destination.height,
-            closeTo(expectedSize.height, 0.001),
+            lessThanOrEqualTo(expectedSize.height),
           );
           expect(
             fitted.destination.aspectRatio,

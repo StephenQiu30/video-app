@@ -4,6 +4,8 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/media/application/media_thumbnail_provider.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 
+const mediaFrameAspectRatio = 16 / 9;
+
 final class AuthenticatedMediaCover extends ConsumerWidget {
   const AuthenticatedMediaCover({
     required this.alt,
@@ -36,8 +38,8 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
       image: true,
       label: alt,
       child: ExcludeSemantics(
-        child: SizedBox(
-          width: double.infinity,
+        child: AspectRatio(
+          aspectRatio: mediaFrameAspectRatio,
           child: ClipRRect(
             borderRadius: borderRadius,
             child: ColoredBox(
@@ -55,6 +57,7 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
                         bytes,
                         fit: BoxFit.contain,
                         gaplessPlayback: true,
+                        height: double.infinity,
                         width: double.infinity,
                         frameBuilder: (context, child, frame, synchronous) =>
                             frame != null || synchronous

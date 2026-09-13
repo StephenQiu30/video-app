@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/features/media/data/media_repository.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
@@ -161,23 +160,12 @@ final class _VideoPlayerSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<VideoParams>(
-      stream: controller.player.stream.videoParams,
-      initialData: controller.player.state.videoParams,
-      builder: (context, snapshot) {
-        final width = snapshot.data?.dw ?? snapshot.data?.w ?? 0;
-        final height = snapshot.data?.dh ?? snapshot.data?.h ?? 0;
-        if (width <= 0 || height <= 0) {
-          return const Padding(
-            padding: EdgeInsets.all(AppSpacing.large),
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
-        return AspectRatio(
-          aspectRatio: width / height,
-          child: Video(controller: controller, fit: BoxFit.contain),
-        );
-      },
+    return AspectRatio(
+      aspectRatio: mediaFrameAspectRatio,
+      child: ColoredBox(
+        color: Colors.black,
+        child: Video(controller: controller, fit: BoxFit.contain),
+      ),
     );
   }
 }

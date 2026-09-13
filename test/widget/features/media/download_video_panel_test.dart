@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/theme/app_theme.dart';
+import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/features/media/presentation/download_video_panel.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -43,5 +44,7 @@ void main() {
 
     expect(find.byKey(const Key('watch-download-video')), findsOneWidget);
     expect(find.byKey(const Key('download-video-file')), findsOneWidget);
+    final frame = tester.widget<AspectRatio>(find.byType(AspectRatio));
+    expect(frame.aspectRatio, mediaFrameAspectRatio);
   });
 }
