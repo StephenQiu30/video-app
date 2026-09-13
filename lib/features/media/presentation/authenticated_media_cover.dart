@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/media/application/media_thumbnail_provider.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 
@@ -35,8 +36,8 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
       image: true,
       label: alt,
       child: ExcludeSemantics(
-        child: AspectRatio(
-          aspectRatio: 1.86,
+        child: SizedBox(
+          width: double.infinity,
           child: ClipRRect(
             borderRadius: borderRadius,
             child: ColoredBox(
@@ -52,8 +53,20 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
                   : result.when(
                       data: (bytes) => Image.memory(
                         bytes,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         gaplessPlayback: true,
+                        width: double.infinity,
+                        frameBuilder: (context, child, frame, synchronous) =>
+                            frame != null || synchronous
+                            ? child
+                            : _CoverLoading(compact: compact),
+                        errorBuilder: (context, error, stackTrace) =>
+                            MediaCoverFallback(
+                              compact: compact,
+                              detail: detail,
+                              eyebrow: eyebrow,
+                              title: title,
+                            ),
                       ),
                       error: (_, _) => MediaCoverFallback(
                         compact: compact,
@@ -61,7 +74,7 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
                         eyebrow: eyebrow,
                         title: title,
                       ),
-                      loading: () => const _CoverLoading(),
+                      loading: () => _CoverLoading(compact: compact),
                     ),
             ),
           ),
@@ -72,11 +85,18 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
 }
 
 final class _CoverLoading extends StatelessWidget {
-  const _CoverLoading();
+  const _CoverLoading({required this.compact});
+
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+    return Padding(
+      padding: EdgeInsets.all(compact ? AppSpacing.small : AppSpacing.large),
+      child: Center(
+        child: CircularProgressIndicator(strokeWidth: compact ? 1.5 : 2),
+      ),
+    );
   }
 }
 
@@ -160,6 +180,7 @@ final class MediaCoverFallback extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(compact ? 6 : 12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
