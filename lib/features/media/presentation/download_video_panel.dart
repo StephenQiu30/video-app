@@ -105,20 +105,21 @@ final class _DownloadVideoPanelState extends ConsumerState<DownloadVideoPanel> {
     final canUseFile =
         widget.job.status.name == 'succeeded' && widget.job.fileAvailable;
     final videoController = _videoController;
+    final cover = AuthenticatedMediaCover(
+      alt: localizations.mediaCoverLabel,
+      detail: downloadFormatLabel(localizations, widget.job.format),
+      eyebrow: _sourceLabel(widget.job),
+      pending: !isTerminalDownloadStatus(widget.job.status.name),
+      source: widget.job.thumbnailUrl,
+      title: widget.job.title,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (videoController == null)
-          AuthenticatedMediaCover(
-            alt: localizations.mediaCoverLabel,
-            detail: downloadFormatLabel(localizations, widget.job.format),
-            eyebrow: _sourceLabel(widget.job),
-            pending: !isTerminalDownloadStatus(widget.job.status.name),
-            source: widget.job.thumbnailUrl,
-            title: widget.job.title,
-          )
+          cover
         else
-          _VideoPlayerSurface(controller: videoController),
+          _VideoPlayerSurface(backdrop: cover, controller: videoController),
         if (canUseFile) ...[
           const SizedBox(height: 16),
           MediaActionBar(
@@ -154,17 +155,25 @@ String _sourceLabel(DownloadResponse job) {
 }
 
 final class _VideoPlayerSurface extends StatelessWidget {
-  const _VideoPlayerSurface({required this.controller});
+  const _VideoPlayerSurface({required this.backdrop, required this.controller});
 
+  final Widget backdrop;
   final VideoController controller;
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: mediaFrameAspectRatio,
-      child: ColoredBox(
-        color: Colors.black,
-        child: Video(controller: controller, fit: BoxFit.contain),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ExcludeSemantics(child: backdrop),
+          Video(
+            controller: controller,
+            fill: Colors.transparent,
+            fit: BoxFit.contain,
+          ),
+        ],
       ),
     );
   }

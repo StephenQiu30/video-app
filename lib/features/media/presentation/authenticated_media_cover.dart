@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
@@ -5,6 +7,8 @@ import 'package:framegrab/features/media/application/media_thumbnail_provider.da
 import 'package:framegrab/l10n/app_localizations.dart';
 
 const mediaFrameAspectRatio = 16 / 9;
+const _mediaBackdropBlurSigma = 16.0;
+const _mediaBackdropScale = 1.1;
 
 final class AuthenticatedMediaCover extends ConsumerWidget {
   const AuthenticatedMediaCover({
@@ -30,6 +34,7 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = Theme.of(context).colorScheme;
     final normalized = source?.trim();
     final result = normalized == null || normalized.isEmpty
         ? null
@@ -43,7 +48,7 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
           child: ClipRRect(
             borderRadius: borderRadius,
             child: ColoredBox(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              color: colors.surfaceContainerHighest,
               child: result == null
                   ? MediaCoverFallback(
                       compact: compact,
@@ -53,23 +58,49 @@ final class AuthenticatedMediaCover extends ConsumerWidget {
                       title: title,
                     )
                   : result.when(
-                      data: (bytes) => Image.memory(
-                        bytes,
-                        fit: BoxFit.contain,
-                        gaplessPlayback: true,
-                        height: double.infinity,
-                        width: double.infinity,
-                        frameBuilder: (context, child, frame, synchronous) =>
-                            frame != null || synchronous
-                            ? child
-                            : _CoverLoading(compact: compact),
-                        errorBuilder: (context, error, stackTrace) =>
-                            MediaCoverFallback(
-                              compact: compact,
-                              detail: detail,
-                              eyebrow: eyebrow,
-                              title: title,
+                      data: (bytes) => Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ImageFiltered(
+                            imageFilter: ui.ImageFilter.blur(
+                              sigmaX: _mediaBackdropBlurSigma,
+                              sigmaY: _mediaBackdropBlurSigma,
                             ),
+                            child: Transform.scale(
+                              scale: _mediaBackdropScale,
+                              child: Image.memory(
+                                bytes,
+                                errorBuilder: (_, _, _) =>
+                                    const SizedBox.expand(),
+                                excludeFromSemantics: true,
+                                fit: BoxFit.cover,
+                                gaplessPlayback: true,
+                              ),
+                            ),
+                          ),
+                          ColoredBox(
+                            color: colors.scrim.withValues(alpha: 0.12),
+                          ),
+                          Image.memory(
+                            bytes,
+                            fit: BoxFit.contain,
+                            gaplessPlayback: true,
+                            height: double.infinity,
+                            width: double.infinity,
+                            frameBuilder:
+                                (context, child, frame, synchronous) =>
+                                    frame != null || synchronous
+                                    ? child
+                                    : _CoverLoading(compact: compact),
+                            errorBuilder: (context, error, stackTrace) =>
+                                MediaCoverFallback(
+                                  compact: compact,
+                                  detail: detail,
+                                  eyebrow: eyebrow,
+                                  title: title,
+                                ),
+                          ),
+                        ],
                       ),
                       error: (_, _) => MediaCoverFallback(
                         compact: compact,

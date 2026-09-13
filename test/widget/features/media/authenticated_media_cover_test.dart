@@ -160,11 +160,14 @@ void main() {
             expectedSize,
           );
           final rendered = tester.renderObject<RenderImage>(
-            find.byType(RawImage),
+            find.byType(RawImage).last,
           );
           expect(rendered.image!.width, dimensions.$1);
           expect(rendered.image!.height, dimensions.$2);
-          final image = tester.widget<Image>(find.byType(Image));
+          final images = tester.widgetList<Image>(find.byType(Image)).toList();
+          expect(images, hasLength(2));
+          expect(images.first.fit, BoxFit.cover);
+          final image = images.last;
           expect(image.fit, BoxFit.contain);
           final source = Size(
             dimensions.$1.toDouble(),
