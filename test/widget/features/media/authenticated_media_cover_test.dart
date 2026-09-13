@@ -87,7 +87,7 @@ void main() {
   for (final dimensions in [(160, 90), (90, 160), (100, 100)]) {
     for (final frameWidth in [112.0, 320.0]) {
       testWidgets(
-        'uses a stable frame at width $frameWidth for source $dimensions without cropping',
+        'fills a stable frame at width $frameWidth for source $dimensions proportionally',
         (tester) async {
           final bytes = await tester.runAsync(() async {
             final recorder = ui.PictureRecorder();
@@ -160,29 +160,25 @@ void main() {
             expectedSize,
           );
           final rendered = tester.renderObject<RenderImage>(
-            find.byType(RawImage).last,
+            find.byType(RawImage),
           );
           expect(rendered.image!.width, dimensions.$1);
           expect(rendered.image!.height, dimensions.$2);
           final images = tester.widgetList<Image>(find.byType(Image)).toList();
-          expect(images, hasLength(2));
-          expect(images.first.fit, BoxFit.cover);
-          final image = images.last;
-          expect(image.fit, BoxFit.contain);
+          expect(images, hasLength(1));
+          final image = images.single;
+          expect(image.fit, BoxFit.cover);
           final source = Size(
             dimensions.$1.toDouble(),
             dimensions.$2.toDouble(),
           );
           final fitted = applyBoxFit(image.fit!, source, rendered.size);
-          expect(fitted.source, source);
-          expect(fitted.destination.width, lessThanOrEqualTo(frameWidth));
+          expect(fitted.destination, rendered.size);
+          expect(fitted.source.width, lessThanOrEqualTo(source.width));
+          expect(fitted.source.height, lessThanOrEqualTo(source.height));
           expect(
-            fitted.destination.height,
-            lessThanOrEqualTo(expectedSize.height),
-          );
-          expect(
-            fitted.destination.aspectRatio,
-            closeTo(source.aspectRatio, 0.0001),
+            fitted.source.aspectRatio,
+            closeTo(fitted.destination.aspectRatio, 0.0001),
           );
           expect(tester.takeException(), isNull);
         },
