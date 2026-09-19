@@ -21,6 +21,8 @@ class _$ManagedUserResponse extends ManagedUserResponse {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final UserQuotaSettings quota;
 
   factory _$ManagedUserResponse(
           [void Function(ManagedUserResponseBuilder)? updates]) =>
@@ -33,7 +35,8 @@ class _$ManagedUserResponse extends ManagedUserResponse {
       required this.role,
       required this.isActive,
       required this.createdAt,
-      required this.updatedAt})
+      required this.updatedAt,
+      required this.quota})
       : super._();
   @override
   ManagedUserResponse rebuild(
@@ -54,7 +57,8 @@ class _$ManagedUserResponse extends ManagedUserResponse {
         role == other.role &&
         isActive == other.isActive &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        updatedAt == other.updatedAt &&
+        quota == other.quota;
   }
 
   @override
@@ -67,6 +71,7 @@ class _$ManagedUserResponse extends ManagedUserResponse {
     _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
+    _$hash = $jc(_$hash, quota.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -80,7 +85,8 @@ class _$ManagedUserResponse extends ManagedUserResponse {
           ..add('role', role)
           ..add('isActive', isActive)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt))
+          ..add('updatedAt', updatedAt)
+          ..add('quota', quota))
         .toString();
   }
 }
@@ -117,6 +123,11 @@ class ManagedUserResponseBuilder
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
+  UserQuotaSettingsBuilder? _quota;
+  UserQuotaSettingsBuilder get quota =>
+      _$this._quota ??= UserQuotaSettingsBuilder();
+  set quota(UserQuotaSettingsBuilder? quota) => _$this._quota = quota;
+
   ManagedUserResponseBuilder() {
     ManagedUserResponse._defaults(this);
   }
@@ -131,6 +142,7 @@ class ManagedUserResponseBuilder
       _isActive = $v.isActive;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
+      _quota = $v.quota.toBuilder();
       _$v = null;
     }
     return this;
@@ -150,23 +162,37 @@ class ManagedUserResponseBuilder
   ManagedUserResponse build() => _build();
 
   _$ManagedUserResponse _build() {
-    final _$result = _$v ??
-        _$ManagedUserResponse._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'ManagedUserResponse', 'id'),
-          username: BuiltValueNullFieldError.checkNotNull(
-              username, r'ManagedUserResponse', 'username'),
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'ManagedUserResponse', 'email'),
-          role: BuiltValueNullFieldError.checkNotNull(
-              role, r'ManagedUserResponse', 'role'),
-          isActive: BuiltValueNullFieldError.checkNotNull(
-              isActive, r'ManagedUserResponse', 'isActive'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'ManagedUserResponse', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'ManagedUserResponse', 'updatedAt'),
-        );
+    _$ManagedUserResponse _$result;
+    try {
+      _$result = _$v ??
+          _$ManagedUserResponse._(
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'ManagedUserResponse', 'id'),
+            username: BuiltValueNullFieldError.checkNotNull(
+                username, r'ManagedUserResponse', 'username'),
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'ManagedUserResponse', 'email'),
+            role: BuiltValueNullFieldError.checkNotNull(
+                role, r'ManagedUserResponse', 'role'),
+            isActive: BuiltValueNullFieldError.checkNotNull(
+                isActive, r'ManagedUserResponse', 'isActive'),
+            createdAt: BuiltValueNullFieldError.checkNotNull(
+                createdAt, r'ManagedUserResponse', 'createdAt'),
+            updatedAt: BuiltValueNullFieldError.checkNotNull(
+                updatedAt, r'ManagedUserResponse', 'updatedAt'),
+            quota: quota.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'quota';
+        quota.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'ManagedUserResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -45,6 +45,8 @@ class _$InspectionResponse extends InspectionResponse {
   final String? restrictionReason;
   @override
   final String? userAction;
+  @override
+  final ProviderAccessPolicy? accessPolicyId;
 
   factory _$InspectionResponse(
           [void Function(InspectionResponseBuilder)? updates]) =>
@@ -69,7 +71,8 @@ class _$InspectionResponse extends InspectionResponse {
       required this.protectionState,
       this.rightsBasis,
       this.restrictionReason,
-      this.userAction})
+      this.userAction,
+      this.accessPolicyId})
       : super._();
   @override
   InspectionResponse rebuild(
@@ -102,7 +105,8 @@ class _$InspectionResponse extends InspectionResponse {
         protectionState == other.protectionState &&
         rightsBasis == other.rightsBasis &&
         restrictionReason == other.restrictionReason &&
-        userAction == other.userAction;
+        userAction == other.userAction &&
+        accessPolicyId == other.accessPolicyId;
   }
 
   @override
@@ -127,6 +131,7 @@ class _$InspectionResponse extends InspectionResponse {
     _$hash = $jc(_$hash, rightsBasis.hashCode);
     _$hash = $jc(_$hash, restrictionReason.hashCode);
     _$hash = $jc(_$hash, userAction.hashCode);
+    _$hash = $jc(_$hash, accessPolicyId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -152,7 +157,8 @@ class _$InspectionResponse extends InspectionResponse {
           ..add('protectionState', protectionState)
           ..add('rightsBasis', rightsBasis)
           ..add('restrictionReason', restrictionReason)
-          ..add('userAction', userAction))
+          ..add('userAction', userAction)
+          ..add('accessPolicyId', accessPolicyId))
         .toString();
   }
 }
@@ -249,6 +255,11 @@ class InspectionResponseBuilder
   String? get userAction => _$this._userAction;
   set userAction(String? userAction) => _$this._userAction = userAction;
 
+  ProviderAccessPolicy? _accessPolicyId;
+  ProviderAccessPolicy? get accessPolicyId => _$this._accessPolicyId;
+  set accessPolicyId(ProviderAccessPolicy? accessPolicyId) =>
+      _$this._accessPolicyId = accessPolicyId;
+
   InspectionResponseBuilder() {
     InspectionResponse._defaults(this);
   }
@@ -275,6 +286,7 @@ class InspectionResponseBuilder
       _rightsBasis = $v.rightsBasis;
       _restrictionReason = $v.restrictionReason;
       _userAction = $v.userAction;
+      _accessPolicyId = $v.accessPolicyId;
       _$v = null;
     }
     return this;
@@ -331,6 +343,7 @@ class InspectionResponseBuilder
             rightsBasis: rightsBasis,
             restrictionReason: restrictionReason,
             userAction: userAction,
+            accessPolicyId: accessPolicyId,
           );
     } catch (_) {
       late String _$failedField;

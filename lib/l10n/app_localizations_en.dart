@@ -792,6 +792,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectVideoFile => 'Choose video file';
 
   @override
+  String get reimportDownloadAction => 'Return home to import again';
+
+  @override
   String get screenplayIntakeTitle => 'Import a screenplay';
 
   @override
@@ -941,6 +944,63 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get providerSessionError =>
       'This provider currently requires a server-authorized session, so this media cannot be inspected.';
+
+  @override
+  String get accessPolicyLabel => 'Access policy';
+
+  @override
+  String routeCooldownUntil(String time) {
+    return 'Default route: retry no earlier than $time; recovery still needs verification.';
+  }
+
+  @override
+  String get providerRuntimeTitle => 'Read runtime diagnostics';
+
+  @override
+  String get providerRuntimeDescription =>
+      'Default routes of visible providers only. Snapshots are cached for at most 30 seconds. Configuration and reachable contexts do not prove a successful download.';
+
+  @override
+  String get providerRouteConfigured => 'Route configured';
+
+  @override
+  String get providerContextObserved =>
+      'Context reachable; source and content authorization still require verification';
+
+  @override
+  String get providerContextMissing =>
+      'Context unreachable or not yet confirmed';
+
+  @override
+  String get providerRuntimeEngine => 'Engine';
+
+  @override
+  String get accessPolicyPublic => 'Public, no session';
+
+  @override
+  String get accessPolicyOperator => 'Operator public session';
+
+  @override
+  String get accessPolicyPersonal => 'Personal authorized session';
+
+  @override
+  String get accessPolicyUnavailable => 'Not configured or admitted';
+
+  @override
+  String get accessPolicyDescription =>
+      'Only authorized, non-DRM media is supported. Changing policy requires reinspection; sessions never switch automatically.';
+
+  @override
+  String get accessPolicyEvidenceMissing =>
+      'No fresh verification evidence for the default route.';
+
+  @override
+  String get providerConfigurationMissing =>
+      'This access policy is not configured. Ask the operator to configure its persistent source, or explicitly select the public route and inspect again.';
+
+  @override
+  String get providerPolicyNotAllowed =>
+      'This source does not admit the selected access policy. Change policy and inspect again.';
 
   @override
   String get providerRegionError =>

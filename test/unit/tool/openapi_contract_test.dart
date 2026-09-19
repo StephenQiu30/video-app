@@ -28,16 +28,17 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(47));
+    expect(selectedPaths, hasLength(48));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      55,
+      56,
     );
     expect(selectedPaths['/api/users/me'], contains('patch'));
     expect(selectedPaths['/api/admin/ai-providers'], contains('post'));
+    expect(selectedPaths['/api/admin/provider-runtime'], contains('get'));
     expect(
       selectedPaths['/api/admin/ai-providers/{provider_key}'],
       contains('delete'),

@@ -6,6 +6,23 @@ import 'package:video_server_api/video_server_api.dart';
 bool isActiveDownloadStatus(String status) =>
     status == 'queued' || status == 'running' || status == 'retryWait';
 
+enum DownloadRecovery { retry, reimport }
+
+DownloadRecovery? downloadRecovery({
+  required DownloadSourceKind sourceKind,
+  required DownloadStatus status,
+  required bool fileAvailable,
+}) {
+  if (status != DownloadStatus.failed &&
+      status != DownloadStatus.cancelled &&
+      !(status == DownloadStatus.succeeded && !fileAvailable)) {
+    return null;
+  }
+  return sourceKind == DownloadSourceKind.remoteProvider
+      ? DownloadRecovery.retry
+      : DownloadRecovery.reimport;
+}
+
 Color downloadStatusColor(BuildContext context, String status) =>
     switch (status) {
       'succeeded' => context.appColors.success,

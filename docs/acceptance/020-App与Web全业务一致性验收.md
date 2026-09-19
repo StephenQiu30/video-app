@@ -50,3 +50,29 @@
 既有媒体插件提示未来 Swift Package Manager / Built-in Kotlin 迁移，不阻断当前构建。本次未升级或替换这些依赖。
 
 对应 Server/Web 实现提交为 `e384cf83`；本记录描述代码与本地验收结果，远端提交状态以 Git 为准，不能据此推断已部署。
+
+## 2026-09-12 CQ-001 / CQ-005 修复增量
+
+状态：代码及本地回归通过，真实 API/真机验收待完成。以上 2026-09-08 证据保持原范围，不累计成本轮通过数。
+
+- 本地三种不可恢复终态在列表/详情均不显示远程重试，提供重新导入；远程判定保持原行为。中英文 ARB 已同步，生成本地化文件通过 `flutter gen-l10n` 更新。
+- 重试 key 从 Repository 移到同 job 的挂载操作实例；不确定失败复用 key，成功后新操作换 key，并发合并，账号 generation 变化拒绝旧返回。单测使用受控 Future，不冒充服务端实际创建任务的实验。
+- 聚焦单元/Widget 19 项通过；全量 `flutter analyze` 无问题、`flutter test` 199 项通过（包含工作区已有测试）。Android debug APK、iOS simulator app 均构建通过。
+- 媒体插件 Swift Package Manager 与 Built-in Kotlin 迁移提示仍存在；未为清除提示擅自升级依赖。
+- 未安装到手机、未进行真实平台/MinIO 保存播放或换机测试。代码按当前指令留在 App 工作区，未提交/推送；任务开始前的四个 Dart 修改和一个测试原样保留。
+
+## 035 策略与运行诊断增量
+
+2026-09-13 真机交付仍未验收：Release 包已签名安装至 iPhone 16，信任后启动成功；手机报告登录“无法连接服务”，未观察到对应后端登录请求。Mac Wi-Fi 的单项目域名代理例外不构成手机修复。新增 `integration_test/service_connectivity_test.dart` 用于目标手机无凭据诊断，测试结果、恢复 Release 及真实登录待记录。
+
+真机诊断：原 5 秒预算下 readiness 与生成登录客户端均 connectionTimeout（无 HTTP 响应）。独立 TLS 探测中 8111 端口约 3045ms、443 端口约 62572ms，说明链路明显波动，不能声称固定端口始终不可达；该 TLS 探测不是 HTTP 验收。30 秒连接预算对照测试在同一 iPhone 16 返回 readiness 200（2408ms）和空凭据登录 422（1356ms），两项通过。未触碰 Keychain 或发送用户凭据，422 不是登录成功。
+
+最终共享配置已统一为 30 秒，响应预算保持 185 秒。配置单测先红后绿；全量 analyze 无问题，单元/Widget 209 项通过，改动 Dart 格式及 diff 检查通过。目标 iPhone 16 再次使用最终配置执行两项连通集成：readiness 200（2682ms）、原生登录空凭据 422（2785ms），均通过，后端也记录登录请求 422。此结论不包含真实用户认证、Keychain 写入、下载保存和长时间稳定性；正常 Release 恢复安装另行记录。
+
+14:05 正常 `lib/main.dart` Release 包（49.1MB）构建、codesign 深度校验及 `devicectl install app` 通过，包内正式 HTTPS 8111 地址确认，未包含测试日志字符串。覆盖安装 `com.stephenqiu.framegrab` 0.1.0(1)，未卸载应用或清空安全存储。启动被设备锁屏拒绝（Locked），需用户解锁；尚不能确认新版正常界面、真实账号登录或文件保存通过。本轮未提交/推送，保留其他既有工作区改动。
+
+2026-09-12：冻结客户端 48 个路径/56 个操作，由候选服务 OpenAPI 生成；新增解析策略与只读管理诊断。初版 App analyze 无问题、201 项通过，包含策略幂等键、诊断按需读取/加载禁用/错误重试/空状态。来源匹配只是 UI 提示，服务端仍执行准入。
+
+持久冷却增量：同一 OpenAPI 增加可空 route_retry_at，双端提示最早重试时间及到期仍需验证。App 新增服务器 hosts/伪域名、禁用策略和冷却文本 Widget 回归；最终 analyze 无问题，全量 202 项通过。2026-09-12 23:36–23:37 Android debug APK 与 iOS simulator app 重新构建通过，媒体插件 KGP/SPM 警告保留。2026-09-13 设备检查发现 iPhone 16 unavailable；没有安装到真实手机、未完成真实平台/MinIO 保存播放或新电脑恢复。所有本轮改动继续留在 App 工作区，未提交/推送，保留用户原有修改。
+
+2026-09-13 再用显式 VIDEO_SERVER_BASE_URL 指向本机 tailnet 的候选 HTTPS API 8445，Android debug APK 与 `flutter build ios --debug --no-codesign` 设备版构建通过。iOS 设备包未签名，不是可直接安装的正式包；不再把默认 127.0.0.1 构建用于手机验证。候选 API 健康，但原业务 Worker 未整组切换，所以没有通过候选包创建真实下载来宣称新版完整链路。待连接并解锁手机、完成签名及正式后端验收后再安装。

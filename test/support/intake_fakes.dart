@@ -16,6 +16,7 @@ final class FakeDownloadIntakeRepository implements DownloadIntakeRepository {
   Object? error;
   InspectionResponse inspection;
   final List<String> publicUrls = [];
+  final List<ProviderAccessPolicy?> accessPolicies = [];
   final List<String> discoveryUrls = [];
   final List<String> selectedItems = [];
   final List<String> createdFormats = [];
@@ -60,9 +61,11 @@ final class FakeDownloadIntakeRepository implements DownloadIntakeRepository {
   Future<InspectionResponse> inspectPublicUrl({
     required String idempotencyKey,
     required String url,
+    ProviderAccessPolicy? accessPolicy,
   }) async {
     idempotencyKeys.add(idempotencyKey);
     publicUrls.add(url);
+    accessPolicies.add(accessPolicy);
     if (error case final failure?) throw failure;
     return inspection;
   }

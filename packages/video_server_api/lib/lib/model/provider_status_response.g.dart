@@ -35,6 +35,18 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
   final DateTime? lastVerifiedAt;
   @override
   final String? userAction;
+  @override
+  final BuiltList<ProviderAccessPolicyResponse> accessPolicies;
+  @override
+  final ProviderAccessPolicy? defaultAccessPolicyId;
+  @override
+  final ProviderEvidenceState evidenceState;
+  @override
+  final BuiltList<String> hosts;
+  @override
+  final BuiltList<String> hostSuffixes;
+  @override
+  final DateTime? routeRetryAt;
 
   factory _$ProviderStatusResponse(
           [void Function(ProviderStatusResponseBuilder)? updates]) =>
@@ -54,7 +66,13 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
       required this.downloadAvailable,
       this.lastMediaVerifiedAt,
       this.lastVerifiedAt,
-      this.userAction})
+      this.userAction,
+      required this.accessPolicies,
+      this.defaultAccessPolicyId,
+      required this.evidenceState,
+      required this.hosts,
+      required this.hostSuffixes,
+      this.routeRetryAt})
       : super._();
   @override
   ProviderStatusResponse rebuild(
@@ -82,7 +100,13 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
         downloadAvailable == other.downloadAvailable &&
         lastMediaVerifiedAt == other.lastMediaVerifiedAt &&
         lastVerifiedAt == other.lastVerifiedAt &&
-        userAction == other.userAction;
+        userAction == other.userAction &&
+        accessPolicies == other.accessPolicies &&
+        defaultAccessPolicyId == other.defaultAccessPolicyId &&
+        evidenceState == other.evidenceState &&
+        hosts == other.hosts &&
+        hostSuffixes == other.hostSuffixes &&
+        routeRetryAt == other.routeRetryAt;
   }
 
   @override
@@ -102,6 +126,12 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
     _$hash = $jc(_$hash, lastMediaVerifiedAt.hashCode);
     _$hash = $jc(_$hash, lastVerifiedAt.hashCode);
     _$hash = $jc(_$hash, userAction.hashCode);
+    _$hash = $jc(_$hash, accessPolicies.hashCode);
+    _$hash = $jc(_$hash, defaultAccessPolicyId.hashCode);
+    _$hash = $jc(_$hash, evidenceState.hashCode);
+    _$hash = $jc(_$hash, hosts.hashCode);
+    _$hash = $jc(_$hash, hostSuffixes.hashCode);
+    _$hash = $jc(_$hash, routeRetryAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -122,7 +152,13 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
           ..add('downloadAvailable', downloadAvailable)
           ..add('lastMediaVerifiedAt', lastMediaVerifiedAt)
           ..add('lastVerifiedAt', lastVerifiedAt)
-          ..add('userAction', userAction))
+          ..add('userAction', userAction)
+          ..add('accessPolicies', accessPolicies)
+          ..add('defaultAccessPolicyId', defaultAccessPolicyId)
+          ..add('evidenceState', evidenceState)
+          ..add('hosts', hosts)
+          ..add('hostSuffixes', hostSuffixes)
+          ..add('routeRetryAt', routeRetryAt))
         .toString();
   }
 }
@@ -198,6 +234,39 @@ class ProviderStatusResponseBuilder
   String? get userAction => _$this._userAction;
   set userAction(String? userAction) => _$this._userAction = userAction;
 
+  ListBuilder<ProviderAccessPolicyResponse>? _accessPolicies;
+  ListBuilder<ProviderAccessPolicyResponse> get accessPolicies =>
+      _$this._accessPolicies ??= ListBuilder<ProviderAccessPolicyResponse>();
+  set accessPolicies(
+          ListBuilder<ProviderAccessPolicyResponse>? accessPolicies) =>
+      _$this._accessPolicies = accessPolicies;
+
+  ProviderAccessPolicy? _defaultAccessPolicyId;
+  ProviderAccessPolicy? get defaultAccessPolicyId =>
+      _$this._defaultAccessPolicyId;
+  set defaultAccessPolicyId(ProviderAccessPolicy? defaultAccessPolicyId) =>
+      _$this._defaultAccessPolicyId = defaultAccessPolicyId;
+
+  ProviderEvidenceState? _evidenceState;
+  ProviderEvidenceState? get evidenceState => _$this._evidenceState;
+  set evidenceState(ProviderEvidenceState? evidenceState) =>
+      _$this._evidenceState = evidenceState;
+
+  ListBuilder<String>? _hosts;
+  ListBuilder<String> get hosts => _$this._hosts ??= ListBuilder<String>();
+  set hosts(ListBuilder<String>? hosts) => _$this._hosts = hosts;
+
+  ListBuilder<String>? _hostSuffixes;
+  ListBuilder<String> get hostSuffixes =>
+      _$this._hostSuffixes ??= ListBuilder<String>();
+  set hostSuffixes(ListBuilder<String>? hostSuffixes) =>
+      _$this._hostSuffixes = hostSuffixes;
+
+  DateTime? _routeRetryAt;
+  DateTime? get routeRetryAt => _$this._routeRetryAt;
+  set routeRetryAt(DateTime? routeRetryAt) =>
+      _$this._routeRetryAt = routeRetryAt;
+
   ProviderStatusResponseBuilder() {
     ProviderStatusResponse._defaults(this);
   }
@@ -219,6 +288,12 @@ class ProviderStatusResponseBuilder
       _lastMediaVerifiedAt = $v.lastMediaVerifiedAt;
       _lastVerifiedAt = $v.lastVerifiedAt;
       _userAction = $v.userAction;
+      _accessPolicies = $v.accessPolicies.toBuilder();
+      _defaultAccessPolicyId = $v.defaultAccessPolicyId;
+      _evidenceState = $v.evidenceState;
+      _hosts = $v.hosts.toBuilder();
+      _hostSuffixes = $v.hostSuffixes.toBuilder();
+      _routeRetryAt = $v.routeRetryAt;
       _$v = null;
     }
     return this;
@@ -267,6 +342,13 @@ class ProviderStatusResponseBuilder
             lastMediaVerifiedAt: lastMediaVerifiedAt,
             lastVerifiedAt: lastVerifiedAt,
             userAction: userAction,
+            accessPolicies: accessPolicies.build(),
+            defaultAccessPolicyId: defaultAccessPolicyId,
+            evidenceState: BuiltValueNullFieldError.checkNotNull(
+                evidenceState, r'ProviderStatusResponse', 'evidenceState'),
+            hosts: hosts.build(),
+            hostSuffixes: hostSuffixes.build(),
+            routeRetryAt: routeRetryAt,
           );
     } catch (_) {
       late String _$failedField;
@@ -275,6 +357,14 @@ class ProviderStatusResponseBuilder
         capabilities.build();
         _$failedField = 'accessModes';
         accessModes.build();
+
+        _$failedField = 'accessPolicies';
+        accessPolicies.build();
+
+        _$failedField = 'hosts';
+        hosts.build();
+        _$failedField = 'hostSuffixes';
+        hostSuffixes.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ProviderStatusResponse', _$failedField, e.toString());

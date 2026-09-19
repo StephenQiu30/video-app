@@ -1544,6 +1544,12 @@ abstract class AppLocalizations {
   /// **'选择视频文件'**
   String get selectVideoFile;
 
+  /// No description provided for @reimportDownloadAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'返回首页重新导入'**
+  String get reimportDownloadAction;
+
   /// No description provided for @screenplayIntakeTitle.
   ///
   /// In zh, this message translates to:
@@ -1801,6 +1807,102 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'该平台当前需要服务端授权会话，暂时无法解析此内容。'**
   String get providerSessionError;
+
+  /// No description provided for @accessPolicyLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'访问策略'**
+  String get accessPolicyLabel;
+
+  /// No description provided for @routeCooldownUntil.
+  ///
+  /// In zh, this message translates to:
+  /// **'默认线路最早重试时间：{time}；到期仍需验证恢复。'**
+  String routeCooldownUntil(String time);
+
+  /// No description provided for @providerRuntimeTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'读取运行诊断'**
+  String get providerRuntimeTitle;
+
+  /// No description provided for @providerRuntimeDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'仅展示已开放平台的默认线路；快照最多缓存 30 秒。配置和上下文可达不代表真实下载通过。'**
+  String get providerRuntimeDescription;
+
+  /// No description provided for @providerRouteConfigured.
+  ///
+  /// In zh, this message translates to:
+  /// **'线路已配置'**
+  String get providerRouteConfigured;
+
+  /// No description provided for @providerContextObserved.
+  ///
+  /// In zh, this message translates to:
+  /// **'上下文可达；来源和内容授权仍需验证'**
+  String get providerContextObserved;
+
+  /// No description provided for @providerContextMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'上下文不可达或尚未确认'**
+  String get providerContextMissing;
+
+  /// No description provided for @providerRuntimeEngine.
+  ///
+  /// In zh, this message translates to:
+  /// **'引擎'**
+  String get providerRuntimeEngine;
+
+  /// No description provided for @accessPolicyPublic.
+  ///
+  /// In zh, this message translates to:
+  /// **'公开无会话'**
+  String get accessPolicyPublic;
+
+  /// No description provided for @accessPolicyOperator.
+  ///
+  /// In zh, this message translates to:
+  /// **'部署者公开会话'**
+  String get accessPolicyOperator;
+
+  /// No description provided for @accessPolicyPersonal.
+  ///
+  /// In zh, this message translates to:
+  /// **'个人授权会话'**
+  String get accessPolicyPersonal;
+
+  /// No description provided for @accessPolicyUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'未配置或未开放'**
+  String get accessPolicyUnavailable;
+
+  /// No description provided for @accessPolicyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'仅处理有权获取的非 DRM 内容；切换策略后需重新解析，不会自动切换会话。'**
+  String get accessPolicyDescription;
+
+  /// No description provided for @accessPolicyEvidenceMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前默认线路尚无新鲜验证证据。'**
+  String get accessPolicyEvidenceMissing;
+
+  /// No description provided for @providerConfigurationMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'所选访问策略尚未配置。请部署者配置持久来源，或显式选择公开线路重新解析。'**
+  String get providerConfigurationMissing;
+
+  /// No description provided for @providerPolicyNotAllowed.
+  ///
+  /// In zh, this message translates to:
+  /// **'此来源不允许所选访问策略，请更换策略后重新解析。'**
+  String get providerPolicyNotAllowed;
 
   /// No description provided for @providerRegionError.
   ///

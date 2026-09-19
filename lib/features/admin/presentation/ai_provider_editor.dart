@@ -4,6 +4,7 @@ import 'package:framegrab/features/admin/application/admin_providers.dart';
 import 'package:framegrab/features/admin/data/admin_configuration_repository.dart';
 import 'package:framegrab/features/admin/presentation/admin_edit_sheet.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 Future<void> editAiProvider(
@@ -128,53 +129,47 @@ final class _AiEditorState extends ConsumerState<_AiEditor> {
           decoration: InputDecoration(labelText: l.displayName),
           validator: required,
         ),
-        DropdownButtonFormField<AiProviderEngine>(
-          isExpanded: true,
-          initialValue: _engine,
-          decoration: InputDecoration(labelText: l.engineLabel),
-          items: [
+        AppDropdownField<AiProviderEngine>(
+          value: _engine,
+          label: l.engineLabel,
+          enabled: !_local,
+          options: [
             for (final e in AiProviderEngine.values.where(
               (v) => v != AiProviderEngine.unknownDefaultOpenApi,
             ))
-              DropdownMenuItem(value: e, child: Text(e.name)),
+              AppDropdownOption(value: e, label: e.name),
           ],
-          onChanged: _local
-              ? null
-              : (v) {
-                  if (v != null) _changeEngine(v);
-                },
+          onSelected: (v) {
+            if (v != null) _changeEngine(v);
+          },
         ),
-        DropdownButtonFormField<AiProviderAuthMode>(
-          isExpanded: true,
+        AppDropdownField<AiProviderAuthMode>(
           key: ValueKey(_engine),
-          initialValue: _auth,
-          decoration: InputDecoration(labelText: l.authModeLabel),
-          items: [
+          value: _auth,
+          label: l.authModeLabel,
+          enabled: !_local,
+          options: [
             for (final a in AiProviderAuthMode.values.where(
               (v) => v != AiProviderAuthMode.unknownDefaultOpenApi,
             ))
               if (_engine != AiProviderEngine.deepseek ||
                   a == AiProviderAuthMode.apiKey)
-                DropdownMenuItem(
+                AppDropdownOption(
                   value: a,
-                  child: Text(
-                    a == AiProviderAuthMode.hostLogin
-                        ? l.hostLoginLabel
-                        : 'API Key',
-                  ),
+                  label: a == AiProviderAuthMode.hostLogin
+                      ? l.hostLoginLabel
+                      : 'API Key',
                 ),
           ],
-          onChanged: _local
-              ? null
-              : (v) {
-                  if (v != null) {
-                    setState(() {
-                      _auth = v;
-                      _url.clear();
-                      _secret.clear();
-                    });
-                  }
-                },
+          onSelected: (v) {
+            if (v != null) {
+              setState(() {
+                _auth = v;
+                _url.clear();
+                _secret.clear();
+              });
+            }
+          },
         ),
         TextFormField(
           controller: _model,

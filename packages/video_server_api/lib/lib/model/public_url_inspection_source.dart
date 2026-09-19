@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element, unused_element_parameter
 import 'package:built_collection/built_collection.dart';
+import 'package:video_server_api/lib/model/provider_access_policy.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,6 +15,7 @@ part 'public_url_inspection_source.g.dart';
 /// Properties:
 /// * [kind]
 /// * [url] - 用户有权处理的公开、非 DRM HTTP(S) 媒体地址。
+/// * [accessPolicyId] - 显式选择平台允许的访问策略；省略时使用平台固定默认策略，不按端点存在性切换。
 @BuiltValue()
 abstract class PublicUrlInspectionSource
     implements
@@ -25,6 +27,11 @@ abstract class PublicUrlInspectionSource
   /// 用户有权处理的公开、非 DRM HTTP(S) 媒体地址。
   @BuiltValueField(wireName: r'url')
   String get url;
+
+  /// 显式选择平台允许的访问策略；省略时使用平台固定默认策略，不按端点存在性切换。
+  @BuiltValueField(wireName: r'access_policy_id')
+  ProviderAccessPolicy? get accessPolicyId;
+  // enum accessPolicyIdEnum {  public,  public_session,  operator_public,  personal_entitled,  };
 
   PublicUrlInspectionSource._();
 
@@ -66,6 +73,13 @@ class _$PublicUrlInspectionSourceSerializer
       object.url,
       specifiedType: const FullType(String),
     );
+    if (object.accessPolicyId != null) {
+      yield r'access_policy_id';
+      yield serializers.serialize(
+        object.accessPolicyId,
+        specifiedType: const FullType.nullable(ProviderAccessPolicy),
+      );
+    }
   }
 
   @override
@@ -104,6 +118,14 @@ class _$PublicUrlInspectionSourceSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.url = valueDes;
+          break;
+        case r'access_policy_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(ProviderAccessPolicy),
+          ) as ProviderAccessPolicy?;
+          if (valueDes == null) continue;
+          result.accessPolicyId = valueDes;
           break;
         default:
           unhandled.add(key);

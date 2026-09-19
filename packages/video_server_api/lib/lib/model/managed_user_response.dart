@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element, unused_element_parameter
+import 'package:video_server_api/lib/model/user_quota_settings.dart';
 import 'package:video_server_api/lib/model/user_role.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -19,6 +20,7 @@ part 'managed_user_response.g.dart';
 /// * [isActive]
 /// * [createdAt]
 /// * [updatedAt]
+/// * [quota]
 @BuiltValue()
 abstract class ManagedUserResponse
     implements Built<ManagedUserResponse, ManagedUserResponseBuilder> {
@@ -43,6 +45,9 @@ abstract class ManagedUserResponse
 
   @BuiltValueField(wireName: r'updated_at')
   DateTime get updatedAt;
+
+  @BuiltValueField(wireName: r'quota')
+  UserQuotaSettings get quota;
 
   ManagedUserResponse._();
 
@@ -107,6 +112,11 @@ class _$ManagedUserResponseSerializer
     yield serializers.serialize(
       object.updatedAt,
       specifiedType: const FullType(DateTime),
+    );
+    yield r'quota';
+    yield serializers.serialize(
+      object.quota,
+      specifiedType: const FullType(UserQuotaSettings),
     );
   }
 
@@ -181,6 +191,13 @@ class _$ManagedUserResponseSerializer
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.updatedAt = valueDes;
+          break;
+        case r'quota':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(UserQuotaSettings),
+          ) as UserQuotaSettings;
+          result.quota.replace(valueDes);
           break;
         default:
           unhandled.add(key);

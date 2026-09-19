@@ -90,10 +90,16 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(ProductionAdviceResponse.serializer)
       ..add(ProtectionState.serializer)
       ..add(ProviderAccessMode.serializer)
+      ..add(ProviderAccessPolicy.serializer)
+      ..add(ProviderAccessPolicyResponse.serializer)
       ..add(ProviderCapability.serializer)
       ..add(ProviderCatalogEntryResponse.serializer)
       ..add(ProviderCatalogListResponse.serializer)
+      ..add(ProviderEvidenceState.serializer)
       ..add(ProviderListResponse.serializer)
+      ..add(ProviderRuntimeListResponse.serializer)
+      ..add(ProviderRuntimeResponse.serializer)
+      ..add(ProviderRuntimeResponseSourceStateEnum.serializer)
       ..add(ProviderStatusResponse.serializer)
       ..add(ProviderSupportStatus.serializer)
       ..add(PublicUrlInspectionSource.serializer)
@@ -128,6 +134,7 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(UpdateProviderCatalogEntryRequest.serializer)
       ..add(UpdateUserAccessRequest.serializer)
       ..add(UploadPartResponse.serializer)
+      ..add(UserQuotaSettings.serializer)
       ..add(UserResponse.serializer)
       ..add(UserRole.serializer)
       ..add(VideoAnalysisResultResponse.serializer)
@@ -188,8 +195,22 @@ Serializers _$serializers = (Serializers().toBuilder()
           () => ListBuilder<ProviderAccessMode>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(ProviderAccessPolicyResponse)]),
+          () => ListBuilder<ProviderAccessPolicyResponse>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(ProviderCatalogEntryResponse)]),
           () => ListBuilder<ProviderCatalogEntryResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ProviderRuntimeResponse)]),
+          () => ListBuilder<ProviderRuntimeResponse>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ProviderStatusResponse)]),

@@ -26,16 +26,15 @@ final class AdminUsersScreen extends ConsumerWidget {
       refreshLabel: l10n.refreshAction,
       onRefresh: () => ref.refresh(adminUsersProvider.future).then((_) {}),
       children: [
-        DropdownButtonFormField<String>(
-          isExpanded: true,
-          initialValue: ref.watch(userRoleFilterProvider)?.name ?? '',
-          decoration: InputDecoration(labelText: l10n.adminRoleLabel),
-          items: [
-            DropdownMenuItem(value: '', child: Text(l10n.allRoles)),
-            DropdownMenuItem(value: 'user', child: Text(l10n.adminRoleUser)),
-            DropdownMenuItem(value: 'admin', child: Text(l10n.adminRoleAdmin)),
+        AppDropdownField<String>(
+          value: ref.watch(userRoleFilterProvider)?.name ?? '',
+          label: l10n.adminRoleLabel,
+          options: [
+            AppDropdownOption(value: '', label: l10n.allRoles),
+            AppDropdownOption(value: 'user', label: l10n.adminRoleUser),
+            AppDropdownOption(value: 'admin', label: l10n.adminRoleAdmin),
           ],
-          onChanged: (v) => ref
+          onSelected: (v) => ref
               .read(userRoleFilterProvider.notifier)
               .select(v == null || v.isEmpty ? null : UserRole.valueOf(v)),
         ),

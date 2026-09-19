@@ -22,5 +22,11 @@ Name | Type | Description | Notes
 **lastMediaVerifiedAt** | [**DateTime**](DateTime.md) |  |
 **lastVerifiedAt** | [**DateTime**](DateTime.md) |  |
 **userAction** | **String** |  |
+**accessPolicies** | [**BuiltList&lt;ProviderAccessPolicyResponse&gt;**](ProviderAccessPolicyResponse.md) |  |
+**defaultAccessPolicyId** | [**ProviderAccessPolicy**](ProviderAccessPolicy.md) |  |
+**evidenceState** | [**ProviderEvidenceState**](ProviderEvidenceState.md) |  |
+**hosts** | **BuiltList&lt;String&gt;** |  |
+**hostSuffixes** | **BuiltList&lt;String&gt;** |  |
+**routeRetryAt** | [**DateTime**](DateTime.md) |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

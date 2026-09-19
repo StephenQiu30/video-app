@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 
 final class ListFilters extends StatefulWidget {
@@ -47,16 +48,15 @@ final class _ListFiltersState extends State<ListFilters> {
           ),
         ),
         const SizedBox(height: 12),
-        DropdownButtonFormField<String>(
-          isExpanded: true,
-          initialValue: widget.query.status ?? '',
-          decoration: InputDecoration(labelText: l.statusLabel),
-          items: [
-            DropdownMenuItem(value: '', child: Text(l.allStatuses)),
+        AppDropdownField<String>(
+          value: widget.query.status ?? '',
+          label: l.statusLabel,
+          options: [
+            AppDropdownOption(value: '', label: l.allStatuses),
             for (final entry in widget.statuses.entries)
-              DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+              AppDropdownOption(value: entry.key, label: entry.value),
           ],
-          onChanged: (value) => widget.onStatus(value == '' ? null : value),
+          onSelected: (value) => widget.onStatus(value == '' ? null : value),
         ),
         const SizedBox(height: 20),
       ],

@@ -9,6 +9,10 @@ String intakeFailureMessage(AppLocalizations localizations, Object error) {
     'inspection_timeout' => localizations.inspectionTimeoutError,
     'provider_auth_required' ||
     'provider_session_expired' => localizations.providerSessionError,
+    'provider_configuration_missing' =>
+      localizations.providerConfigurationMissing,
+    'provider_access_policy_not_allowed' =>
+      localizations.providerPolicyNotAllowed,
     'provider_geo_restricted' => localizations.providerRegionError,
     'provider_content_restricted' => localizations.providerRestrictedError,
     'provider_drm_protected' => localizations.providerDrmError,

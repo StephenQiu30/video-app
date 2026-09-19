@@ -95,10 +95,15 @@ import 'package:video_server_api/lib/model/problem_details.dart';
 import 'package:video_server_api/lib/model/production_advice_response.dart';
 import 'package:video_server_api/lib/model/protection_state.dart';
 import 'package:video_server_api/lib/model/provider_access_mode.dart';
+import 'package:video_server_api/lib/model/provider_access_policy.dart';
+import 'package:video_server_api/lib/model/provider_access_policy_response.dart';
 import 'package:video_server_api/lib/model/provider_capability.dart';
 import 'package:video_server_api/lib/model/provider_catalog_entry_response.dart';
 import 'package:video_server_api/lib/model/provider_catalog_list_response.dart';
+import 'package:video_server_api/lib/model/provider_evidence_state.dart';
 import 'package:video_server_api/lib/model/provider_list_response.dart';
+import 'package:video_server_api/lib/model/provider_runtime_list_response.dart';
+import 'package:video_server_api/lib/model/provider_runtime_response.dart';
 import 'package:video_server_api/lib/model/provider_status_response.dart';
 import 'package:video_server_api/lib/model/provider_support_status.dart';
 import 'package:video_server_api/lib/model/public_url_inspection_source.dart';
@@ -129,6 +134,7 @@ import 'package:video_server_api/lib/model/update_profile_request.dart';
 import 'package:video_server_api/lib/model/update_provider_catalog_entry_request.dart';
 import 'package:video_server_api/lib/model/update_user_access_request.dart';
 import 'package:video_server_api/lib/model/upload_part_response.dart';
+import 'package:video_server_api/lib/model/user_quota_settings.dart';
 import 'package:video_server_api/lib/model/user_response.dart';
 import 'package:video_server_api/lib/model/user_role.dart';
 import 'package:video_server_api/lib/model/video_analysis_result_response.dart';
@@ -223,10 +229,15 @@ part 'serializers.g.dart';
   ProductionAdviceResponse,
   ProtectionState,
   ProviderAccessMode,
+  ProviderAccessPolicy,
+  ProviderAccessPolicyResponse,
   ProviderCapability,
   ProviderCatalogEntryResponse,
   ProviderCatalogListResponse,
+  ProviderEvidenceState,
   ProviderListResponse,
+  ProviderRuntimeListResponse,
+  ProviderRuntimeResponse,
   ProviderStatusResponse,
   ProviderSupportStatus,
   PublicUrlInspectionSource,
@@ -257,6 +268,7 @@ part 'serializers.g.dart';
   UpdateProviderCatalogEntryRequest,
   UpdateUserAccessRequest,
   UploadPartResponse,
+  UserQuotaSettings,
   UserResponse,
   UserRole,
   VideoAnalysisResultResponse,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -74,7 +75,7 @@ final class DownloadIntakeController extends Notifier<DownloadIntakeState> {
     state = state.copyWith(selectedFormatId: id, clearError: true);
   }
 
-  Future<void> inspect(String url) async {
+  Future<void> inspect(String url, {ProviderAccessPolicy? accessPolicy}) async {
     if (state.busy) return;
     state = const DownloadIntakeState(phase: DownloadIntakePhase.inspecting);
     try {
@@ -87,8 +88,12 @@ final class DownloadIntakeController extends Notifier<DownloadIntakeState> {
       } else {
         _applyInspection(
           await _repository.inspectPublicUrl(
-            idempotencyKey: _keys.value('inspect', url),
+            idempotencyKey: _keys.value(
+              'inspect',
+              jsonEncode([url, accessPolicy?.name]),
+            ),
             url: url,
+            accessPolicy: accessPolicy,
           ),
         );
       }

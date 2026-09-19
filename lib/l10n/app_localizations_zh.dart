@@ -739,6 +739,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectVideoFile => '选择视频文件';
 
   @override
+  String get reimportDownloadAction => '返回首页重新导入';
+
+  @override
   String get screenplayIntakeTitle => '导入剧本文档';
 
   @override
@@ -872,6 +875,58 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get providerSessionError => '该平台当前需要服务端授权会话，暂时无法解析此内容。';
+
+  @override
+  String get accessPolicyLabel => '访问策略';
+
+  @override
+  String routeCooldownUntil(String time) {
+    return '默认线路最早重试时间：$time；到期仍需验证恢复。';
+  }
+
+  @override
+  String get providerRuntimeTitle => '读取运行诊断';
+
+  @override
+  String get providerRuntimeDescription =>
+      '仅展示已开放平台的默认线路；快照最多缓存 30 秒。配置和上下文可达不代表真实下载通过。';
+
+  @override
+  String get providerRouteConfigured => '线路已配置';
+
+  @override
+  String get providerContextObserved => '上下文可达；来源和内容授权仍需验证';
+
+  @override
+  String get providerContextMissing => '上下文不可达或尚未确认';
+
+  @override
+  String get providerRuntimeEngine => '引擎';
+
+  @override
+  String get accessPolicyPublic => '公开无会话';
+
+  @override
+  String get accessPolicyOperator => '部署者公开会话';
+
+  @override
+  String get accessPolicyPersonal => '个人授权会话';
+
+  @override
+  String get accessPolicyUnavailable => '未配置或未开放';
+
+  @override
+  String get accessPolicyDescription => '仅处理有权获取的非 DRM 内容；切换策略后需重新解析，不会自动切换会话。';
+
+  @override
+  String get accessPolicyEvidenceMissing => '当前默认线路尚无新鲜验证证据。';
+
+  @override
+  String get providerConfigurationMissing =>
+      '所选访问策略尚未配置。请部署者配置持久来源，或显式选择公开线路重新解析。';
+
+  @override
+  String get providerPolicyNotAllowed => '此来源不允许所选访问策略，请更换策略后重新解析。';
 
   @override
   String get providerRegionError => '该媒体在当前服务区域不可用。';

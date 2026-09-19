@@ -7,6 +7,9 @@ import 'package:video_server_api/lib/model/provider_capability.dart';
 import 'package:video_server_api/lib/model/provider_support_status.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:video_server_api/lib/model/provider_access_mode.dart';
+import 'package:video_server_api/lib/model/provider_access_policy.dart';
+import 'package:video_server_api/lib/model/provider_access_policy_response.dart';
+import 'package:video_server_api/lib/model/provider_evidence_state.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -29,6 +32,12 @@ part 'provider_status_response.g.dart';
 /// * [lastMediaVerifiedAt]
 /// * [lastVerifiedAt]
 /// * [userAction]
+/// * [accessPolicies]
+/// * [defaultAccessPolicyId]
+/// * [evidenceState]
+/// * [hosts]
+/// * [hostSuffixes]
+/// * [routeRetryAt]
 @BuiltValue()
 abstract class ProviderStatusResponse
     implements Built<ProviderStatusResponse, ProviderStatusResponseBuilder> {
@@ -74,6 +83,26 @@ abstract class ProviderStatusResponse
 
   @BuiltValueField(wireName: r'user_action')
   String? get userAction;
+
+  @BuiltValueField(wireName: r'access_policies')
+  BuiltList<ProviderAccessPolicyResponse> get accessPolicies;
+
+  @BuiltValueField(wireName: r'default_access_policy_id')
+  ProviderAccessPolicy? get defaultAccessPolicyId;
+  // enum defaultAccessPolicyIdEnum {  public,  public_session,  operator_public,  personal_entitled,  };
+
+  @BuiltValueField(wireName: r'evidence_state')
+  ProviderEvidenceState get evidenceState;
+  // enum evidenceStateEnum {  missing,  stale,  fresh,  };
+
+  @BuiltValueField(wireName: r'hosts')
+  BuiltList<String> get hosts;
+
+  @BuiltValueField(wireName: r'host_suffixes')
+  BuiltList<String> get hostSuffixes;
+
+  @BuiltValueField(wireName: r'route_retry_at')
+  DateTime? get routeRetryAt;
 
   ProviderStatusResponse._();
 
@@ -185,6 +214,41 @@ class _$ProviderStatusResponseSerializer
             object.userAction,
             specifiedType: const FullType.nullable(String),
           );
+    yield r'access_policies';
+    yield serializers.serialize(
+      object.accessPolicies,
+      specifiedType:
+          const FullType(BuiltList, [FullType(ProviderAccessPolicyResponse)]),
+    );
+    yield r'default_access_policy_id';
+    yield object.defaultAccessPolicyId == null
+        ? null
+        : serializers.serialize(
+            object.defaultAccessPolicyId,
+            specifiedType: const FullType.nullable(ProviderAccessPolicy),
+          );
+    yield r'evidence_state';
+    yield serializers.serialize(
+      object.evidenceState,
+      specifiedType: const FullType(ProviderEvidenceState),
+    );
+    yield r'hosts';
+    yield serializers.serialize(
+      object.hosts,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
+    yield r'host_suffixes';
+    yield serializers.serialize(
+      object.hostSuffixes,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
+    if (object.routeRetryAt != null) {
+      yield r'route_retry_at';
+      yield serializers.serialize(
+        object.routeRetryAt,
+        specifiedType: const FullType.nullable(DateTime),
+      );
+    }
   }
 
   @override
@@ -314,6 +378,51 @@ class _$ProviderStatusResponseSerializer
           ) as String?;
           if (valueDes == null) continue;
           result.userAction = valueDes;
+          break;
+        case r'access_policies':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(
+                BuiltList, [FullType(ProviderAccessPolicyResponse)]),
+          ) as BuiltList<ProviderAccessPolicyResponse>;
+          result.accessPolicies.replace(valueDes);
+          break;
+        case r'default_access_policy_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(ProviderAccessPolicy),
+          ) as ProviderAccessPolicy?;
+          if (valueDes == null) continue;
+          result.defaultAccessPolicyId = valueDes;
+          break;
+        case r'evidence_state':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ProviderEvidenceState),
+          ) as ProviderEvidenceState;
+          result.evidenceState = valueDes;
+          break;
+        case r'hosts':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.hosts.replace(valueDes);
+          break;
+        case r'host_suffixes':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.hostSuffixes.replace(valueDes);
+          break;
+        case r'route_retry_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(DateTime),
+          ) as DateTime?;
+          if (valueDes == null) continue;
+          result.routeRetryAt = valueDes;
           break;
         default:
           unhandled.add(key);

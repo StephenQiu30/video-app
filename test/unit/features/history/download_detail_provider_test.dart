@@ -85,5 +85,8 @@ final class _SequencedDownloadHistoryRepository
   }) => throw UnimplementedError();
 
   @override
-  Future<DownloadResponse> retry(String jobId) => throw UnimplementedError();
+  Future<DownloadResponse> retry(
+    String jobId, {
+    required String idempotencyKey,
+  }) => throw UnimplementedError();
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 final class AppDropdownOption<T> {
-  const AppDropdownOption({required this.label, required this.value});
+  const AppDropdownOption({
+    required this.label,
+    required this.value,
+    this.enabled = true,
+  });
 
   final String label;
   final T value;
+  final bool enabled;
 }
 
 final class AppDropdownField<T> extends StatelessWidget {
@@ -33,9 +38,14 @@ final class AppDropdownField<T> extends StatelessWidget {
       menuHeight: 304,
       onSelected: onSelected,
       requestFocusOnTap: false,
+      selectOnly: true,
       dropdownMenuEntries: [
         for (final option in options)
-          DropdownMenuEntry<T>(value: option.value, label: option.label),
+          DropdownMenuEntry<T>(
+            value: option.value,
+            label: option.label,
+            enabled: option.enabled,
+          ),
       ],
     );
   }

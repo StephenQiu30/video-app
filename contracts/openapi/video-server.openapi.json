@@ -7731,6 +7731,134 @@
         }
       }
     },
+    "/api/admin/provider-runtime": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "读取已开放平台的脱敏运行诊断",
+        "description": "仅元数据快照，不登录、不导出会话、不解析或下载媒体。",
+        "operationId": "getAdminProviderRuntime",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderRuntimeListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未登录或会话已经失效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "当前用户没有操作权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "资源不存在、已清理或临时解析状态已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "资源状态或幂等键冲突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超过限制",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "请求参数或业务输入无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "上游媒体或模型服务失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "运行依赖暂时不可用",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "上游操作超时",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "NativeBearerAuth": []
+          }
+        ],
+        "parameters": []
+      }
+    },
     "/api/admin/ai-providers/{provider_key}/activate": {
       "post": {
         "tags": [
@@ -10281,6 +10409,16 @@
               }
             ],
             "title": "User Action"
+          },
+          "access_policy_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderAccessPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -10304,7 +10442,8 @@
           "protection_state",
           "rights_basis",
           "restriction_reason",
-          "user_action"
+          "user_action",
+          "access_policy_id"
         ],
         "title": "InspectionResponse",
         "description": "Inspection resource with normalized semantic download formats."
@@ -10372,6 +10511,9 @@
             "type": "string",
             "format": "date-time",
             "title": "Updated At"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/UserQuotaSettings"
           }
         },
         "type": "object",
@@ -10382,7 +10524,8 @@
           "role",
           "is_active",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "quota"
         ],
         "title": "ManagedUserResponse"
       },
@@ -10738,6 +10881,34 @@
         ],
         "title": "ProviderAccessMode"
       },
+      "ProviderAccessPolicy": {
+        "type": "string",
+        "enum": [
+          "public",
+          "public_session",
+          "operator_public",
+          "personal_entitled"
+        ],
+        "title": "ProviderAccessPolicy"
+      },
+      "ProviderAccessPolicyResponse": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ProviderAccessPolicy"
+          },
+          "configured": {
+            "type": "boolean",
+            "title": "Configured"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "configured"
+        ],
+        "title": "ProviderAccessPolicyResponse"
+      },
       "ProviderCapability": {
         "type": "string",
         "enum": [
@@ -10819,6 +10990,15 @@
         ],
         "title": "ProviderCatalogListResponse"
       },
+      "ProviderEvidenceState": {
+        "type": "string",
+        "enum": [
+          "missing",
+          "stale",
+          "fresh"
+        ],
+        "title": "ProviderEvidenceState"
+      },
       "ProviderListResponse": {
         "properties": {
           "items": {
@@ -10835,6 +11015,139 @@
           "items"
         ],
         "title": "ProviderListResponse"
+      },
+      "ProviderRuntimeListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderRuntimeResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "snapshot_max_age_seconds": {
+            "type": "integer",
+            "title": "Snapshot Max Age Seconds",
+            "default": 30
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ProviderRuntimeListResponse"
+      },
+      "ProviderRuntimeResponse": {
+        "properties": {
+          "provider_key": {
+            "type": "string",
+            "title": "Provider Key"
+          },
+          "access_policy_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderAccessPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "route_configured": {
+            "type": "boolean",
+            "title": "Route Configured"
+          },
+          "context_available": {
+            "type": "boolean",
+            "title": "Context Available"
+          },
+          "profile_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Version"
+          },
+          "engine_commit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Engine Commit"
+          },
+          "source_state": {
+            "type": "string",
+            "enum": [
+              "not_required",
+              "revision_observed",
+              "not_observed",
+              "unknown"
+            ],
+            "title": "Source State"
+          },
+          "evidence_state": {
+            "$ref": "#/components/schemas/ProviderEvidenceState"
+          },
+          "last_media_verified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Media Verified At"
+          },
+          "user_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Action"
+          },
+          "route_retry_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Retry At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "provider_key",
+          "access_policy_id",
+          "route_configured",
+          "context_available",
+          "profile_version",
+          "engine_commit",
+          "source_state",
+          "evidence_state",
+          "last_media_verified_at",
+          "user_action"
+        ],
+        "title": "ProviderRuntimeResponse"
       },
       "ProviderStatusResponse": {
         "properties": {
@@ -10936,6 +11249,52 @@
               }
             ],
             "title": "User Action"
+          },
+          "access_policies": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderAccessPolicyResponse"
+            },
+            "type": "array",
+            "title": "Access Policies"
+          },
+          "default_access_policy_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderAccessPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_state": {
+            "$ref": "#/components/schemas/ProviderEvidenceState"
+          },
+          "hosts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Hosts"
+          },
+          "host_suffixes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Host Suffixes"
+          },
+          "route_retry_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Retry At"
           }
         },
         "additionalProperties": false,
@@ -10954,7 +11313,12 @@
           "download_available",
           "last_media_verified_at",
           "last_verified_at",
-          "user_action"
+          "user_action",
+          "access_policies",
+          "default_access_policy_id",
+          "evidence_state",
+          "hosts",
+          "host_suffixes"
         ],
         "title": "ProviderStatusResponse"
       },
@@ -10988,6 +11352,17 @@
             "examples": [
               "https://media.example/video"
             ]
+          },
+          "access_policy_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderAccessPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "显式选择平台允许的访问策略；省略时使用平台固定默认策略，不按端点存在性切换。"
           }
         },
         "additionalProperties": false,
@@ -11958,6 +12333,16 @@
               }
             ],
             "title": "Is Active"
+          },
+          "quota": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserQuotaSettings"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -11982,6 +12367,78 @@
           "url"
         ],
         "title": "UploadPartResponse"
+      },
+      "UserQuotaSettings": {
+        "properties": {
+          "exempt": {
+            "type": "boolean",
+            "title": "Exempt",
+            "default": false
+          },
+          "max_active_per_owner": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Active Per Owner"
+          },
+          "daily_tasks": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Tasks"
+          },
+          "daily_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Bytes"
+          },
+          "storage_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Bytes"
+          },
+          "daily_analysis_attempts": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Analysis Attempts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UserQuotaSettings"
       },
       "UserResponse": {
         "properties": {

@@ -20,6 +20,7 @@ abstract interface class DownloadIntakeRepository {
   Future<InspectionResponse> inspectPublicUrl({
     required String idempotencyKey,
     required String url,
+    ProviderAccessPolicy? accessPolicy,
   });
 
   Future<InspectionResponse> inspectDiscoveredItem({
@@ -61,10 +62,12 @@ final class GeneratedDownloadIntakeRepository
   Future<InspectionResponse> inspectPublicUrl({
     required String idempotencyKey,
     required String url,
+    ProviderAccessPolicy? accessPolicy,
   }) {
     final source = PublicUrlInspectionSource(
       (builder) => builder
         ..kind = PublicUrlInspectionSourceKindEnum.publicUrl
+        ..accessPolicyId = accessPolicy
         ..url = url,
     );
     return _inspect(source, 1, idempotencyKey);

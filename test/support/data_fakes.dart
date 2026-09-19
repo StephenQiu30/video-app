@@ -75,7 +75,10 @@ final class FakeDownloadHistoryRepository implements DownloadHistoryRepository {
   }
 
   @override
-  Future<DownloadResponse> retry(String jobId) async {
+  Future<DownloadResponse> retry(
+    String jobId, {
+    required String idempotencyKey,
+  }) async {
     if (error case final failure?) throw failure;
     return downloadDetailFixture(jobId: jobId);
   }
@@ -318,6 +321,17 @@ ProviderListResponse providerFixture() {
   final item = ProviderStatusResponse(
     (builder) => builder
       ..key = 'youtube'
+      ..evidenceState = ProviderEvidenceState.fresh
+      ..hosts.replace(['www.youtube.com', 'youtu.be'])
+      ..hostSuffixes.clear()
+      ..defaultAccessPolicyId = ProviderAccessPolicy.public
+      ..accessPolicies.replace([
+        ProviderAccessPolicyResponse(
+          (b) => b
+            ..id = ProviderAccessPolicy.public
+            ..configured = true,
+        ),
+      ])
       ..displayName = 'YouTube'
       ..registered = true
       ..extractorExists = true

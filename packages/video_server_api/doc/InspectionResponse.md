@@ -27,5 +27,6 @@ Name | Type | Description | Notes
 **rightsBasis** | [**RightsBasis**](RightsBasis.md) |  |
 **restrictionReason** | **String** |  |
 **userAction** | **String** |  |
+**accessPolicyId** | [**ProviderAccessPolicy**](ProviderAccessPolicy.md) |  |
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -11,12 +11,15 @@ class _$UpdateUserAccessRequest extends UpdateUserAccessRequest {
   final UserRole? role;
   @override
   final bool? isActive;
+  @override
+  final UserQuotaSettings? quota;
 
   factory _$UpdateUserAccessRequest(
           [void Function(UpdateUserAccessRequestBuilder)? updates]) =>
       (UpdateUserAccessRequestBuilder()..update(updates))._build();
 
-  _$UpdateUserAccessRequest._({this.role, this.isActive}) : super._();
+  _$UpdateUserAccessRequest._({this.role, this.isActive, this.quota})
+      : super._();
   @override
   UpdateUserAccessRequest rebuild(
           void Function(UpdateUserAccessRequestBuilder) updates) =>
@@ -31,7 +34,8 @@ class _$UpdateUserAccessRequest extends UpdateUserAccessRequest {
     if (identical(other, this)) return true;
     return other is UpdateUserAccessRequest &&
         role == other.role &&
-        isActive == other.isActive;
+        isActive == other.isActive &&
+        quota == other.quota;
   }
 
   @override
@@ -39,6 +43,7 @@ class _$UpdateUserAccessRequest extends UpdateUserAccessRequest {
     var _$hash = 0;
     _$hash = $jc(_$hash, role.hashCode);
     _$hash = $jc(_$hash, isActive.hashCode);
+    _$hash = $jc(_$hash, quota.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -47,7 +52,8 @@ class _$UpdateUserAccessRequest extends UpdateUserAccessRequest {
   String toString() {
     return (newBuiltValueToStringHelper(r'UpdateUserAccessRequest')
           ..add('role', role)
-          ..add('isActive', isActive))
+          ..add('isActive', isActive)
+          ..add('quota', quota))
         .toString();
   }
 }
@@ -65,6 +71,11 @@ class UpdateUserAccessRequestBuilder
   bool? get isActive => _$this._isActive;
   set isActive(bool? isActive) => _$this._isActive = isActive;
 
+  UserQuotaSettingsBuilder? _quota;
+  UserQuotaSettingsBuilder get quota =>
+      _$this._quota ??= UserQuotaSettingsBuilder();
+  set quota(UserQuotaSettingsBuilder? quota) => _$this._quota = quota;
+
   UpdateUserAccessRequestBuilder() {
     UpdateUserAccessRequest._defaults(this);
   }
@@ -74,6 +85,7 @@ class UpdateUserAccessRequestBuilder
     if ($v != null) {
       _role = $v.role;
       _isActive = $v.isActive;
+      _quota = $v.quota?.toBuilder();
       _$v = null;
     }
     return this;
@@ -93,11 +105,25 @@ class UpdateUserAccessRequestBuilder
   UpdateUserAccessRequest build() => _build();
 
   _$UpdateUserAccessRequest _build() {
-    final _$result = _$v ??
-        _$UpdateUserAccessRequest._(
-          role: role,
-          isActive: isActive,
-        );
+    _$UpdateUserAccessRequest _$result;
+    try {
+      _$result = _$v ??
+          _$UpdateUserAccessRequest._(
+            role: role,
+            isActive: isActive,
+            quota: _quota?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'quota';
+        _quota?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'UpdateUserAccessRequest', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

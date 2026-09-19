@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element, unused_element_parameter
+import 'package:video_server_api/lib/model/user_quota_settings.dart';
 import 'package:video_server_api/lib/model/user_role.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -14,6 +15,7 @@ part 'update_user_access_request.g.dart';
 /// Properties:
 /// * [role]
 /// * [isActive]
+/// * [quota]
 @BuiltValue()
 abstract class UpdateUserAccessRequest
     implements Built<UpdateUserAccessRequest, UpdateUserAccessRequestBuilder> {
@@ -23,6 +25,9 @@ abstract class UpdateUserAccessRequest
 
   @BuiltValueField(wireName: r'is_active')
   bool? get isActive;
+
+  @BuiltValueField(wireName: r'quota')
+  UserQuotaSettings? get quota;
 
   UpdateUserAccessRequest._();
 
@@ -68,6 +73,13 @@ class _$UpdateUserAccessRequestSerializer
         specifiedType: const FullType.nullable(bool),
       );
     }
+    if (object.quota != null) {
+      yield r'quota';
+      yield serializers.serialize(
+        object.quota,
+        specifiedType: const FullType.nullable(UserQuotaSettings),
+      );
+    }
   }
 
   @override
@@ -108,6 +120,14 @@ class _$UpdateUserAccessRequestSerializer
           ) as bool?;
           if (valueDes == null) continue;
           result.isActive = valueDes;
+          break;
+        case r'quota':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(UserQuotaSettings),
+          ) as UserQuotaSettings?;
+          if (valueDes == null) continue;
+          result.quota.replace(valueDes);
           break;
         default:
           unhandled.add(key);

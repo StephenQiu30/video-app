@@ -7,6 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/history/application/download_history_provider.dart';
+import 'package:framegrab/features/history/application/download_retry.dart';
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
@@ -42,9 +43,7 @@ final class _DownloadHistoryItemState
   });
 
   Future<void> _retry() => _run(() async {
-    final next = await ref
-        .read(downloadHistoryRepositoryProvider)
-        .retry(widget.item.id);
+    final next = await ref.read(downloadRetryProvider(widget.item.id)).run();
     ref.invalidate(downloadHistoryProvider);
     if (mounted) {
       await DownloadDetailRoute(jobId: next.id).push<void>(context);
@@ -95,6 +94,7 @@ final class _DownloadHistoryItemState
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(downloadRetryProvider(widget.item.id));
     final localizations = AppLocalizations.of(context);
     final item = widget.item;
     final statusName = item.status.name;
@@ -107,11 +107,14 @@ final class _DownloadHistoryItemState
       item.formatName,
     ].where((value) => value.trim().isNotEmpty).join(' · ');
     final canCancel = isActiveDownloadStatus(statusName);
-    final canRetry =
-        statusName == 'failed' ||
-        statusName == 'cancelled' ||
-        (statusName == 'succeeded' && !item.fileAvailable);
-    final actionCount = 2 + (canCancel || canRetry ? 1 : 0);
+    final recovery = downloadRecovery(
+      sourceKind: item.sourceKind,
+      status: item.status,
+      fileAvailable: item.fileAvailable,
+    );
+    final canRetry = recovery == DownloadRecovery.retry;
+    final reimport = recovery == DownloadRecovery.reimport;
+    final actionCount = 2 + (canCancel || recovery != null ? 1 : 0);
     final semanticActions = <CustomSemanticsAction, VoidCallback>{
       CustomSemanticsAction(label: localizations.downloadDetailNavigation):
           widget.onTap,
@@ -121,6 +124,11 @@ final class _DownloadHistoryItemState
       if (canRetry)
         CustomSemanticsAction(label: localizations.retryDownloadAction): () =>
             unawaited(_retry()),
+      if (reimport)
+        CustomSemanticsAction(
+          label: localizations.reimportDownloadAction,
+        ): () =>
+            const DownloadHomeRoute().go(context),
       CustomSemanticsAction(label: localizations.deleteDownloadAction): () =>
           unawaited(_delete()),
     };
@@ -159,6 +167,17 @@ final class _DownloadHistoryItemState
               foregroundColor: colors.onSecondaryContainer,
               icon: LucideIcons.refreshCw,
               label: localizations.retryDownloadAction,
+            ),
+          if (reimport)
+            SlidableAction(
+              key: Key('reimport-download-${item.id}'),
+              onPressed: _busy
+                  ? null
+                  : (_) => const DownloadHomeRoute().go(context),
+              backgroundColor: colors.secondaryContainer,
+              foregroundColor: colors.onSecondaryContainer,
+              icon: LucideIcons.upload,
+              label: localizations.reimportDownloadAction,
             ),
           SlidableAction(
             key: Key('delete-download-${item.id}'),

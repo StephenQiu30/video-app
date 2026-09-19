@@ -7,6 +7,34 @@ import 'package:video_server_api/video_server_api.dart';
 import '../../../support/intake_fakes.dart';
 
 void main() {
+  test(
+    'keeps a retry key within one policy and changes it for a new policy',
+    () async {
+      final repository = FakeDownloadIntakeRepository();
+      final container = _container(repository);
+      addTearDown(container.dispose);
+      final controller = container.read(
+        downloadIntakeControllerProvider.notifier,
+      );
+      const url = 'https://www.youtube.com/watch?v=owned';
+      await controller.inspect(url, accessPolicy: ProviderAccessPolicy.public);
+      await controller.inspect(url, accessPolicy: ProviderAccessPolicy.public);
+      await controller.inspect(
+        url,
+        accessPolicy: ProviderAccessPolicy.operatorPublic,
+      );
+      expect(repository.idempotencyKeys[0], repository.idempotencyKeys[1]);
+      expect(
+        repository.idempotencyKeys[0],
+        isNot(repository.idempotencyKeys[2]),
+      );
+      expect(repository.accessPolicies, [
+        ProviderAccessPolicy.public,
+        ProviderAccessPolicy.public,
+        ProviderAccessPolicy.operatorPublic,
+      ]);
+    },
+  );
   test('inspects a public URL and selects the first real format', () async {
     final repository = FakeDownloadIntakeRepository();
     final container = _container(repository);

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/application/authenticated_request.dart';
@@ -24,7 +22,10 @@ abstract interface class DownloadHistoryRepository {
 
   Future<DownloadResponse> cancel(String jobId);
 
-  Future<DownloadResponse> retry(String jobId);
+  Future<DownloadResponse> retry(
+    String jobId, {
+    required String idempotencyKey,
+  });
 }
 
 final class GeneratedDownloadHistoryRepository
@@ -76,13 +77,13 @@ final class GeneratedDownloadHistoryRepository
   }
 
   @override
-  Future<DownloadResponse> retry(String jobId) {
-    final nonce = Random.secure().nextInt(0x7fffffff).toRadixString(16);
-    final key =
-        'app-retry-${DateTime.now().toUtc().microsecondsSinceEpoch}-$nonce';
+  Future<DownloadResponse> retry(
+    String jobId, {
+    required String idempotencyKey,
+  }) {
     return _required(
       (api) => api
-          .retryDownload(jobId: jobId, idempotencyKey: key)
+          .retryDownload(jobId: jobId, idempotencyKey: idempotencyKey)
           .then((value) => value.data),
     );
   }

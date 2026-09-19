@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/application/authenticated_request.dart';
 import 'package:video_server_api/video_server_api.dart';
 
@@ -10,6 +11,15 @@ final adminConfigurationRepositoryProvider = Provider(
 final class AdminConfigurationRepository {
   const AdminConfigurationRepository(this.request);
   final AuthenticatedRequest request;
+  Future<ProviderRuntimeListResponse> fetchProviderRuntime() => request.execute(
+    (client) async {
+      final data = (await client.getAdminApi().getAdminProviderRuntime()).data;
+      if (data == null) {
+        throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
+      }
+      return data;
+    },
+  );
   Future<void> createCatalog(CreateProviderCatalogEntryRequest body) =>
       request.execute((client) async {
         await client.getAdminApi().createProviderCatalogEntry(

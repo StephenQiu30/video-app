@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/features/history/application/download_detail_provider.dart';
 import 'package:framegrab/features/history/application/download_history_provider.dart';
+import 'package:framegrab/features/history/application/download_retry.dart';
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
@@ -35,9 +36,7 @@ final class _DownloadTaskActionsState
 
   Future<void> _retry() async {
     await _run(() async {
-      final next = await ref
-          .read(downloadHistoryRepositoryProvider)
-          .retry(widget.job.id);
+      final next = await ref.read(downloadRetryProvider(widget.job.id)).run();
       ref.invalidate(downloadHistoryProvider);
       if (mounted) DownloadDetailRoute(jobId: next.id).replace(context);
     });
@@ -93,24 +92,33 @@ final class _DownloadTaskActionsState
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(downloadRetryProvider(widget.job.id));
     final l10n = AppLocalizations.of(context);
     final status = widget.job.status.name;
     final canCancel = isActiveDownloadStatus(status);
-    final canRetry =
-        status == 'failed' ||
-        status == 'cancelled' ||
-        (status == 'succeeded' && !widget.job.fileAvailable);
+    final recovery = downloadRecovery(
+      sourceKind: widget.job.sourceKind,
+      status: widget.job.status,
+      fileAvailable: widget.job.fileAvailable,
+    );
     final primaryAction = canCancel
         ? FilledButton.tonalIcon(
             onPressed: _busy ? null : _cancel,
             icon: const Icon(LucideIcons.x, size: 18),
             label: Text(l10n.cancelDownloadAction),
           )
-        : canRetry
+        : recovery == DownloadRecovery.retry
         ? FilledButton.icon(
             onPressed: _busy ? null : _retry,
             icon: const Icon(LucideIcons.refreshCw, size: 18),
             label: Text(l10n.retryDownloadAction),
+          )
+        : recovery == DownloadRecovery.reimport
+        ? FilledButton.tonal(
+            onPressed: _busy
+                ? null
+                : () => const DownloadHomeRoute().go(context),
+            child: Text(l10n.reimportDownloadAction),
           )
         : null;
     return Align(

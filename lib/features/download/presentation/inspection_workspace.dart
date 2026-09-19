@@ -3,6 +3,7 @@ import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/features/download/application/download_intake_controller.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
+import 'package:framegrab/features/providers/presentation/provider_access_selector.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -61,6 +62,10 @@ final class InspectionWorkspace extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 28),
+        if (inspection.accessPolicyId != null)
+          Text(
+            '${localizations.accessPolicyLabel}: ${accessPolicyLabel(localizations, inspection.accessPolicyId!)}',
+          ),
         if (!downloadable)
           DownloadInlineStatus(
             message:

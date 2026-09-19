@@ -17,6 +17,7 @@ import 'package:video_server_api/lib/model/managed_user_list_response.dart';
 import 'package:video_server_api/lib/model/managed_user_response.dart';
 import 'package:video_server_api/lib/model/provider_catalog_entry_response.dart';
 import 'package:video_server_api/lib/model/provider_catalog_list_response.dart';
+import 'package:video_server_api/lib/model/provider_runtime_list_response.dart';
 import 'package:video_server_api/lib/model/storage_cleanup_request.dart';
 import 'package:video_server_api/lib/model/storage_cleanup_response.dart';
 import 'package:video_server_api/lib/model/stored_file_list_response.dart';
@@ -534,6 +535,86 @@ class AdminApi {
     );
 
     return _response;
+  }
+
+  /// 读取已开放平台的脱敏运行诊断
+  /// 仅元数据快照，不登录、不导出会话、不解析或下载媒体。
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ProviderRuntimeListResponse] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<ProviderRuntimeListResponse>> getAdminProviderRuntime({
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/admin/provider-runtime';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'http',
+            'scheme': 'bearer',
+            'name': 'NativeBearerAuth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    ProviderRuntimeListResponse? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(ProviderRuntimeListResponse),
+            ) as ProviderRuntimeListResponse;
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<ProviderRuntimeListResponse>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// 查询下载分析

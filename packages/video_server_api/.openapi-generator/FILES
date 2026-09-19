@@ -89,10 +89,15 @@ doc/ProblemDetails.md
 doc/ProductionAdviceResponse.md
 doc/ProtectionState.md
 doc/ProviderAccessMode.md
+doc/ProviderAccessPolicy.md
+doc/ProviderAccessPolicyResponse.md
 doc/ProviderCapability.md
 doc/ProviderCatalogEntryResponse.md
 doc/ProviderCatalogListResponse.md
+doc/ProviderEvidenceState.md
 doc/ProviderListResponse.md
+doc/ProviderRuntimeListResponse.md
+doc/ProviderRuntimeResponse.md
 doc/ProviderStatusResponse.md
 doc/ProviderSupportStatus.md
 doc/ProvidersApi.md
@@ -125,6 +130,7 @@ doc/UpdateProfileRequest.md
 doc/UpdateProviderCatalogEntryRequest.md
 doc/UpdateUserAccessRequest.md
 doc/UploadPartResponse.md
+doc/UserQuotaSettings.md
 doc/UserResponse.md
 doc/UserRole.md
 doc/UsersApi.md
@@ -235,10 +241,15 @@ lib/lib/model/problem_details.dart
 lib/lib/model/production_advice_response.dart
 lib/lib/model/protection_state.dart
 lib/lib/model/provider_access_mode.dart
+lib/lib/model/provider_access_policy.dart
+lib/lib/model/provider_access_policy_response.dart
 lib/lib/model/provider_capability.dart
 lib/lib/model/provider_catalog_entry_response.dart
 lib/lib/model/provider_catalog_list_response.dart
+lib/lib/model/provider_evidence_state.dart
 lib/lib/model/provider_list_response.dart
+lib/lib/model/provider_runtime_list_response.dart
+lib/lib/model/provider_runtime_response.dart
 lib/lib/model/provider_status_response.dart
 lib/lib/model/provider_support_status.dart
 lib/lib/model/public_url_inspection_source.dart
@@ -269,6 +280,7 @@ lib/lib/model/update_profile_request.dart
 lib/lib/model/update_provider_catalog_entry_request.dart
 lib/lib/model/update_user_access_request.dart
 lib/lib/model/upload_part_response.dart
+lib/lib/model/user_quota_settings.dart
 lib/lib/model/user_response.dart
 lib/lib/model/user_role.dart
 lib/lib/model/video_analysis_result_response.dart

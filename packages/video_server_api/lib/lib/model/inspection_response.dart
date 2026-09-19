@@ -8,6 +8,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:video_server_api/lib/model/format_response.dart';
 import 'package:video_server_api/lib/model/rights_basis.dart';
 import 'package:video_server_api/lib/model/protection_state.dart';
+import 'package:video_server_api/lib/model/provider_access_policy.dart';
 import 'package:video_server_api/lib/model/media_kind.dart';
 import 'package:video_server_api/lib/model/access_decision.dart';
 import 'package:video_server_api/lib/model/entitlement_state.dart';
@@ -40,6 +41,7 @@ part 'inspection_response.g.dart';
 /// * [rightsBasis]
 /// * [restrictionReason]
 /// * [userAction]
+/// * [accessPolicyId]
 @BuiltValue()
 abstract class InspectionResponse
     implements Built<InspectionResponse, InspectionResponseBuilder> {
@@ -107,6 +109,10 @@ abstract class InspectionResponse
 
   @BuiltValueField(wireName: r'user_action')
   String? get userAction;
+
+  @BuiltValueField(wireName: r'access_policy_id')
+  ProviderAccessPolicy? get accessPolicyId;
+  // enum accessPolicyIdEnum {  public,  public_session,  operator_public,  personal_entitled,  };
 
   InspectionResponse._();
 
@@ -236,6 +242,13 @@ class _$InspectionResponseSerializer
         : serializers.serialize(
             object.userAction,
             specifiedType: const FullType.nullable(String),
+          );
+    yield r'access_policy_id';
+    yield object.accessPolicyId == null
+        ? null
+        : serializers.serialize(
+            object.accessPolicyId,
+            specifiedType: const FullType.nullable(ProviderAccessPolicy),
           );
   }
 
@@ -399,6 +412,14 @@ class _$InspectionResponseSerializer
           ) as String?;
           if (valueDes == null) continue;
           result.userAction = valueDes;
+          break;
+        case r'access_policy_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(ProviderAccessPolicy),
+          ) as ProviderAccessPolicy?;
+          if (valueDes == null) continue;
+          result.accessPolicyId = valueDes;
           break;
         default:
           unhandled.add(key);

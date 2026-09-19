@@ -4,6 +4,10 @@ import 'package:framegrab/core/config/app_config.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 
 void main() {
+  test('mobile relay connections have a bounded handshake budget', () {
+    expect(AppConfig.apiConnectTimeout, const Duration(seconds: 30));
+  });
+
   test('uses the server request budget instead of generator defaults', () {
     final container = ProviderContainer();
     addTearDown(container.dispose);

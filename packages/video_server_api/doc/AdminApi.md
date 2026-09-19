@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**createProviderCatalogEntry**](AdminApi.md#createprovidercatalogentry) | **POST** /api/admin/providers | 新增平台目录条目
 [**deleteAiProviderProfile**](AdminApi.md#deleteaiproviderprofile) | **DELETE** /api/admin/ai-providers/{provider_key} | 删除 AI 分析 Provider
 [**deleteProviderCatalogEntry**](AdminApi.md#deleteprovidercatalogentry) | **DELETE** /api/admin/providers/{provider_key} | 删除平台目录条目
+[**getAdminProviderRuntime**](AdminApi.md#getadminproviderruntime) | **GET** /api/admin/provider-runtime | 读取已开放平台的脱敏运行诊断
 [**getDownloadAnalytics**](AdminApi.md#getdownloadanalytics) | **GET** /api/admin/downloads/analytics | 查询下载分析
 [**listAiProviderProfiles**](AdminApi.md#listaiproviderprofiles) | **GET** /api/admin/ai-providers | 查询 AI 分析 Provider
 [**listProviderCatalogEntries**](AdminApi.md#listprovidercatalogentries) | **GET** /api/admin/providers | 查询平台目录
@@ -257,6 +258,45 @@ Name | Type | Description  | Notes
 ### Return type
 
 void (empty response body)
+
+### Authorization
+
+[NativeBearerAuth](../README.md#NativeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getAdminProviderRuntime**
+> ProviderRuntimeListResponse getAdminProviderRuntime()
+
+读取已开放平台的脱敏运行诊断
+
+仅元数据快照，不登录、不导出会话、不解析或下载媒体。
+
+### Example
+```dart
+import 'package:video_server_api/api.dart';
+
+final api = VideoServerApi().getAdminApi();
+
+try {
+    final response = api.getAdminProviderRuntime();
+    print(response);
+} on DioException catch (e) {
+    print('Exception when calling AdminApi->getAdminProviderRuntime: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ProviderRuntimeListResponse**](ProviderRuntimeListResponse.md)
 
 ### Authorization
 
