@@ -9,15 +9,22 @@ Future<void> main(List<String> arguments) async {
   try {
     final options = _Options.parse(arguments);
     final root = _findProjectRoot();
-    final source = await _fetchSchema(options.schemaUrl);
-    final contract = buildAppOpenApi(source, appOpenApiConfig);
     final snapshot = File(
       '${root.path}/contracts/openapi/video-server.openapi.json',
     );
-    await snapshot.writeAsString(
-      '${const JsonEncoder.withIndent('  ').convert(contract)}\n',
-    );
-    stdout.writeln('Frozen App contract from ${options.schemaUrl}.');
+    if (options.fromSnapshot) {
+      if (!snapshot.existsSync()) {
+        throw StateError('The frozen App contract is missing.');
+      }
+      stdout.writeln('Using the committed App contract without a running API.');
+    } else {
+      final source = await _fetchSchema(options.schemaUrl);
+      final contract = buildAppOpenApi(source, appOpenApiConfig);
+      await snapshot.writeAsString(
+        '${const JsonEncoder.withIndent('  ').convert(contract)}\n',
+      );
+      stdout.writeln('Frozen App contract from ${options.schemaUrl}.');
+    }
 
     if (!options.snapshotOnly) {
       await generateDartClient(projectRoot: root, config: appOpenApiConfig);
@@ -76,11 +83,13 @@ Directory _findProjectRoot() {
 final class _Options {
   const _Options({
     required this.check,
+    required this.fromSnapshot,
     required this.schemaUrl,
     required this.snapshotOnly,
   });
 
   final bool check;
+  final bool fromSnapshot;
   final String schemaUrl;
   final bool snapshotOnly;
 
@@ -89,9 +98,12 @@ final class _Options {
         Platform.environment['OPENAPI_SCHEMA_URL'] ??
         appOpenApiConfig.defaultSchemaUrl;
     var check = false;
+    var fromSnapshot = false;
     var snapshotOnly = false;
     for (var index = 0; index < arguments.length; index += 1) {
       switch (arguments[index]) {
+        case '--from-snapshot':
+          fromSnapshot = true;
         case '--check':
           check = true;
         case '--snapshot-only':
@@ -105,8 +117,14 @@ final class _Options {
           throw FormatException('Unknown argument: ${arguments[index]}');
       }
     }
+    if (fromSnapshot && snapshotOnly) {
+      throw const FormatException(
+        '--from-snapshot cannot be combined with --snapshot-only.',
+      );
+    }
     return _Options(
       check: check,
+      fromSnapshot: fromSnapshot,
       schemaUrl: schemaUrl,
       snapshotOnly: snapshotOnly,
     );

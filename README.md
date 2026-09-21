@@ -13,6 +13,16 @@
 
 FrameFetch 不在手机上运行提取器、转码器或 AI 模型，也不绕过 DRM、会员权限或平台访问控制。服务端与浏览器 Web 平台位于 [`video-server`](https://github.com/StephenQiu30/video-server)。
 
+## 常见问题
+
+**应该先部署哪个仓库？** 先按 [video-server 快速开始](https://github.com/StephenQiu30/video-server#快速开始) 部署 API、Web 与 Worker，再为 App 配置手机可访问的服务地址。手机上的 `localhost` 指向手机本身，不能用它连接电脑上的服务端。
+
+**AI 分析在手机还是服务端执行？** 服务端执行媒体处理和模型推理，App 负责输入、任务跟踪与结果展示。配置了外部模型时，分析所需内容会发送到该 Provider；不提供离线 AI。
+
+**支持哪些输入？** 已获授权的公开媒体链接、本地 MP4，以及 Markdown、Fountain、TXT、PDF、DOCX 剧本文档。平台链接的可用性由服务端检查结果决定。
+
+**在哪里安装？** 当前从源码构建 iOS / Android 客户端，不提供 App Store 或 Google Play 预构建包。MIT 许可证开放源代码，部署与外部模型费用另计。
+
 ## App 预览
 
 <p align="center">

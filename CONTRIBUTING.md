@@ -19,7 +19,8 @@ Phase 1 工程基座已经建立。每个后续能力仍必须完成 `Design →
 ## 本地门禁
 
 ```bash
-flutter pub get
+flutter pub get --enforce-lockfile
+dart run tool/openapi.dart --from-snapshot --check
 dart run tool/check.dart
 flutter build apk --debug
 flutter build ios --simulator --no-codesign
@@ -36,3 +37,7 @@ flutter build ios --simulator --no-codesign
 ```
 
 常用类型包括 `feat`、`fix`、`refactor`、`docs`、`test`、`build`、`ci`、`chore` 和 `style`。标题不超过 72 个字符，末尾不加标点。只有用户明确要求时才推送或创建 PR。
+
+## CI 覆盖范围
+
+质量 Job 执行锁文件安装、冻结 OpenAPI 客户端重生成、路由与本地化重生成、tracked/untracked 漂移检查、format/analyze/test 和 Android debug 构建；独立 macOS Job 构建 iOS 模拟器应用。冻结快照检查不连接在线 API，也不证明与服务端最新 main 一致。真实后端集成、真机媒体播放、系统权限和视觉验收仍按 AGENTS.md 执行。当前 main 未配置 required checks，推送触发的 CI 是事后检测。

@@ -11,6 +11,16 @@
 
 FrameFetch does not run extractors, transcoders, or AI models on the phone. It does not bypass DRM, memberships, regional controls, or provider access rules.
 
+## Frequently asked questions
+
+**Which repository should I deploy first?** Start with the [video-server quick start](https://github.com/StephenQiu30/video-server/blob/main/README.en.md#quick-start), then configure a server URL reachable from the phone. `localhost` on a phone refers to the phone, not the computer hosting the server.
+
+**Does AI analysis run on the phone?** Media processing and inference run on the server; the app handles input, job tracking and results. With an external model provider, content needed for analysis is sent to that service. Offline AI is not included.
+
+**Which inputs are supported?** Authorized public-media links, local MP4 files, and Markdown, Fountain, TXT, PDF or DOCX screenplays. The server's inspection result determines whether a platform link is available.
+
+**Where can I install it?** Build the iOS/Android client from source. There are no prebuilt App Store or Google Play packages. The source is MIT licensed; deployment and external-model costs are separate.
+
 ## App preview
 
 <p align="center">
