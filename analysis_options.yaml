@@ -7,6 +7,13 @@ analyzer:
     strict-raw-types: true
   exclude:
     - "lib/generated/**"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 linter:
   rules:

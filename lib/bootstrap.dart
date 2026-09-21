@@ -7,5 +7,9 @@ void bootstrap() {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
 
-  runApp(const ProviderScope(child: FramegrabApp()));
+  runApp(
+    const ProviderScope(
+      child: FramegrabApp(locale: Locale('zh')),
+    ),
+  );
 }
