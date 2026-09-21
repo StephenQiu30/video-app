@@ -9,7 +9,8 @@ import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AdminStorageScreen extends ConsumerStatefulWidget {
   const AdminStorageScreen({super.key});
@@ -23,11 +24,12 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
 
   Future<void> _cleanup() async {
     final l10n = AppLocalizations.of(context);
-    final days = await showModalBottomSheet<int>(
+    final days = await showShadSheet<int>(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (_) => const StorageCleanupSheet(),
+      builder: (sheetContext) => ShadSheet(
+        isScrollControlled: true,
+        child: Builder(builder: (_) => const StorageCleanupSheet()),
+      ),
     );
     if (days == null || !mounted) return;
     setState(() => _busy = true);
@@ -35,9 +37,9 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
       final result = await ref.read(adminRepositoryProvider).cleanupFiles(days);
       ref.invalidate(adminFilesProvider);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(
               l10n.adminCleanupComplete(
                 result.removedResources,
                 formatByteCount(result.freedBytes),
@@ -72,10 +74,16 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
           Row(
             children: [
               Expanded(child: Text(l10n.adminFileCount(data.total))),
-              TextButton.icon(
+              ShadButton.ghost(
                 onPressed: _busy ? null : _cleanup,
-                icon: const Icon(LucideIcons.trash2, size: 18),
-                label: Text(l10n.adminCleanupAction),
+                leading: const Icon(PhosphorIconsRegular.trash, size: 18),
+                enabled: (_busy ? null : _cleanup) != null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(child: Text(l10n.adminCleanupAction)),
               ),
             ],
           ),
@@ -124,7 +132,7 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
 }
 
 void _showFailure(BuildContext context, AppLocalizations l10n) {
-  ScaffoldMessenger.of(
+  ShadSonner.of(
     context,
-  ).showSnackBar(SnackBar(content: Text(l10n.adminActionFailed)));
+  ).show(ShadToast(description: Text(l10n.adminActionFailed)));
 }

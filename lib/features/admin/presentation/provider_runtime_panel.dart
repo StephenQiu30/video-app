@@ -5,6 +5,7 @@ import 'package:framegrab/features/auth/application/auth_session_controller.dart
 import 'package:framegrab/features/providers/presentation/provider_access_selector.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final providerRuntimeProvider =
@@ -32,19 +33,29 @@ final class _ProviderRuntimePanelState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextButton(
+        ShadButton.ghost(
           onPressed: result?.isLoading == true
               ? null
               : () {
                   if (_opened) ref.invalidate(providerRuntimeProvider);
                   setState(() => _opened = true);
                 },
-          child: Text(l10n.providerRuntimeTitle),
+          enabled:
+              (result?.isLoading == true
+                  ? null
+                  : () {
+                      if (_opened) ref.invalidate(providerRuntimeProvider);
+                      setState(() => _opened = true);
+                    }) !=
+              null,
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(child: Text(l10n.providerRuntimeTitle)),
         ),
         if (result != null) ...[
           Text(l10n.providerRuntimeDescription),
           ...result.when(
-            loading: () => [const LinearProgressIndicator()],
+            loading: () => [const ShadProgress()],
             error: (_, _) => [Text(l10n.serviceUnavailableError)],
             data: (data) => [
               if (data.items.isEmpty) Text(l10n.providerEmptyDescription),

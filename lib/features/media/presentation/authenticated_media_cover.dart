@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/media/application/media_thumbnail_provider.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 
 const mediaFrameAspectRatio = 16 / 9;
 
@@ -96,9 +97,7 @@ final class _CoverLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(compact ? AppSpacing.small : AppSpacing.large),
-      child: Center(
-        child: CircularProgressIndicator(strokeWidth: compact ? 1.5 : 2),
-      ),
+      child: const Center(child: AppSpinner()),
     );
   }
 }

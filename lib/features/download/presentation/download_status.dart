@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_colors.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 enum DownloadNoticeTone { neutral, destructive }
 
@@ -17,47 +18,31 @@ final class DownloadInlineStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = ShadTheme.of(context).colorScheme;
     final destructive = tone == DownloadNoticeTone.destructive;
     final foreground = destructive
-        ? colorScheme.error
-        : colorScheme.onSurfaceVariant;
+        ? colorScheme.destructive
+        : colorScheme.mutedForeground;
     final background = destructive
-        ? colorScheme.errorContainer
-        : context.appColors.input;
+        ? colorScheme.destructive.withValues(alpha: .1)
+        : colorScheme.muted;
 
     return Semantics(
       container: true,
       liveRegion: true,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: BorderRadius.circular(6),
+      child: ShadAlert.raw(
+        variant: destructive
+            ? ShadAlertVariant.destructive
+            : ShadAlertVariant.primary,
+        icon: Icon(
+          destructive
+              ? PhosphorIconsRegular.warningCircle
+              : PhosphorIconsRegular.info,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                destructive ? LucideIcons.circleAlert : LucideIcons.info,
-                color: foreground,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: destructive
-                        ? colorScheme.onErrorContainer
-                        : colorScheme.onSurface,
-                    height: 1.55,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        iconColor: foreground,
+        decoration: ShadDecoration(color: background, border: ShadBorder.none),
+        descriptionStyle: ShadTheme.of(context).textTheme.p,
+        description: Text(message),
       ),
     );
   }
@@ -73,13 +58,13 @@ final class DownloadTrustFooter extends StatelessWidget {
     return Column(
       children: [
         _FooterStatus(
-          icon: LucideIcons.circleCheck,
+          icon: PhosphorIconsRegular.checkCircle,
           iconColor: context.appColors.success,
           label: localizations.legalMediaStatus,
         ),
         const SizedBox(height: 12),
         _FooterStatus(
-          icon: LucideIcons.shieldCheck,
+          icon: PhosphorIconsRegular.shieldCheck,
           iconColor: Theme.of(context).colorScheme.onSurfaceVariant,
           label: localizations.privacyStatus,
         ),

@@ -10,6 +10,7 @@ import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 import '../../../support/data_fakes.dart';
+import '../../../support/shad_test_app.dart';
 
 void main() {
   for (final status in [
@@ -33,7 +34,8 @@ void main() {
           ..fileAvailable = false,
       );
       var calls = 0;
-      await tester.pumpWidget(
+      await pumpShadWidget(
+        tester,
         ProviderScope(
           overrides: [
             downloadRetryProvider(job.id).overrideWithValue(
@@ -46,7 +48,7 @@ void main() {
               ),
             ),
           ],
-          child: MaterialApp(
+          child: ShadTestApp(
             locale: const Locale('zh'),
             theme: AppTheme.light,
             supportedLocales: AppLocalizations.supportedLocales,
@@ -67,6 +69,7 @@ void main() {
           ),
         ),
       );
+      await tester.pump();
       await tester.pumpAndSettle();
       expect(find.text('重新下载'), findsNothing);
       expect(find.byKey(Key('retry-download-${job.id}')), findsNothing);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class PasswordField extends StatelessWidget {
   const PasswordField({
@@ -32,7 +33,7 @@ final class PasswordField extends StatelessWidget {
     final toggleLabel = obscure
         ? localizations.showPassword
         : localizations.hidePassword;
-    return TextFormField(
+    return ShadInputFormField(
       key: fieldKey,
       controller: controller,
       obscureText: obscure,
@@ -42,14 +43,22 @@ final class PasswordField extends StatelessWidget {
         newPassword ? AutofillHints.newPassword : AutofillHints.password,
       ],
       textInputAction: textInputAction,
-      onFieldSubmitted: onFieldSubmitted,
       validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        suffixIcon: IconButton(
-          tooltip: toggleLabel,
-          onPressed: onToggle,
-          icon: Icon(obscure ? LucideIcons.eye : LucideIcons.eyeOff),
+      onSubmitted: onFieldSubmitted,
+      label: Text(label),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      trailing: ShadTooltip(
+        builder: (context) => Text(toggleLabel),
+        child: Semantics(
+          label: toggleLabel,
+          child: ShadIconButton.ghost(
+            onPressed: onToggle,
+            icon: Icon(
+              obscure
+                  ? PhosphorIconsRegular.eye
+                  : PhosphorIconsRegular.eyeSlash,
+            ),
+          ),
         ),
       ),
     );

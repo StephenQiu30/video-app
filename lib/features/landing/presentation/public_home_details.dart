@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 typedef PublicHomeCapability = ({
   String description,
@@ -84,7 +84,7 @@ final class PublicHomeSafeguards extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: Icon(
-                    LucideIcons.circleCheck,
+                    PhosphorIconsRegular.checkCircle,
                     size: 18,
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

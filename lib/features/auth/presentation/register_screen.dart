@@ -13,6 +13,7 @@ import 'package:framegrab/features/auth/presentation/password_field.dart';
 import 'package:framegrab/features/auth/presentation/registration_code_field.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -22,7 +23,7 @@ final class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 final class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<ShadFormState>();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -65,25 +66,23 @@ final class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       title: localizations.createAccountTitle,
       description: localizations.registerDescription,
       child: AutofillGroup(
-        child: Form(
+        child: ShadForm(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
+              ShadInputFormField(
                 key: const Key('register-username-field'),
                 controller: _usernameController,
                 textInputAction: TextInputAction.next,
                 autofillHints: const [AutofillHints.newUsername],
                 validator: (value) =>
                     validateAuthUsername(value, localizations),
-                decoration: InputDecoration(
-                  helperText: localizations.usernameHelp,
-                  labelText: localizations.usernameLabel,
-                ),
+                label: Text(localizations.usernameLabel),
+                description: Text(localizations.usernameHelp),
               ),
               const SizedBox(height: AppSpacing.small),
-              TextFormField(
+              ShadInputFormField(
                 key: const Key('register-email-field'),
                 enabled: !session.isBusy && !_sendingCode,
                 onChanged: (_) => setState(() {
@@ -95,9 +94,7 @@ final class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 autofillHints: const [AutofillHints.email],
                 autocorrect: false,
                 validator: (value) => validateAuthEmail(value, localizations),
-                decoration: InputDecoration(
-                  labelText: localizations.emailLabel,
-                ),
+                label: Text(localizations.emailLabel),
               ),
               const SizedBox(height: AppSpacing.small),
               RegistrationCodeField(
@@ -149,26 +146,50 @@ final class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     : authFailureMessage(localizations, failure),
               ),
               if (failure != null) const SizedBox(height: AppSpacing.medium),
-              FilledButton(
+              ShadButton(
                 key: const Key('register-submit-button'),
                 onPressed: session.isBusy || _sendingCode
                     ? null
                     : () => unawaited(_submit()),
-                child: Text(
-                  session.phase == AuthSessionPhase.submitting
-                      ? localizations.registerSubmitting
-                      : localizations.registerSubmit,
+                enabled:
+                    (session.isBusy || _sendingCode
+                        ? null
+                        : () => unawaited(_submit())) !=
+                    null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    session.phase == AuthSessionPhase.submitting
+                        ? localizations.registerSubmitting
+                        : localizations.registerSubmit,
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpacing.small),
-              TextButton(
+              ShadButton.ghost(
                 key: const Key('go-login-button'),
                 onPressed: session.isBusy
                     ? null
                     : () => context.pushReplacement('/auth/login'),
-                child: Text(
-                  '${localizations.hasAccountPrompt} '
-                  '${localizations.goLogin}',
+                enabled:
+                    (session.isBusy
+                        ? null
+                        : () => context.pushReplacement('/auth/login')) !=
+                    null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    '${localizations.hasAccountPrompt} '
+                    '${localizations.goLogin}',
+                  ),
                 ),
               ),
             ],

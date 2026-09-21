@@ -5,7 +5,9 @@ import 'package:framegrab/features/analysis/data/analysis_report_file_actions.da
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AnalysisReportPreview extends StatelessWidget {
   const AnalysisReportPreview({
@@ -146,7 +148,7 @@ final class AnalysisReportLauncher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return FilledButton.tonalIcon(
+    return ShadButton.secondary(
       key: const Key('open-analysis-report'),
       onPressed: () => Navigator.of(context).push<void>(
         MaterialPageRoute(
@@ -157,8 +159,10 @@ final class AnalysisReportLauncher extends StatelessWidget {
           ),
         ),
       ),
-      icon: const Icon(LucideIcons.fileText, size: 20),
-      label: Text(l10n.openAnalysisReportAction),
+      leading: const Icon(PhosphorIconsRegular.fileText, size: 20),
+      height: 0,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Flexible(child: Text(l10n.openAnalysisReportAction)),
     );
   }
 }
@@ -249,37 +253,60 @@ final class _AnalysisReportScreenState extends State<AnalysisReportScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: FilledButton.icon(
+                        child: ShadButton(
                           key: const Key('download-analysis-report'),
                           onPressed: _downloadBusy ? null : _downloadReport,
-                          icon: _downloadBusy
+                          leading: _downloadBusy
                               ? const SizedBox.square(
                                   dimension: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
+                                  child: AppSpinner(),
                                 )
-                              : const Icon(LucideIcons.download, size: 20),
-                          label: Text(l10n.downloadAnalysisReportAction),
+                              : const Icon(
+                                  PhosphorIconsRegular.download,
+                                  size: 20,
+                                ),
+                          enabled:
+                              (_downloadBusy ? null : _downloadReport) != null,
+                          height: 0,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          child: Flexible(
+                            child: Text(l10n.downloadAnalysisReportAction),
+                          ),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.small),
                       Expanded(
                         child: Builder(
-                          builder: (buttonContext) => TextButton.icon(
+                          builder: (buttonContext) => ShadButton.ghost(
                             key: const Key('export-analysis-report'),
                             onPressed: _exportBusy
                                 ? null
                                 : () => _exportReport(buttonContext),
-                            icon: _exportBusy
+                            leading: _exportBusy
                                 ? const SizedBox.square(
                                     dimension: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
+                                    child: AppSpinner(),
                                   )
-                                : const Icon(LucideIcons.share2, size: 20),
-                            label: Text(l10n.exportAnalysisReportAction),
+                                : const Icon(
+                                    PhosphorIconsRegular.shareNetwork,
+                                    size: 20,
+                                  ),
+                            enabled:
+                                (_exportBusy
+                                    ? null
+                                    : () => _exportReport(buttonContext)) !=
+                                null,
+                            height: 0,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                            child: Flexible(
+                              child: Text(l10n.exportAnalysisReportAction),
+                            ),
                           ),
                         ),
                       ),
@@ -308,7 +335,7 @@ final class _AnalysisReportScreenState extends State<AnalysisReportScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const CircularProgressIndicator(),
+                            const AppSpinner(),
                             const SizedBox(height: AppSpacing.medium),
                             Text(l10n.analysisReportLoading),
                           ],
@@ -331,14 +358,14 @@ final class _AnalysisReportScreenState extends State<AnalysisReportScreen> {
         title: widget.title,
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(
+      ShadSonner.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(l10n.analysisReportDownloaded)));
+      ).show(ShadToast(description: Text(l10n.analysisReportDownloaded)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.analysisReportDownloadFailed)),
-      );
+      ShadSonner.of(
+        context,
+      ).show(ShadToast(description: Text(l10n.analysisReportDownloadFailed)));
     } finally {
       if (mounted) setState(() => _downloadBusy = false);
     }
@@ -359,9 +386,9 @@ final class _AnalysisReportScreenState extends State<AnalysisReportScreen> {
       );
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
+      ShadSonner.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(l10n.analysisReportExportFailed)));
+      ).show(ShadToast(description: Text(l10n.analysisReportExportFailed)));
     } finally {
       if (mounted) setState(() => _exportBusy = false);
     }

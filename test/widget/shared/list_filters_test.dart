@@ -4,14 +4,16 @@ import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/list_filters.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+
+import '../../support/shad_test_app.dart';
 
 void main() {
-  testWidgets('uses the shared bounded Material 3 status selector', (
-    tester,
-  ) async {
+  testWidgets('uses the shared bounded Shad status selector', (tester) async {
     String? selectedStatus;
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         locale: const Locale('zh'),
         theme: AppTheme.dark,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -34,16 +36,15 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     expect(find.byType(DropdownButtonFormField<String>), findsNothing);
-    final selector = tester.widget<DropdownMenu<String>>(
-      find.byType(DropdownMenu<String>),
+    final selector = tester.widget<ShadSelect<String>>(
+      find.byType(ShadSelect<String>),
     );
-    expect(selector.menuHeight, 304);
-    expect(selector.selectOnly, isTrue);
-    expect(selector.expandedInsets, EdgeInsets.zero);
+    expect(selector.maxHeight, 304);
 
-    await tester.tap(find.byType(DropdownMenu<String>));
+    await tester.tap(find.byType(ShadSelect<String>));
     await tester.pumpAndSettle();
     expect(find.text('全部状态'), findsWidgets);
     expect(find.text('已取消'), findsOneWidget);

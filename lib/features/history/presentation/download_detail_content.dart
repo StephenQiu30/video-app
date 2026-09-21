@@ -7,6 +7,7 @@ import 'package:framegrab/features/media/presentation/download_video_panel.dart'
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadDetailContent extends StatelessWidget {
@@ -43,7 +44,7 @@ final class DownloadDetailContent extends StatelessWidget {
         ),
         if (isActiveDownloadStatus(job.status.name)) ...[
           const SizedBox(height: AppSpacing.small),
-          LinearProgressIndicator(value: job.progress / 100),
+          ShadProgress(value: job.progress / 100),
         ],
         if (failure != null) ...[
           const SizedBox(height: AppSpacing.medium),

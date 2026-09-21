@@ -6,6 +6,7 @@ import 'package:framegrab/features/analysis/presentation/analysis_presentation_l
 import 'package:framegrab/features/analysis/presentation/analysis_report_preview.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class VideoAnalysisSection extends StatefulWidget {
@@ -72,13 +73,17 @@ final class _VideoAnalysisSectionState extends State<VideoAnalysisSection> {
       children: [
         ...children,
         if (limit < total)
-          TextButton(
+          ShadButton.ghost(
             key: const Key('load-more-analysis-results'),
             onPressed: () => setState(() => _visibleCount += _pageSize),
-            child: Text(
-              AppLocalizations.of(
-                context,
-              ).loadMoreAnalysisResults(total - limit),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(
+              child: Text(
+                AppLocalizations.of(
+                  context,
+                ).loadMoreAnalysisResults(total - limit),
+              ),
             ),
           ),
       ],

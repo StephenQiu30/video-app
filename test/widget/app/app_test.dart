@@ -6,6 +6,7 @@ import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 import '../../support/analysis_fakes.dart';
@@ -361,7 +362,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
-    final input = tester.widget<TextField>(
+    final input = tester.widget<ShadInput>(
       find.byKey(const Key('media-url-input')),
     );
     expect(input.controller?.text, 'https://media.example/video');
@@ -394,7 +395,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('还没有剧本文档'), findsOneWidget);
     expect(find.textContaining('从首页上传剧本文档'), findsOneWidget);
-    final uploadFromHome = find.widgetWithText(FilledButton, '去首页上传剧本');
+    final uploadFromHome = find.widgetWithText(ShadButton, '去首页上传剧本');
     expect(uploadFromHome, findsOneWidget);
     expect(
       find.descendant(of: uploadFromHome, matching: find.byType(Icon)),
@@ -488,6 +489,12 @@ void main() {
     await pumpFramegrabApp(tester, downloadHistoryRepository: repository);
 
     await tester.tap(find.byKey(const Key('app-tab-1')));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(
+        const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
     await tester.pumpAndSettle();
     await tester.tap(
       find.byKey(
@@ -641,6 +648,10 @@ void main() {
     );
     expect(deleteAction.hitTestable(), findsNothing);
 
+    await tester.ensureVisible(item);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(item);
+    await tester.pumpAndSettle();
     await tester.drag(item, const Offset(-320, 0));
     await tester.pumpAndSettle();
     expect(deleteAction.hitTestable(), findsOneWidget);
@@ -755,6 +766,12 @@ void main() {
 
     await tester.tap(find.byKey(const Key('app-tab-1')));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(
+      find.byKey(
+        const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
+      ),
+    );
+    await tester.pumpAndSettle();
     await tester.tap(
       find.byKey(
         const Key('download-history-item-00000000-0000-0000-0000-000000000101'),
@@ -854,14 +871,13 @@ void main() {
       );
       expect(find.byKey(const Key('analysis-configurator')), findsOneWidget);
       expect(find.text('导演拉片'), findsOneWidget);
-      final skillField = tester.widget<DropdownMenu<String>>(
+      final skillField = tester.widget<ShadSelect<String>>(
         find.descendant(
           of: find.byKey(const Key('analysis-skill-field')),
-          matching: find.byType(DropdownMenu<String>),
+          matching: find.byType(ShadSelect<String>),
         ),
       );
-      expect(skillField.menuHeight, 304);
-      expect(skillField.expandedInsets, EdgeInsets.zero);
+      expect(skillField.maxHeight, 304);
       final start = find.byKey(const Key('start-analysis-button'));
       _scrollDetailToEnd(tester);
       await tester.pump();
@@ -975,7 +991,7 @@ void main() {
     await tester.tap(find.byKey(const Key('app-tab-0')));
     await tester.pumpAndSettle();
 
-    final input = tester.widget<TextField>(
+    final input = tester.widget<ShadInput>(
       find.byKey(const Key('media-url-input')),
     );
     expect(input.controller?.text, 'https://media.example/kept');

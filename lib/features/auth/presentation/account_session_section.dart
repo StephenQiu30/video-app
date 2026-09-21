@@ -5,7 +5,9 @@ import 'package:framegrab/features/auth/application/auth_session_controller.dart
 import 'package:framegrab/features/auth/presentation/auth_error_text.dart';
 import 'package:framegrab/features/auth/presentation/auth_failure_message.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AccountSessionSection extends ConsumerWidget {
   const AccountSessionSection({super.key});
@@ -19,10 +21,7 @@ final class AccountSessionSection extends ConsumerWidget {
         liveRegion: true,
         child: Row(
           children: [
-            const SizedBox.square(
-              dimension: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
+            const SizedBox.square(dimension: 20, child: AppSpinner()),
             const SizedBox(width: AppSpacing.small),
             Expanded(child: Text(localizations.sessionRestoring)),
           ],
@@ -72,16 +71,20 @@ final class AccountSessionSection extends ConsumerWidget {
           AuthErrorText(message: authFailureMessage(localizations, failure)),
         ],
         const SizedBox(height: AppSpacing.medium),
-        FilledButton(
+        ShadButton(
           key: const Key('account-login-button'),
           onPressed: () => context.push('/auth/login'),
-          child: Text(localizations.loginAction),
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(child: Text(localizations.loginAction)),
         ),
         const SizedBox(height: AppSpacing.xSmall),
-        TextButton(
+        ShadButton.ghost(
           key: const Key('account-register-button'),
           onPressed: () => context.push('/auth/register'),
-          child: Text(localizations.registerAction),
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(child: Text(localizations.registerAction)),
         ),
       ],
     );

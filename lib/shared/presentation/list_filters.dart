@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class ListFilters extends StatefulWidget {
   const ListFilters({
@@ -34,16 +36,20 @@ final class _ListFiltersState extends State<ListFilters> {
     final l = AppLocalizations.of(context);
     return Column(
       children: [
-        TextField(
+        ShadInput(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           controller: _search,
           textInputAction: TextInputAction.search,
           onSubmitted: (v) => widget.onSearch(v.trim()),
-          decoration: InputDecoration(
-            labelText: widget.searchLabel,
-            suffixIcon: IconButton(
-              tooltip: l.searchAction,
-              icon: const Icon(Icons.search),
-              onPressed: () => widget.onSearch(_search.text.trim()),
+          placeholder: Text(widget.searchLabel),
+          trailing: ShadTooltip(
+            builder: (context) => Text(l.searchAction),
+            child: Semantics(
+              label: l.searchAction,
+              child: ShadIconButton.ghost(
+                icon: const Icon(PhosphorIconsRegular.magnifyingGlass),
+                onPressed: () => widget.onSearch(_search.text.trim()),
+              ),
             ),
           ),
         ),

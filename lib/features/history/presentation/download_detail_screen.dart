@@ -6,7 +6,7 @@ import 'package:framegrab/features/history/presentation/download_detail_content.
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class DownloadDetailScreen extends ConsumerWidget {
   const DownloadDetailScreen({required this.jobId, super.key});
@@ -39,7 +39,7 @@ final class DownloadDetailScreen extends ConsumerWidget {
               ref.refresh(downloadDetailProvider(jobId).future).then((_) {}),
           children: [
             DataStateMessage(
-              icon: LucideIcons.cloudOff,
+              icon: PhosphorIconsRegular.cloudSlash,
               title: localizations.loadFailedTitle,
               description: localizations.loadFailedDescription,
               actionLabel: localizations.retryAction,

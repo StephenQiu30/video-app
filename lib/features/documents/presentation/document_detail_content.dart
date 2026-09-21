@@ -5,8 +5,10 @@ import 'package:framegrab/features/analysis/presentation/analysis_panel.dart';
 import 'package:framegrab/features/documents/presentation/document_detail_summary.dart';
 import 'package:framegrab/features/documents/presentation/document_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DocumentDetailContent extends StatelessWidget {
@@ -39,19 +41,16 @@ final class DocumentDetailContent extends StatelessWidget {
               color: documentStatusColor(context, document.status.name),
               label: documentStatusLabel(l10n, document.status.name),
             ),
-            TextButton.icon(
+            ShadButton.destructive(
               key: const Key('delete-document-detail'),
               onPressed: deleting ? null : onDelete,
-              icon: deleting
-                  ? const SizedBox.square(
-                      dimension: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(LucideIcons.trash2, size: 18),
-              label: Text(l10n.deleteDocumentAction),
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.error,
-              ),
+              leading: deleting
+                  ? const SizedBox.square(dimension: 16, child: AppSpinner())
+                  : const Icon(PhosphorIconsRegular.trash, size: 18),
+              enabled: (deleting ? null : onDelete) != null,
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(child: Text(l10n.deleteDocumentAction)),
             ),
           ],
         ),
@@ -60,7 +59,7 @@ final class DocumentDetailContent extends StatelessWidget {
         if (document.errorCode case final error?) ...[
           const SizedBox(height: AppSpacing.xLarge),
           _Notice(
-            icon: LucideIcons.triangleAlert,
+            icon: PhosphorIconsRegular.warning,
             title: l10n.documentParsingIncompleteTitle,
             message: documentErrorLabel(l10n, error.name),
             error: true,
@@ -69,7 +68,7 @@ final class DocumentDetailContent extends StatelessWidget {
         if (document.qualityWarnings.isNotEmpty) ...[
           const SizedBox(height: AppSpacing.xLarge),
           _Notice(
-            icon: LucideIcons.circleAlert,
+            icon: PhosphorIconsRegular.warningCircle,
             title: l10n.documentManualReviewTitle,
             message: document.qualityWarnings
                 .map((warning) => documentQualityWarningLabel(l10n, warning))
@@ -121,14 +120,14 @@ final class DocumentDetailContent extends StatelessWidget {
           )
         else
           DataStateMessage(
-            icon: LucideIcons.fileClock,
+            icon: PhosphorIconsRegular.fileText,
             title: documentStatusLabel(l10n, document.status.name),
             description: _previewMessage(l10n, document.status),
           ),
         if (document.previewTruncated) ...[
           const SizedBox(height: AppSpacing.large),
           _Notice(
-            icon: LucideIcons.info,
+            icon: PhosphorIconsRegular.info,
             title: l10n.documentPreviewTruncatedTitle,
             message: l10n.documentPreviewTruncatedDescription,
           ),
@@ -222,7 +221,7 @@ final class DocumentDetailSkeleton extends StatelessWidget {
     child: const Center(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: AppSpacing.section),
-        child: CircularProgressIndicator(),
+        child: AppSpinner(),
       ),
     ),
   );

@@ -6,7 +6,7 @@ import 'package:framegrab/features/upload/application/content_upload_controller.
 import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:framegrab/features/upload/presentation/upload_intake_panel.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class DownloadHero extends StatelessWidget {
   const DownloadHero({
@@ -68,6 +68,7 @@ final class DownloadHero extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.xxLarge),
         ContentIntakeSelector(
+          enabled: !busy && !uploadState.busy,
           linkLabel: localizations.linkIntakeMode,
           onChanged: onModeChanged,
           screenplayLabel: localizations.screenplayIntakeMode,
@@ -88,7 +89,7 @@ final class DownloadHero extends StatelessWidget {
           UploadIntakePanel(
             actionLabel: localizations.selectVideoFile,
             description: localizations.videoIntakeDescription,
-            icon: LucideIcons.video,
+            icon: PhosphorIconsRegular.videoCamera,
             kind: ContentUploadKind.video,
             onCancel: onUploadCancel,
             onPressed: () => onUploadAction(ContentUploadKind.video),
@@ -99,7 +100,7 @@ final class DownloadHero extends StatelessWidget {
           UploadIntakePanel(
             actionLabel: localizations.selectScreenplayFile,
             description: localizations.screenplayIntakeDescription,
-            icon: LucideIcons.fileText,
+            icon: PhosphorIconsRegular.fileText,
             kind: ContentUploadKind.screenplay,
             onCancel: onUploadCancel,
             onPressed: () => onUploadAction(ContentUploadKind.screenplay),

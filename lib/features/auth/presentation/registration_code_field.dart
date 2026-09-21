@@ -7,6 +7,7 @@ import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/presentation/auth_failure_message.dart';
 import 'package:framegrab/features/auth/presentation/auth_validation.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class RegistrationCodeField extends ConsumerStatefulWidget {
   const RegistrationCodeField({
@@ -89,7 +90,7 @@ final class _RegistrationCodeFieldState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextFormField(
+        ShadInputFormField(
           key: const Key('register-code-field'),
           controller: widget.controller,
           enabled: !widget.disabled,
@@ -100,24 +101,33 @@ final class _RegistrationCodeFieldState
             LengthLimitingTextInputFormatter(6),
           ],
           textInputAction: TextInputAction.next,
-          decoration: InputDecoration(labelText: l.verificationCodeLabel),
-          validator: (value) => RegExp(r'^[0-9]{6}$').hasMatch(value ?? '')
+          validator: (value) => RegExp(r'^[0-9]{6}$').hasMatch(value)
               ? null
               : l.verificationCodeRequired,
+          label: Text(l.verificationCodeLabel),
         ),
         const SizedBox(height: 8),
-        OutlinedButton(
+        ShadButton.outline(
           key: const Key('register-send-code-button'),
           onPressed:
               widget.disabled || _sending || _remaining > 0 || !validEmail
               ? null
               : () => unawaited(_send()),
-          child: Text(
-            _sending
-                ? l.sendingVerificationCode
-                : _remaining > 0
-                ? l.verificationCodeCooldown(_remaining)
-                : l.sendVerificationCode,
+          enabled:
+              (widget.disabled || _sending || _remaining > 0 || !validEmail
+                  ? null
+                  : () => unawaited(_send())) !=
+              null,
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(
+            child: Text(
+              _sending
+                  ? l.sendingVerificationCode
+                  : _remaining > 0
+                  ? l.verificationCodeCooldown(_remaining)
+                  : l.sendVerificationCode,
+            ),
           ),
         ),
         if (_sent || _failure != null)

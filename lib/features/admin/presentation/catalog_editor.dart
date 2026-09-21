@@ -4,6 +4,7 @@ import 'package:framegrab/features/admin/application/admin_providers.dart';
 import 'package:framegrab/features/admin/data/admin_configuration_repository.dart';
 import 'package:framegrab/features/admin/presentation/admin_edit_sheet.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 Future<void> editCatalog(
@@ -11,12 +12,15 @@ Future<void> editCatalog(
   WidgetRef ref, [
   ProviderCatalogEntryResponse? item,
 ]) async {
-  final saved = await showModalBottomSheet<bool>(
+  final saved = await showShadSheet<bool>(
     context: context,
-    isScrollControlled: true,
     isDismissible: false,
-    enableDrag: false,
-    builder: (_) => _CatalogEditor(item: item),
+    builder: (sheetContext) => ShadSheet(
+      draggable: false,
+      closeIcon: const SizedBox.shrink(),
+      isScrollControlled: true,
+      child: Builder(builder: (_) => _CatalogEditor(item: item)),
+    ),
   );
   if (saved == true && context.mounted) {
     ref.invalidate(adminProviderCatalogProvider);
@@ -78,39 +82,36 @@ final class _CatalogEditorState extends ConsumerState<_CatalogEditor> {
       onSave: _save,
       fields: [
         Text(l.catalogScopeDescription),
-        TextFormField(
+        ShadInputFormField(
           controller: _key,
           enabled: widget.item == null,
-          decoration: InputDecoration(labelText: l.configurationKey),
-          validator: (v) => RegExp(r'^[a-z][a-z0-9_-]{0,31}$').hasMatch(v ?? '')
+          validator: (v) => RegExp(r'^[a-z][a-z0-9_-]{0,31}$').hasMatch(v)
               ? null
               : l.invalidConfiguration,
+          label: Text(l.configurationKey),
         ),
-        TextFormField(
+        ShadInputFormField(
           controller: _name,
           maxLength: 64,
-          decoration: InputDecoration(labelText: l.displayName),
-          validator: (v) =>
-              (v ?? '').trim().isEmpty ? l.invalidConfiguration : null,
+          validator: (v) => v.trim().isEmpty ? l.invalidConfiguration : null,
+          label: Text(l.displayName),
         ),
-        TextFormField(
+        ShadInputFormField(
           controller: _order,
           keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: l.sortOrder,
-            helperText: '0–10000',
-          ),
           validator: (v) {
-            final n = int.tryParse(v ?? '');
+            final n = int.tryParse(v);
             return n == null || n < 0 || n > 10000
                 ? l.invalidConfiguration
                 : null;
           },
+          label: Text(l.sortOrder),
+          description: Text('0–10000'),
         ),
-        SwitchListTile(
-          title: Text(l.platformVisible),
+        ShadSwitch(
           value: _visible,
           onChanged: (v) => setState(() => _visible = v),
+          label: Text(l.platformVisible),
         ),
       ],
     );

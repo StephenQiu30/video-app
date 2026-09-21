@@ -9,6 +9,7 @@ import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 import '../../../support/data_fakes.dart';
+import '../../../support/shad_test_app.dart';
 
 void main() {
   testWidgets('WebM AV1 artifacts expose the bundled playback action', (
@@ -23,9 +24,10 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(
+    await pumpShadWidget(
+      tester,
       ProviderScope(
-        child: MaterialApp(
+        child: ShadTestApp(
           locale: const Locale('zh'),
           theme: AppTheme.light,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -41,6 +43,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     expect(find.byKey(const Key('watch-download-video')), findsOneWidget);
     expect(find.byKey(const Key('download-video-file')), findsOneWidget);

@@ -5,10 +5,11 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/presentation/document_list_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DocumentListScreen extends ConsumerWidget {
@@ -29,7 +30,7 @@ final class DocumentListScreen extends ConsumerWidget {
         data: (data) => _content(context, ref, data),
         error: (_, _) => [
           DataStateMessage(
-            icon: LucideIcons.cloudOff,
+            icon: PhosphorIconsRegular.cloudSlash,
             title: localizations.loadFailedTitle,
             description: localizations.loadFailedDescription,
             actionLabel: localizations.retryAction,
@@ -39,7 +40,7 @@ final class DocumentListScreen extends ConsumerWidget {
         loading: () => [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 64),
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(child: AppSpinner()),
           ),
           Center(child: Text(localizations.loadingData)),
         ],
@@ -63,7 +64,7 @@ final class DocumentListScreen extends ConsumerWidget {
         DataStateMessage(
           title: localizations.documentEmptyTitle,
           description: localizations.documentEmptyDescription,
-          icon: LucideIcons.fileText,
+          icon: PhosphorIconsRegular.fileText,
           actionEmphasis: DataStateActionEmphasis.primary,
           actionLabel: onUpload == null
               ? null

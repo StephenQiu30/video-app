@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class SourceDiscoveryWorkspace extends StatelessWidget {
@@ -52,53 +53,52 @@ final class SourceDiscoveryWorkspace extends StatelessWidget {
                 item.decisionHint == DiscoveryDecisionHint.candidate;
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Material(
-                color: theme.colorScheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(AppTheme.radius),
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  key: Key('source-candidate-${item.itemRef}'),
-                  onTap: ready && !busy ? () => onSelect(item.itemRef) : null,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          LucideIcons.video,
-                          color: ready
-                              ? theme.colorScheme.onSurface
-                              : theme.colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.title,
-                                style: theme.textTheme.titleSmall,
+              child: ShadButton.ghost(
+                key: Key('source-candidate-${item.itemRef}'),
+                onPressed: ready && !busy ? () => onSelect(item.itemRef) : null,
+                padding: EdgeInsets.zero,
+                height: 0,
+                expands: true,
+                mainAxisAlignment: MainAxisAlignment.start,
+                enabled:
+                    (ready && !busy ? () => onSelect(item.itemRef) : null) !=
+                    null,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        PhosphorIconsRegular.videoCamera,
+                        color: ready
+                            ? theme.colorScheme.onSurface
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(item.title, style: theme.textTheme.titleSmall),
+                            const SizedBox(height: 4),
+                            Text(
+                              ready
+                                  ? _duration(item.durationMs)
+                                  : localizations.candidateUnavailable,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                ready
-                                    ? _duration(item.durationMs)
-                                    : localizations.candidateUnavailable,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        if (busy)
-                          const SizedBox.square(
-                            dimension: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        else if (ready)
-                          const Icon(LucideIcons.chevronRight, size: 20),
-                      ],
-                    ),
+                      ),
+                      if (busy)
+                        const SizedBox.square(
+                          dimension: 18,
+                          child: AppSpinner(),
+                        )
+                      else if (ready)
+                        const Icon(PhosphorIconsRegular.caretRight, size: 20),
+                    ],
                   ),
                 ),
               ),

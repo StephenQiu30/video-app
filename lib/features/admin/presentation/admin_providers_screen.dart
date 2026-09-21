@@ -11,6 +11,8 @@ import 'package:framegrab/features/admin/presentation/provider_runtime_panel.dar
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/list_filters.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class AdminProvidersScreen extends ConsumerStatefulWidget {
@@ -35,9 +37,9 @@ final class _AdminProvidersScreenState
       ref.invalidate(adminProviderCatalogProvider);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).adminActionFailed),
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(AppLocalizations.of(context).adminActionFailed),
           ),
         );
       }
@@ -56,9 +58,9 @@ final class _AdminProvidersScreenState
       ref.invalidate(adminProviderCatalogProvider);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).adminActionFailed),
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(AppLocalizations.of(context).adminActionFailed),
           ),
         );
       }
@@ -95,10 +97,12 @@ final class _AdminProvidersScreenState
         ),
         ...result.when(
           data: (data) => [
-            TextButton.icon(
+            ShadButton.ghost(
               onPressed: () => editCatalog(context, ref),
-              icon: const Icon(Icons.add),
-              label: Text(l10n.createPlatform),
+              leading: const Icon(PhosphorIconsRegular.plus),
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(child: Text(l10n.createPlatform)),
             ),
             for (final item in data.items.where(
               (item) =>
@@ -113,30 +117,45 @@ final class _AdminProvidersScreenState
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.small),
                 child: Column(
                   children: [
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(item.displayName),
-                      subtitle: Text(
+                    ShadSwitch(
+                      sublabel: Text(
                         '${item.key} · ${item.systemStatus.name} · '
                         '${item.systemRegistered ? l10n.adminSystemRegistered : l10n.adminSystemMissing}',
                       ),
                       value: item.isVisible,
+                      enabled: !_busy.contains(item.key),
                       onChanged: _busy.contains(item.key)
                           ? null
                           : (value) => _toggle(item, value),
+                      label: Text(item.displayName),
                     ),
                     Wrap(
                       children: [
-                        TextButton(
+                        ShadButton.ghost(
                           onPressed: () => editCatalog(context, ref, item),
-                          child: Text(l10n.editAction),
+                          height: 0,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          child: Flexible(child: Text(l10n.editAction)),
                         ),
                         if (!item.systemRegistered)
-                          TextButton(
+                          ShadButton.ghost(
                             onPressed: _busy.contains(item.key)
                                 ? null
                                 : () => _delete(item),
-                            child: Text(l10n.deleteAction),
+                            enabled:
+                                (_busy.contains(item.key)
+                                    ? null
+                                    : () => _delete(item)) !=
+                                null,
+                            height: 0,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                            child: Flexible(child: Text(l10n.deleteAction)),
                           ),
                       ],
                     ),

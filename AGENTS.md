@@ -16,7 +16,7 @@ Phase 1 Flutter 工程基座已经建立。新增业务能力仍必须在对应 
 
 - 首期只支持 Android 与 iOS；禁止启用 Flutter Web。
 - macOS、Windows、Linux、车机或电视端必须先建立独立 Design 和 Acceptance。
-- 使用 Flutter stable 与 Dart；固定基线为 Flutter 3.44.7、Dart 3.12.2、JDK 21、Android JVM target 17 与 Xcode 26.6。
+- 使用 Flutter stable 与 Dart；固定基线为 Flutter 3.44.7、Dart 3.12.2、JDK 21、Android JVM target 17 与 Xcode 27；iOS 最低支持 16.0。
 - 应用提交 `pubspec.lock`，依赖通过 `flutter pub` 管理，不引入第二套包管理或并行原生业务实现。
 - Android/iOS 工程必须由统一的 `flutter create --platforms=android,ios` 命令生成，并记录组织 ID、应用 ID、最低系统版本和生成命令。
 
@@ -61,7 +61,7 @@ Phase 1 Flutter 工程基座已经建立。新增业务能力仍必须在对应 
 
 ## 体验与可访问性
 
-- 设计遵循 Material 3，并为 iOS 提供符合系统习惯的导航、返回和权限反馈。
+- 设计采用 shadcn_ui 全套组件，与 frontend 的 radix-nova / neutral 视觉保持统一（见 021 设计）；为 iOS 保留系统导航、返回和权限反馈。
 - 页面必须覆盖初始、加载、成功、空、校验失败、请求失败、离线、禁用、重试和会话过期状态。
 - 支持系统深浅主题、文字缩放、屏幕阅读器、动态字体和 reduced motion。
 - 触控目标、对比度、焦点顺序和语义标签满足 WCAG 2.2 AA 对应要求。

@@ -8,7 +8,9 @@ import 'package:framegrab/features/admin/presentation/admin_edit_sheet.dart';
 import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/features/admin/presentation/ai_provider_editor.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class AdminAiProvidersScreen extends ConsumerStatefulWidget {
@@ -30,9 +32,9 @@ final class _AdminAiProvidersScreenState
       ref.invalidate(adminAiProvidersProvider);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).adminActionFailed),
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(AppLocalizations.of(context).adminActionFailed),
           ),
         );
       }
@@ -49,9 +51,9 @@ final class _AdminAiProvidersScreenState
       ref.invalidate(adminAiProvidersProvider);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).adminActionFailed),
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(AppLocalizations.of(context).adminActionFailed),
           ),
         );
       }
@@ -72,10 +74,12 @@ final class _AdminAiProvidersScreenState
           ref.refresh(adminAiProvidersProvider.future).then((_) {}),
       children: result.when(
         data: (data) => [
-          TextButton.icon(
+          ShadButton.ghost(
             onPressed: () => editAiProvider(context, ref),
-            icon: const Icon(Icons.add),
-            label: Text(l10n.createAiProvider),
+            leading: const Icon(PhosphorIconsRegular.plus),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.createAiProvider)),
           ),
           Text(
             data.agentAvailable
@@ -118,22 +122,25 @@ final class _AdminAiProvidersScreenState
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(LucideIcons.check, size: 16),
+                            const Icon(PhosphorIconsRegular.check, size: 16),
                             const SizedBox(width: 4),
                             Text(l10n.adminActiveLine),
                           ],
                         )
                       else
-                        TextButton(
+                        ShadButton.ghost(
                           onPressed: _busyKey == null
                               ? () => _activate(item.key)
                               : null,
+                          enabled:
+                              (_busyKey == null
+                                  ? () => _activate(item.key)
+                                  : null) !=
+                              null,
                           child: _busyKey == item.key
                               ? const SizedBox.square(
                                   dimension: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
+                                  child: AppSpinner(),
                                 )
                               : Text(l10n.adminActivateAction),
                         ),
@@ -141,18 +148,36 @@ final class _AdminAiProvidersScreenState
                   ),
                   Wrap(
                     children: [
-                      TextButton(
+                      ShadButton.ghost(
                         onPressed: _busyKey == null
                             ? () => editAiProvider(context, ref, item)
                             : null,
-                        child: Text(l10n.editAction),
+                        enabled:
+                            (_busyKey == null
+                                ? () => editAiProvider(context, ref, item)
+                                : null) !=
+                            null,
+                        height: 0,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
+                        child: Flexible(child: Text(l10n.editAction)),
                       ),
                       if (!item.isActive && item.key != 'local-codex')
-                        TextButton(
+                        ShadButton.ghost(
                           onPressed: _busyKey == null
                               ? () => _delete(item)
                               : null,
-                          child: Text(l10n.deleteAction),
+                          enabled:
+                              (_busyKey == null ? () => _delete(item) : null) !=
+                              null,
+                          height: 0,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          child: Flexible(child: Text(l10n.deleteAction)),
                         ),
                     ],
                   ),

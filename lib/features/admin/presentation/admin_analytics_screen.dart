@@ -6,6 +6,7 @@ import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AdminAnalyticsScreen extends ConsumerStatefulWidget {
   const AdminAnalyticsScreen({super.key});
@@ -37,14 +38,21 @@ final class _AdminAnalyticsScreenState
               spacing: AppSpacing.xSmall,
               children: [
                 for (final days in const [7, 30, 90])
-                  TextButton(
+                  ShadButton.ghost(
                     onPressed: () => setState(() => _days = days),
-                    child: Text(
-                      l10n.adminDays(days),
-                      style: TextStyle(
-                        fontWeight: _days == days
-                            ? FontWeight.w700
-                            : FontWeight.w400,
+                    height: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    child: Flexible(
+                      child: Text(
+                        l10n.adminDays(days),
+                        style: TextStyle(
+                          fontWeight: _days == days
+                              ? FontWeight.w700
+                              : FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),
@@ -113,11 +121,27 @@ final class _AdminAnalyticsScreenState
               style: Theme.of(context).textTheme.titleMedium,
             ),
             for (final day in data.daily)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text('${day.date}'),
-                subtitle: Text(
-                  '${l10n.totalLabel}: ${day.total} · ${l10n.succeededLabel}: ${day.succeeded} · ${l10n.failedLabel}: ${day.failed} · ${l10n.cancelledLabel}: ${day.cancelled}',
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${day.date}'),
+                          const SizedBox(height: 4),
+                          DefaultTextStyle(
+                            style: ShadTheme.of(context).textTheme.muted,
+                            child: Text(
+                              '${l10n.totalLabel}: ${day.total} · ${l10n.succeededLabel}: ${day.succeeded} · ${l10n.failedLabel}: ${day.failed} · ${l10n.cancelledLabel}: ${day.cancelled}',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox.shrink(),
+                  ],
                 ),
               ),
           ];

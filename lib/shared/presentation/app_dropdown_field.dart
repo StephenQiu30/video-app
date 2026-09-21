@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AppDropdownOption<T> {
   const AppDropdownOption({
@@ -30,23 +32,49 @@ final class AppDropdownField<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<T>(
-      enabled: enabled,
-      expandedInsets: EdgeInsets.zero,
-      initialSelection: value,
+    return ShadInputDecorator(
       label: Text(label),
-      menuHeight: 304,
-      onSelected: onSelected,
-      requestFocusOnTap: false,
-      selectOnly: true,
-      dropdownMenuEntries: [
-        for (final option in options)
-          DropdownMenuEntry<T>(
-            value: option.value,
-            label: option.label,
-            enabled: option.enabled,
+      child: LayoutBuilder(
+        builder: (context, constraints) => ShadSelect<T>(
+          key: ValueKey(value),
+          enabled: enabled,
+          initialValue: value,
+          trailing: const Icon(PhosphorIconsRegular.caretDown, size: 16),
+          placeholder: Text(
+            options
+                    .where((option) => option.value == value)
+                    .firstOrNull
+                    ?.label ??
+                label,
           ),
-      ],
+          minWidth: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
+          maxHeight: 304,
+          onChanged: onSelected,
+          selectedOptionBuilder: (context, selected) => Text(
+            options
+                    .where((option) => option.value == selected)
+                    .firstOrNull
+                    ?.label ??
+                '',
+          ),
+          options: [
+            for (final option in options)
+              if (option.enabled)
+                ShadOption<T>(value: option.value, child: Text(option.label))
+              else
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Semantics(
+                    enabled: false,
+                    child: Text(
+                      option.label,
+                      style: ShadTheme.of(context).textTheme.muted,
+                    ),
+                  ),
+                ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -3,132 +3,68 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/theme/app_colors.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/core/theme/app_theme.dart';
+import 'package:framegrab/core/theme/web_colors.g.dart';
 
 void main() {
   test('secondary text meets WCAG AA contrast in both themes', () {
     for (final theme in [AppTheme.light, AppTheme.dark]) {
-      final ratio = _contrastRatio(
-        theme.colorScheme.onSurfaceVariant,
-        theme.scaffoldBackgroundColor,
-      );
-
-      expect(ratio, greaterThanOrEqualTo(4.5));
-    }
-  });
-
-  test('matches the Web semantic input and status tokens', () {
-    expect(
-      AppTheme.light.extension<AppColors>()?.input,
-      const Color(0xFFF1F1F1),
-    );
-    expect(
-      AppTheme.dark.extension<AppColors>()?.input,
-      const Color(0xFF1C1C1C),
-    );
-    expect(
-      AppTheme.light.extension<AppColors>()?.success,
-      const Color(0xFF0F7040),
-    );
-    expect(
-      AppTheme.dark.extension<AppColors>()?.success,
-      const Color(0xFF54C58B),
-    );
-    expect(
-      AppTheme.light.extension<AppColors>()?.warning,
-      const Color(0xFF854D0E),
-    );
-    expect(
-      AppTheme.dark.extension<AppColors>()?.warning,
-      const Color(0xFFFBBF24),
-    );
-  });
-
-  test('uses low-intensity error surfaces with readable text', () {
-    expect(AppTheme.light.colorScheme.errorContainer, const Color(0xFFFEE2E2));
-    expect(
-      AppTheme.light.colorScheme.onErrorContainer,
-      const Color(0xFF991B1B),
-    );
-    expect(AppTheme.dark.colorScheme.errorContainer, const Color(0xFF3B1616));
-    expect(AppTheme.dark.colorScheme.onErrorContainer, const Color(0xFFFCA5A5));
-
-    for (final theme in [AppTheme.light, AppTheme.dark]) {
       expect(
         _contrastRatio(
-          theme.colorScheme.onErrorContainer,
-          theme.colorScheme.errorContainer,
+          theme.colorScheme.onSurfaceVariant,
+          theme.scaffoldBackgroundColor,
         ),
         greaterThanOrEqualTo(4.5),
       );
     }
   });
 
-  test('maps every Material surface role to the Web monochrome palette', () {
-    final light = AppTheme.light.colorScheme;
-    final dark = AppTheme.dark.colorScheme;
-
-    expect(light.secondaryContainer, const Color(0xFFF5F5F5));
-    expect(light.onSecondaryContainer, const Color(0xFF111111));
-    expect(light.tertiaryContainer, const Color(0xFFECECEC));
-    expect(light.surfaceContainerLow, Colors.white);
-    expect(light.surfaceContainerHigh, const Color(0xFFF1F1F1));
-    expect(light.surfaceContainerHighest, const Color(0xFFECECEC));
-
-    expect(dark.secondaryContainer, const Color(0xFF1F1F1F));
-    expect(dark.onSecondaryContainer, const Color(0xFFF5F5F5));
-    expect(dark.tertiaryContainer, const Color(0xFF262626));
-    expect(dark.surfaceContainerLow, const Color(0xFF111111));
-    expect(dark.surfaceContainerHigh, const Color(0xFF1F1F1F));
-    expect(dark.surfaceContainerHighest, const Color(0xFF262626));
-
-    for (final scheme in [light, dark]) {
-      for (final color in [
-        scheme.primary,
-        scheme.primaryContainer,
-        scheme.secondary,
-        scheme.secondaryContainer,
-        scheme.tertiary,
-        scheme.tertiaryContainer,
-        scheme.surface,
-        scheme.surfaceContainerLow,
-        scheme.surfaceContainerHigh,
-        scheme.surfaceContainerHighest,
-      ]) {
-        expect(_isAchromatic(color), isTrue, reason: '$color has a hue');
-      }
-      expect(scheme.surfaceTint, Colors.transparent);
+  test('Shad and infrastructure bridge use generated Web semantic tokens', () {
+    for (final (shad, bridge, tokens) in [
+      (AppTheme.shadLight, AppTheme.light, lightWebColors),
+      (AppTheme.shadDark, AppTheme.dark, darkWebColors),
+    ]) {
+      final c = shad.colorScheme;
+      expect(c.primary, tokens['primary']);
+      expect(c.input, tokens['input']);
+      expect(c.destructive, tokens['destructive']);
+      expect(c.border, tokens['border']);
+      expect(bridge.scaffoldBackgroundColor, tokens['background']);
+      expect(bridge.extension<AppColors>()?.input, tokens['input']);
+      expect(bridge.extension<AppColors>()?.success, tokens['success']);
+      expect(bridge.extension<AppColors>()?.warning, tokens['warning']);
+      expect(bridge.colorScheme.secondaryContainer, c.secondary);
+      expect(bridge.colorScheme.tertiaryContainer, c.accent);
+      expect(bridge.colorScheme.surfaceContainerLow, c.card);
+      expect(bridge.colorScheme.surfaceContainerHigh, c.muted);
+      expect(bridge.colorScheme.surfaceContainerHighest, c.accent);
+      expect(bridge.colorScheme.surfaceTint, Colors.transparent);
+      expect(
+        bridge.colorScheme.errorContainer,
+        Color.alphaBlend(c.destructive.withValues(alpha: .1), c.background),
+      );
+      expect(
+        _contrastRatio(
+          bridge.colorScheme.onErrorContainer,
+          bridge.colorScheme.errorContainer,
+        ),
+        greaterThanOrEqualTo(4.5),
+      );
     }
   });
 
-  test('centralizes the editorial type and spacing scale', () {
-    final textTheme = AppTheme.light.textTheme;
-
-    expect(textTheme.displayLarge?.fontSize, 64);
-    expect(textTheme.displayMedium?.fontSize, 52);
-    expect(textTheme.displaySmall?.fontSize, 40);
-    expect(textTheme.bodyLarge?.fontSize, 15);
+  test('uses Geist and Shad scale with accessible native touch targets', () {
+    final shad = AppTheme.shadLight;
+    expect(shad.textTheme.family, 'packages/shadcn_ui/Geist');
+    expect(shad.textTheme.p.fontSize, 14);
+    expect(shad.buttonSizesTheme.regular?.height, 44);
+    expect(AppTheme.light.textTheme.bodyLarge?.fontSize, 16);
     expect(AppSpacing.section, 40);
-    expect(AppTheme.radius, 6);
+    expect(AppTheme.radius, 10);
   });
 }
 
-bool _isAchromatic(Color color) {
-  final argb = color.toARGB32();
-  final red = (argb >> 16) & 0xff;
-  final green = (argb >> 8) & 0xff;
-  final blue = argb & 0xff;
-  return red == green && green == blue;
-}
-
 double _contrastRatio(Color first, Color second) {
-  final firstLuminance = first.computeLuminance();
-  final secondLuminance = second.computeLuminance();
-  final lighter = firstLuminance > secondLuminance
-      ? firstLuminance
-      : secondLuminance;
-  final darker = firstLuminance > secondLuminance
-      ? secondLuminance
-      : firstLuminance;
-
-  return (lighter + 0.05) / (darker + 0.05);
+  final a = first.computeLuminance();
+  final b = second.computeLuminance();
+  return ((a > b ? a : b) + .05) / ((a > b ? b : a) + .05);
 }

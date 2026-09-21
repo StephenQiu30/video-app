@@ -8,8 +8,9 @@ import 'package:framegrab/features/analysis/presentation/analysis_configurator.d
 import 'package:framegrab/features/analysis/presentation/analysis_job_state.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class AnalysisPanel extends ConsumerWidget {
   AnalysisPanel({required String downloadId, super.key})
@@ -51,7 +52,7 @@ final class AnalysisPanel extends ConsumerWidget {
           result.when(
             data: (state) => _content(context, state, controller),
             error: (_, _) => DataStateMessage(
-              icon: LucideIcons.cloudOff,
+              icon: PhosphorIconsRegular.cloudSlash,
               title: l10n.analysisLoadFailed,
               description: l10n.analysisServiceUnavailable,
               actionLabel: l10n.retryAction,
@@ -61,7 +62,7 @@ final class AnalysisPanel extends ConsumerWidget {
             loading: () => Semantics(
               liveRegion: true,
               label: l10n.loadingData,
-              child: const Center(child: CircularProgressIndicator()),
+              child: const Center(child: AppSpinner()),
             ),
           ),
         ],

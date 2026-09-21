@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import '../../support/analysis_fakes.dart';
 import '../../support/auth_fakes.dart';
@@ -126,7 +127,7 @@ void main() {
         await tester.tap(destinationSemantics(0));
         await tester.pumpAndSettle();
 
-        final input = tester.widget<TextField>(
+        final input = tester.widget<ShadInput>(
           find.byKey(const Key('media-url-input')),
         );
         expect(input.controller?.text, 'https://media.example/kept');
@@ -217,7 +218,14 @@ void main() {
     final start = find.byKey(const Key('start-analysis-button'));
     expect(start, findsOneWidget);
     expect(tester.getRect(start).height, greaterThanOrEqualTo(44));
-    expect(tester.getSemantics(start).label, contains('开始 AI 分析'));
+    expect(
+      tester
+          .getSemantics(
+            find.descendant(of: start, matching: find.text('开始 AI 分析')),
+          )
+          .label,
+      contains('开始 AI 分析'),
+    );
     expect(tester.takeException(), isNull);
     semanticsHandle.dispose();
   });

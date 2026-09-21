@@ -3,7 +3,8 @@ import 'package:flutter_file_saver/flutter_file_saver.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/features/analysis/data/analysis_docx_repository.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AnalysisDocxButton extends ConsumerStatefulWidget {
   const AnalysisDocxButton({required this.analysisId, super.key});
@@ -28,9 +29,9 @@ final class _AnalysisDocxButtonState extends ConsumerState<AnalysisDocxButton> {
       );
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(
               AppLocalizations.of(context).analysisReportDownloadFailed,
             ),
           ),
@@ -42,10 +43,13 @@ final class _AnalysisDocxButtonState extends ConsumerState<AnalysisDocxButton> {
   }
 
   @override
-  Widget build(BuildContext context) => FilledButton.tonalIcon(
+  Widget build(BuildContext context) => ShadButton.secondary(
     key: const Key('export-analysis-docx'),
     onPressed: _busy ? null : _save,
-    icon: const Icon(LucideIcons.download),
-    label: Text(AppLocalizations.of(context).exportDocx),
+    leading: const Icon(PhosphorIconsRegular.download),
+    enabled: (_busy ? null : _save) != null,
+    height: 0,
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    child: Flexible(child: Text(AppLocalizations.of(context).exportDocx)),
   );
 }

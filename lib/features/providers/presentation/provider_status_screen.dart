@@ -5,7 +5,8 @@ import 'package:framegrab/features/providers/application/provider_status_provide
 import 'package:framegrab/features/providers/presentation/provider_status_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class ProviderStatusScreen extends ConsumerStatefulWidget {
@@ -29,18 +30,22 @@ final class _ProviderStatusScreenState
       refreshLabel: localizations.refreshAction,
       onRefresh: () => ref.refresh(providerStatusProvider.future).then((_) {}),
       children: [
-        Wrap(
-          spacing: 8,
-          children: [
+        ShadTabs<String>(
+          key: const Key('provider-status-filter'),
+          value: _filter,
+          scrollable: true,
+          onChanged: (value) => setState(() => _filter = value),
+          tabs: [
             for (final entry in {
               'all': localizations.allStatuses,
               'available': localizations.availableLabel,
               'attention': localizations.needsAttention,
             }.entries)
-              ChoiceChip(
-                label: Text(entry.value),
-                selected: _filter == entry.key,
-                onSelected: (_) => setState(() => _filter = entry.key),
+              ShadTab<String>(
+                key: Key('provider-filter-${entry.key}'),
+                value: entry.key,
+                height: 44,
+                child: Text(entry.value),
               ),
           ],
         ),
@@ -49,7 +54,7 @@ final class _ProviderStatusScreenState
           data: (data) => _content(context, data),
           error: (_, _) => [
             DataStateMessage(
-              icon: LucideIcons.cloudOff,
+              icon: PhosphorIconsRegular.cloudSlash,
               title: localizations.loadFailedTitle,
               description: localizations.loadFailedDescription,
               actionLabel: localizations.retryAction,
@@ -71,7 +76,7 @@ final class _ProviderStatusScreenState
         DataStateMessage(
           title: localizations.providerEmptyTitle,
           description: localizations.providerEmptyDescription,
-          icon: LucideIcons.activity,
+          icon: PhosphorIconsRegular.pulse,
         ),
       ];
     }

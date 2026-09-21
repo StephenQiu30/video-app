@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/shared/presentation/app_brand.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 
 final class SessionRestoreScreen extends StatelessWidget {
   const SessionRestoreScreen({super.key});
@@ -19,9 +20,8 @@ final class SessionRestoreScreen extends StatelessWidget {
                 child: SizedBox.square(
                   key: const Key('session-restore-progress'),
                   dimension: 24,
-                  child: CircularProgressIndicator(
+                  child: AppSpinner(
                     color: Theme.of(context).colorScheme.onSurface,
-                    strokeWidth: 2,
                   ),
                 ),
               ),

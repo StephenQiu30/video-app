@@ -9,7 +9,8 @@ import 'package:framegrab/features/history/presentation/download_presentation_la
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadTaskActions extends ConsumerStatefulWidget {
@@ -76,9 +77,9 @@ final class _DownloadTaskActionsState
       await operation();
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(
               failureMessage?.call(error) ??
                   AppLocalizations.of(context).operationFailed,
             ),
@@ -102,23 +103,34 @@ final class _DownloadTaskActionsState
       fileAvailable: widget.job.fileAvailable,
     );
     final primaryAction = canCancel
-        ? FilledButton.tonalIcon(
+        ? ShadButton.secondary(
             onPressed: _busy ? null : _cancel,
-            icon: const Icon(LucideIcons.x, size: 18),
-            label: Text(l10n.cancelDownloadAction),
+            leading: const Icon(PhosphorIconsRegular.x, size: 18),
+            enabled: (_busy ? null : _cancel) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.cancelDownloadAction)),
           )
         : recovery == DownloadRecovery.retry
-        ? FilledButton.icon(
+        ? ShadButton(
             onPressed: _busy ? null : _retry,
-            icon: const Icon(LucideIcons.refreshCw, size: 18),
-            label: Text(l10n.retryDownloadAction),
+            leading: const Icon(PhosphorIconsRegular.arrowClockwise, size: 18),
+            enabled: (_busy ? null : _retry) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.retryDownloadAction)),
           )
         : recovery == DownloadRecovery.reimport
-        ? FilledButton.tonal(
+        ? ShadButton.secondary(
             onPressed: _busy
                 ? null
                 : () => const DownloadHomeRoute().go(context),
-            child: Text(l10n.reimportDownloadAction),
+            enabled:
+                (_busy ? null : () => const DownloadHomeRoute().go(context)) !=
+                null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.reimportDownloadAction)),
           )
         : null;
     return Align(
@@ -128,14 +140,14 @@ final class _DownloadTaskActionsState
         runSpacing: 8,
         children: [
           ?primaryAction,
-          TextButton.icon(
+          ShadButton.destructive(
             key: Key('delete-download-detail-${widget.job.id}'),
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
-            ),
             onPressed: _busy ? null : _delete,
-            icon: const Icon(LucideIcons.trash2, size: 18),
-            label: Text(l10n.deleteDownloadAction),
+            leading: const Icon(PhosphorIconsRegular.trash, size: 18),
+            enabled: (_busy ? null : _delete) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.deleteDownloadAction)),
           ),
         ],
       ),

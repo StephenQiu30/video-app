@@ -10,7 +10,8 @@ import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class DocumentDetailScreen extends ConsumerStatefulWidget {
   const DocumentDetailScreen({required this.documentId, super.key});
@@ -50,9 +51,9 @@ final class _DocumentDetailScreenState
       }
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(deletionFailureMessage(l10n, error))),
-      );
+      ShadSonner.of(
+        context,
+      ).show(ShadToast(description: Text(deletionFailureMessage(l10n, error))));
       setState(() => _deleting = false);
     }
   }
@@ -90,7 +91,7 @@ final class _DocumentDetailScreenState
           onRefresh: refresh,
           children: [
             DataStateMessage(
-              icon: LucideIcons.cloudOff,
+              icon: PhosphorIconsRegular.cloudSlash,
               title: l10n.loadFailedTitle,
               description: l10n.loadFailedDescription,
               actionLabel: l10n.retryAction,

@@ -9,7 +9,8 @@ import 'package:framegrab/features/auth/presentation/profile_editor.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -85,22 +86,27 @@ final class _LogoutAction extends ConsumerWidget {
     if (session.user == null) {
       return const SizedBox.shrink();
     }
-    return TextButton.icon(
+    return ShadButton.destructive(
       key: const Key('logout-button'),
       onPressed: session.isBusy
           ? null
           : () => unawaited(ref.read(authSessionProvider.notifier).logout()),
-      style: TextButton.styleFrom(
-        alignment: Alignment.centerLeft,
-        foregroundColor: Theme.of(context).colorScheme.error,
-        minimumSize: const Size.fromHeight(48),
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.medium),
-      ),
-      icon: const Icon(LucideIcons.logOut),
-      label: Text(
-        session.phase == AuthSessionPhase.signingOut
-            ? localizations.loggingOut
-            : localizations.logoutAction,
+      leading: const Icon(PhosphorIconsRegular.signOut),
+      enabled:
+          (session.isBusy
+              ? null
+              : () => unawaited(
+                  ref.read(authSessionProvider.notifier).logout(),
+                )) !=
+          null,
+      height: 0,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Flexible(
+        child: Text(
+          session.phase == AuthSessionPhase.signingOut
+              ? localizations.loggingOut
+              : localizations.logoutAction,
+        ),
       ),
     );
   }
@@ -119,35 +125,36 @@ final class _AdminEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        key: const Key('admin-center-entry'),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.medium),
-          child: Row(
-            children: [
-              const Icon(LucideIcons.shieldCheck),
-              const SizedBox(width: AppSpacing.medium),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(height: AppSpacing.xSmall),
-                    Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+    return ShadButton.ghost(
+      key: const Key('admin-center-entry'),
+      onPressed: onTap,
+      padding: EdgeInsets.zero,
+      height: 0,
+      expands: true,
+      mainAxisAlignment: MainAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.medium),
+        child: Row(
+          children: [
+            const Icon(PhosphorIconsRegular.shieldCheck),
+            const SizedBox(width: AppSpacing.medium),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: AppSpacing.xSmall),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const Icon(LucideIcons.chevronRight, size: 18),
-            ],
-          ),
+            ),
+            const Icon(PhosphorIconsRegular.caretRight, size: 18),
+          ],
         ),
       ),
     );

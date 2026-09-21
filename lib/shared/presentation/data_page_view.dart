@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/shared/presentation/app_page_intro.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_refresh_indicator.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 enum DataStateActionEmphasis { subtle, primary }
 
@@ -27,9 +29,9 @@ final class DataPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: RefreshIndicator(
+      child: AppRefreshIndicator(
         onRefresh: onRefresh,
-        semanticsLabel: refreshLabel,
+        label: refreshLabel,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(
@@ -179,8 +181,8 @@ final class DataStateMessage extends StatelessWidget {
     required this.title,
     this.actionEmphasis = DataStateActionEmphasis.subtle,
     this.actionLabel,
-    this.actionIcon = LucideIcons.refreshCw,
-    this.icon = LucideIcons.inbox,
+    this.actionIcon = PhosphorIconsRegular.arrowClockwise,
+    this.icon = PhosphorIconsRegular.tray,
     this.onAction,
     super.key,
   });
@@ -218,20 +220,50 @@ final class DataStateMessage extends StatelessWidget {
               const SizedBox(height: AppSpacing.large),
               if (actionEmphasis == DataStateActionEmphasis.primary)
                 if (actionIcon == null)
-                  FilledButton(onPressed: onAction, child: Text(actionLabel!))
-                else
-                  FilledButton.icon(
+                  ShadButton(
                     onPressed: onAction,
-                    icon: Icon(actionIcon, size: 18),
-                    label: Text(actionLabel!),
+                    enabled: onAction != null,
+                    height: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    child: Flexible(child: Text(actionLabel!)),
+                  )
+                else
+                  ShadButton(
+                    onPressed: onAction,
+                    leading: Icon(actionIcon, size: 18),
+                    enabled: onAction != null,
+                    height: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    child: Flexible(child: Text(actionLabel!)),
                   )
               else if (actionIcon == null)
-                TextButton(onPressed: onAction, child: Text(actionLabel!))
-              else
-                TextButton.icon(
+                ShadButton.ghost(
                   onPressed: onAction,
-                  icon: Icon(actionIcon, size: 18),
-                  label: Text(actionLabel!),
+                  enabled: onAction != null,
+                  height: 0,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                  child: Flexible(child: Text(actionLabel!)),
+                )
+              else
+                ShadButton.ghost(
+                  onPressed: onAction,
+                  leading: Icon(actionIcon, size: 18),
+                  enabled: onAction != null,
+                  height: 0,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                  child: Flexible(child: Text(actionLabel!)),
                 ),
             ],
           ],
@@ -249,18 +281,10 @@ final class DataStatusLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          child: const SizedBox.square(dimension: 8),
-        ),
-        const SizedBox(width: AppSpacing.xSmall),
-        Flexible(
-          child: Text(label, style: Theme.of(context).textTheme.labelMedium),
-        ),
-      ],
+    return ShadBadge.secondary(
+      backgroundColor: color.withValues(alpha: .1),
+      foregroundColor: color,
+      child: Text(label),
     );
   }
 }

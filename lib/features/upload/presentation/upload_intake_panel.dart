@@ -3,6 +3,9 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/upload/application/content_upload_controller.dart';
 import 'package:framegrab/features/upload/domain/content_upload.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class UploadIntakePanel extends StatelessWidget {
   const UploadIntakePanel({
@@ -64,7 +67,7 @@ final class UploadIntakePanel extends StatelessWidget {
             const SizedBox(height: AppSpacing.large),
             Text(_phaseLabel(context, state.phase)),
             const SizedBox(height: AppSpacing.xSmall),
-            LinearProgressIndicator(
+            ShadProgress(
               value:
                   state.phase == ContentUploadPhase.creating ||
                       state.phase == ContentUploadPhase.completing ||
@@ -74,31 +77,38 @@ final class UploadIntakePanel extends StatelessWidget {
             ),
           ],
           if (busy)
-            TextButton.icon(
+            ShadButton.ghost(
               key: const Key('cancel-content-upload'),
               onPressed: onCancel,
-              icon: const Icon(Icons.close),
-              label: Text(AppLocalizations.of(context).cancelUploadAction),
+              leading: const Icon(PhosphorIconsRegular.x),
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(
+                child: Text(AppLocalizations.of(context).cancelUploadAction),
+              ),
             ),
           if (failure != null) ...[
             const SizedBox(height: AppSpacing.large),
-            Text(
-              _failureLabel(context, failure),
+            ShadAlert.destructive(
               key: const Key('content-upload-error'),
-              style: TextStyle(color: theme.colorScheme.error),
+              description: Text(_failureLabel(context, failure)),
             ),
           ],
           const SizedBox(height: AppSpacing.xLarge),
-          FilledButton.icon(
+          ShadButton(
             key: Key('select-${kind.name}-file'),
             onPressed: state.busy ? null : onPressed,
-            icon: busy
-                ? const SizedBox.square(
-                    dimension: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
+            leading: busy
+                ? const SizedBox.square(dimension: 18, child: AppSpinner())
                 : Icon(icon, size: 20),
-            label: Text(busy ? _phaseLabel(context, state.phase) : actionLabel),
+            enabled: (state.busy ? null : onPressed) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(
+              child: Text(
+                busy ? _phaseLabel(context, state.phase) : actionLabel,
+              ),
+            ),
           ),
         ],
       ),

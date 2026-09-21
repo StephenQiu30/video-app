@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AuthErrorText extends StatelessWidget {
   const AuthErrorText({required this.message, super.key});
@@ -12,11 +14,9 @@ final class AuthErrorText extends StatelessWidget {
     return Semantics(
       container: true,
       liveRegion: true,
-      child: Text(
-        value,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.error,
-        ),
+      child: ShadAlert.destructive(
+        icon: const Icon(PhosphorIconsRegular.warningCircle),
+        description: Text(value),
       ),
     );
   }

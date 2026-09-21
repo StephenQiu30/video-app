@@ -8,6 +8,7 @@ import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/core/theme/theme_mode_controller.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class FramegrabApp extends ConsumerStatefulWidget {
   const FramegrabApp({this.locale, super.key});
@@ -34,21 +35,28 @@ final class _FramegrabAppState extends ConsumerState<FramegrabApp> {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(themeModeProvider);
 
-    return MaterialApp.router(
-      title: '帧取',
-      debugShowCheckedModeBanner: false,
-      locale: widget.locale,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+    return ShadApp.custom(
+      theme: AppTheme.shadLight,
+      darkTheme: AppTheme.shadDark,
       themeMode: themeMode,
-      routerConfig: router,
+      appBuilder: (context) => MaterialApp.router(
+        title: '帧取',
+        debugShowCheckedModeBanner: false,
+        locale: widget.locale,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalShadLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: themeMode,
+        routerConfig: router,
+        builder: (context, child) => ShadAppBuilder(child: child),
+      ),
     );
   }
 }

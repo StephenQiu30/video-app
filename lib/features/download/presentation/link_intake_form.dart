@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class LinkIntakeForm extends StatelessWidget {
   const LinkIntakeForm({
@@ -37,19 +39,21 @@ final class LinkIntakeForm extends StatelessWidget {
               onClear: onClear,
               onSubmit: onSubmit,
             );
-            final button = FilledButton.icon(
+            final button = ShadButton(
               key: const Key('inspect-media-button'),
               onPressed: busy ? null : onSubmit,
-              icon: busy
-                  ? const SizedBox.square(
-                      dimension: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(LucideIcons.download, size: 20),
-              label: Text(
-                busy
-                    ? localizations.inspectingMedia
-                    : localizations.inspectMedia,
+              leading: busy
+                  ? const SizedBox.square(dimension: 18, child: AppSpinner())
+                  : const Icon(PhosphorIconsRegular.download, size: 20),
+              enabled: (busy ? null : onSubmit) != null,
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(
+                child: Text(
+                  busy
+                      ? localizations.inspectingMedia
+                      : localizations.inspectMedia,
+                ),
               ),
             );
 
@@ -105,17 +109,10 @@ final class _UrlInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final invalidBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(6),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.error,
-        width: 2,
-      ),
-    );
 
     return Semantics(
       label: localizations.mediaUrlLabel,
-      child: TextField(
+      child: ShadInput(
         key: const Key('media-url-input'),
         controller: controller,
         autocorrect: false,
@@ -128,20 +125,33 @@ final class _UrlInput extends StatelessWidget {
         onChanged: onChanged,
         onSubmitted: (_) => onSubmit(),
         textInputAction: TextInputAction.newline,
-        decoration: InputDecoration(
-          counterText: '',
-          enabledBorder: invalid ? invalidBorder : null,
-          focusedBorder: invalid ? invalidBorder : null,
-          hintText: localizations.mediaUrlHint,
-          prefixIcon: const Icon(LucideIcons.link, size: 21),
-          suffixIcon: controller.text.isEmpty
-              ? null
-              : IconButton(
-                  onPressed: onClear,
-                  tooltip: localizations.clearMediaUrl,
-                  icon: const Icon(LucideIcons.x, size: 20),
+        decoration: invalid
+            ? ShadDecoration(
+                border: ShadBorder.all(
+                  color: ShadTheme.of(context).colorScheme.destructive,
                 ),
-        ),
+                secondaryBorder: ShadBorder.all(
+                  color: ShadTheme.of(
+                    context,
+                  ).colorScheme.destructive.withValues(alpha: .2),
+                  width: 3,
+                ),
+              )
+            : null,
+        placeholder: Text(localizations.mediaUrlHint),
+        leading: const Icon(PhosphorIconsRegular.link, size: 21),
+        trailing: controller.text.isEmpty
+            ? null
+            : ShadTooltip(
+                builder: (context) => Text(localizations.clearMediaUrl),
+                child: Semantics(
+                  label: localizations.clearMediaUrl,
+                  child: ShadIconButton.ghost(
+                    onPressed: onClear,
+                    icon: const Icon(PhosphorIconsRegular.x, size: 20),
+                  ),
+                ),
+              ),
       ),
     );
   }

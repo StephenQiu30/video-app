@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class AnalysisConfigurator extends StatefulWidget {
@@ -130,30 +132,37 @@ final class _AnalysisConfiguratorState extends State<AnalysisConfigurator> {
               l10n.analysisPromptLabel,
               style: Theme.of(context).textTheme.labelLarge,
             ),
-            TextButton.icon(
+            ShadButton.ghost(
               onPressed: widget.busy
                   ? null
                   : () => _promptController.text = selected.defaultPrompt,
-              icon: const Icon(LucideIcons.rotateCcw, size: 16),
-              label: Text(l10n.restoreDefaultPrompt),
+              leading: const Icon(
+                PhosphorIconsRegular.arrowCounterClockwise,
+                size: 16,
+              ),
+              enabled:
+                  (widget.busy
+                      ? null
+                      : () =>
+                            _promptController.text = selected.defaultPrompt) !=
+                  null,
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(child: Text(l10n.restoreDefaultPrompt)),
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.xSmall),
-        TextField(
+        ShadInput(
           key: const Key('analysis-prompt-field'),
           controller: _promptController,
           enabled: !widget.busy,
           maxLength: 4000,
           maxLines: 6,
           minLines: 4,
-          decoration: InputDecoration(
-            helperMaxLines: 3,
-            helperText: l10n.analysisPromptDescription,
-          ),
         ),
         const SizedBox(height: AppSpacing.large),
-        FilledButton.icon(
+        ShadButton(
           key: const Key('start-analysis-button'),
           onPressed: widget.busy
               ? null
@@ -162,14 +171,24 @@ final class _AnalysisConfiguratorState extends State<AnalysisConfigurator> {
                   outputLanguage: _language,
                   skillId: selected.id,
                 ),
-          icon: widget.busy
-              ? const SizedBox.square(
-                  dimension: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(LucideIcons.sparkles, size: 18),
-          label: Text(
-            widget.busy ? l10n.startingAnalysis : l10n.startAnalysisAction,
+          leading: widget.busy
+              ? const SizedBox.square(dimension: 18, child: AppSpinner())
+              : const Icon(PhosphorIconsRegular.sparkle, size: 18),
+          enabled:
+              (widget.busy
+                  ? null
+                  : () => widget.onStart(
+                      customPrompt: _promptController.text,
+                      outputLanguage: _language,
+                      skillId: selected.id,
+                    )) !=
+              null,
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(
+            child: Text(
+              widget.busy ? l10n.startingAnalysis : l10n.startAnalysisAction,
+            ),
           ),
         ),
       ],

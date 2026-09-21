@@ -11,6 +11,8 @@ import 'package:framegrab/features/media/application/media_thumbnail_provider.da
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 
+import '../../../support/shad_test_app.dart';
+
 void main() {
   const thumbnailPath =
       '/api/downloads/11111111-1111-4111-8111-111111111111/thumbnail';
@@ -18,9 +20,10 @@ void main() {
   testWidgets('shows readable metadata when a cover is unavailable', (
     tester,
   ) async {
-    await tester.pumpWidget(
+    await pumpShadWidget(
+      tester,
       ProviderScope(
-        child: MaterialApp(
+        child: ShadTestApp(
           locale: const Locale('zh'),
           theme: AppTheme.light,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -45,6 +48,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     expect(find.text('暂无封面'), findsOneWidget);
     expect(find.text('YouTube'), findsOneWidget);
@@ -56,9 +60,10 @@ void main() {
   testWidgets('keeps the pending state distinct from a missing cover', (
     tester,
   ) async {
-    await tester.pumpWidget(
+    await pumpShadWidget(
+      tester,
       ProviderScope(
-        child: MaterialApp(
+        child: ShadTestApp(
           locale: const Locale('zh'),
           theme: AppTheme.light,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -79,6 +84,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     expect(find.text('封面生成中'), findsOneWidget);
     expect(find.text('暂无封面'), findsNothing);
@@ -101,7 +107,8 @@ void main() {
           });
           // The gate keeps the loading state observable before decoding.
           final ready = Completer<void>();
-          await tester.pumpWidget(
+          await pumpShadWidget(
+            tester,
             ProviderScope(
               overrides: [
                 mediaThumbnailProvider(thumbnailPath).overrideWith((ref) async {
@@ -109,7 +116,7 @@ void main() {
                   return bytes!;
                 }),
               ],
-              child: MaterialApp(
+              child: ShadTestApp(
                 locale: const Locale('zh'),
                 theme: AppTheme.light,
                 supportedLocales: AppLocalizations.supportedLocales,
@@ -138,6 +145,7 @@ void main() {
               ),
             ),
           );
+          await tester.pump();
 
           final expectedSize = Size(
             frameWidth,

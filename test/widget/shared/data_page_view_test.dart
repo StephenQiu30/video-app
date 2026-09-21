@@ -3,12 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 
+import '../../support/shad_test_app.dart';
+
 void main() {
   testWidgets('uses the global compact page inset below navigation', (
     tester,
   ) async {
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         home: Scaffold(
           body: DataPageView(
             title: '标题',
@@ -20,6 +23,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     final list = tester.widget<ListView>(find.byType(ListView));
     expect(

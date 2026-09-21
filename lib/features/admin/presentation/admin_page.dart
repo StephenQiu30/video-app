@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AdminPage extends StatelessWidget {
   const AdminPage({
@@ -54,35 +56,36 @@ final class AdminSectionLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-          child: Row(
-            children: [
-              Icon(icon, color: theme.colorScheme.onSurfaceVariant),
-              const SizedBox(width: AppSpacing.medium),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: theme.textTheme.titleMedium),
-                    const SizedBox(height: AppSpacing.xSmall),
-                    Text(
-                      description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
+    return ShadButton.ghost(
+      onPressed: onTap,
+      padding: EdgeInsets.zero,
+      height: 0,
+      expands: true,
+      mainAxisAlignment: MainAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
+        child: Row(
+          children: [
+            Icon(icon, color: theme.colorScheme.onSurfaceVariant),
+            const SizedBox(width: AppSpacing.medium),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: AppSpacing.xSmall),
+                  Text(
+                    description,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(width: AppSpacing.small),
-              const Icon(LucideIcons.chevronRight, size: 18),
-            ],
-          ),
+            ),
+            const SizedBox(width: AppSpacing.small),
+            const Icon(PhosphorIconsRegular.caretRight, size: 18),
+          ],
         ),
       ),
     );
@@ -92,7 +95,7 @@ final class AdminSectionLink extends StatelessWidget {
 List<Widget> adminLoading(String label) => [
   const Padding(
     padding: EdgeInsets.symmetric(vertical: 56),
-    child: Center(child: CircularProgressIndicator()),
+    child: Center(child: AppSpinner()),
   ),
   Center(child: Text(label)),
 ];
@@ -104,7 +107,7 @@ List<Widget> adminError({
   required String title,
 }) => [
   DataStateMessage(
-    icon: LucideIcons.cloudOff,
+    icon: PhosphorIconsRegular.cloudSlash,
     title: title,
     description: description,
     actionLabel: action,

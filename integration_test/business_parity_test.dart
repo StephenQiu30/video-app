@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/main.dart' as app;
 import 'package:integration_test/integration_test.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 // Use only the isolated QA service and a synthetic administrator supplied at run time.
 void main() {
@@ -39,11 +40,11 @@ void main() {
       await tester.pumpAndSettle();
       final suffix = DateTime.now().millisecondsSinceEpoch.toString();
       await tester.enterText(
-        find.widgetWithText(TextFormField, '配置标识'),
+        find.widgetWithText(ShadInputFormField, '配置标识'),
         'qa$suffix',
       );
       await tester.enterText(
-        find.widgetWithText(TextFormField, '显示名称'),
+        find.widgetWithText(ShadInputFormField, '显示名称'),
         'QA platform $suffix',
       );
       FocusManager.instance.primaryFocus?.unfocus();
@@ -60,7 +61,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       await tester.enterText(
-        find.widgetWithText(TextFormField, '显示名称'),
+        find.widgetWithText(ShadInputFormField, '显示名称'),
         'QA platform edited $suffix',
       );
       FocusManager.instance.primaryFocus?.unfocus();
@@ -75,10 +76,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       await tester.tap(
-        find.descendant(
-          of: find.byType(AlertDialog),
-          matching: find.text('删除'),
-        ),
+        find.descendant(of: find.byType(ShadDialog), matching: find.text('删除')),
       );
       await gone(tester, find.text('QA platform edited $suffix'));
       await tester.tap(find.byKey(const Key('navbar-back-button')));
@@ -88,11 +86,11 @@ void main() {
       await tester.tap(find.text('新增 AI 服务'));
       await tester.pumpAndSettle();
       await tester.enterText(
-        find.widgetWithText(TextFormField, '配置标识'),
+        find.widgetWithText(ShadInputFormField, '配置标识'),
         'qa$suffix',
       );
       await tester.enterText(
-        find.widgetWithText(TextFormField, '显示名称'),
+        find.widgetWithText(ShadInputFormField, '显示名称'),
         'QA AI $suffix',
       );
       FocusManager.instance.primaryFocus?.unfocus();
@@ -106,7 +104,7 @@ void main() {
       await tester.tap(find.descendant(of: aiRow, matching: find.text('编辑')));
       await tester.pumpAndSettle();
       await tester.enterText(
-        find.widgetWithText(TextFormField, '显示名称'),
+        find.widgetWithText(ShadInputFormField, '显示名称'),
         'QA AI edited $suffix',
       );
       FocusManager.instance.primaryFocus?.unfocus();
@@ -119,10 +117,7 @@ void main() {
       await tester.tap(find.descendant(of: aiRow, matching: find.text('删除')));
       await tester.pumpAndSettle();
       await tester.tap(
-        find.descendant(
-          of: find.byType(AlertDialog),
-          matching: find.text('删除'),
-        ),
+        find.descendant(of: find.byType(ShadDialog), matching: find.text('删除')),
       );
       await gone(tester, find.text('QA AI edited $suffix'));
       expect(tester.takeException(), isNull);

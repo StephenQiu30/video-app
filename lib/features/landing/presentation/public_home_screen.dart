@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:framegrab/core/theme/theme_toggle_button.dart';
 import 'package:framegrab/features/landing/domain/public_home_links.dart';
 import 'package:framegrab/features/landing/presentation/public_home_details.dart';
 import 'package:framegrab/features/landing/presentation/public_home_section_intro.dart';
 import 'package:framegrab/features/landing/presentation/public_home_workflow.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:framegrab/shared/presentation/app_brand.dart';
+import 'package:framegrab/shared/presentation/app_navigation_bar.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class PublicHomeScreen extends StatelessWidget {
@@ -26,9 +26,7 @@ final class PublicHomeScreen extends StatelessWidget {
       // Surface the same localized failure for rejected and unavailable links.
     }
     if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      ShadSonner.of(context).show(ShadToast(description: Text(errorMessage)));
     }
   }
 
@@ -37,15 +35,14 @@ final class PublicHomeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       key: const Key('public-home-screen'),
-      appBar: AppBar(
-        title: const AppBrand(),
-        toolbarHeight: 72,
+      appBar: AppNavigationBar(
         actions: [
-          const ThemeToggleButton(),
-          TextButton(
+          ShadButton.ghost(
             key: const Key('public-home-login'),
             onPressed: () => context.push('/auth/login'),
-            child: Text(l10n.loginAction),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(l10n.loginAction)),
           ),
           const SizedBox(width: 8),
         ],
@@ -80,21 +77,37 @@ final class PublicHomeScreen extends StatelessWidget {
                           spacing: AppSpacing.small,
                           runSpacing: AppSpacing.small,
                           children: [
-                            FilledButton.icon(
+                            ShadButton(
                               key: const Key('public-home-register'),
                               onPressed: () => context.push('/auth/register'),
-                              icon: const Icon(LucideIcons.arrowRight),
-                              label: Text(l10n.publicRegisterAction),
+                              leading: const Icon(
+                                PhosphorIconsRegular.arrowRight,
+                              ),
+                              height: 0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
+                              child: Flexible(
+                                child: Text(l10n.publicRegisterAction),
+                              ),
                             ),
-                            FilledButton.tonalIcon(
+                            ShadButton.secondary(
                               key: const Key('public-home-source'),
                               onPressed: () => _openExternal(
                                 context,
                                 PublicHomeLinks.repository,
                                 l10n.publicExternalLinkError,
                               ),
-                              icon: const Icon(LucideIcons.codeXml),
-                              label: Text(l10n.publicSourceAction),
+                              leading: const Icon(PhosphorIconsRegular.code),
+                              height: 0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
+                              child: Flexible(
+                                child: Text(l10n.publicSourceAction),
+                              ),
                             ),
                           ],
                         ),
@@ -136,19 +149,19 @@ final class PublicHomeScreen extends StatelessWidget {
                               eyebrow: l10n.publicVideoEyebrow,
                               title: l10n.publicVideoTitle,
                               description: l10n.publicVideoDescription,
-                              icon: LucideIcons.video,
+                              icon: PhosphorIconsRegular.videoCamera,
                             ),
                             (
                               eyebrow: l10n.publicDocumentEyebrow,
                               title: l10n.publicDocumentTitle,
                               description: l10n.publicDocumentDescription,
-                              icon: LucideIcons.fileText,
+                              icon: PhosphorIconsRegular.fileText,
                             ),
                             (
                               eyebrow: l10n.publicAnalysisEyebrow,
                               title: l10n.publicAnalysisTitle,
                               description: l10n.publicAnalysisDescription,
-                              icon: LucideIcons.sparkles,
+                              icon: PhosphorIconsRegular.sparkle,
                             ),
                           ],
                         ),
@@ -176,15 +189,24 @@ final class PublicHomeScreen extends StatelessWidget {
                         const SizedBox(height: AppSpacing.xLarge),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: FilledButton.tonalIcon(
+                          child: ShadButton.secondary(
                             key: const Key('public-home-deployment'),
                             onPressed: () => _openExternal(
                               context,
                               PublicHomeLinks.quickStart,
                               l10n.publicExternalLinkError,
                             ),
-                            icon: const Icon(LucideIcons.externalLink),
-                            label: Text(l10n.publicDeploymentAction),
+                            leading: const Icon(
+                              PhosphorIconsRegular.arrowSquareOut,
+                            ),
+                            height: 0,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                            child: Flexible(
+                              child: Text(l10n.publicDeploymentAction),
+                            ),
                           ),
                         ),
                       ],

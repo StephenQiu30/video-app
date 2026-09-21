@@ -5,13 +5,17 @@ import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/features/analysis/data/analysis_report_file_actions.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_report_preview.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+
+import '../../../support/shad_test_app.dart';
 
 void main() {
   testWidgets('opens immediately, then renders the report after navigation', (
     tester,
   ) async {
     final actions = _FakeReportFileActions();
-    await tester.pumpWidget(_app(actions));
+    await pumpShadWidget(tester, _app(actions));
+    await tester.pump();
 
     await tester.tap(find.byKey(const Key('open-analysis-report')));
     await tester.pump(const Duration(milliseconds: 50));
@@ -37,7 +41,8 @@ void main() {
 
   testWidgets('downloads and exports the Markdown source', (tester) async {
     final actions = _FakeReportFileActions();
-    await tester.pumpWidget(_app(actions));
+    await pumpShadWidget(tester, _app(actions));
+    await tester.pump();
 
     await tester.tap(find.byKey(const Key('open-analysis-report')));
     await tester.pumpAndSettle();
@@ -54,26 +59,27 @@ void main() {
   testWidgets('uses the Web monochrome primary action for report downloads', (
     tester,
   ) async {
-    await tester.pumpWidget(_app(_FakeReportFileActions()));
+    await pumpShadWidget(tester, _app(_FakeReportFileActions()));
+    await tester.pump();
 
     await tester.tap(find.byKey(const Key('open-analysis-report')));
     await tester.pumpAndSettle();
 
-    final button = tester.widget<FilledButton>(
+    final button = tester.widget<ShadButton>(
       find.byKey(const Key('download-analysis-report')),
     );
-    expect(button.style?.backgroundColor?.resolve({}), isNull);
+    expect(button.variant, ShadButtonVariant.primary);
     expect(
       Theme.of(
         tester.element(find.byKey(const Key('download-analysis-report'))),
       ).colorScheme.primary,
-      const Color(0xFF111111),
+      AppTheme.shadLight.colorScheme.primary,
     );
   });
 }
 
 Widget _app(AnalysisReportFileActions actions) => ProviderScope(
-  child: MaterialApp(
+  child: ShadTestApp(
     theme: AppTheme.light,
     locale: const Locale('zh'),
     localizationsDelegates: AppLocalizations.localizationsDelegates,

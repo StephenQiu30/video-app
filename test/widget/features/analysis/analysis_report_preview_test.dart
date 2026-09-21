@@ -4,10 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/features/analysis/presentation/analysis_report_preview.dart';
 
+import '../../../support/shad_test_app.dart';
+
 void main() {
   testWidgets('renders report Markdown as themed rich content', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         theme: AppTheme.light,
         home: const Scaffold(
           body: SingleChildScrollView(
@@ -31,6 +34,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     expect(find.byKey(const Key('analysis-markdown-preview')), findsOneWidget);
     expect(find.byType(MarkdownBody), findsOneWidget);
@@ -41,12 +45,14 @@ void main() {
   });
 
   testWidgets('adapts the report renderer to dark theme', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         theme: AppTheme.dark,
         home: const Scaffold(body: AnalysisReportPreview(markdown: '> 深色主题引用')),
       ),
     );
+    await tester.pump();
 
     final context = tester.element(
       find.byKey(const Key('analysis-markdown-preview')),

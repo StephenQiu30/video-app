@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AdminEditSheet extends StatefulWidget {
   const AdminEditSheet({
@@ -16,7 +17,7 @@ final class AdminEditSheet extends StatefulWidget {
 }
 
 final class _AdminEditSheetState extends State<AdminEditSheet> {
-  final _form = GlobalKey<FormState>();
+  final _form = GlobalKey<ShadFormState>();
   bool _saving = false;
   String? _error;
   Future<void> _save() async {
@@ -48,7 +49,7 @@ final class _AdminEditSheetState extends State<AdminEditSheet> {
           24,
           MediaQuery.viewInsetsOf(context).bottom + 24,
         ),
-        child: Form(
+        child: ShadForm(
           key: _form,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,17 +70,38 @@ final class _AdminEditSheetState extends State<AdminEditSheet> {
                 ),
               ),
               if (_error != null)
-                Semantics(liveRegion: true, child: Text(_error!)),
-              TextButton(
+                Semantics(
+                  liveRegion: true,
+                  child: ShadAlert.destructive(description: Text(_error!)),
+                ),
+              ShadButton.ghost(
                 onPressed: _saving ? null : () => Navigator.pop(context, false),
-                child: Text(AppLocalizations.of(context).cancelAction),
+                enabled:
+                    (_saving ? null : () => Navigator.pop(context, false)) !=
+                    null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(AppLocalizations.of(context).cancelAction),
+                ),
               ),
-              FilledButton(
+              ShadButton(
                 onPressed: _saving ? null : _save,
-                child: Text(
-                  _saving
-                      ? AppLocalizations.of(context).savingProfile
-                      : AppLocalizations.of(context).saveAction,
+                enabled: (_saving ? null : _save) != null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    _saving
+                        ? AppLocalizations.of(context).savingProfile
+                        : AppLocalizations.of(context).saveAction,
+                  ),
                 ),
               ),
             ],
@@ -91,23 +113,27 @@ final class _AdminEditSheetState extends State<AdminEditSheet> {
 }
 
 Future<bool> confirmAdminDelete(BuildContext context) async =>
-    await showDialog<bool>(
+    await showShadDialog<bool>(
       context: context,
       builder: (context) {
         final l = AppLocalizations.of(context);
-        return AlertDialog(
+        return ShadDialog.alert(
           title: Text(l.deleteConfiguration),
-          content: Text(l.deleteConfigurationDescription),
           actions: [
-            TextButton(
+            ShadButton.ghost(
               onPressed: () => Navigator.pop(context, false),
-              child: Text(l.cancelAction),
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(child: Text(l.cancelAction)),
             ),
-            FilledButton(
+            ShadButton(
               onPressed: () => Navigator.pop(context, true),
-              child: Text(l.deleteAction),
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(child: Text(l.deleteAction)),
             ),
           ],
+          description: Text(l.deleteConfigurationDescription),
         );
       },
     ) ??

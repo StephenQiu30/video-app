@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:framegrab/core/theme/app_colors.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 enum MediaAction { watch, download }
 
@@ -26,49 +27,35 @@ final class MediaActionBar extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: FilledButton.icon(
+          child: ShadButton(
             key: const Key('watch-download-video'),
             onPressed: busyAction == null ? onWatch : null,
-            icon: _ActionIcon(
+            leading: _ActionIcon(
               busy: busyAction == MediaAction.watch,
-              icon: LucideIcons.play,
+              icon: PhosphorIconsRegular.play,
             ),
-            label: Text(watchLabel),
-            style: _buttonStyle(context),
+            enabled: (busyAction == null ? onWatch : null) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(watchLabel)),
           ),
         ),
         const SizedBox(width: AppSpacing.small),
         Expanded(
-          child: FilledButton.icon(
+          child: ShadButton.secondary(
             key: const Key('download-video-file'),
             onPressed: busyAction == null ? onDownload : null,
-            icon: _ActionIcon(
+            leading: _ActionIcon(
               busy: busyAction == MediaAction.download,
-              icon: LucideIcons.download,
+              icon: PhosphorIconsRegular.download,
             ),
-            label: Text(downloadLabel),
-            style: _buttonStyle(context, secondary: true),
+            enabled: (busyAction == null ? onDownload : null) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(downloadLabel)),
           ),
         ),
       ],
-    );
-  }
-
-  ButtonStyle _buttonStyle(BuildContext context, {bool secondary = false}) {
-    return FilledButton.styleFrom(
-      backgroundColor: secondary
-          ? context.appColors.input
-          : Theme.of(context).colorScheme.primary,
-      foregroundColor: secondary
-          ? Theme.of(context).colorScheme.onSurface
-          : Theme.of(context).colorScheme.onPrimary,
-      disabledBackgroundColor: secondary
-          ? context.appColors.input.withValues(alpha: 0.6)
-          : null,
-      elevation: 0,
-      minimumSize: const Size(44, 52),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.medium),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
     );
   }
 }
@@ -82,10 +69,7 @@ final class _ActionIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return busy
-        ? const SizedBox.square(
-            dimension: 17,
-            child: CircularProgressIndicator(strokeWidth: 2),
-          )
+        ? const SizedBox.square(dimension: 17, child: AppSpinner())
         : Icon(icon, size: 18);
   }
 }

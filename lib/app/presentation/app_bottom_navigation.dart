@@ -2,7 +2,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class AppBottomNavigation extends StatelessWidget {
   const AppBottomNavigation({
@@ -18,11 +19,14 @@ final class AppBottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final destinations = [
-      (icon: LucideIcons.house, label: localizations.homeNavigation),
-      (icon: LucideIcons.history, label: localizations.historyTab),
-      (icon: LucideIcons.fileText, label: localizations.documentsTab),
-      (icon: LucideIcons.audioWaveform, label: localizations.statusTab),
-      (icon: LucideIcons.user, label: localizations.accountNavigation),
+      (icon: PhosphorIconsRegular.house, label: localizations.homeNavigation),
+      (
+        icon: PhosphorIconsRegular.clockCounterClockwise,
+        label: localizations.historyTab,
+      ),
+      (icon: PhosphorIconsRegular.fileText, label: localizations.documentsTab),
+      (icon: PhosphorIconsRegular.waveform, label: localizations.statusTab),
+      (icon: PhosphorIconsRegular.user, label: localizations.accountNavigation),
     ];
 
     return ColoredBox(
@@ -80,38 +84,37 @@ final class _AppTabItem extends StatelessWidget {
       label: label,
       onTap: onTap,
       excludeSemantics: true,
-      child: Tooltip(
-        message: label,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 64),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(icon, color: foreground, size: 23),
-                    const SizedBox(height: 4),
-                    Text(
-                      label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: foreground,
-                        fontWeight: selected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
+      child: ShadTooltip(
+        child: ShadButton.ghost(
+          onPressed: onTap,
+          padding: EdgeInsets.zero,
+          height: 0,
+          expands: true,
+          mainAxisAlignment: MainAxisAlignment.start,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, color: foreground, size: 23),
+                  const SizedBox(height: 4),
+                  Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: foreground,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
+        builder: (context) => Text(label),
       ),
     );
   }

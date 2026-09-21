@@ -10,11 +10,13 @@ import 'package:framegrab/features/documents/application/document_list_provider.
 import 'package:framegrab/features/documents/data/document_repository.dart';
 import 'package:framegrab/features/documents/presentation/document_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_swipe_action.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DocumentListItem extends ConsumerStatefulWidget {
@@ -46,8 +48,8 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
       ref.invalidate(documentListProvider);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(deletionFailureMessage(l10n, error))),
+        ShadSonner.of(context).show(
+          ShadToast(description: Text(deletionFailureMessage(l10n, error))),
         );
       }
     } finally {
@@ -82,12 +84,12 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
         extentRatio: 0.34,
         motion: const DrawerMotion(),
         children: [
-          SlidableAction(
+          AppSwipeAction(
             key: Key('delete-document-${item.id}'),
             onPressed: _busy ? null : (_) => unawaited(_delete()),
             backgroundColor: colors.errorContainer,
             foregroundColor: colors.onErrorContainer,
-            icon: LucideIcons.trash2,
+            icon: PhosphorIconsRegular.trash,
             label: l10n.deleteDocumentAction,
           ),
         ],
@@ -102,49 +104,50 @@ final class _DocumentListItemState extends ConsumerState<DocumentListItem> {
         ),
         customSemanticsActions: {deleteAction: () => unawaited(_delete())},
         child: ExcludeSemantics(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              key: Key('document-list-item-${item.id}'),
-              onTap: () => unawaited(
-                DocumentDetailRoute(documentId: item.id).push<void>(context),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      item.title,
-                      style: Theme.of(context).textTheme.titleMedium,
+          child: ShadButton.ghost(
+            key: Key('document-list-item-${item.id}'),
+            onPressed: () => unawaited(
+              DocumentDetailRoute(documentId: item.id).push<void>(context),
+            ),
+            padding: EdgeInsets.zero,
+            height: 0,
+            expands: true,
+            mainAxisAlignment: MainAxisAlignment.start,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    item.title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: AppSpacing.xSmall),
+                  Text(
+                    item.originalFilename,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colors.onSurfaceVariant,
                     ),
-                    const SizedBox(height: AppSpacing.xSmall),
-                    Text(
-                      item.originalFilename,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.onSurfaceVariant,
-                      ),
+                  ),
+                  const SizedBox(height: AppSpacing.small),
+                  DataStatusLabel(
+                    color: documentStatusColor(context, item.status.name),
+                    label: status,
+                  ),
+                  const SizedBox(height: AppSpacing.small),
+                  Text(
+                    details.join(' · '),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: AppSpacing.small),
+                  Text(
+                    '${l10n.updatedAtLabel} '
+                    '${formatDataTime(context, item.updatedAt)}',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colors.onSurfaceVariant,
                     ),
-                    const SizedBox(height: AppSpacing.small),
-                    DataStatusLabel(
-                      color: documentStatusColor(context, item.status.name),
-                      label: status,
-                    ),
-                    const SizedBox(height: AppSpacing.small),
-                    Text(
-                      details.join(' · '),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: AppSpacing.small),
-                    Text(
-                      '${l10n.updatedAtLabel} '
-                      '${formatDataTime(context, item.updatedAt)}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colors.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

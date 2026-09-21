@@ -5,6 +5,7 @@ import 'package:framegrab/features/admin/data/admin_configuration_repository.dar
 import 'package:framegrab/features/admin/presentation/admin_edit_sheet.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 Future<void> editAiProvider(
@@ -12,12 +13,15 @@ Future<void> editAiProvider(
   WidgetRef ref, [
   AiProviderProfileResponse? item,
 ]) async {
-  final saved = await showModalBottomSheet<bool>(
+  final saved = await showShadSheet<bool>(
     context: context,
-    isScrollControlled: true,
     isDismissible: false,
-    enableDrag: false,
-    builder: (_) => _AiEditor(item: item),
+    builder: (sheetContext) => ShadSheet(
+      draggable: false,
+      closeIcon: const SizedBox.shrink(),
+      isScrollControlled: true,
+      child: Builder(builder: (_) => _AiEditor(item: item)),
+    ),
   );
   if (saved == true && context.mounted) {
     ref.invalidate(adminAiProvidersProvider);
@@ -114,20 +118,20 @@ final class _AiEditorState extends ConsumerState<_AiEditor> {
       onSave: _save,
       fields: [
         if (_local) Text(l.localCodexRestriction),
-        TextFormField(
+        ShadInputFormField(
           controller: _key,
           enabled: widget.item == null,
           maxLength: 32,
-          decoration: InputDecoration(labelText: l.configurationKey),
-          validator: (v) => RegExp(r'^[a-z][a-z0-9_-]{0,31}$').hasMatch(v ?? '')
+          validator: (v) => RegExp(r'^[a-z][a-z0-9_-]{0,31}$').hasMatch(v)
               ? null
               : l.invalidConfiguration,
+          label: Text(l.configurationKey),
         ),
-        TextFormField(
+        ShadInputFormField(
           controller: _name,
           maxLength: 64,
-          decoration: InputDecoration(labelText: l.displayName),
           validator: required,
+          label: Text(l.displayName),
         ),
         AppDropdownField<AiProviderEngine>(
           value: _engine,
@@ -171,41 +175,39 @@ final class _AiEditorState extends ConsumerState<_AiEditor> {
             }
           },
         ),
-        TextFormField(
+        ShadInputFormField(
           controller: _model,
           enabled: _engine != AiProviderEngine.deepseek,
           maxLength: 128,
-          decoration: InputDecoration(labelText: l.modelLabel),
           validator: required,
+          label: Text(l.modelLabel),
         ),
         if (_auth == AiProviderAuthMode.apiKey) ...[
-          TextFormField(
+          ShadInputFormField(
             controller: _url,
             keyboardType: TextInputType.url,
-            decoration: InputDecoration(labelText: l.baseUrlLabel),
             validator: (v) {
-              final uri = Uri.tryParse(v ?? '');
+              final uri = Uri.tryParse(v);
               return uri != null &&
                       uri.hasAuthority &&
                       {'http', 'https'}.contains(uri.scheme)
                   ? null
                   : l.invalidConfiguration;
             },
+            label: Text(l.baseUrlLabel),
           ),
-          TextFormField(
+          ShadInputFormField(
             controller: _secret,
             obscureText: true,
             autocorrect: false,
             enableSuggestions: false,
-            decoration: InputDecoration(
-              labelText: l.apiKeyLabel,
-              helperText: widget.item?.credentialConfigured == true
-                  ? l.apiKeyKeepHint
-                  : null,
-            ),
             validator: widget.item?.credentialConfigured == true
                 ? null
                 : required,
+            label: Text(l.apiKeyLabel),
+            description: widget.item?.credentialConfigured == true
+                ? Text(l.apiKeyKeepHint)
+                : null,
           ),
         ],
       ],

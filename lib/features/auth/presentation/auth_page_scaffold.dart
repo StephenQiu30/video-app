@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:framegrab/core/theme/theme_toggle_button.dart';
-import 'package:framegrab/shared/presentation/app_brand.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_navigation_bar.dart';
 
 final class AuthPageScaffold extends StatelessWidget {
   const AuthPageScaffold({
@@ -22,24 +19,8 @@ final class AuthPageScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: showBackButton
-            ? IconButton(
-                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                onPressed: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  } else {
-                    context.go('/');
-                  }
-                },
-                icon: const Icon(LucideIcons.arrowLeft),
-              )
-            : null,
-        title: const AppBrand(),
-        toolbarHeight: 72,
-        actions: const [ThemeToggleButton(), SizedBox(width: 8)],
+      appBar: AppNavigationBar(
+        backFallbackLocation: showBackButton ? '/' : null,
       ),
       body: SafeArea(
         top: false,

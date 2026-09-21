@@ -5,7 +5,9 @@ import 'package:framegrab/features/download/presentation/download_status.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/features/providers/presentation/provider_access_selector.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class InspectionWorkspace extends StatelessWidget {
@@ -94,41 +96,53 @@ final class InspectionWorkspace extends StatelessWidget {
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 360),
-            child: Scrollbar(
-              child: ListView.separated(
-                key: const Key('format-options-list'),
-                primary: false,
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: inspection.formats.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 10),
-                itemBuilder: (context, index) {
-                  final format = inspection.formats[index];
-                  return _FormatOption(
-                    assetCount: inspection.assetCount,
-                    format: format,
-                    mediaKind: inspection.mediaKind,
-                    onTap: state.busy ? null : () => onSelectFormat(format.id),
-                    selected: state.selectedFormatId == format.id,
-                  );
-                },
-              ),
+            child: ShadRadioGroup<String>(
+              axis: Axis.horizontal,
+              key: ValueKey(state.selectedFormatId),
+              initialValue: state.selectedFormatId,
+              enabled: !state.busy,
+              onChanged: (value) {
+                if (value != null) onSelectFormat(value);
+              },
+              items: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 360),
+                  child: ListView.separated(
+                    key: const Key('format-options-list'),
+                    primary: false,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: inspection.formats.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final format = inspection.formats[index];
+                      return _FormatOption(
+                        assetCount: inspection.assetCount,
+                        format: format,
+                        mediaKind: inspection.mediaKind,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 20),
-          FilledButton.icon(
+          ShadButton(
             key: const Key('create-download-button'),
             onPressed: state.busy ? null : onCreate,
-            icon: state.phase == DownloadIntakePhase.creating
-                ? const SizedBox.square(
-                    dimension: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(LucideIcons.download),
-            label: Text(
-              state.phase == DownloadIntakePhase.creating
-                  ? localizations.creatingDownload
-                  : localizations.createDownloadAction,
+            leading: state.phase == DownloadIntakePhase.creating
+                ? const SizedBox.square(dimension: 18, child: AppSpinner())
+                : const Icon(PhosphorIconsRegular.download),
+            enabled: (state.busy ? null : onCreate) != null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(
+              child: Text(
+                state.phase == DownloadIntakePhase.creating
+                    ? localizations.creatingDownload
+                    : localizations.createDownloadAction,
+              ),
             ),
           ),
         ],
@@ -142,15 +156,11 @@ final class _FormatOption extends StatelessWidget {
     required this.assetCount,
     required this.format,
     required this.mediaKind,
-    required this.onTap,
-    required this.selected,
   });
 
   final int assetCount;
   final FormatResponse format;
   final MediaKind mediaKind;
-  final VoidCallback? onTap;
-  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -169,46 +179,15 @@ final class _FormatOption extends StatelessWidget {
         : '${plan.width}×${plan.height} · '
               '${plan.containerPreference.name.toUpperCase()} · '
               '${plan.videoCodecFamily.name.toUpperCase()}';
-    return Material(
-      color: selected
-          ? theme.colorScheme.primaryContainer
-          : theme.colorScheme.surfaceContainerLow,
-      borderRadius: BorderRadius.circular(AppTheme.radius),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
+    return ShadRadio<String>(
+      value: format.id,
+      padding: const EdgeInsets.all(16),
+      label: Text(
+        format.displayName,
         key: Key('format-option-${format.id}'),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(
-                selected ? LucideIcons.circleCheck : LucideIcons.circle,
-                color: selected
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurfaceVariant,
-                size: 21,
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(format.displayName, style: theme.textTheme.titleSmall),
-                    const SizedBox(height: 4),
-                    Text(
-                      details,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        style: theme.textTheme.titleSmall,
       ),
+      sublabel: Text(details),
     );
   }
 }

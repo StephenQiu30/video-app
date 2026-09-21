@@ -6,7 +6,8 @@ import 'package:framegrab/features/analysis/presentation/analysis_presentation_l
 import 'package:framegrab/features/analysis/presentation/analysis_result_view.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class AnalysisJobState extends StatelessWidget {
@@ -60,11 +61,20 @@ final class AnalysisJobState extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  key: const Key('refresh-analysis-button'),
-                  tooltip: l10n.refreshAnalysisAction,
-                  onPressed: busy ? null : onRefresh,
-                  icon: const Icon(LucideIcons.refreshCw, size: 18),
+                ShadTooltip(
+                  builder: (context) => Text(l10n.refreshAnalysisAction),
+                  child: Semantics(
+                    label: l10n.refreshAnalysisAction,
+                    child: ShadIconButton.ghost(
+                      key: const Key('refresh-analysis-button'),
+                      onPressed: busy ? null : onRefresh,
+                      icon: const Icon(
+                        PhosphorIconsRegular.arrowClockwise,
+                        size: 18,
+                      ),
+                      enabled: (busy ? null : onRefresh) != null,
+                    ),
+                  ),
                 ),
                 Text('${job.progress}%'),
               ],
@@ -75,7 +85,7 @@ final class AnalysisJobState extends StatelessWidget {
           const SizedBox(height: AppSpacing.xSmall),
           Semantics(
             label: l10n.analysisProgressSemantics(job.progress),
-            child: LinearProgressIndicator(value: job.progress / 100),
+            child: ShadProgress(value: job.progress / 100),
           ),
         ],
         const SizedBox(height: AppSpacing.small),
@@ -109,34 +119,53 @@ final class AnalysisJobState extends StatelessWidget {
                 (job.report?.artifacts.any((a) => a.format == 'docx') ?? false))
               AnalysisDocxButton(analysisId: job.id),
             if (_active)
-              FilledButton.tonalIcon(
+              ShadButton.secondary(
                 key: const Key('cancel-analysis-button'),
                 onPressed: busy ? null : () => _confirmCancel(context),
-                icon: const Icon(LucideIcons.x, size: 18),
-                label: Text(l10n.cancelAnalysisAction),
+                leading: const Icon(PhosphorIconsRegular.x, size: 18),
+                enabled: (busy ? null : () => _confirmCancel(context)) != null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(child: Text(l10n.cancelAnalysisAction)),
               ),
             if (_retryable)
-              FilledButton.icon(
+              ShadButton(
                 key: const Key('retry-analysis-button'),
                 onPressed: busy ? null : onRetry,
-                icon: const Icon(LucideIcons.rotateCcw, size: 18),
-                label: Text(
-                  action == AnalysisAction.retry
-                      ? l10n.retryingAnalysis
-                      : l10n.retryAnalysisAction,
+                leading: const Icon(
+                  PhosphorIconsRegular.arrowCounterClockwise,
+                  size: 18,
+                ),
+                enabled: (busy ? null : onRetry) != null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    action == AnalysisAction.retry
+                        ? l10n.retryingAnalysis
+                        : l10n.retryAnalysisAction,
+                  ),
                 ),
               ),
-            TextButton.icon(
+            ShadButton.destructive(
               key: const Key('delete-analysis-button'),
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.error,
-              ),
               onPressed: busy ? null : () => _confirmDelete(context),
-              icon: const Icon(LucideIcons.trash2, size: 18),
-              label: Text(
-                action == AnalysisAction.delete
-                    ? l10n.deletingAnalysis
-                    : l10n.deleteAnalysisAction,
+              leading: const Icon(PhosphorIconsRegular.trash, size: 18),
+              enabled: (busy ? null : () => _confirmDelete(context)) != null,
+              height: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: Flexible(
+                child: Text(
+                  action == AnalysisAction.delete
+                      ? l10n.deletingAnalysis
+                      : l10n.deleteAnalysisAction,
+                ),
               ),
             ),
           ],
@@ -180,21 +209,27 @@ Future<bool> _confirm(
   required String description,
   required String title,
 }) async =>
-    await showDialog<bool>(
+    await showShadDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (context) => ShadDialog.alert(
         title: Text(title),
-        content: Text(description),
         actions: [
-          TextButton(
+          ShadButton.ghost(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
           ),
-          FilledButton(
+          ShadButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(action),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(action)),
           ),
         ],
+        description: Text(description),
       ),
     ) ??
     false;

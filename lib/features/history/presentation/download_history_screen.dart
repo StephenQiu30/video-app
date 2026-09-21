@@ -6,11 +6,12 @@ import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/history/application/download_history_provider.dart';
 import 'package:framegrab/features/history/presentation/download_history_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/list_filters.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadHistoryScreen extends ConsumerWidget {
@@ -51,7 +52,7 @@ final class DownloadHistoryScreen extends ConsumerWidget {
           data: (data) => _content(context, ref, data),
           error: (_, _) => [
             DataStateMessage(
-              icon: LucideIcons.cloudOff,
+              icon: PhosphorIconsRegular.cloudSlash,
               title: localizations.loadFailedTitle,
               description: localizations.loadFailedDescription,
               actionLabel: localizations.retryAction,
@@ -61,7 +62,7 @@ final class DownloadHistoryScreen extends ConsumerWidget {
           loading: () => [
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 64),
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: AppSpinner()),
             ),
             Center(child: Text(localizations.loadingData)),
           ],
@@ -89,7 +90,7 @@ final class DownloadHistoryScreen extends ConsumerWidget {
           actionLabel: onCreateDownload == null
               ? null
               : localizations.createDownloadFromHomeAction,
-          actionIcon: LucideIcons.chevronRight,
+          actionIcon: PhosphorIconsRegular.caretRight,
           onAction: onCreateDownload,
         ),
       ];

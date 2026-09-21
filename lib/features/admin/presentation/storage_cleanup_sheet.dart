@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class StorageCleanupSheet extends StatefulWidget {
   const StorageCleanupSheet({super.key});
@@ -8,7 +9,7 @@ final class StorageCleanupSheet extends StatefulWidget {
 }
 
 final class _StorageCleanupSheetState extends State<StorageCleanupSheet> {
-  final _form = GlobalKey<FormState>();
+  final _form = GlobalKey<ShadFormState>();
   int _days = 30;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ final class _StorageCleanupSheetState extends State<StorageCleanupSheet> {
           24,
           MediaQuery.viewInsetsOf(context).bottom + 24,
         ),
-        child: Form(
+        child: ShadForm(
           key: _form,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -34,29 +35,37 @@ final class _StorageCleanupSheetState extends State<StorageCleanupSheet> {
               const SizedBox(height: 12),
               Text(l.adminCleanupDescription),
               const SizedBox(height: 20),
-              TextFormField(
+              ShadInputFormField(
                 initialValue: '30',
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: l.cleanupDaysLabel,
-                  helperText: '1–3650',
-                ),
                 onChanged: (v) => _days = int.tryParse(v) ?? 0,
                 validator: (_) =>
                     _days < 1 || _days > 3650 ? l.invalidConfiguration : null,
+                label: Text(l.cleanupDaysLabel),
+                description: Text('1–3650'),
               ),
               const SizedBox(height: 20),
-              TextButton(
+              ShadButton.ghost(
                 onPressed: () => Navigator.pop(context),
-                child: Text(l.cancelAction),
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(child: Text(l.cancelAction)),
               ),
-              FilledButton(
+              ShadButton(
                 onPressed: () {
                   if (_form.currentState!.validate()) {
                     Navigator.pop(context, _days);
                   }
                 },
-                child: Text(l.adminCleanupAction),
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(child: Text(l.adminCleanupAction)),
               ),
             ],
           ),

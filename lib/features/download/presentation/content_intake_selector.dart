@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:flutter/widgets.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 enum ContentIntakeMode { link, video, screenplay }
 
@@ -11,6 +11,7 @@ final class ContentIntakeSelector extends StatelessWidget {
     required this.screenplayLabel,
     required this.selected,
     required this.videoLabel,
+    this.enabled = true,
     super.key,
   });
 
@@ -19,144 +20,104 @@ final class ContentIntakeSelector extends StatelessWidget {
   final String screenplayLabel;
   final ContentIntakeMode selected;
   final String videoLabel;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     final destinations = [
-      (icon: LucideIcons.link, label: linkLabel, mode: ContentIntakeMode.link),
       (
-        icon: LucideIcons.video,
+        icon: PhosphorIconsRegular.linkSimple,
+        label: linkLabel,
+        mode: ContentIntakeMode.link,
+      ),
+      (
+        icon: PhosphorIconsRegular.fileVideo,
         label: videoLabel,
         mode: ContentIntakeMode.video,
       ),
       (
-        icon: LucideIcons.fileText,
+        icon: PhosphorIconsRegular.fileText,
         label: screenplayLabel,
         mode: ContentIntakeMode.screenplay,
       ),
     ];
-    final useStackedLayout = MediaQuery.textScalerOf(context).scale(12) > 15;
-
-    if (useStackedLayout) {
+    // Large text uses wrapping, full-width Shad buttons rather than clipped tabs.
+    if (MediaQuery.textScalerOf(context).scale(12) > 15) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 4,
         children: [
-          for (final (index, destination) in destinations.indexed) ...[
-            if (index > 0) const SizedBox(height: AppSpacing.xSmall),
-            _IntakeDestination(
-              horizontal: true,
-              icon: destination.icon,
-              label: destination.label,
-              mode: destination.mode,
-              onChanged: onChanged,
+          for (final destination in destinations)
+            Semantics(
+              key: ValueKey('content-intake-${destination.mode.name}'),
               selected: selected == destination.mode,
+              button: true,
+              label: destination.label,
+              excludeSemantics: true,
+              enabled: enabled,
+              onTap: enabled ? () => onChanged(destination.mode) : null,
+              child: ShadButton.raw(
+                enabled: enabled,
+                variant: selected == destination.mode
+                    ? ShadButtonVariant.secondary
+                    : ShadButtonVariant.ghost,
+                height: 0,
+                expands: true,
+                padding: const EdgeInsets.all(16),
+                mainAxisAlignment: MainAxisAlignment.start,
+                leading: Icon(destination.icon, size: 20),
+                onPressed: enabled ? () => onChanged(destination.mode) : null,
+                child: Text(destination.label),
+              ),
             ),
-          ],
         ],
       );
     }
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (final (index, destination) in destinations.indexed) ...[
-          if (index > 0) const SizedBox(width: AppSpacing.xSmall),
-          Expanded(
-            child: _IntakeDestination(
-              horizontal: false,
-              icon: destination.icon,
-              label: destination.label,
-              mode: destination.mode,
-              onChanged: onChanged,
-              selected: selected == destination.mode,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-final class _IntakeDestination extends StatelessWidget {
-  const _IntakeDestination({
-    required this.horizontal,
-    required this.icon,
-    required this.label,
-    required this.mode,
-    required this.onChanged,
-    required this.selected,
-  });
-
-  final bool horizontal;
-  final IconData icon;
-  final String label;
-  final ContentIntakeMode mode;
-  final ValueChanged<ContentIntakeMode> onChanged;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final foreground = selected
-        ? theme.colorScheme.onSurface
-        : theme.colorScheme.onSurfaceVariant;
-    final labelStyle = theme.textTheme.labelSmall?.copyWith(
-      color: foreground,
-      fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-    );
-
-    final content = horizontal
-        ? Row(
-            children: [
-              Icon(icon, color: foreground, size: 21),
-              const SizedBox(width: AppSpacing.small),
-              Expanded(child: Text(label, style: labelStyle)),
-            ],
-          )
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: foreground, size: 22),
-              const SizedBox(height: 7),
-              Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: labelStyle,
-              ),
-              const SizedBox(height: 9),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 160),
-                curve: Curves.easeOut,
-                width: 48,
-                height: 2,
-                color: selected ? foreground : Colors.transparent,
-              ),
-            ],
-          );
-
-    return Semantics(
-      key: ValueKey('content-intake-${mode.name}'),
-      button: true,
-      selected: selected,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => onChanged(mode),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: horizontal ? 56 : 76),
-            child: Padding(
-              padding: horizontal
-                  ? const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.medium,
-                      vertical: AppSpacing.small,
-                    )
-                  : const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              child: content,
-            ),
-          ),
-        ),
+    return ShadTabs<ContentIntakeMode>(
+      value: selected,
+      onChanged: onChanged,
+      padding: EdgeInsets.zero,
+      decoration: const ShadDecoration(
+        color: Color(0x00000000),
+        border: ShadBorder.none,
       ),
+      tabs: [
+        for (final destination in destinations)
+          ShadTab(
+            key: ValueKey('content-intake-${destination.mode.name}'),
+            value: destination.mode,
+            enabled: enabled,
+            height: 44,
+            backgroundColor: const Color(0x00000000),
+            selectedBackgroundColor: const Color(0x00000000),
+            hoverBackgroundColor: const Color(0x00000000),
+            selectedHoverBackgroundColor: const Color(0x00000000),
+            shadows: const [],
+            selectedShadows: const [],
+            decoration: const ShadDecoration(
+              border: ShadBorder(
+                canMerge: false,
+                radius: BorderRadius.zero,
+                bottom: ShadBorderSide(width: 2, color: Color(0x00000000)),
+              ),
+            ),
+            selectedDecoration: ShadDecoration(
+              border: ShadBorder(
+                canMerge: false,
+                radius: BorderRadius.zero,
+                bottom: ShadBorderSide(
+                  width: 2,
+                  color: ShadTheme.of(context).colorScheme.foreground,
+                ),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            leading: Icon(destination.icon, size: 18),
+            child: Flexible(
+              child: Text(destination.label, textAlign: TextAlign.center),
+            ),
+          ),
+      ],
     );
   }
 }

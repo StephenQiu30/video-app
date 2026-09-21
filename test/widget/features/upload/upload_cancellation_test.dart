@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import '../../../support/upload_fakes.dart';
 import '../../../support/upload_race_fakes.dart';
@@ -37,7 +38,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(repository.operations.single.token.isCancelled, isTrue);
       expect(cancel, findsNothing);
-      expect(tester.widget<FilledButton>(select).onPressed, isNotNull);
+      expect(tester.widget<ShadButton>(select).onPressed, isNotNull);
 
       repository.operations.single.onProgress(100);
       repository.operations.single.succeed();

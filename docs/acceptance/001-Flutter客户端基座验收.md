@@ -18,7 +18,7 @@
 
 - [x] A-001：只存在 Android/iOS Flutter 工程，没有 Flutter Web 或第二套客户端。
 - [x] A-002：目录、依赖方向和长期源码文件规模符合 Design。
-- [x] A-003：Flutter 3.44.7 / Dart 3.12.2、Android API 24+ 与 iOS 13+ 已固定。
+- [x] A-003：Flutter 3.44.7 / Dart 3.12.2、Android API 24+ 与 iOS 16.0+ 已固定；iOS 升级证据见 022 验收。
 - [x] A-004：`pubspec.lock`、直接依赖版本/许可证、Gradle checksum 和 GitHub Actions SHA 已固定。
 - [x] A-005：非业务占位页使用 Web 端语义色、6px 圆角、留白和内容层级，并适配 Material 3。
 - [x] A-006：深浅主题辅助文字与页面背景对比度至少为 4.5:1。

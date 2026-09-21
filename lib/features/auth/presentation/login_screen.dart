@@ -11,6 +11,7 @@ import 'package:framegrab/features/auth/presentation/auth_validation.dart';
 import 'package:framegrab/features/auth/presentation/password_field.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +21,7 @@ final class LoginScreen extends ConsumerStatefulWidget {
 }
 
 final class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<ShadFormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -54,12 +55,12 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
       title: localizations.welcomeBack,
       description: localizations.loginDescription,
       child: AutofillGroup(
-        child: Form(
+        child: ShadForm(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
+              ShadInputFormField(
                 key: const Key('login-email-field'),
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -67,9 +68,7 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
                 autofillHints: const [AutofillHints.email],
                 autocorrect: false,
                 validator: (value) => validateAuthEmail(value, localizations),
-                decoration: InputDecoration(
-                  labelText: localizations.emailLabel,
-                ),
+                label: Text(localizations.emailLabel),
               ),
               const SizedBox(height: AppSpacing.small),
               PasswordField(
@@ -95,24 +94,46 @@ final class _LoginScreenState extends ConsumerState<LoginScreen> {
                     : authFailureMessage(localizations, failure),
               ),
               if (failure != null) const SizedBox(height: AppSpacing.medium),
-              FilledButton(
+              ShadButton(
                 key: const Key('login-submit-button'),
                 onPressed: session.isBusy ? null : () => unawaited(_submit()),
-                child: Text(
-                  session.phase == AuthSessionPhase.submitting
-                      ? localizations.loginSubmitting
-                      : localizations.loginSubmit,
+                enabled:
+                    (session.isBusy ? null : () => unawaited(_submit())) !=
+                    null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    session.phase == AuthSessionPhase.submitting
+                        ? localizations.loginSubmitting
+                        : localizations.loginSubmit,
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpacing.small),
-              TextButton(
+              ShadButton.ghost(
                 key: const Key('go-register-button'),
                 onPressed: session.isBusy
                     ? null
                     : () => context.pushReplacement('/auth/register'),
-                child: Text(
-                  '${localizations.noAccountPrompt} '
-                  '${localizations.goRegister}',
+                enabled:
+                    (session.isBusy
+                        ? null
+                        : () => context.pushReplacement('/auth/register')) !=
+                    null,
+                height: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                child: Flexible(
+                  child: Text(
+                    '${localizations.noAccountPrompt} '
+                    '${localizations.goRegister}',
+                  ),
                 ),
               ),
             ],

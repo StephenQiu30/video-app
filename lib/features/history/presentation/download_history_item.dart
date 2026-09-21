@@ -12,10 +12,12 @@ import 'package:framegrab/features/history/data/download_history_repository.dart
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/features/media/presentation/authenticated_media_cover.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:framegrab/shared/presentation/app_swipe_action.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class DownloadHistoryItem extends ConsumerStatefulWidget {
@@ -78,9 +80,9 @@ final class _DownloadHistoryItemState
       await operation();
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
+        ShadSonner.of(context).show(
+          ShadToast(
+            description: Text(
               failureMessage?.call(error) ??
                   AppLocalizations.of(context).operationFailed,
             ),
@@ -142,49 +144,49 @@ final class _DownloadHistoryItemState
         extentRatio: actionCount == 2 ? 0.44 : 0.66,
         motion: const DrawerMotion(),
         children: [
-          SlidableAction(
+          AppSwipeAction(
             key: Key('view-download-${item.id}'),
             onPressed: _busy ? null : (_) => widget.onTap(),
             backgroundColor: colors.surfaceContainerHigh,
             foregroundColor: colors.onSurface,
-            icon: LucideIcons.eye,
+            icon: PhosphorIconsRegular.eye,
             label: localizations.downloadDetailNavigation,
           ),
           if (canCancel)
-            SlidableAction(
+            AppSwipeAction(
               key: Key('cancel-download-${item.id}'),
               onPressed: _busy ? null : (_) => unawaited(_cancel()),
               backgroundColor: colors.secondaryContainer,
               foregroundColor: colors.onSecondaryContainer,
-              icon: LucideIcons.x,
+              icon: PhosphorIconsRegular.x,
               label: localizations.cancelDownloadAction,
             ),
           if (canRetry)
-            SlidableAction(
+            AppSwipeAction(
               key: Key('retry-download-${item.id}'),
               onPressed: _busy ? null : (_) => unawaited(_retry()),
               backgroundColor: colors.secondaryContainer,
               foregroundColor: colors.onSecondaryContainer,
-              icon: LucideIcons.refreshCw,
+              icon: PhosphorIconsRegular.arrowClockwise,
               label: localizations.retryDownloadAction,
             ),
           if (reimport)
-            SlidableAction(
+            AppSwipeAction(
               key: Key('reimport-download-${item.id}'),
               onPressed: _busy
                   ? null
                   : (_) => const DownloadHomeRoute().go(context),
               backgroundColor: colors.secondaryContainer,
               foregroundColor: colors.onSecondaryContainer,
-              icon: LucideIcons.upload,
+              icon: PhosphorIconsRegular.upload,
               label: localizations.reimportDownloadAction,
             ),
-          SlidableAction(
+          AppSwipeAction(
             key: Key('delete-download-${item.id}'),
             onPressed: _busy ? null : (_) => unawaited(_delete()),
             backgroundColor: colors.errorContainer,
             foregroundColor: colors.onErrorContainer,
-            icon: LucideIcons.trash2,
+            icon: PhosphorIconsRegular.trash,
             label: localizations.deleteDownloadAction,
           ),
         ],
@@ -197,77 +199,78 @@ final class _DownloadHistoryItemState
         onTap: widget.onTap,
         customSemanticsActions: semanticActions,
         child: ExcludeSemantics(
-          child: Material(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: InkWell(
-              key: Key('download-history-item-${item.id}'),
-              onTap: widget.onTap,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 112,
-                      child: AuthenticatedMediaCover(
-                        alt: '${item.title} ${localizations.mediaCoverLabel}',
-                        borderRadius: BorderRadius.circular(6),
-                        compact: true,
-                        detail: item.formatName,
-                        eyebrow: item.sourceLabel,
-                        pending: isActiveDownloadStatus(item.status.name),
-                        source: item.thumbnailUrl,
-                        title: item.title,
-                      ),
+          child: ShadButton.ghost(
+            key: Key('download-history-item-${item.id}'),
+            onPressed: widget.onTap,
+            padding: EdgeInsets.zero,
+            height: 0,
+            expands: true,
+            mainAxisAlignment: MainAxisAlignment.start,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.large),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 112,
+                    child: AuthenticatedMediaCover(
+                      alt: '${item.title} ${localizations.mediaCoverLabel}',
+                      borderRadius: BorderRadius.circular(6),
+                      compact: true,
+                      detail: item.formatName,
+                      eyebrow: item.sourceLabel,
+                      pending: isActiveDownloadStatus(item.status.name),
+                      source: item.thumbnailUrl,
+                      title: item.title,
                     ),
-                    const SizedBox(width: AppSpacing.medium),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                  ),
+                  const SizedBox(width: AppSpacing.medium),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        if (meta.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.xSmall),
                           Text(
-                            item.title,
+                            meta,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: colors.onSurfaceVariant),
                           ),
-                          if (meta.isNotEmpty) ...[
-                            const SizedBox(height: AppSpacing.xSmall),
-                            Text(
-                              meta,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: colors.onSurfaceVariant),
-                            ),
-                          ],
-                          const SizedBox(height: AppSpacing.small),
-                          DataStatusLabel(
-                            color: downloadStatusColor(context, statusName),
-                            label: isActiveDownloadStatus(statusName)
-                                ? '$status · ${item.progress}%'
-                                : status,
-                          ),
-                          if (failure != null) ...[
-                            const SizedBox(height: AppSpacing.xSmall),
-                            Text(
-                              failure,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: colors.error),
-                            ),
-                          ],
                         ],
-                      ),
+                        const SizedBox(height: AppSpacing.small),
+                        DataStatusLabel(
+                          color: downloadStatusColor(context, statusName),
+                          label: isActiveDownloadStatus(statusName)
+                              ? '$status · ${item.progress}%'
+                              : status,
+                        ),
+                        if (failure != null) ...[
+                          const SizedBox(height: AppSpacing.xSmall),
+                          Text(
+                            failure,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colors.error),
+                          ),
+                        ],
+                      ],
                     ),
-                    const SizedBox(width: AppSpacing.xSmall),
-                    Icon(
-                      LucideIcons.chevronRight,
-                      size: 18,
-                      color: colors.onSurfaceVariant,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: AppSpacing.xSmall),
+                  Icon(
+                    PhosphorIconsRegular.caretRight,
+                    size: 18,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
               ),
             ),
           ),

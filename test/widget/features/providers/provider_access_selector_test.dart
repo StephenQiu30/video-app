@@ -3,8 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/providers/application/provider_access.dart';
 import 'package:framegrab/features/providers/presentation/provider_access_selector.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
+
 import '../../../support/data_fakes.dart';
+import '../../../support/shad_test_app.dart';
 
 void main() {
   testWidgets('only admits server policies and displays cooldown separately', (
@@ -26,8 +29,9 @@ void main() {
       providerForInput('https://youtu.be.attacker.example/owned', [provider]),
       isNull,
     );
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         locale: const Locale('zh'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -41,11 +45,15 @@ void main() {
         ),
       ),
     );
-    final menu = tester.widget<DropdownMenu<ProviderAccessPolicy?>>(
-      find.byType(DropdownMenu<ProviderAccessPolicy?>),
+    await tester.pump();
+    final menu = tester.widget<ShadSelect<ProviderAccessPolicy?>>(
+      find.byType(ShadSelect<ProviderAccessPolicy?>),
     );
-    expect(menu.dropdownMenuEntries.length, 2);
-    expect(menu.dropdownMenuEntries.last.enabled, isFalse);
+    expect(menu.options!.length, 2);
+    expect(
+      menu.options!.whereType<ShadOption<ProviderAccessPolicy?>>().length,
+      1,
+    );
     expect(find.textContaining('最早重试时间'), findsOneWidget);
     expect(find.textContaining('到期仍需验证恢复'), findsOneWidget);
   });

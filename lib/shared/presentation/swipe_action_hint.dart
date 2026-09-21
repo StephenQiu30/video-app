@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class SwipeActionHint extends StatelessWidget {
   const SwipeActionHint({required this.label, super.key});
@@ -17,7 +17,7 @@ final class SwipeActionHint extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              LucideIcons.arrowLeft,
+              PhosphorIconsRegular.arrowLeft,
               size: 16,
               color: theme.colorScheme.onSurfaceVariant,
             ),

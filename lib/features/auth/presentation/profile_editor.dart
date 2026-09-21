@@ -6,6 +6,7 @@ import 'package:framegrab/features/auth/data/profile_repository.dart';
 import 'package:framegrab/features/auth/domain/username.dart';
 import 'package:framegrab/features/auth/presentation/auth_validation.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class ProfileEditor extends ConsumerStatefulWidget {
   const ProfileEditor({super.key});
@@ -14,7 +15,7 @@ final class ProfileEditor extends ConsumerStatefulWidget {
 }
 
 final class _ProfileEditorState extends ConsumerState<ProfileEditor> {
-  final _form = GlobalKey<FormState>();
+  final _form = GlobalKey<ShadFormState>();
   late final _username = TextEditingController(
     text: ref.read(authSessionProvider).user?.username,
   );
@@ -58,34 +59,41 @@ final class _ProfileEditorState extends ConsumerState<ProfileEditor> {
     final l = AppLocalizations.of(context);
     final user = ref.watch(authSessionProvider).user;
     if (user == null) return const SizedBox.shrink();
-    return Form(
+    return ShadForm(
       key: _form,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextFormField(
+          ShadInputFormField(
             key: const Key('profile-username-field'),
             controller: _username,
             enabled: !_saving,
             validator: (v) => validateAuthUsername(v, l),
             onChanged: (_) => setState(() => _notice = null),
-            decoration: InputDecoration(
-              labelText: l.usernameLabel,
-              helperText: l.usernameHelp,
-            ),
+            label: Text(l.usernameLabel),
+            description: Text(l.usernameHelp),
           ),
           const SizedBox(height: 16),
           Text(user.role.name == 'admin' ? l.adminRoleAdmin : l.adminRoleUser),
           if (_notice != null)
             Semantics(liveRegion: true, child: Text(_notice!)),
           const SizedBox(height: 16),
-          FilledButton(
+          ShadButton(
             key: const Key('profile-save-button'),
             onPressed:
                 _saving || normalizeUsername(_username.text) == user.username
                 ? null
                 : _save,
-            child: Text(_saving ? l.savingProfile : l.saveProfile),
+            enabled:
+                (_saving || normalizeUsername(_username.text) == user.username
+                    ? null
+                    : _save) !=
+                null,
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(
+              child: Text(_saving ? l.savingProfile : l.saveProfile),
+            ),
           ),
         ],
       ),

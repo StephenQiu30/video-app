@@ -6,7 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/presentation/registration_code_field.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
+
+import '../../../support/shad_test_app.dart';
 
 class CodeGateway implements NativeAuthGateway {
   final result = Completer<RegistrationCodeResponse>();
@@ -25,10 +28,11 @@ void main() {
   Future<void> show(WidgetTester tester, CodeGateway gateway) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
-    await tester.pumpWidget(
+    await pumpShadWidget(
+      tester,
       ProviderScope(
         overrides: [nativeAuthGatewayProvider.overrideWithValue(gateway)],
-        child: MaterialApp(
+        child: ShadTestApp(
           locale: const Locale('zh'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -43,6 +47,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
     await tester.pumpAndSettle();
   }
 
@@ -67,8 +72,9 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.textContaining('验证码已发送'), findsOneWidget);
-      expect(tester.widget<OutlinedButton>(button).onPressed, isNull);
-      await tester.pumpWidget(const SizedBox());
+      expect(tester.widget<ShadButton>(button).onPressed, isNull);
+      await pumpShadWidget(tester, const SizedBox());
+      await tester.pump();
     },
   );
 
@@ -85,6 +91,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('邮件发送未能确认'), findsOneWidget);
     expect(find.textContaining('验证码已发送'), findsNothing);
-    expect(tester.widget<OutlinedButton>(button).onPressed, isNotNull);
+    expect(tester.widget<ShadButton>(button).onPressed, isNotNull);
   });
 }

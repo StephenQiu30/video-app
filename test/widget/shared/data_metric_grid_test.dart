@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:framegrab/core/theme/app_theme.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
 
+import '../../support/shad_test_app.dart';
+
 void main() {
   testWidgets('keeps four metrics in one evenly-spaced phone row', (
     tester,
@@ -12,8 +14,9 @@ void main() {
       ..physicalSize = const Size(390, 844);
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(
-      MaterialApp(
+    await pumpShadWidget(
+      tester,
+      ShadTestApp(
         theme: AppTheme.light,
         home: const Scaffold(
           body: Padding(
@@ -31,6 +34,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     final centers = [
       tester.getCenter(find.byKey(const Key('analytics-total'))),
@@ -59,8 +63,9 @@ void main() {
     addTearDown(tester.view.reset);
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
-    await tester.pumpWidget(
-      const MaterialApp(
+    await pumpShadWidget(
+      tester,
+      const ShadTestApp(
         home: Scaffold(
           body: DataMetricGrid(
             keyPrefix: 'accessible',
@@ -74,6 +79,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     final first = tester.getCenter(find.byKey(const Key('accessible-one')));
     final second = tester.getCenter(find.byKey(const Key('accessible-two')));
@@ -88,8 +94,9 @@ void main() {
       ..physicalSize = const Size(390, 844);
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(
-      const MaterialApp(
+    await pumpShadWidget(
+      tester,
+      const ShadTestApp(
         home: Scaffold(
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -106,6 +113,7 @@ void main() {
         ),
       ),
     );
+    await tester.pump();
 
     final first = tester.getCenter(find.byKey(const Key('document-format')));
     final second = tester.getCenter(find.byKey(const Key('document-language')));

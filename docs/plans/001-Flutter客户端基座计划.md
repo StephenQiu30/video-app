@@ -8,8 +8,8 @@
 
 1. [x] 确认 Phase 1 Design、PRD 与 Acceptance。
 2. [ ] 在 `video-server` 完成原生认证、刷新、撤销和 WebSocket 鉴权设计。
-3. [x] 冻结 Android API 24、iOS 13、`com.stephenqiu.framegrab` 与显示名称“帧取”。
-4. [x] 固定 Flutter 3.44.7、Dart 3.12.2、JDK 21、JVM target 17、Xcode 26.6 与 CI 版本。
+3. [x] 冻结 Android API 24、iOS 16.0、`com.stephenqiu.framegrab` 与显示名称“帧取”；iOS 基线由 022 设计升级。
+4. [x] 固定 Flutter 3.44.7、Dart 3.12.2、JDK 21、JVM target 17、Xcode 27 与 CI 版本。
 
 Phase 1 退出条件已经满足；Phase 2 入口仍要求服务端鉴权契约可生成。
 

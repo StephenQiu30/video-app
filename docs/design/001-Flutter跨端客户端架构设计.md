@@ -39,8 +39,8 @@ App 只负责输入、展示、原生会话、生命周期和文件落地。所�
 
 - 首期只生成 `android/` 与 `ios/` 工程。
 - 共享 Dart 层承载全部业务逻辑；平台代码只处理权限、安全存储、文件选择/保存、系统分享和生命周期桥接。
-- Android 最低 API 24，iOS 最低 13；组织 ID 为 `com.stephenqiu`，Application ID 与 Bundle ID 均为 `com.stephenqiu.framegrab`，显示名称为“帧取”。商店发布前必须再次确认标识所有权。
-- Android 使用 Kotlin、JVM target 17；iOS 使用 Swift 与 Flutter 3.44 默认 Swift Package Manager 集成。发布签名只由可信发布环境注入，不回退到 Android debug key。
+- Android 最低 API 24，iOS 最低 16.0；组织 ID 为 `com.stephenqiu`，Application ID 与 Bundle ID 均为 `com.stephenqiu.framegrab`，显示名称为“帧取”。商店发布前必须再次确认标识所有权。
+- Android 使用 Kotlin、JVM target 17；iOS 使用 Swift、Xcode 27 与 CocoaPods。`media_kit` 的 iOS 原生库尚不支持 Swift Package Manager，因此项目关闭 Flutter SPM 集成。发布签名只由可信发布环境注入，不回退到 Android debug key。
 - 桌面端必须先证明交互、文件系统、窗口生命周期、自动更新和发布签名差异，不因 Flutter 可编译就自动宣称支持。
 
 ## 4. 代码架构

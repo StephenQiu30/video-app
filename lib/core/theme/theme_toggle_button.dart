@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/theme/theme_mode_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class ThemeToggleButton extends ConsumerWidget {
   const ThemeToggleButton({super.key});
@@ -15,14 +16,26 @@ final class ThemeToggleButton extends ConsumerWidget {
     final dark = mode == ThemeMode.dark;
     final localizations = AppLocalizations.of(context);
 
-    return IconButton(
-      key: const Key('navbar-theme-toggle'),
-      tooltip: dark
-          ? localizations.switchToLightTheme
-          : localizations.switchToDarkTheme,
-      onPressed: () =>
-          unawaited(ref.read(themeModeProvider.notifier).setDark(dark: !dark)),
-      icon: Icon(dark ? LucideIcons.sun : LucideIcons.moon),
+    return ShadTooltip(
+      builder: (context) => Text(
+        dark
+            ? localizations.switchToLightTheme
+            : localizations.switchToDarkTheme,
+      ),
+      child: Semantics(
+        label: dark
+            ? localizations.switchToLightTheme
+            : localizations.switchToDarkTheme,
+        child: ShadIconButton.ghost(
+          key: const Key('navbar-theme-toggle'),
+          onPressed: () => unawaited(
+            ref.read(themeModeProvider.notifier).setDark(dark: !dark),
+          ),
+          icon: Icon(
+            dark ? PhosphorIconsRegular.sun : PhosphorIconsRegular.moon,
+          ),
+        ),
+      ),
     );
   }
 }

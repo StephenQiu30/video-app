@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -14,31 +14,31 @@ final class AdminHomeScreen extends StatelessWidget {
       (
         l10n.adminAnalyticsTitle,
         l10n.adminAnalyticsDescription,
-        LucideIcons.chartNoAxesCombined,
+        PhosphorIconsRegular.chartLineUp,
         '/admin/analytics',
       ),
       (
         l10n.adminFilesTitle,
         l10n.adminFilesDescription,
-        LucideIcons.hardDrive,
+        PhosphorIconsRegular.hardDrive,
         '/admin/files',
       ),
       (
         l10n.adminUsersTitle,
         l10n.adminUsersDescription,
-        LucideIcons.users,
+        PhosphorIconsRegular.users,
         '/admin/users',
       ),
       (
         l10n.adminProvidersTitle,
         l10n.adminProvidersDescription,
-        LucideIcons.listTree,
+        PhosphorIconsRegular.treeStructure,
         '/admin/providers',
       ),
       (
         l10n.adminAiProvidersTitle,
         l10n.adminAiProvidersDescription,
-        LucideIcons.sparkles,
+        PhosphorIconsRegular.sparkle,
         '/admin/ai-providers',
       ),
     ];

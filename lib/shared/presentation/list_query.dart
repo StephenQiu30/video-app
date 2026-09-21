@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class ListQuery {
   const ListQuery({this.page = 1, this.search = '', this.status});
@@ -41,14 +42,20 @@ final class ListPagination extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 12,
       children: [
-        TextButton(
+        ShadButton.ghost(
           onPressed: page > 1 ? () => onPage(page - 1) : null,
-          child: Text(l.previousPage),
+          enabled: (page > 1 ? () => onPage(page - 1) : null) != null,
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(child: Text(l.previousPage)),
         ),
         Text('$page / $pages'),
-        TextButton(
+        ShadButton.ghost(
           onPressed: page < pages ? () => onPage(page + 1) : null,
-          child: Text(l.nextPage),
+          enabled: (page < pages ? () => onPage(page + 1) : null) != null,
+          height: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Flexible(child: Text(l.nextPage)),
         ),
       ],
     );

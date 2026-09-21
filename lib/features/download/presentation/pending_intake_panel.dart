@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 final class PendingIntakePanel extends StatelessWidget {
   const PendingIntakePanel({
@@ -50,10 +51,12 @@ final class PendingIntakePanel extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.xLarge),
-          FilledButton.icon(
+          ShadButton(
             onPressed: onPressed,
-            icon: Icon(icon, size: 20),
-            label: Text(actionLabel),
+            leading: Icon(icon, size: 20),
+            height: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Flexible(child: Text(actionLabel)),
           ),
         ],
       ),
