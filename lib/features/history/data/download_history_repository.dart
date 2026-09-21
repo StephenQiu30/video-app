@@ -44,14 +44,15 @@ final class GeneratedDownloadHistoryRepository
   @override
   Future<DownloadResponse> cancel(String jobId) {
     return _required(
-      (api) => api.cancelDownload(jobId: jobId).then((value) => value.data),
+      (api) =>
+          api.cancelDownload(jobId: jobId).then((value) => value.data?.data),
     );
   }
 
   @override
   Future<DownloadResponse> fetchDetail(String jobId) {
     return _required(
-      (api) => api.getDownload(jobId: jobId).then((value) => value.data),
+      (api) => api.getDownload(jobId: jobId).then((value) => value.data?.data),
     );
   }
 
@@ -68,7 +69,7 @@ final class GeneratedDownloadHistoryRepository
         search: search,
         status: status,
       );
-      final data = response.data;
+      final data = response.data?.data;
       if (data == null) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
       }
@@ -84,7 +85,7 @@ final class GeneratedDownloadHistoryRepository
     return _required(
       (api) => api
           .retryDownload(jobId: jobId, idempotencyKey: idempotencyKey)
-          .then((value) => value.data),
+          .then((value) => value.data?.data),
     );
   }
 

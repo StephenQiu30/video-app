@@ -6,6 +6,7 @@
 import 'package:video_server_api/lib/model/provider_capability.dart';
 import 'package:video_server_api/lib/model/provider_support_status.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:video_server_api/lib/model/provider_access_state.dart';
 import 'package:video_server_api/lib/model/provider_access_mode.dart';
 import 'package:video_server_api/lib/model/provider_access_policy.dart';
 import 'package:video_server_api/lib/model/provider_access_policy_response.dart';
@@ -24,6 +25,7 @@ part 'provider_status_response.g.dart';
 /// * [extractorExists]
 /// * [capabilities]
 /// * [accessModes]
+/// * [accessState]
 /// * [status]
 /// * [lastCheckedAt]
 /// * [lastCheckSucceeded]
@@ -58,6 +60,10 @@ abstract class ProviderStatusResponse
 
   @BuiltValueField(wireName: r'access_modes')
   BuiltList<ProviderAccessMode> get accessModes;
+
+  @BuiltValueField(wireName: r'access_state')
+  ProviderAccessState get accessState;
+  // enum accessStateEnum {  public_probe,  public_ready,  authorization_required,  operator_probe,  operator_ready,  degraded,  blocked,  disabled,  unsupported,  };
 
   @BuiltValueField(wireName: r'status')
   ProviderSupportStatus get status;
@@ -163,6 +169,11 @@ class _$ProviderStatusResponseSerializer
     yield serializers.serialize(
       object.accessModes,
       specifiedType: const FullType(BuiltList, [FullType(ProviderAccessMode)]),
+    );
+    yield r'access_state';
+    yield serializers.serialize(
+      object.accessState,
+      specifiedType: const FullType(ProviderAccessState),
     );
     yield r'status';
     yield serializers.serialize(
@@ -317,6 +328,13 @@ class _$ProviderStatusResponseSerializer
                 const FullType(BuiltList, [FullType(ProviderAccessMode)]),
           ) as BuiltList<ProviderAccessMode>;
           result.accessModes.replace(valueDes);
+          break;
+        case r'access_state':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ProviderAccessState),
+          ) as ProviderAccessState;
+          result.accessState = valueDes;
           break;
         case r'status':
           final valueDes = serializers.deserialize(

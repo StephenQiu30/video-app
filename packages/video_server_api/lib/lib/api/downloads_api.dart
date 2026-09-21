@@ -9,11 +9,11 @@ import 'package:dio/dio.dart';
 
 import 'dart:typed_data';
 import 'package:video_server_api/lib/api_util.dart';
-import 'package:video_server_api/lib/model/download_history_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_history_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_url_response.dart';
 import 'package:video_server_api/lib/model/download_request.dart';
-import 'package:video_server_api/lib/model/download_response.dart';
 import 'package:video_server_api/lib/model/download_status.dart';
-import 'package:video_server_api/lib/model/download_url_response.dart';
 
 class DownloadsApi {
   final Dio _dio;
@@ -34,9 +34,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadResponse>> cancelDownload({
+  Future<Response<ApiResponseDownloadResponse>> cancelDownload({
     required String jobId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -75,7 +75,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadResponse? _responseData;
+    ApiResponseDownloadResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -83,8 +83,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadResponse),
-            ) as DownloadResponse;
+              specifiedType: const FullType(ApiResponseDownloadResponse),
+            ) as ApiResponseDownloadResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -95,7 +95,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadResponse>(
+    return Response<ApiResponseDownloadResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -120,9 +120,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadResponse>> createDownload({
+  Future<Response<ApiResponseDownloadResponse>> createDownload({
     required String idempotencyKey,
     required DownloadRequest downloadRequest,
     CancelToken? cancelToken,
@@ -179,7 +179,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadResponse? _responseData;
+    ApiResponseDownloadResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -187,8 +187,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadResponse),
-            ) as DownloadResponse;
+              specifiedType: const FullType(ApiResponseDownloadResponse),
+            ) as ApiResponseDownloadResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -199,7 +199,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadResponse>(
+    return Response<ApiResponseDownloadResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -279,9 +279,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadResponse>> getDownload({
+  Future<Response<ApiResponseDownloadResponse>> getDownload({
     required String jobId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -320,7 +320,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadResponse? _responseData;
+    ApiResponseDownloadResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -328,8 +328,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadResponse),
-            ) as DownloadResponse;
+              specifiedType: const FullType(ApiResponseDownloadResponse),
+            ) as ApiResponseDownloadResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -340,7 +340,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadResponse>(
+    return Response<ApiResponseDownloadResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -367,9 +367,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadHistoryResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadHistoryResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadHistoryResponse>> getDownloadHistory({
+  Future<Response<ApiResponseDownloadHistoryResponse>> getDownloadHistory({
     int? page = 1,
     int? pageSize = 20,
     DownloadStatus? status,
@@ -423,7 +423,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadHistoryResponse? _responseData;
+    ApiResponseDownloadHistoryResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -431,8 +431,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadHistoryResponse),
-            ) as DownloadHistoryResponse;
+              specifiedType: const FullType(ApiResponseDownloadHistoryResponse),
+            ) as ApiResponseDownloadHistoryResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -443,7 +443,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadHistoryResponse>(
+    return Response<ApiResponseDownloadHistoryResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -549,9 +549,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadUrlResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadUrlResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadUrlResponse>> issueDownloadUrl({
+  Future<Response<ApiResponseDownloadUrlResponse>> issueDownloadUrl({
     required String jobId,
     bool? preview = false,
     CancelToken? cancelToken,
@@ -598,7 +598,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadUrlResponse? _responseData;
+    ApiResponseDownloadUrlResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -606,8 +606,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadUrlResponse),
-            ) as DownloadUrlResponse;
+              specifiedType: const FullType(ApiResponseDownloadUrlResponse),
+            ) as ApiResponseDownloadUrlResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -618,7 +618,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadUrlResponse>(
+    return Response<ApiResponseDownloadUrlResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -643,9 +643,9 @@ class DownloadsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadResponse>> retryDownload({
+  Future<Response<ApiResponseDownloadResponse>> retryDownload({
     required String jobId,
     required String idempotencyKey,
     CancelToken? cancelToken,
@@ -686,7 +686,7 @@ class DownloadsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadResponse? _responseData;
+    ApiResponseDownloadResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -694,8 +694,8 @@ class DownloadsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadResponse),
-            ) as DownloadResponse;
+              specifiedType: const FullType(ApiResponseDownloadResponse),
+            ) as ApiResponseDownloadResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -706,7 +706,7 @@ class DownloadsApi {
       );
     }
 
-    return Response<DownloadResponse>(
+    return Response<ApiResponseDownloadResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

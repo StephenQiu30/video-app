@@ -22,7 +22,7 @@ final class ProfileRepository {
           (b) => b..username = username,
         ),
       );
-      final user = response.data;
+      final user = response.data?.data;
       if (user == null) throw StateError('Missing profile');
       return user;
     });

@@ -20,6 +20,8 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
   @override
   final BuiltList<ProviderAccessMode> accessModes;
   @override
+  final ProviderAccessState accessState;
+  @override
   final ProviderSupportStatus status;
   @override
   final DateTime? lastCheckedAt;
@@ -59,6 +61,7 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
       required this.extractorExists,
       required this.capabilities,
       required this.accessModes,
+      required this.accessState,
       required this.status,
       this.lastCheckedAt,
       this.lastCheckSucceeded,
@@ -93,6 +96,7 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
         extractorExists == other.extractorExists &&
         capabilities == other.capabilities &&
         accessModes == other.accessModes &&
+        accessState == other.accessState &&
         status == other.status &&
         lastCheckedAt == other.lastCheckedAt &&
         lastCheckSucceeded == other.lastCheckSucceeded &&
@@ -118,6 +122,7 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
     _$hash = $jc(_$hash, extractorExists.hashCode);
     _$hash = $jc(_$hash, capabilities.hashCode);
     _$hash = $jc(_$hash, accessModes.hashCode);
+    _$hash = $jc(_$hash, accessState.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, lastCheckedAt.hashCode);
     _$hash = $jc(_$hash, lastCheckSucceeded.hashCode);
@@ -145,6 +150,7 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
           ..add('extractorExists', extractorExists)
           ..add('capabilities', capabilities)
           ..add('accessModes', accessModes)
+          ..add('accessState', accessState)
           ..add('status', status)
           ..add('lastCheckedAt', lastCheckedAt)
           ..add('lastCheckSucceeded', lastCheckSucceeded)
@@ -195,6 +201,11 @@ class ProviderStatusResponseBuilder
       _$this._accessModes ??= ListBuilder<ProviderAccessMode>();
   set accessModes(ListBuilder<ProviderAccessMode>? accessModes) =>
       _$this._accessModes = accessModes;
+
+  ProviderAccessState? _accessState;
+  ProviderAccessState? get accessState => _$this._accessState;
+  set accessState(ProviderAccessState? accessState) =>
+      _$this._accessState = accessState;
 
   ProviderSupportStatus? _status;
   ProviderSupportStatus? get status => _$this._status;
@@ -280,6 +291,7 @@ class ProviderStatusResponseBuilder
       _extractorExists = $v.extractorExists;
       _capabilities = $v.capabilities.toBuilder();
       _accessModes = $v.accessModes.toBuilder();
+      _accessState = $v.accessState;
       _status = $v.status;
       _lastCheckedAt = $v.lastCheckedAt;
       _lastCheckSucceeded = $v.lastCheckSucceeded;
@@ -327,6 +339,8 @@ class ProviderStatusResponseBuilder
                 extractorExists, r'ProviderStatusResponse', 'extractorExists'),
             capabilities: capabilities.build(),
             accessModes: accessModes.build(),
+            accessState: BuiltValueNullFieldError.checkNotNull(
+                accessState, r'ProviderStatusResponse', 'accessState'),
             status: BuiltValueNullFieldError.checkNotNull(
                 status, r'ProviderStatusResponse', 'status'),
             lastCheckedAt: lastCheckedAt,

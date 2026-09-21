@@ -34,14 +34,15 @@ final class GeneratedAdminRepository implements AdminRepository {
 
   @override
   Future<DownloadAnalyticsResponse> fetchAnalytics(int days) => _required(
-    (api) => api.getDownloadAnalytics(days: days).then((value) => value.data),
+    (api) =>
+        api.getDownloadAnalytics(days: days).then((value) => value.data?.data),
   );
 
   @override
   Future<StoredFileListResponse> fetchFiles({int page = 1}) => _required(
     (api) => api
         .listStoredFiles(page: page, pageSize: 20)
-        .then((value) => value.data),
+        .then((value) => value.data?.data),
   );
 
   @override
@@ -59,17 +60,17 @@ final class GeneratedAdminRepository implements AdminRepository {
           isActive: active,
           role: role,
         )
-        .then((value) => value.data),
+        .then((value) => value.data?.data),
   );
 
   @override
   Future<ProviderCatalogListResponse> fetchProviders() => _required(
-    (api) => api.listProviderCatalogEntries().then((value) => value.data),
+    (api) => api.listProviderCatalogEntries().then((value) => value.data?.data),
   );
 
   @override
   Future<AiProviderProfileListResponse> fetchAiProviders() => _required(
-    (api) => api.listAiProviderProfiles().then((value) => value.data),
+    (api) => api.listAiProviderProfiles().then((value) => value.data?.data),
   );
 
   @override
@@ -80,7 +81,7 @@ final class GeneratedAdminRepository implements AdminRepository {
             (builder) => builder..olderThanDays = olderThanDays,
           ),
         )
-        .then((value) => value.data),
+        .then((value) => value.data?.data),
   );
 
   @override

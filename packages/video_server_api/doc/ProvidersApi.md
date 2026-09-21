@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **listProviders**
-> ProviderListResponse listProviders()
+> ApiResponseProviderListResponse listProviders()
 
 查询平台能力状态
 
@@ -38,7 +38,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**ProviderListResponse**](ProviderListResponse.md)
+[**ApiResponseProviderListResponse**](ApiResponseProviderListResponse.md)
 
 ### Authorization
 

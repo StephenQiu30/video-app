@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **getInspection**
-> InspectionResponse getInspection(inspectionId)
+> ApiResponseInspectionResponse getInspection(inspectionId)
 
 查询媒体解析结果
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InspectionResponse**](InspectionResponse.md)
+[**ApiResponseInspectionResponse**](ApiResponseInspectionResponse.md)
 
 ### Authorization
 
@@ -101,7 +101,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **inspectMedia**
-> InspectionResponse inspectMedia(idempotencyKey, inspectionRequest)
+> ApiResponseInspectionResponse inspectMedia(idempotencyKey, inspectionRequest)
 
 解析媒体信息
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InspectionResponse**](InspectionResponse.md)
+[**ApiResponseInspectionResponse**](ApiResponseInspectionResponse.md)
 
 ### Authorization
 

@@ -45,7 +45,7 @@ final class GeneratedMediaRepository implements MediaRepository {
       final response = await client.getDownloadsApi().issueDownloadUrl(
         jobId: jobId,
       );
-      final value = response.data?.url;
+      final value = response.data?.data.url;
       final uri = value == null ? null : Uri.tryParse(value);
       if (uri == null || (uri.scheme != 'http' && uri.scheme != 'https')) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);

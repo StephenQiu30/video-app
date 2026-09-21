@@ -7,8 +7,8 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'package:video_server_api/lib/model/api_response_user_response.dart';
 import 'package:video_server_api/lib/model/update_profile_request.dart';
-import 'package:video_server_api/lib/model/user_response.dart';
 
 class UsersApi {
   final Dio _dio;
@@ -29,9 +29,9 @@ class UsersApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [UserResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseUserResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserResponse>> updateCurrentUser({
+  Future<Response<ApiResponseUserResponse>> updateCurrentUser({
     required UpdateProfileRequest updateProfileRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -87,7 +87,7 @@ class UsersApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    UserResponse? _responseData;
+    ApiResponseUserResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -95,8 +95,8 @@ class UsersApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(UserResponse),
-            ) as UserResponse;
+              specifiedType: const FullType(ApiResponseUserResponse),
+            ) as ApiResponseUserResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -107,7 +107,7 @@ class UsersApi {
       );
     }
 
-    return Response<UserResponse>(
+    return Response<ApiResponseUserResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

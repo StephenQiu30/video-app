@@ -7,6 +7,7 @@ import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/features/auth/application/auth_session_controller.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_dropdown_field.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:framegrab/shared/presentation/list_filters.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
@@ -71,10 +72,10 @@ final class AdminUsersScreen extends ConsumerWidget {
                 onEdit: () => _editUser(context, ref, user),
               ),
           ],
-          error: (_, _) => adminError(
+          error: (error, _) => adminError(
             action: l10n.retryAction,
             title: l10n.loadFailedTitle,
-            description: l10n.loadFailedDescription,
+            description: dataRequestFailureMessage(l10n, error),
             retry: () => ref.invalidate(adminUsersProvider),
           ),
           loading: () => adminLoading(l10n.loadingData),

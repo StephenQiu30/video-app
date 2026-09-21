@@ -23,7 +23,7 @@ final class GeneratedProviderStatusRepository
   Future<ProviderListResponse> fetch() {
     return _request.execute((client) async {
       final response = await client.getProvidersApi().listProviders();
-      final data = response.data;
+      final data = response.data?.data;
       if (data == null) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
       }

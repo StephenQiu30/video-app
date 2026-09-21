@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 
 # **cancelDocumentImport**
-> DocumentImportResponse cancelDocumentImport(documentId)
+> ApiResponseDocumentImportResponse cancelDocumentImport(documentId)
 
 取消剧本文档导入
 
@@ -46,7 +46,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentImportResponse**](DocumentImportResponse.md)
+[**ApiResponseDocumentImportResponse**](ApiResponseDocumentImportResponse.md)
 
 ### Authorization
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **completeDocumentImport**
-> DocumentImportResponse completeDocumentImport(documentId, completeDocumentImportRequest)
+> ApiResponseDocumentImportResponse completeDocumentImport(documentId, completeDocumentImportRequest)
 
 完成文档上传并触发验证
 
@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentImportResponse**](DocumentImportResponse.md)
+[**ApiResponseDocumentImportResponse**](ApiResponseDocumentImportResponse.md)
 
 ### Authorization
 
@@ -103,7 +103,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createDocumentImport**
-> DocumentImportResponse createDocumentImport(idempotencyKey, documentImportRequest)
+> ApiResponseDocumentImportResponse createDocumentImport(idempotencyKey, documentImportRequest)
 
 创建剧本文档导入
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentImportResponse**](DocumentImportResponse.md)
+[**ApiResponseDocumentImportResponse**](ApiResponseDocumentImportResponse.md)
 
 ### Authorization
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createDocumentUploadSession**
-> DocumentUploadSessionResponse createDocumentUploadSession(documentId)
+> ApiResponseDocumentUploadSessionResponse createDocumentUploadSession(documentId)
 
 创建或刷新文档上传会话
 
@@ -173,7 +173,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentUploadSessionResponse**](DocumentUploadSessionResponse.md)
+[**ApiResponseDocumentUploadSessionResponse**](ApiResponseDocumentUploadSessionResponse.md)
 
 ### Authorization
 
@@ -227,7 +227,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDocumentImport**
-> DocumentDetailResponse getDocumentImport(documentId)
+> ApiResponseDocumentDetailResponse getDocumentImport(documentId)
 
 查询剧本文档导入
 
@@ -254,7 +254,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentDetailResponse**](DocumentDetailResponse.md)
+[**ApiResponseDocumentDetailResponse**](ApiResponseDocumentDetailResponse.md)
 
 ### Authorization
 
@@ -268,7 +268,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listDocuments**
-> DocumentPageResponse listDocuments(page, pageSize)
+> ApiResponseDocumentPageResponse listDocuments(page, pageSize)
 
 查询剧本文档列表
 
@@ -297,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DocumentPageResponse**](DocumentPageResponse.md)
+[**ApiResponseDocumentPageResponse**](ApiResponseDocumentPageResponse.md)
 
 ### Authorization
 

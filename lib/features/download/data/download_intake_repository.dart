@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:framegrab/core/network/data_request_failure.dart';
 import 'package:framegrab/features/auth/application/authenticated_request.dart';
@@ -52,10 +51,13 @@ final class GeneratedDownloadIntakeRepository
         ..kind = SourceDiscoveryRequestKindEnum.wechatOfficialAccountArticle
         ..url = url,
     );
-    return client.getSourceDiscoveriesApi().createSourceDiscovery(
-      idempotencyKey: idempotencyKey,
-      sourceDiscoveryRequest: body,
-    );
+    return client
+        .getSourceDiscoveriesApi()
+        .createSourceDiscovery(
+          idempotencyKey: idempotencyKey,
+          sourceDiscoveryRequest: body,
+        )
+        .then((value) => value.data?.data);
   });
 
   @override
@@ -99,10 +101,10 @@ final class GeneratedDownloadIntakeRepository
         ..inspectionId = inspectionId
         ..formatId = formatId,
     );
-    return client.getDownloadsApi().createDownload(
-      idempotencyKey: idempotencyKey,
-      downloadRequest: body,
-    );
+    return client
+        .getDownloadsApi()
+        .createDownload(idempotencyKey: idempotencyKey, downloadRequest: body)
+        .then((value) => value.data?.data);
   });
 
   Future<InspectionResponse> _inspect(
@@ -120,17 +122,16 @@ final class GeneratedDownloadIntakeRepository
         value: source,
       ),
     );
-    return client.getInspectionsApi().inspectMedia(
-      idempotencyKey: idempotencyKey,
-      inspectionRequest: body,
-    );
+    return client
+        .getInspectionsApi()
+        .inspectMedia(idempotencyKey: idempotencyKey, inspectionRequest: body)
+        .then((value) => value.data?.data);
   });
 
   Future<T> _required<T>(
-    Future<Response<T>> Function(VideoServerApi client) operation,
+    Future<T?> Function(VideoServerApi client) operation,
   ) => _request.execute((client) async {
-    final response = await operation(client);
-    final data = response.data;
+    final data = await operation(client);
     if (data == null) {
       throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
     }

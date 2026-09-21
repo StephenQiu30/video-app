@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **cancelDownload**
-> DownloadResponse cancelDownload(jobId)
+> ApiResponseDownloadResponse cancelDownload(jobId)
 
 取消下载任务
 
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadResponse**](DownloadResponse.md)
+[**ApiResponseDownloadResponse**](ApiResponseDownloadResponse.md)
 
 ### Authorization
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createDownload**
-> DownloadResponse createDownload(idempotencyKey, downloadRequest)
+> ApiResponseDownloadResponse createDownload(idempotencyKey, downloadRequest)
 
 创建下载任务
 
@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadResponse**](DownloadResponse.md)
+[**ApiResponseDownloadResponse**](ApiResponseDownloadResponse.md)
 
 ### Authorization
 
@@ -150,7 +150,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDownload**
-> DownloadResponse getDownload(jobId)
+> ApiResponseDownloadResponse getDownload(jobId)
 
 查询下载任务
 
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadResponse**](DownloadResponse.md)
+[**ApiResponseDownloadResponse**](ApiResponseDownloadResponse.md)
 
 ### Authorization
 
@@ -193,7 +193,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDownloadHistory**
-> DownloadHistoryResponse getDownloadHistory(page, pageSize, status, search)
+> ApiResponseDownloadHistoryResponse getDownloadHistory(page, pageSize, status, search)
 
 查询下载历史
 
@@ -228,7 +228,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadHistoryResponse**](DownloadHistoryResponse.md)
+[**ApiResponseDownloadHistoryResponse**](ApiResponseDownloadHistoryResponse.md)
 
 ### Authorization
 
@@ -285,7 +285,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **issueDownloadUrl**
-> DownloadUrlResponse issueDownloadUrl(jobId, preview)
+> ApiResponseDownloadUrlResponse issueDownloadUrl(jobId, preview)
 
 签发文件下载地址
 
@@ -316,7 +316,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadUrlResponse**](DownloadUrlResponse.md)
+[**ApiResponseDownloadUrlResponse**](ApiResponseDownloadUrlResponse.md)
 
 ### Authorization
 
@@ -330,7 +330,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **retryDownload**
-> DownloadResponse retryDownload(jobId, idempotencyKey)
+> ApiResponseDownloadResponse retryDownload(jobId, idempotencyKey)
 
 重试下载任务
 
@@ -361,7 +361,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadResponse**](DownloadResponse.md)
+[**ApiResponseDownloadResponse**](ApiResponseDownloadResponse.md)
 
 ### Authorization
 

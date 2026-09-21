@@ -27,7 +27,7 @@ Method | HTTP request | Description
 
 
 # **activateAiProviderProfile**
-> AiProviderProfileResponse activateAiProviderProfile(providerKey)
+> ApiResponseAiProviderProfileResponse activateAiProviderProfile(providerKey)
 
 启用 AI 分析 Provider
 
@@ -54,7 +54,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AiProviderProfileResponse**](AiProviderProfileResponse.md)
+[**ApiResponseAiProviderProfileResponse**](ApiResponseAiProviderProfileResponse.md)
 
 ### Authorization
 
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cleanupStoredFiles**
-> StorageCleanupResponse cleanupStoredFiles(storageCleanupRequest)
+> ApiResponseStorageCleanupResponse cleanupStoredFiles(storageCleanupRequest)
 
 手动清理指定天数前的文件
 
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**StorageCleanupResponse**](StorageCleanupResponse.md)
+[**ApiResponseStorageCleanupResponse**](ApiResponseStorageCleanupResponse.md)
 
 ### Authorization
 
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createAiProviderProfile**
-> AiProviderProfileResponse createAiProviderProfile(createAiProviderProfileRequest)
+> ApiResponseAiProviderProfileResponse createAiProviderProfile(createAiProviderProfileRequest)
 
 新增 AI 分析 Provider
 
@@ -136,7 +136,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AiProviderProfileResponse**](AiProviderProfileResponse.md)
+[**ApiResponseAiProviderProfileResponse**](ApiResponseAiProviderProfileResponse.md)
 
 ### Authorization
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createProviderCatalogEntry**
-> ProviderCatalogEntryResponse createProviderCatalogEntry(createProviderCatalogEntryRequest)
+> ApiResponseProviderCatalogEntryResponse createProviderCatalogEntry(createProviderCatalogEntryRequest)
 
 新增平台目录条目
 
@@ -177,7 +177,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ProviderCatalogEntryResponse**](ProviderCatalogEntryResponse.md)
+[**ApiResponseProviderCatalogEntryResponse**](ApiResponseProviderCatalogEntryResponse.md)
 
 ### Authorization
 
@@ -271,7 +271,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAdminProviderRuntime**
-> ProviderRuntimeListResponse getAdminProviderRuntime()
+> ApiResponseProviderRuntimeListResponse getAdminProviderRuntime()
 
 读取已开放平台的脱敏运行诊断
 
@@ -296,7 +296,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**ProviderRuntimeListResponse**](ProviderRuntimeListResponse.md)
+[**ApiResponseProviderRuntimeListResponse**](ApiResponseProviderRuntimeListResponse.md)
 
 ### Authorization
 
@@ -310,7 +310,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getDownloadAnalytics**
-> DownloadAnalyticsResponse getDownloadAnalytics(days)
+> ApiResponseDownloadAnalyticsResponse getDownloadAnalytics(days)
 
 查询下载分析
 
@@ -339,7 +339,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**DownloadAnalyticsResponse**](DownloadAnalyticsResponse.md)
+[**ApiResponseDownloadAnalyticsResponse**](ApiResponseDownloadAnalyticsResponse.md)
 
 ### Authorization
 
@@ -353,7 +353,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listAiProviderProfiles**
-> AiProviderProfileListResponse listAiProviderProfiles()
+> ApiResponseAiProviderProfileListResponse listAiProviderProfiles()
 
 查询 AI 分析 Provider
 
@@ -376,7 +376,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**AiProviderProfileListResponse**](AiProviderProfileListResponse.md)
+[**ApiResponseAiProviderProfileListResponse**](ApiResponseAiProviderProfileListResponse.md)
 
 ### Authorization
 
@@ -390,7 +390,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listProviderCatalogEntries**
-> ProviderCatalogListResponse listProviderCatalogEntries()
+> ApiResponseProviderCatalogListResponse listProviderCatalogEntries()
 
 查询平台目录
 
@@ -413,7 +413,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**ProviderCatalogListResponse**](ProviderCatalogListResponse.md)
+[**ApiResponseProviderCatalogListResponse**](ApiResponseProviderCatalogListResponse.md)
 
 ### Authorization
 
@@ -427,7 +427,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listStoredFiles**
-> StoredFileListResponse listStoredFiles(page, pageSize)
+> ApiResponseStoredFileListResponse listStoredFiles(page, pageSize)
 
 分页查询持久文件
 
@@ -456,7 +456,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**StoredFileListResponse**](StoredFileListResponse.md)
+[**ApiResponseStoredFileListResponse**](ApiResponseStoredFileListResponse.md)
 
 ### Authorization
 
@@ -470,7 +470,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listUsers**
-> ManagedUserListResponse listUsers(page, pageSize, search, role, isActive)
+> ApiResponseManagedUserListResponse listUsers(page, pageSize, search, role, isActive)
 
 查询用户列表
 
@@ -505,7 +505,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ManagedUserListResponse**](ManagedUserListResponse.md)
+[**ApiResponseManagedUserListResponse**](ApiResponseManagedUserListResponse.md)
 
 ### Authorization
 
@@ -519,7 +519,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateAiProviderProfile**
-> AiProviderProfileResponse updateAiProviderProfile(providerKey, updateAiProviderProfileRequest)
+> ApiResponseAiProviderProfileResponse updateAiProviderProfile(providerKey, updateAiProviderProfileRequest)
 
 更新 AI 分析 Provider
 
@@ -548,7 +548,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AiProviderProfileResponse**](AiProviderProfileResponse.md)
+[**ApiResponseAiProviderProfileResponse**](ApiResponseAiProviderProfileResponse.md)
 
 ### Authorization
 
@@ -562,7 +562,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateProviderCatalogEntry**
-> ProviderCatalogEntryResponse updateProviderCatalogEntry(providerKey, updateProviderCatalogEntryRequest)
+> ApiResponseProviderCatalogEntryResponse updateProviderCatalogEntry(providerKey, updateProviderCatalogEntryRequest)
 
 更新平台目录条目
 
@@ -591,7 +591,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ProviderCatalogEntryResponse**](ProviderCatalogEntryResponse.md)
+[**ApiResponseProviderCatalogEntryResponse**](ApiResponseProviderCatalogEntryResponse.md)
 
 ### Authorization
 
@@ -605,7 +605,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUserAccess**
-> ManagedUserResponse updateUserAccess(userId, updateUserAccessRequest)
+> ApiResponseManagedUserResponse updateUserAccess(userId, updateUserAccessRequest)
 
 更新用户角色与账号状态
 
@@ -634,7 +634,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ManagedUserResponse**](ManagedUserResponse.md)
+[**ApiResponseManagedUserResponse**](ApiResponseManagedUserResponse.md)
 
 ### Authorization
 

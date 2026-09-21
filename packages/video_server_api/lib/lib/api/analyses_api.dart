@@ -8,12 +8,12 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'dart:typed_data';
-import 'package:built_collection/built_collection.dart';
 import 'package:video_server_api/lib/api_util.dart';
 import 'package:video_server_api/lib/model/analysis_input_kind.dart';
 import 'package:video_server_api/lib/model/analysis_request.dart';
-import 'package:video_server_api/lib/model/analysis_response.dart';
-import 'package:video_server_api/lib/model/analysis_skill_response.dart';
+import 'package:video_server_api/lib/model/api_response_analysis_response.dart';
+import 'package:video_server_api/lib/model/api_response_tuple_analysis_skill_response.dart';
+import 'package:video_server_api/lib/model/api_response_union_analysis_response_none_type.dart';
 
 class AnalysesApi {
   final Dio _dio;
@@ -34,9 +34,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAnalysisResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> cancelAnalysis({
+  Future<Response<ApiResponseAnalysisResponse>> cancelAnalysis({
     required String analysisId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -75,7 +75,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseAnalysisResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -83,8 +83,8 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType: const FullType(ApiResponseAnalysisResponse),
+            ) as ApiResponseAnalysisResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -95,7 +95,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseAnalysisResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -121,9 +121,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAnalysisResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> createAnalysis({
+  Future<Response<ApiResponseAnalysisResponse>> createAnalysis({
     required String downloadId,
     required String idempotencyKey,
     required AnalysisRequest analysisRequest,
@@ -184,7 +184,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseAnalysisResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -192,8 +192,8 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType: const FullType(ApiResponseAnalysisResponse),
+            ) as ApiResponseAnalysisResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -204,7 +204,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseAnalysisResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -230,9 +230,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAnalysisResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> createDocumentAnalysis({
+  Future<Response<ApiResponseAnalysisResponse>> createDocumentAnalysis({
     required String documentId,
     required String idempotencyKey,
     required AnalysisRequest analysisRequest,
@@ -293,7 +293,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseAnalysisResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -301,8 +301,8 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType: const FullType(ApiResponseAnalysisResponse),
+            ) as ApiResponseAnalysisResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -313,7 +313,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseAnalysisResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -474,9 +474,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAnalysisResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> getAnalysis({
+  Future<Response<ApiResponseAnalysisResponse>> getAnalysis({
     required String analysisId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -515,7 +515,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseAnalysisResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -523,8 +523,8 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType: const FullType(ApiResponseAnalysisResponse),
+            ) as ApiResponseAnalysisResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -535,7 +535,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseAnalysisResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -559,9 +559,10 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseUnionAnalysisResponseNoneType] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> getLatestDocumentAnalysis({
+  Future<Response<ApiResponseUnionAnalysisResponseNoneType>>
+      getLatestDocumentAnalysis({
     required String documentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -600,7 +601,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseUnionAnalysisResponseNoneType? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -608,8 +609,9 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType:
+                  const FullType(ApiResponseUnionAnalysisResponseNoneType),
+            ) as ApiResponseUnionAnalysisResponseNoneType;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -620,7 +622,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseUnionAnalysisResponseNoneType>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -644,9 +646,10 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseUnionAnalysisResponseNoneType] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> getLatestDownloadAnalysis({
+  Future<Response<ApiResponseUnionAnalysisResponseNoneType>>
+      getLatestDownloadAnalysis({
     required String downloadId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -685,7 +688,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseUnionAnalysisResponseNoneType? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -693,8 +696,9 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType:
+                  const FullType(ApiResponseUnionAnalysisResponseNoneType),
+            ) as ApiResponseUnionAnalysisResponseNoneType;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -705,7 +709,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseUnionAnalysisResponseNoneType>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -729,9 +733,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [BuiltList<AnalysisSkillResponse>] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseTupleAnalysisSkillResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BuiltList<AnalysisSkillResponse>>> listAnalysisSkills({
+  Future<Response<ApiResponseTupleAnalysisSkillResponse>> listAnalysisSkills({
     required AnalysisInputKind inputKind,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -767,7 +771,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    BuiltList<AnalysisSkillResponse>? _responseData;
+    ApiResponseTupleAnalysisSkillResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -776,8 +780,8 @@ class AnalysesApi {
           : _serializers.deserialize(
               rawResponse,
               specifiedType:
-                  const FullType(BuiltList, [FullType(AnalysisSkillResponse)]),
-            ) as BuiltList<AnalysisSkillResponse>;
+                  const FullType(ApiResponseTupleAnalysisSkillResponse),
+            ) as ApiResponseTupleAnalysisSkillResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -788,7 +792,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<BuiltList<AnalysisSkillResponse>>(
+    return Response<ApiResponseTupleAnalysisSkillResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -813,9 +817,9 @@ class AnalysesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AnalysisResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAnalysisResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AnalysisResponse>> retryAnalysis({
+  Future<Response<ApiResponseAnalysisResponse>> retryAnalysis({
     required String analysisId,
     required String idempotencyKey,
     CancelToken? cancelToken,
@@ -856,7 +860,7 @@ class AnalysesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AnalysisResponse? _responseData;
+    ApiResponseAnalysisResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -864,8 +868,8 @@ class AnalysesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AnalysisResponse),
-            ) as AnalysisResponse;
+              specifiedType: const FullType(ApiResponseAnalysisResponse),
+            ) as ApiResponseAnalysisResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -876,7 +880,7 @@ class AnalysesApi {
       );
     }
 
-    return Response<AnalysisResponse>(
+    return Response<ApiResponseAnalysisResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

@@ -81,12 +81,48 @@ void main() {
       ),
     );
   });
+
+  test('reads the unified API message from an error response', () async {
+    final request = AuthenticatedRequest(
+      client: VideoServerApi(),
+      accessToken: () => 'access',
+      sessionGeneration: () => 0,
+      refreshSession: () async => fail('must not refresh'),
+      expireSession: () async => fail('must not expire'),
+    );
+
+    await expectLater(
+      request.execute<void>((_) async {
+        throw _dioError(
+          409,
+          data: {
+            'code': 'invalid_state',
+            'message': 'The task is still active.',
+            'data': null,
+          },
+        );
+      }),
+      throwsA(
+        isA<DataRequestFailure>()
+            .having((failure) => failure.code, 'code', 'invalid_state')
+            .having(
+              (failure) => failure.detail,
+              'detail',
+              'The task is still active.',
+            ),
+      ),
+    );
+  });
 }
 
-DioException _dioError(int statusCode) {
+DioException _dioError(int statusCode, {Object? data}) {
   final options = RequestOptions(path: '/api');
   return DioException(
     requestOptions: options,
-    response: Response<void>(requestOptions: options, statusCode: statusCode),
+    response: Response<Object?>(
+      requestOptions: options,
+      statusCode: statusCode,
+      data: data,
+    ),
   );
 }

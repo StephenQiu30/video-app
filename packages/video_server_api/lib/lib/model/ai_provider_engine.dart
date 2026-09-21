@@ -16,6 +16,10 @@ class AiProviderEngine extends EnumClass {
   static const AiProviderEngine claude = _$claude;
   @BuiltValueEnumConst(wireName: r'deepseek')
   static const AiProviderEngine deepseek = _$deepseek;
+  @BuiltValueEnumConst(wireName: r'openrouter')
+  static const AiProviderEngine openrouter = _$openrouter;
+  @BuiltValueEnumConst(wireName: r'openai')
+  static const AiProviderEngine openai = _$openai;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const AiProviderEngine unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 

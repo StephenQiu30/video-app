@@ -16,14 +16,18 @@ void main() {
         InterceptorsWrapper(
           onRequest: (options, handler) {
             sent.add(Map.of(options.queryParameters));
-            final data = options.path.contains('/history')
+            final businessData = options.path.contains('/history')
                 ? client.serializers.serializeWith(
                     DownloadHistoryResponse.serializer,
                     emptyDownloadHistory(),
                   )
                 : {'items': <Object>[], 'page': 1, 'page_size': 20, 'total': 0};
             handler.resolve(
-              Response(requestOptions: options, statusCode: 200, data: data),
+              Response(
+                requestOptions: options,
+                statusCode: 200,
+                data: {'code': 'ok', 'message': 'ok', 'data': businessData},
+              ),
             );
           },
         ),

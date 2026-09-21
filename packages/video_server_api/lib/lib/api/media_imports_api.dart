@@ -8,10 +8,10 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:video_server_api/lib/api_util.dart';
+import 'package:video_server_api/lib/model/api_response_media_import_response.dart';
+import 'package:video_server_api/lib/model/api_response_media_upload_session_response.dart';
 import 'package:video_server_api/lib/model/complete_media_import_request.dart';
 import 'package:video_server_api/lib/model/media_import_request.dart';
-import 'package:video_server_api/lib/model/media_import_response.dart';
-import 'package:video_server_api/lib/model/media_upload_session_response.dart';
 
 class MediaImportsApi {
   final Dio _dio;
@@ -33,9 +33,9 @@ class MediaImportsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [MediaImportResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseMediaImportResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MediaImportResponse>> completeMediaImport({
+  Future<Response<ApiResponseMediaImportResponse>> completeMediaImport({
     required String resourceId,
     required CompleteMediaImportRequest completeMediaImportRequest,
     CancelToken? cancelToken,
@@ -95,7 +95,7 @@ class MediaImportsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    MediaImportResponse? _responseData;
+    ApiResponseMediaImportResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -103,8 +103,8 @@ class MediaImportsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(MediaImportResponse),
-            ) as MediaImportResponse;
+              specifiedType: const FullType(ApiResponseMediaImportResponse),
+            ) as ApiResponseMediaImportResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -115,7 +115,7 @@ class MediaImportsApi {
       );
     }
 
-    return Response<MediaImportResponse>(
+    return Response<ApiResponseMediaImportResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -140,9 +140,9 @@ class MediaImportsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [MediaImportResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseMediaImportResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MediaImportResponse>> createMediaImport({
+  Future<Response<ApiResponseMediaImportResponse>> createMediaImport({
     required String idempotencyKey,
     required MediaImportRequest mediaImportRequest,
     CancelToken? cancelToken,
@@ -200,7 +200,7 @@ class MediaImportsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    MediaImportResponse? _responseData;
+    ApiResponseMediaImportResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -208,8 +208,8 @@ class MediaImportsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(MediaImportResponse),
-            ) as MediaImportResponse;
+              specifiedType: const FullType(ApiResponseMediaImportResponse),
+            ) as ApiResponseMediaImportResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -220,7 +220,7 @@ class MediaImportsApi {
       );
     }
 
-    return Response<MediaImportResponse>(
+    return Response<ApiResponseMediaImportResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -244,9 +244,10 @@ class MediaImportsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [MediaUploadSessionResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseMediaUploadSessionResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MediaUploadSessionResponse>> createMediaUploadSession({
+  Future<Response<ApiResponseMediaUploadSessionResponse>>
+      createMediaUploadSession({
     required String resourceId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -287,7 +288,7 @@ class MediaImportsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    MediaUploadSessionResponse? _responseData;
+    ApiResponseMediaUploadSessionResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -295,8 +296,9 @@ class MediaImportsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(MediaUploadSessionResponse),
-            ) as MediaUploadSessionResponse;
+              specifiedType:
+                  const FullType(ApiResponseMediaUploadSessionResponse),
+            ) as ApiResponseMediaUploadSessionResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -307,7 +309,7 @@ class MediaImportsApi {
       );
     }
 
-    return Response<MediaUploadSessionResponse>(
+    return Response<ApiResponseMediaUploadSessionResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

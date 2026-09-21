@@ -71,6 +71,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadFailedDescription => 'Check your connection and try again.';
 
   @override
+  String get invalidResponseError =>
+      'The service response is incompatible with this app version. Update the app or contact the service administrator.';
+
+  @override
+  String get forbiddenError =>
+      'Your account does not have permission to perform this action.';
+
+  @override
   String get retryAction => 'Reload';
 
   @override

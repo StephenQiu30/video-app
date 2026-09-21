@@ -120,6 +120,13 @@ void main() {
     expect(schemas, contains('DocumentDetailResponse'));
     expect(schemas, contains('DocumentParseSummaryResponse'));
     expect(schemas, contains('DocumentUploadSessionResponse'));
+    final errorResponse = schemas['ErrorResponse'] as Map<String, dynamic>;
+    final errorProperties = errorResponse['properties'] as Map<String, dynamic>;
+    expect(errorProperties['data'], {
+      'type': 'string',
+      'title': 'Data',
+      'nullable': true,
+    });
     final thumbnail =
         selectedPaths['/api/downloads/{job_id}/thumbnail']
             as Map<String, dynamic>;

@@ -31,6 +31,32 @@ import 'package:video_server_api/lib/model/analysis_result_contract.dart';
 import 'package:video_server_api/lib/model/analysis_skill_response.dart';
 import 'package:video_server_api/lib/model/analysis_stage.dart';
 import 'package:video_server_api/lib/model/analysis_status.dart';
+import 'package:video_server_api/lib/model/api_response_ai_provider_profile_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_ai_provider_profile_response.dart';
+import 'package:video_server_api/lib/model/api_response_analysis_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_detail_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_import_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_page_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_upload_session_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_analytics_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_history_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_url_response.dart';
+import 'package:video_server_api/lib/model/api_response_inspection_response.dart';
+import 'package:video_server_api/lib/model/api_response_managed_user_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_managed_user_response.dart';
+import 'package:video_server_api/lib/model/api_response_media_import_response.dart';
+import 'package:video_server_api/lib/model/api_response_media_upload_session_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_catalog_entry_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_catalog_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_runtime_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_source_discovery_response.dart';
+import 'package:video_server_api/lib/model/api_response_storage_cleanup_response.dart';
+import 'package:video_server_api/lib/model/api_response_stored_file_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_tuple_analysis_skill_response.dart';
+import 'package:video_server_api/lib/model/api_response_union_analysis_response_none_type.dart';
+import 'package:video_server_api/lib/model/api_response_user_response.dart';
 import 'package:video_server_api/lib/model/audio_codec_family.dart';
 import 'package:video_server_api/lib/model/compatibility_profile.dart';
 import 'package:video_server_api/lib/model/complete_document_import_request.dart';
@@ -70,6 +96,8 @@ import 'package:video_server_api/lib/model/download_url_response.dart';
 import 'package:video_server_api/lib/model/dynamic_range.dart';
 import 'package:video_server_api/lib/model/email_password_request.dart';
 import 'package:video_server_api/lib/model/entitlement_state.dart';
+import 'package:video_server_api/lib/model/error_code.dart';
+import 'package:video_server_api/lib/model/error_response.dart';
 import 'package:video_server_api/lib/model/evidence_summary_response.dart';
 import 'package:video_server_api/lib/model/execution_mode.dart';
 import 'package:video_server_api/lib/model/format_response.dart';
@@ -97,6 +125,7 @@ import 'package:video_server_api/lib/model/protection_state.dart';
 import 'package:video_server_api/lib/model/provider_access_mode.dart';
 import 'package:video_server_api/lib/model/provider_access_policy.dart';
 import 'package:video_server_api/lib/model/provider_access_policy_response.dart';
+import 'package:video_server_api/lib/model/provider_access_state.dart';
 import 'package:video_server_api/lib/model/provider_capability.dart';
 import 'package:video_server_api/lib/model/provider_catalog_entry_response.dart';
 import 'package:video_server_api/lib/model/provider_catalog_list_response.dart';
@@ -165,6 +194,32 @@ part 'serializers.g.dart';
   AnalysisSkillResponse,
   AnalysisStage,
   AnalysisStatus,
+  ApiResponseAiProviderProfileListResponse,
+  ApiResponseAiProviderProfileResponse,
+  ApiResponseAnalysisResponse,
+  ApiResponseDocumentDetailResponse,
+  ApiResponseDocumentImportResponse,
+  ApiResponseDocumentPageResponse,
+  ApiResponseDocumentUploadSessionResponse,
+  ApiResponseDownloadAnalyticsResponse,
+  ApiResponseDownloadHistoryResponse,
+  ApiResponseDownloadResponse,
+  ApiResponseDownloadUrlResponse,
+  ApiResponseInspectionResponse,
+  ApiResponseManagedUserListResponse,
+  ApiResponseManagedUserResponse,
+  ApiResponseMediaImportResponse,
+  ApiResponseMediaUploadSessionResponse,
+  ApiResponseProviderCatalogEntryResponse,
+  ApiResponseProviderCatalogListResponse,
+  ApiResponseProviderListResponse,
+  ApiResponseProviderRuntimeListResponse,
+  ApiResponseSourceDiscoveryResponse,
+  ApiResponseStorageCleanupResponse,
+  ApiResponseStoredFileListResponse,
+  ApiResponseTupleAnalysisSkillResponse,
+  ApiResponseUnionAnalysisResponseNoneType,
+  ApiResponseUserResponse,
   AudioCodecFamily,
   CompatibilityProfile,
   CompleteDocumentImportRequest,
@@ -204,6 +259,8 @@ part 'serializers.g.dart';
   DynamicRange,
   EmailPasswordRequest,
   EntitlementState,
+  ErrorCode,
+  ErrorResponse,
   EvidenceSummaryResponse,
   ExecutionMode,
   FormatResponse,
@@ -231,6 +288,7 @@ part 'serializers.g.dart';
   ProviderAccessMode,
   ProviderAccessPolicy,
   ProviderAccessPolicyResponse,
+  ProviderAccessState,
   ProviderCapability,
   ProviderCatalogEntryResponse,
   ProviderCatalogListResponse,
@@ -280,10 +338,6 @@ part 'serializers.g.dart';
   VisualAssetResponse,
 ])
 Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(AnalysisSkillResponse)]),
-        () => ListBuilder<AnalysisSkillResponse>(),
-      )
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())

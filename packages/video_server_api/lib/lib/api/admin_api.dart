@@ -8,19 +8,19 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:video_server_api/lib/api_util.dart';
-import 'package:video_server_api/lib/model/ai_provider_profile_list_response.dart';
-import 'package:video_server_api/lib/model/ai_provider_profile_response.dart';
+import 'package:video_server_api/lib/model/api_response_ai_provider_profile_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_ai_provider_profile_response.dart';
+import 'package:video_server_api/lib/model/api_response_download_analytics_response.dart';
+import 'package:video_server_api/lib/model/api_response_managed_user_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_managed_user_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_catalog_entry_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_catalog_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_runtime_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_storage_cleanup_response.dart';
+import 'package:video_server_api/lib/model/api_response_stored_file_list_response.dart';
 import 'package:video_server_api/lib/model/create_ai_provider_profile_request.dart';
 import 'package:video_server_api/lib/model/create_provider_catalog_entry_request.dart';
-import 'package:video_server_api/lib/model/download_analytics_response.dart';
-import 'package:video_server_api/lib/model/managed_user_list_response.dart';
-import 'package:video_server_api/lib/model/managed_user_response.dart';
-import 'package:video_server_api/lib/model/provider_catalog_entry_response.dart';
-import 'package:video_server_api/lib/model/provider_catalog_list_response.dart';
-import 'package:video_server_api/lib/model/provider_runtime_list_response.dart';
 import 'package:video_server_api/lib/model/storage_cleanup_request.dart';
-import 'package:video_server_api/lib/model/storage_cleanup_response.dart';
-import 'package:video_server_api/lib/model/stored_file_list_response.dart';
 import 'package:video_server_api/lib/model/update_ai_provider_profile_request.dart';
 import 'package:video_server_api/lib/model/update_provider_catalog_entry_request.dart';
 import 'package:video_server_api/lib/model/update_user_access_request.dart';
@@ -45,9 +45,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AiProviderProfileResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAiProviderProfileResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AiProviderProfileResponse>> activateAiProviderProfile({
+  Future<Response<ApiResponseAiProviderProfileResponse>>
+      activateAiProviderProfile({
     required String providerKey,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -86,7 +87,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AiProviderProfileResponse? _responseData;
+    ApiResponseAiProviderProfileResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -94,8 +95,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AiProviderProfileResponse),
-            ) as AiProviderProfileResponse;
+              specifiedType:
+                  const FullType(ApiResponseAiProviderProfileResponse),
+            ) as ApiResponseAiProviderProfileResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -106,7 +108,7 @@ class AdminApi {
       );
     }
 
-    return Response<AiProviderProfileResponse>(
+    return Response<ApiResponseAiProviderProfileResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -130,9 +132,9 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [StorageCleanupResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseStorageCleanupResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StorageCleanupResponse>> cleanupStoredFiles({
+  Future<Response<ApiResponseStorageCleanupResponse>> cleanupStoredFiles({
     required StorageCleanupRequest storageCleanupRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -188,7 +190,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    StorageCleanupResponse? _responseData;
+    ApiResponseStorageCleanupResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -196,8 +198,8 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(StorageCleanupResponse),
-            ) as StorageCleanupResponse;
+              specifiedType: const FullType(ApiResponseStorageCleanupResponse),
+            ) as ApiResponseStorageCleanupResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -208,7 +210,7 @@ class AdminApi {
       );
     }
 
-    return Response<StorageCleanupResponse>(
+    return Response<ApiResponseStorageCleanupResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -232,9 +234,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AiProviderProfileResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAiProviderProfileResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AiProviderProfileResponse>> createAiProviderProfile({
+  Future<Response<ApiResponseAiProviderProfileResponse>>
+      createAiProviderProfile({
     required CreateAiProviderProfileRequest createAiProviderProfileRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -290,7 +293,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AiProviderProfileResponse? _responseData;
+    ApiResponseAiProviderProfileResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -298,8 +301,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AiProviderProfileResponse),
-            ) as AiProviderProfileResponse;
+              specifiedType:
+                  const FullType(ApiResponseAiProviderProfileResponse),
+            ) as ApiResponseAiProviderProfileResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -310,7 +314,7 @@ class AdminApi {
       );
     }
 
-    return Response<AiProviderProfileResponse>(
+    return Response<ApiResponseAiProviderProfileResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -334,9 +338,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProviderCatalogEntryResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseProviderCatalogEntryResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderCatalogEntryResponse>> createProviderCatalogEntry({
+  Future<Response<ApiResponseProviderCatalogEntryResponse>>
+      createProviderCatalogEntry({
     required CreateProviderCatalogEntryRequest
         createProviderCatalogEntryRequest,
     CancelToken? cancelToken,
@@ -393,7 +398,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProviderCatalogEntryResponse? _responseData;
+    ApiResponseProviderCatalogEntryResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -401,8 +406,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProviderCatalogEntryResponse),
-            ) as ProviderCatalogEntryResponse;
+              specifiedType:
+                  const FullType(ApiResponseProviderCatalogEntryResponse),
+            ) as ApiResponseProviderCatalogEntryResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -413,7 +419,7 @@ class AdminApi {
       );
     }
 
-    return Response<ProviderCatalogEntryResponse>(
+    return Response<ApiResponseProviderCatalogEntryResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -548,9 +554,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProviderRuntimeListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseProviderRuntimeListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderRuntimeListResponse>> getAdminProviderRuntime({
+  Future<Response<ApiResponseProviderRuntimeListResponse>>
+      getAdminProviderRuntime({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -585,7 +592,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProviderRuntimeListResponse? _responseData;
+    ApiResponseProviderRuntimeListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -593,8 +600,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProviderRuntimeListResponse),
-            ) as ProviderRuntimeListResponse;
+              specifiedType:
+                  const FullType(ApiResponseProviderRuntimeListResponse),
+            ) as ApiResponseProviderRuntimeListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -605,7 +613,7 @@ class AdminApi {
       );
     }
 
-    return Response<ProviderRuntimeListResponse>(
+    return Response<ApiResponseProviderRuntimeListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -629,9 +637,9 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DownloadAnalyticsResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDownloadAnalyticsResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DownloadAnalyticsResponse>> getDownloadAnalytics({
+  Future<Response<ApiResponseDownloadAnalyticsResponse>> getDownloadAnalytics({
     int? days = 30,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -673,7 +681,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DownloadAnalyticsResponse? _responseData;
+    ApiResponseDownloadAnalyticsResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -681,8 +689,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DownloadAnalyticsResponse),
-            ) as DownloadAnalyticsResponse;
+              specifiedType:
+                  const FullType(ApiResponseDownloadAnalyticsResponse),
+            ) as ApiResponseDownloadAnalyticsResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -693,7 +702,7 @@ class AdminApi {
       );
     }
 
-    return Response<DownloadAnalyticsResponse>(
+    return Response<ApiResponseDownloadAnalyticsResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -716,9 +725,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AiProviderProfileListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAiProviderProfileListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AiProviderProfileListResponse>> listAiProviderProfiles({
+  Future<Response<ApiResponseAiProviderProfileListResponse>>
+      listAiProviderProfiles({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -753,7 +763,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AiProviderProfileListResponse? _responseData;
+    ApiResponseAiProviderProfileListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -761,8 +771,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AiProviderProfileListResponse),
-            ) as AiProviderProfileListResponse;
+              specifiedType:
+                  const FullType(ApiResponseAiProviderProfileListResponse),
+            ) as ApiResponseAiProviderProfileListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -773,7 +784,7 @@ class AdminApi {
       );
     }
 
-    return Response<AiProviderProfileListResponse>(
+    return Response<ApiResponseAiProviderProfileListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -796,9 +807,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProviderCatalogListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseProviderCatalogListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderCatalogListResponse>> listProviderCatalogEntries({
+  Future<Response<ApiResponseProviderCatalogListResponse>>
+      listProviderCatalogEntries({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -833,7 +845,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProviderCatalogListResponse? _responseData;
+    ApiResponseProviderCatalogListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -841,8 +853,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProviderCatalogListResponse),
-            ) as ProviderCatalogListResponse;
+              specifiedType:
+                  const FullType(ApiResponseProviderCatalogListResponse),
+            ) as ApiResponseProviderCatalogListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -853,7 +866,7 @@ class AdminApi {
       );
     }
 
-    return Response<ProviderCatalogListResponse>(
+    return Response<ApiResponseProviderCatalogListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -878,9 +891,9 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [StoredFileListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseStoredFileListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StoredFileListResponse>> listStoredFiles({
+  Future<Response<ApiResponseStoredFileListResponse>> listStoredFiles({
     int? page = 1,
     int? pageSize = 20,
     CancelToken? cancelToken,
@@ -926,7 +939,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    StoredFileListResponse? _responseData;
+    ApiResponseStoredFileListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -934,8 +947,8 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(StoredFileListResponse),
-            ) as StoredFileListResponse;
+              specifiedType: const FullType(ApiResponseStoredFileListResponse),
+            ) as ApiResponseStoredFileListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -946,7 +959,7 @@ class AdminApi {
       );
     }
 
-    return Response<StoredFileListResponse>(
+    return Response<ApiResponseStoredFileListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -974,9 +987,9 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ManagedUserListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseManagedUserListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ManagedUserListResponse>> listUsers({
+  Future<Response<ApiResponseManagedUserListResponse>> listUsers({
     int? page = 1,
     int? pageSize = 20,
     String? search,
@@ -1034,7 +1047,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ManagedUserListResponse? _responseData;
+    ApiResponseManagedUserListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -1042,8 +1055,8 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ManagedUserListResponse),
-            ) as ManagedUserListResponse;
+              specifiedType: const FullType(ApiResponseManagedUserListResponse),
+            ) as ApiResponseManagedUserListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1054,7 +1067,7 @@ class AdminApi {
       );
     }
 
-    return Response<ManagedUserListResponse>(
+    return Response<ApiResponseManagedUserListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -1079,9 +1092,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AiProviderProfileResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseAiProviderProfileResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AiProviderProfileResponse>> updateAiProviderProfile({
+  Future<Response<ApiResponseAiProviderProfileResponse>>
+      updateAiProviderProfile({
     required String providerKey,
     required UpdateAiProviderProfileRequest updateAiProviderProfileRequest,
     CancelToken? cancelToken,
@@ -1141,7 +1155,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AiProviderProfileResponse? _responseData;
+    ApiResponseAiProviderProfileResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -1149,8 +1163,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(AiProviderProfileResponse),
-            ) as AiProviderProfileResponse;
+              specifiedType:
+                  const FullType(ApiResponseAiProviderProfileResponse),
+            ) as ApiResponseAiProviderProfileResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1161,7 +1176,7 @@ class AdminApi {
       );
     }
 
-    return Response<AiProviderProfileResponse>(
+    return Response<ApiResponseAiProviderProfileResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -1186,9 +1201,10 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProviderCatalogEntryResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseProviderCatalogEntryResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderCatalogEntryResponse>> updateProviderCatalogEntry({
+  Future<Response<ApiResponseProviderCatalogEntryResponse>>
+      updateProviderCatalogEntry({
     required String providerKey,
     required UpdateProviderCatalogEntryRequest
         updateProviderCatalogEntryRequest,
@@ -1249,7 +1265,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProviderCatalogEntryResponse? _responseData;
+    ApiResponseProviderCatalogEntryResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -1257,8 +1273,9 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProviderCatalogEntryResponse),
-            ) as ProviderCatalogEntryResponse;
+              specifiedType:
+                  const FullType(ApiResponseProviderCatalogEntryResponse),
+            ) as ApiResponseProviderCatalogEntryResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1269,7 +1286,7 @@ class AdminApi {
       );
     }
 
-    return Response<ProviderCatalogEntryResponse>(
+    return Response<ApiResponseProviderCatalogEntryResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -1294,9 +1311,9 @@ class AdminApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ManagedUserResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseManagedUserResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ManagedUserResponse>> updateUserAccess({
+  Future<Response<ApiResponseManagedUserResponse>> updateUserAccess({
     required String userId,
     required UpdateUserAccessRequest updateUserAccessRequest,
     CancelToken? cancelToken,
@@ -1356,7 +1373,7 @@ class AdminApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ManagedUserResponse? _responseData;
+    ApiResponseManagedUserResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -1364,8 +1381,8 @@ class AdminApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ManagedUserResponse),
-            ) as ManagedUserResponse;
+              specifiedType: const FullType(ApiResponseManagedUserResponse),
+            ) as ApiResponseManagedUserResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1376,7 +1393,7 @@ class AdminApi {
       );
     }
 
-    return Response<ManagedUserResponse>(
+    return Response<ApiResponseManagedUserResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

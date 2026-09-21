@@ -13,7 +13,8 @@ final class AdminConfigurationRepository {
   final AuthenticatedRequest request;
   Future<ProviderRuntimeListResponse> fetchProviderRuntime() => request.execute(
     (client) async {
-      final data = (await client.getAdminApi().getAdminProviderRuntime()).data;
+      final data =
+          (await client.getAdminApi().getAdminProviderRuntime()).data?.data;
       if (data == null) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
       }

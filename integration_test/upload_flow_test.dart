@@ -108,11 +108,11 @@ void main() {
         (api) => api.getDocumentsApi().listDocuments(page: 1, pageSize: 20),
       );
       expect(
-        history.data?.items.map((item) => item.id),
+        history.data?.data.items.map((item) => item.id),
         isNot(contains(videoResult.resourceId)),
       );
       expect(
-        documents.data?.items.map((item) => item.id),
+        documents.data?.data.items.map((item) => item.id),
         isNot(contains(documentResult.resourceId)),
       );
     },

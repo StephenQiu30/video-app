@@ -95,42 +95,39 @@ final class UploadHttpFixture {
       );
     } else {
       request.response.headers.contentType = ContentType.json;
+      final data = request.uri.path == sessionPath
+          ? {
+              'resource_id': 'import-1',
+              'attempt': 1,
+              'part_size_bytes': 5 * 1024 * 1024,
+              'part_count': 1,
+              'max_concurrency': 1,
+              'expires_at': DateTime.now()
+                  .add(const Duration(minutes: 5))
+                  .toUtc()
+                  .toIso8601String(),
+              'parts': [
+                {'part_number': 1, 'url': '$baseUrl/part'},
+              ],
+            }
+          : {
+              'id': 'import-1',
+              'download_id': 'import-1',
+              'source_format': kind == ContentUploadKind.video ? 'mp4' : 'txt',
+              'declared_origin': 'user_file',
+              'display_name': file.name,
+              'title': file.name,
+              'original_filename': file.name,
+              'declared_size_bytes': 4,
+              'status': 'uploading',
+              'attempt': 1,
+              'version': 1,
+              'quality_warnings': <String>[],
+              'created_at': '2026-09-08T00:00:00Z',
+              'updated_at': '2026-09-08T00:00:00Z',
+            };
       request.response.write(
-        jsonEncode(
-          request.uri.path == sessionPath
-              ? {
-                  'resource_id': 'import-1',
-                  'attempt': 1,
-                  'part_size_bytes': 5 * 1024 * 1024,
-                  'part_count': 1,
-                  'max_concurrency': 1,
-                  'expires_at': DateTime.now()
-                      .add(const Duration(minutes: 5))
-                      .toUtc()
-                      .toIso8601String(),
-                  'parts': [
-                    {'part_number': 1, 'url': '$baseUrl/part'},
-                  ],
-                }
-              : {
-                  'id': 'import-1',
-                  'download_id': 'import-1',
-                  'source_format': kind == ContentUploadKind.video
-                      ? 'mp4'
-                      : 'txt',
-                  'declared_origin': 'user_file',
-                  'display_name': file.name,
-                  'title': file.name,
-                  'original_filename': file.name,
-                  'declared_size_bytes': 4,
-                  'status': 'uploading',
-                  'attempt': 1,
-                  'version': 1,
-                  'quality_warnings': <String>[],
-                  'created_at': '2026-09-08T00:00:00Z',
-                  'updated_at': '2026-09-08T00:00:00Z',
-                },
-        ),
+        jsonEncode({'code': 'ok', 'message': 'ok', 'data': data}),
       );
     }
     await request.response.close();

@@ -8,8 +8,8 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:video_server_api/lib/api_util.dart';
+import 'package:video_server_api/lib/model/api_response_source_discovery_response.dart';
 import 'package:video_server_api/lib/model/source_discovery_request.dart';
-import 'package:video_server_api/lib/model/source_discovery_response.dart';
 
 class SourceDiscoveriesApi {
   final Dio _dio;
@@ -31,9 +31,9 @@ class SourceDiscoveriesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [SourceDiscoveryResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseSourceDiscoveryResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SourceDiscoveryResponse>> createSourceDiscovery({
+  Future<Response<ApiResponseSourceDiscoveryResponse>> createSourceDiscovery({
     required String idempotencyKey,
     required SourceDiscoveryRequest sourceDiscoveryRequest,
     CancelToken? cancelToken,
@@ -91,7 +91,7 @@ class SourceDiscoveriesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    SourceDiscoveryResponse? _responseData;
+    ApiResponseSourceDiscoveryResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -99,8 +99,8 @@ class SourceDiscoveriesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(SourceDiscoveryResponse),
-            ) as SourceDiscoveryResponse;
+              specifiedType: const FullType(ApiResponseSourceDiscoveryResponse),
+            ) as ApiResponseSourceDiscoveryResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -111,7 +111,7 @@ class SourceDiscoveriesApi {
       );
     }
 
-    return Response<SourceDiscoveryResponse>(
+    return Response<ApiResponseSourceDiscoveryResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -135,9 +135,9 @@ class SourceDiscoveriesApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [SourceDiscoveryResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseSourceDiscoveryResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SourceDiscoveryResponse>> getSourceDiscovery({
+  Future<Response<ApiResponseSourceDiscoveryResponse>> getSourceDiscovery({
     required String discoveryId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -176,7 +176,7 @@ class SourceDiscoveriesApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    SourceDiscoveryResponse? _responseData;
+    ApiResponseSourceDiscoveryResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -184,8 +184,8 @@ class SourceDiscoveriesApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(SourceDiscoveryResponse),
-            ) as SourceDiscoveryResponse;
+              specifiedType: const FullType(ApiResponseSourceDiscoveryResponse),
+            ) as ApiResponseSourceDiscoveryResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -196,7 +196,7 @@ class SourceDiscoveriesApi {
       );
     }
 
-    return Response<SourceDiscoveryResponse>(
+    return Response<ApiResponseSourceDiscoveryResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

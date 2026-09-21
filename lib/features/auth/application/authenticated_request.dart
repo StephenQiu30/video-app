@@ -94,7 +94,9 @@ DataRequestFailure _mapFailure(DioException error) {
   };
   final body = error.response?.data;
   final code = body is Map ? body['code'] as String? : null;
-  final detail = body is Map ? body['detail'] as String? : null;
+  final detail = body is Map
+      ? (body['message'] as String?) ?? (body['detail'] as String?)
+      : null;
   return DataRequestFailure(
     kind,
     code: code,

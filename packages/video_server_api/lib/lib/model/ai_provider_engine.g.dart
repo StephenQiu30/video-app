@@ -9,6 +9,8 @@ part of 'ai_provider_engine.dart';
 const AiProviderEngine _$codex = const AiProviderEngine._('codex');
 const AiProviderEngine _$claude = const AiProviderEngine._('claude');
 const AiProviderEngine _$deepseek = const AiProviderEngine._('deepseek');
+const AiProviderEngine _$openrouter = const AiProviderEngine._('openrouter');
+const AiProviderEngine _$openai = const AiProviderEngine._('openai');
 const AiProviderEngine _$unknownDefaultOpenApi =
     const AiProviderEngine._('unknownDefaultOpenApi');
 
@@ -20,6 +22,10 @@ AiProviderEngine _$valueOf(String name) {
       return _$claude;
     case 'deepseek':
       return _$deepseek;
+    case 'openrouter':
+      return _$openrouter;
+    case 'openai':
+      return _$openai;
     case 'unknownDefaultOpenApi':
       return _$unknownDefaultOpenApi;
     default:
@@ -32,6 +38,8 @@ final BuiltSet<AiProviderEngine> _$values =
   _$codex,
   _$claude,
   _$deepseek,
+  _$openrouter,
+  _$openai,
   _$unknownDefaultOpenApi,
 ]);
 
@@ -40,6 +48,8 @@ class _$AiProviderEngineMeta {
   AiProviderEngine get codex => _$codex;
   AiProviderEngine get claude => _$claude;
   AiProviderEngine get deepseek => _$deepseek;
+  AiProviderEngine get openrouter => _$openrouter;
+  AiProviderEngine get openai => _$openai;
   AiProviderEngine get unknownDefaultOpenApi => _$unknownDefaultOpenApi;
   AiProviderEngine valueOf(String name) => _$valueOf(name);
   BuiltSet<AiProviderEngine> get values => _$values;
@@ -59,12 +69,16 @@ class _$AiProviderEngineSerializer
     'codex': 'codex',
     'claude': 'claude',
     'deepseek': 'deepseek',
+    'openrouter': 'openrouter',
+    'openai': 'openai',
     'unknownDefaultOpenApi': 'unknown_default_open_api',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
     'codex': 'codex',
     'claude': 'claude',
     'deepseek': 'deepseek',
+    'openrouter': 'openrouter',
+    'openai': 'openai',
     'unknown_default_open_api': 'unknownDefaultOpenApi',
   };
 

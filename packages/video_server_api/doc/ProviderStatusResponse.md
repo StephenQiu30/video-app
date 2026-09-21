@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **extractorExists** | **bool** |  |
 **capabilities** | [**BuiltList&lt;ProviderCapability&gt;**](ProviderCapability.md) |  |
 **accessModes** | [**BuiltList&lt;ProviderAccessMode&gt;**](ProviderAccessMode.md) |  |
+**accessState** | [**ProviderAccessState**](ProviderAccessState.md) |  |
 **status** | [**ProviderSupportStatus**](ProviderSupportStatus.md) |  |
 **lastCheckedAt** | [**DateTime**](DateTime.md) |  |
 **lastCheckSucceeded** | **bool** |  |

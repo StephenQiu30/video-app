@@ -212,6 +212,18 @@ abstract class AppLocalizations {
   /// **'请检查网络连接后重试。'**
   String get loadFailedDescription;
 
+  /// No description provided for @invalidResponseError.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务响应与当前 App 版本不兼容，请更新 App 或联系服务管理员。'**
+  String get invalidResponseError;
+
+  /// No description provided for @forbiddenError.
+  ///
+  /// In zh, this message translates to:
+  /// **'当前账户没有执行此操作的权限。'**
+  String get forbiddenError;
+
   /// No description provided for @retryAction.
   ///
   /// In zh, this message translates to:

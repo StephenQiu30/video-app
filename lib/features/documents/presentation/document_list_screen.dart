@@ -7,6 +7,7 @@ import 'package:framegrab/features/documents/presentation/document_list_item.dar
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_spinner.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:framegrab/shared/presentation/swipe_action_hint.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
@@ -28,11 +29,11 @@ final class DocumentListScreen extends ConsumerWidget {
       onRefresh: () => ref.refresh(documentListProvider.future).then((_) {}),
       children: result.when(
         data: (data) => _content(context, ref, data),
-        error: (_, _) => [
+        error: (error, _) => [
           DataStateMessage(
             icon: PhosphorIconsRegular.cloudSlash,
             title: localizations.loadFailedTitle,
-            description: localizations.loadFailedDescription,
+            description: dataRequestFailureMessage(localizations, error),
             actionLabel: localizations.retryAction,
             onAction: () => ref.invalidate(documentListProvider),
           ),

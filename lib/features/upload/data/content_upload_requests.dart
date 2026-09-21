@@ -43,7 +43,7 @@ final class ContentUploadRequests {
           idempotencyKey: key,
           cancelToken: token,
           mediaImportRequest: body,
-        )).data;
+        )).data?.data;
         return data?.id;
       }
       final body = DocumentImportRequest(
@@ -58,7 +58,7 @@ final class ContentUploadRequests {
         idempotencyKey: key,
         cancelToken: token,
         documentImportRequest: body,
-      )).data;
+      )).data?.data;
       return data?.id;
     });
   }
@@ -71,13 +71,13 @@ final class ContentUploadRequests {
       final data = (await client.getMediaImportsApi().createMediaUploadSession(
         resourceId: id,
         cancelToken: token,
-      )).data;
+      )).data?.data;
       return data == null ? null : mediaSession(data);
     }
     final data = (await client.getDocumentsApi().createDocumentUploadSession(
       documentId: id,
       cancelToken: token,
-    )).data;
+    )).data?.data;
     return data == null ? null : documentSession(data);
   });
 
@@ -101,7 +101,7 @@ final class ContentUploadRequests {
         resourceId: id,
         cancelToken: token,
         completeMediaImportRequest: body,
-      )).data?.downloadId;
+      )).data?.data.downloadId;
     }
     final body = CompleteDocumentImportRequest(
       (builder) => builder.parts.replace(requests),
@@ -110,7 +110,7 @@ final class ContentUploadRequests {
       documentId: id,
       cancelToken: token,
       completeDocumentImportRequest: body,
-    )).data?.id;
+    )).data?.data.id;
   });
 
   Future<void> cancelBestEffort(ContentUploadKind kind, String id) async {

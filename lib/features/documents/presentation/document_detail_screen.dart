@@ -7,6 +7,7 @@ import 'package:framegrab/features/documents/presentation/document_detail_conten
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_navigation_bar.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:framegrab/shared/presentation/deletion_failure_message.dart';
 import 'package:framegrab/shared/presentation/destructive_confirmation.dart';
 import 'package:go_router/go_router.dart';
@@ -84,7 +85,7 @@ final class _DocumentDetailScreenState
             ),
           ],
         ),
-        error: (_, _) => DataPageView(
+        error: (error, _) => DataPageView(
           title: l10n.screenplayDocumentDetailNavigation,
           description: l10n.screenplayDocumentDetailDescription,
           refreshLabel: l10n.refreshAction,
@@ -93,7 +94,7 @@ final class _DocumentDetailScreenState
             DataStateMessage(
               icon: PhosphorIconsRegular.cloudSlash,
               title: l10n.loadFailedTitle,
-              description: l10n.loadFailedDescription,
+              description: dataRequestFailureMessage(l10n, error),
               actionLabel: l10n.retryAction,
               onAction: () =>
                   ref.invalidate(documentDetailProvider(widget.documentId)),

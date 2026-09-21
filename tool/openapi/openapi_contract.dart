@@ -79,7 +79,7 @@ Map<String, Object?> buildAppOpenApi(
   final schemaNames = _collectSchemaClosure(selectedPaths, sourceSchemas);
   final selectedSchemas = <String, Object?>{};
   for (final name in schemaNames.toList()..sort()) {
-    selectedSchemas[name] = sourceSchemas[name];
+    selectedSchemas[name] = _normalizeGeneratorSchema(sourceSchemas[name]);
   }
   final securitySchemes = _map(
     components['securitySchemes'],
@@ -103,6 +103,41 @@ Map<String, Object?> buildAppOpenApi(
       'securitySchemes': <String, Object?>{'NativeBearerAuth': bearer},
     },
   };
+}
+
+Object? _normalizeGeneratorSchema(
+  Object? value, {
+  bool preserveNullBranch = false,
+}) {
+  if (value is List) {
+    return value
+        .map(
+          (child) => _normalizeGeneratorSchema(
+            child,
+            preserveNullBranch: preserveNullBranch,
+          ),
+        )
+        .toList(growable: false);
+  }
+  if (value is! Map) return value;
+
+  final normalized = <String, Object?>{};
+  for (final entry in value.entries) {
+    final key = entry.key.toString();
+    normalized[key] = _normalizeGeneratorSchema(
+      entry.value,
+      preserveNullBranch: key == 'anyOf' || key == 'oneOf',
+    );
+  }
+  // dart-dio 7.22 cannot generate a BuiltValue field for the OpenAPI 3.1
+  // null-only schema used by ErrorResponse.data. The wire value remains null;
+  // a nullable String gives the generator a concrete Dart type without exposing
+  // an untyped model to application code.
+  if (!preserveNullBranch && normalized['type'] == 'null') {
+    normalized['type'] = 'string';
+    normalized['nullable'] = true;
+  }
+  return normalized;
 }
 
 void _declareBinaryResponse(Map<String, Object?> operation) {

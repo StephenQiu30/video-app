@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 
 # **cancelAnalysis**
-> AnalysisResponse cancelAnalysis(analysisId)
+> ApiResponseAnalysisResponse cancelAnalysis(analysisId)
 
 取消视频分析任务
 
@@ -51,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseAnalysisResponse**](ApiResponseAnalysisResponse.md)
 
 ### Authorization
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createAnalysis**
-> AnalysisResponse createAnalysis(downloadId, idempotencyKey, analysisRequest)
+> ApiResponseAnalysisResponse createAnalysis(downloadId, idempotencyKey, analysisRequest)
 
 创建视频分析任务
 
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseAnalysisResponse**](ApiResponseAnalysisResponse.md)
 
 ### Authorization
 
@@ -112,7 +112,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createDocumentAnalysis**
-> AnalysisResponse createDocumentAnalysis(documentId, idempotencyKey, analysisRequest)
+> ApiResponseAnalysisResponse createDocumentAnalysis(documentId, idempotencyKey, analysisRequest)
 
 创建剧本分析或改写任务
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseAnalysisResponse**](ApiResponseAnalysisResponse.md)
 
 ### Authorization
 
@@ -244,7 +244,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAnalysis**
-> AnalysisResponse getAnalysis(analysisId)
+> ApiResponseAnalysisResponse getAnalysis(analysisId)
 
 查询视频分析任务
 
@@ -273,7 +273,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseAnalysisResponse**](ApiResponseAnalysisResponse.md)
 
 ### Authorization
 
@@ -287,7 +287,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getLatestDocumentAnalysis**
-> AnalysisResponse getLatestDocumentAnalysis(documentId)
+> ApiResponseUnionAnalysisResponseNoneType getLatestDocumentAnalysis(documentId)
 
 读取文档最近的剧本分析
 
@@ -316,7 +316,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseUnionAnalysisResponseNoneType**](ApiResponseUnionAnalysisResponseNoneType.md)
 
 ### Authorization
 
@@ -330,7 +330,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getLatestDownloadAnalysis**
-> AnalysisResponse getLatestDownloadAnalysis(downloadId)
+> ApiResponseUnionAnalysisResponseNoneType getLatestDownloadAnalysis(downloadId)
 
 读取下载任务最近的视频分析
 
@@ -359,7 +359,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseUnionAnalysisResponseNoneType**](ApiResponseUnionAnalysisResponseNoneType.md)
 
 ### Authorization
 
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listAnalysisSkills**
-> BuiltList<AnalysisSkillResponse> listAnalysisSkills(inputKind)
+> ApiResponseTupleAnalysisSkillResponse listAnalysisSkills(inputKind)
 
 列出输入兼容的分析 Skill
 
@@ -402,7 +402,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**BuiltList&lt;AnalysisSkillResponse&gt;**](AnalysisSkillResponse.md)
+[**ApiResponseTupleAnalysisSkillResponse**](ApiResponseTupleAnalysisSkillResponse.md)
 
 ### Authorization
 
@@ -416,7 +416,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **retryAnalysis**
-> AnalysisResponse retryAnalysis(analysisId, idempotencyKey)
+> ApiResponseAnalysisResponse retryAnalysis(analysisId, idempotencyKey)
 
 重试原视频分析任务
 
@@ -447,7 +447,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnalysisResponse**](AnalysisResponse.md)
+[**ApiResponseAnalysisResponse**](ApiResponseAnalysisResponse.md)
 
 ### Authorization
 

@@ -9,6 +9,7 @@ import 'package:framegrab/features/admin/presentation/admin_page.dart';
 import 'package:framegrab/features/admin/presentation/ai_provider_editor.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/app_spinner.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -185,10 +186,10 @@ final class _AdminAiProvidersScreenState
               ),
             ),
         ],
-        error: (_, _) => adminError(
+        error: (error, _) => adminError(
           action: l10n.retryAction,
           title: l10n.loadFailedTitle,
-          description: l10n.loadFailedDescription,
+          description: dataRequestFailureMessage(l10n, error),
           retry: () => ref.invalidate(adminAiProvidersProvider),
         ),
         loading: () => adminLoading(l10n.loadingData),

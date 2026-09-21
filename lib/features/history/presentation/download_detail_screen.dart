@@ -6,6 +6,7 @@ import 'package:framegrab/features/history/presentation/download_detail_content.
 import 'package:framegrab/features/history/presentation/download_presentation_labels.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 final class DownloadDetailScreen extends ConsumerWidget {
@@ -31,7 +32,7 @@ final class DownloadDetailScreen extends ConsumerWidget {
               ref.refresh(downloadDetailProvider(jobId).future).then((_) {}),
           children: [DownloadDetailContent(job: job)],
         ),
-        error: (_, _) => DataPageView(
+        error: (error, _) => DataPageView(
           title: localizations.downloadDetailNavigation,
           description: localizations.downloadDetailDescription,
           refreshLabel: localizations.refreshAction,
@@ -41,7 +42,7 @@ final class DownloadDetailScreen extends ConsumerWidget {
             DataStateMessage(
               icon: PhosphorIconsRegular.cloudSlash,
               title: localizations.loadFailedTitle,
-              description: localizations.loadFailedDescription,
+              description: dataRequestFailureMessage(localizations, error),
               actionLabel: localizations.retryAction,
               onAction: () => ref.invalidate(downloadDetailProvider(jobId)),
             ),

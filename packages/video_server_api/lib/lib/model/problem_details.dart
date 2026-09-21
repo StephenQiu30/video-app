@@ -8,7 +8,7 @@ import 'package:built_value/serializer.dart';
 
 part 'problem_details.g.dart';
 
-/// RFC 9457 error document returned by public API operations.
+/// RFC 9457 error document for the independent native App v1 contract.
 ///
 /// Properties:
 /// * [type] - 稳定的服务错误类型 URI。

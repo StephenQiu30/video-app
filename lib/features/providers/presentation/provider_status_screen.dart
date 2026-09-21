@@ -5,6 +5,7 @@ import 'package:framegrab/features/providers/application/provider_status_provide
 import 'package:framegrab/features/providers/presentation/provider_status_item.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:video_server_api/video_server_api.dart';
@@ -52,11 +53,11 @@ final class _ProviderStatusScreenState
         ...result.when(
           skipLoadingOnRefresh: true,
           data: (data) => _content(context, data),
-          error: (_, _) => [
+          error: (error, _) => [
             DataStateMessage(
               icon: PhosphorIconsRegular.cloudSlash,
               title: localizations.loadFailedTitle,
-              description: localizations.loadFailedDescription,
+              description: dataRequestFailureMessage(localizations, error),
               actionLabel: localizations.retryAction,
               onAction: () => ref.invalidate(providerStatusProvider),
             ),

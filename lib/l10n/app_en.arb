@@ -19,6 +19,8 @@
   "loadingData": "Loading…",
   "loadFailedTitle": "Data is temporarily unavailable",
   "loadFailedDescription": "Check your connection and try again.",
+  "invalidResponseError": "The service response is incompatible with this app version. Update the app or contact the service administrator.",
+  "forbiddenError": "Your account does not have permission to perform this action.",
   "retryAction": "Reload",
   "refreshAction": "Refresh",
   "totalLabel": "Total",

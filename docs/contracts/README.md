@@ -10,7 +10,7 @@
 
 ## 已冻结的原生契约
 
-`video-server` 已冻结 47 个路径、55 个 App 操作。本仓库快照位于 `contracts/openapi/video-server.openapi.json`，包含原生认证、来源发现、媒体解析、下载创建、视频与剧本文档上传和删除、下载历史与详情、剧本文档详情与规范化预览、私有封面、短时下载地址、取消/重试、视频与剧本文档 AI 分析、平台状态，以及下载分析、文件、用户、平台目录和 AI 线路的管理员操作。Flutter 通过生成包 `video_server_api` 接入：
+`video-server` 已冻结 48 个路径、56 个 App 操作。本仓库快照位于 `contracts/openapi/video-server.openapi.json`，包含原生认证、来源发现、媒体解析、下载创建、视频与剧本文档上传和删除、下载历史与详情、剧本文档详情与规范化预览、私有封面、短时下载地址、取消/重试、视频与剧本文档 AI 分析、平台状态，以及下载分析、文件、用户、平台目录和 AI 线路的管理员操作。Flutter 通过生成包 `video_server_api` 接入：
 
 1. Access Token 只在内存中使用；Refresh Credential 只写入系统安全存储。
 2. App 启动使用 Refresh Rotation 恢复会话；旧 Refresh Credential 不可重放。
@@ -22,6 +22,7 @@
 8. 历史与用户列表保留完整分页/搜索/筛选。冻结器将可选 query 的 nullable 标量规范为可省略参数，防止生成器把未选条件编码为空字符串；false 和枚举必须按原值发送。
 9. 用户删除下载或剧本文档只通过生成 DELETE 操作提交；App 不推断 owner 或对象键，服务端完成归属校验、活动任务协调与私有对象清理。
 10. 剧本文档列表和详情共享服务端状态语义；详情在上传或解析中轮询，终态停止；服务端返回规范化 Markdown 正文，App 与 Web 在展示前分别转义 HTML 并禁用外部链接。
+11. 共享业务接口保留 `{code, message, data}` 统一响应包装，Repository 负责解包和缺失 `data` 校验；原生认证接口按其直接响应契约处理。页面只消费业务模型和分类后的失败，不直接感知响应包装。
 
 ## 当前业务契约状态
 

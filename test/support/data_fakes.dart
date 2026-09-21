@@ -322,6 +322,7 @@ ProviderListResponse providerFixture() {
     (builder) => builder
       ..key = 'youtube'
       ..evidenceState = ProviderEvidenceState.fresh
+      ..accessState = ProviderAccessState.publicReady
       ..hosts.replace(['www.youtube.com', 'youtu.be'])
       ..hostSuffixes.clear()
       ..defaultAccessPolicyId = ProviderAccessPolicy.public

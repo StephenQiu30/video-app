@@ -9,8 +9,8 @@ import 'package:dio/dio.dart';
 
 import 'dart:typed_data';
 import 'package:video_server_api/lib/api_util.dart';
+import 'package:video_server_api/lib/model/api_response_inspection_response.dart';
 import 'package:video_server_api/lib/model/inspection_request.dart';
-import 'package:video_server_api/lib/model/inspection_response.dart';
 
 class InspectionsApi {
   final Dio _dio;
@@ -31,9 +31,9 @@ class InspectionsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [InspectionResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseInspectionResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<InspectionResponse>> getInspection({
+  Future<Response<ApiResponseInspectionResponse>> getInspection({
     required String inspectionId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -72,7 +72,7 @@ class InspectionsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    InspectionResponse? _responseData;
+    ApiResponseInspectionResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -80,8 +80,8 @@ class InspectionsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(InspectionResponse),
-            ) as InspectionResponse;
+              specifiedType: const FullType(ApiResponseInspectionResponse),
+            ) as ApiResponseInspectionResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -92,7 +92,7 @@ class InspectionsApi {
       );
     }
 
-    return Response<InspectionResponse>(
+    return Response<ApiResponseInspectionResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -198,9 +198,9 @@ class InspectionsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [InspectionResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseInspectionResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<InspectionResponse>> inspectMedia({
+  Future<Response<ApiResponseInspectionResponse>> inspectMedia({
     required String idempotencyKey,
     required InspectionRequest inspectionRequest,
     CancelToken? cancelToken,
@@ -258,7 +258,7 @@ class InspectionsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    InspectionResponse? _responseData;
+    ApiResponseInspectionResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -266,8 +266,8 @@ class InspectionsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(InspectionResponse),
-            ) as InspectionResponse;
+              specifiedType: const FullType(ApiResponseInspectionResponse),
+            ) as ApiResponseInspectionResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -278,7 +278,7 @@ class InspectionsApi {
       );
     }
 
-    return Response<InspectionResponse>(
+    return Response<ApiResponseInspectionResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

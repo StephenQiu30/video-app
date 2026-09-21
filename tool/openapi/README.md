@@ -29,3 +29,7 @@ OPENAPI_SCHEMA_URL=https://api.example.com/openapi.json dart run tool/openapi.da
 业务一致性契约包含 48 个路径、56 个操作：历史搜索/状态、用户搜索/身份/启用状态、分页、资料更新、平台与 AI 配置管理、平台运行诊断、DOCX 导出。`exportAnalysisReport` 与缩略图一样按 binary 响应生成，调用不得退回手写 Dio 或携带 Bearer 的外部浏览器链接。
 
 可选 query 中的 null 代表不发送条件；冻结器去除 nullable 标量的 null 分支，生成客户端据此省略未传参数，避免产生 `role=&is_active=`。测试覆盖空条件、false 与 retry_wait 的实际编码。
+
+共享业务接口的 `{code, message, data}` 包装作为真实契约进入生成包，业务层只允许在 Repository 解包并校验 `data`，不得在页面或手写 Dio 逻辑中绕过。原生认证接口仍按 OpenAPI 的直接响应生成。
+
+服务端 OpenAPI 3.1 的 `ErrorResponse.data` 使用 null-only schema；`dart-dio` 7.22 的 BuiltValue 模板无法为它生成具体 Dart 类型。冻结器仅将这种独立 null-only 字段规范为 nullable string 以满足代码生成，`anyOf`/`oneOf` 中的 null 分支保持不变。该兼容处理不改变线上响应，也不允许应用层读取该字段承载业务数据。

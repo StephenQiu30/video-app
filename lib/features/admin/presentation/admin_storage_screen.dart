@@ -8,6 +8,7 @@ import 'package:framegrab/features/admin/presentation/storage_cleanup_sheet.dart
 import 'package:framegrab/l10n/app_localizations.dart';
 import 'package:framegrab/shared/presentation/data_formatters.dart';
 import 'package:framegrab/shared/presentation/data_page_view.dart';
+import 'package:framegrab/shared/presentation/data_request_failure_message.dart';
 import 'package:framegrab/shared/presentation/list_query.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -119,10 +120,10 @@ final class _AdminStorageScreenState extends ConsumerState<AdminStorageScreen> {
               ),
             ),
         ],
-        error: (_, _) => adminError(
+        error: (error, _) => adminError(
           action: l10n.retryAction,
           title: l10n.loadFailedTitle,
-          description: l10n.loadFailedDescription,
+          description: dataRequestFailureMessage(l10n, error),
           retry: () => ref.invalidate(adminFilesProvider),
         ),
         loading: () => adminLoading(l10n.loadingData),

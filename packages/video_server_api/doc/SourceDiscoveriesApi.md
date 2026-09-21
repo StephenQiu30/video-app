@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **createSourceDiscovery**
-> SourceDiscoveryResponse createSourceDiscovery(idempotencyKey, sourceDiscoveryRequest)
+> ApiResponseSourceDiscoveryResponse createSourceDiscovery(idempotencyKey, sourceDiscoveryRequest)
 
 发现微信公众号文章中的视频
 
@@ -43,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SourceDiscoveryResponse**](SourceDiscoveryResponse.md)
+[**ApiResponseSourceDiscoveryResponse**](ApiResponseSourceDiscoveryResponse.md)
 
 ### Authorization
 
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getSourceDiscovery**
-> SourceDiscoveryResponse getSourceDiscovery(discoveryId)
+> ApiResponseSourceDiscoveryResponse getSourceDiscovery(discoveryId)
 
 查询文章视频发现结果
 
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SourceDiscoveryResponse**](SourceDiscoveryResponse.md)
+[**ApiResponseSourceDiscoveryResponse**](ApiResponseSourceDiscoveryResponse.md)
 
 ### Authorization
 

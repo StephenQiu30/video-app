@@ -174,6 +174,8 @@ video-app/
 ## 7. 接口与运行边界
 
 - OpenAPI 上游来源为服务端 `/openapi.json`。契约变更先更新快照，再生成 `packages/video_server_api/`，最后调整 Repository 适配。
+- 共享业务接口统一采用 `{code, message, data}` 响应包装；生成客户端保留 `ApiResponse*` 类型，Repository 是唯一解包和必填 `data` 校验边界。原生认证接口若在 OpenAPI 中声明为直接响应，禁止套用共享包装假设。
+- 页面不得把反序列化、权限、认证或限流失败统一描述为网络中断；错误响应优先读取 `message`，仅为旧契约兼容读取 `detail`。
 - 当前活动任务与分析通过受控轮询收敛状态；WebSocket Token 更新仍以项目验收记录为准。
 - `VIDEO_SERVER_BASE_URL` 指定服务端地址；真机必须使用设备可访问的地址，生产构建必须使用有效 HTTPS。
 - iOS 最低支持 16.0，使用 Xcode 27 构建；媒体原生依赖使用 CocoaPods，`pubspec.yaml` 中关闭 Swift Package Manager。

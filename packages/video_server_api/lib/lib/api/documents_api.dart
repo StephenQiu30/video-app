@@ -8,12 +8,12 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:video_server_api/lib/api_util.dart';
+import 'package:video_server_api/lib/model/api_response_document_detail_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_import_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_page_response.dart';
+import 'package:video_server_api/lib/model/api_response_document_upload_session_response.dart';
 import 'package:video_server_api/lib/model/complete_document_import_request.dart';
-import 'package:video_server_api/lib/model/document_detail_response.dart';
 import 'package:video_server_api/lib/model/document_import_request.dart';
-import 'package:video_server_api/lib/model/document_import_response.dart';
-import 'package:video_server_api/lib/model/document_page_response.dart';
-import 'package:video_server_api/lib/model/document_upload_session_response.dart';
 
 class DocumentsApi {
   final Dio _dio;
@@ -34,9 +34,9 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentImportResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentImportResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentImportResponse>> cancelDocumentImport({
+  Future<Response<ApiResponseDocumentImportResponse>> cancelDocumentImport({
     required String documentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -75,7 +75,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentImportResponse? _responseData;
+    ApiResponseDocumentImportResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -83,8 +83,8 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentImportResponse),
-            ) as DocumentImportResponse;
+              specifiedType: const FullType(ApiResponseDocumentImportResponse),
+            ) as ApiResponseDocumentImportResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -95,7 +95,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentImportResponse>(
+    return Response<ApiResponseDocumentImportResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -120,9 +120,9 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentImportResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentImportResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentImportResponse>> completeDocumentImport({
+  Future<Response<ApiResponseDocumentImportResponse>> completeDocumentImport({
     required String documentId,
     required CompleteDocumentImportRequest completeDocumentImportRequest,
     CancelToken? cancelToken,
@@ -182,7 +182,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentImportResponse? _responseData;
+    ApiResponseDocumentImportResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -190,8 +190,8 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentImportResponse),
-            ) as DocumentImportResponse;
+              specifiedType: const FullType(ApiResponseDocumentImportResponse),
+            ) as ApiResponseDocumentImportResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -202,7 +202,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentImportResponse>(
+    return Response<ApiResponseDocumentImportResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -227,9 +227,9 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentImportResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentImportResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentImportResponse>> createDocumentImport({
+  Future<Response<ApiResponseDocumentImportResponse>> createDocumentImport({
     required String idempotencyKey,
     required DocumentImportRequest documentImportRequest,
     CancelToken? cancelToken,
@@ -287,7 +287,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentImportResponse? _responseData;
+    ApiResponseDocumentImportResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -295,8 +295,8 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentImportResponse),
-            ) as DocumentImportResponse;
+              specifiedType: const FullType(ApiResponseDocumentImportResponse),
+            ) as ApiResponseDocumentImportResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -307,7 +307,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentImportResponse>(
+    return Response<ApiResponseDocumentImportResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -331,9 +331,10 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentUploadSessionResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentUploadSessionResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentUploadSessionResponse>> createDocumentUploadSession({
+  Future<Response<ApiResponseDocumentUploadSessionResponse>>
+      createDocumentUploadSession({
     required String documentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -372,7 +373,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentUploadSessionResponse? _responseData;
+    ApiResponseDocumentUploadSessionResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -380,8 +381,9 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentUploadSessionResponse),
-            ) as DocumentUploadSessionResponse;
+              specifiedType:
+                  const FullType(ApiResponseDocumentUploadSessionResponse),
+            ) as ApiResponseDocumentUploadSessionResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -392,7 +394,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentUploadSessionResponse>(
+    return Response<ApiResponseDocumentUploadSessionResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -472,9 +474,9 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentDetailResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentDetailResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentDetailResponse>> getDocumentImport({
+  Future<Response<ApiResponseDocumentDetailResponse>> getDocumentImport({
     required String documentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -513,7 +515,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentDetailResponse? _responseData;
+    ApiResponseDocumentDetailResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -521,8 +523,8 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentDetailResponse),
-            ) as DocumentDetailResponse;
+              specifiedType: const FullType(ApiResponseDocumentDetailResponse),
+            ) as ApiResponseDocumentDetailResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -533,7 +535,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentDetailResponse>(
+    return Response<ApiResponseDocumentDetailResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -558,9 +560,9 @@ class DocumentsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [DocumentPageResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseDocumentPageResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DocumentPageResponse>> listDocuments({
+  Future<Response<ApiResponseDocumentPageResponse>> listDocuments({
     int? page = 1,
     int? pageSize = 20,
     CancelToken? cancelToken,
@@ -606,7 +608,7 @@ class DocumentsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    DocumentPageResponse? _responseData;
+    ApiResponseDocumentPageResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -614,8 +616,8 @@ class DocumentsApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(DocumentPageResponse),
-            ) as DocumentPageResponse;
+              specifiedType: const FullType(ApiResponseDocumentPageResponse),
+            ) as ApiResponseDocumentPageResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -626,7 +628,7 @@ class DocumentsApi {
       );
     }
 
-    return Response<DocumentPageResponse>(
+    return Response<ApiResponseDocumentPageResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

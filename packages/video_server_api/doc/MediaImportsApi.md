@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **completeMediaImport**
-> MediaImportResponse completeMediaImport(resourceId, completeMediaImportRequest)
+> ApiResponseMediaImportResponse completeMediaImport(resourceId, completeMediaImportRequest)
 
 完成视频上传并触发验证
 
@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MediaImportResponse**](MediaImportResponse.md)
+[**ApiResponseMediaImportResponse**](ApiResponseMediaImportResponse.md)
 
 ### Authorization
 
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createMediaImport**
-> MediaImportResponse createMediaImport(idempotencyKey, mediaImportRequest)
+> ApiResponseMediaImportResponse createMediaImport(idempotencyKey, mediaImportRequest)
 
 创建本地视频导入
 
@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MediaImportResponse**](MediaImportResponse.md)
+[**ApiResponseMediaImportResponse**](ApiResponseMediaImportResponse.md)
 
 ### Authorization
 
@@ -103,7 +103,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createMediaUploadSession**
-> MediaUploadSessionResponse createMediaUploadSession(resourceId)
+> ApiResponseMediaUploadSessionResponse createMediaUploadSession(resourceId)
 
 创建或刷新视频上传会话
 
@@ -130,7 +130,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MediaUploadSessionResponse**](MediaUploadSessionResponse.md)
+[**ApiResponseMediaUploadSessionResponse**](ApiResponseMediaUploadSessionResponse.md)
 
 ### Authorization
 

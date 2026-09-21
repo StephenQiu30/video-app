@@ -34,7 +34,7 @@ final class GeneratedDocumentRepository implements DocumentRepository {
         page: page,
         pageSize: 20,
       );
-      final data = response.data;
+      final data = response.data?.data;
       if (data == null) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
       }
@@ -48,7 +48,7 @@ final class GeneratedDocumentRepository implements DocumentRepository {
       final response = await client.getDocumentsApi().getDocumentImport(
         documentId: documentId,
       );
-      final data = response.data;
+      final data = response.data?.data;
       if (data == null) {
         throw const DataRequestFailure(DataRequestFailureKind.invalidResponse);
       }

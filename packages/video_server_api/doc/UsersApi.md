@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **updateCurrentUser**
-> UserResponse updateCurrentUser(updateProfileRequest)
+> ApiResponseUserResponse updateCurrentUser(updateProfileRequest)
 
 更新当前用户资料
 
@@ -40,7 +40,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UserResponse**](UserResponse.md)
+[**ApiResponseUserResponse**](ApiResponseUserResponse.md)
 
 ### Authorization
 

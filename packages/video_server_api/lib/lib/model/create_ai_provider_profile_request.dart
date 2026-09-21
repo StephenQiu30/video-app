@@ -33,7 +33,7 @@ abstract class CreateAiProviderProfileRequest
 
   @BuiltValueField(wireName: r'engine')
   AiProviderEngine get engine;
-  // enum engineEnum {  codex,  claude,  deepseek,  };
+  // enum engineEnum {  codex,  claude,  deepseek,  openrouter,  openai,  };
 
   @BuiltValueField(wireName: r'auth_mode')
   AiProviderAuthMode get authMode;

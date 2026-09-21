@@ -66,6 +66,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loadFailedDescription => '请检查网络连接后重试。';
 
   @override
+  String get invalidResponseError => '服务响应与当前 App 版本不兼容，请更新 App 或联系服务管理员。';
+
+  @override
+  String get forbiddenError => '当前账户没有执行此操作的权限。';
+
+  @override
   String get retryAction => '重新加载';
 
   @override

@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:video_server_api/lib/model/provider_list_response.dart';
+import 'package:video_server_api/lib/model/api_response_provider_list_response.dart';
 
 class ProvidersApi {
   final Dio _dio;
@@ -27,9 +27,9 @@ class ProvidersApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProviderListResponse] as data
+  /// Returns a [Future] containing a [Response] with a [ApiResponseProviderListResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderListResponse>> listProviders({
+  Future<Response<ApiResponseProviderListResponse>> listProviders({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -64,7 +64,7 @@ class ProvidersApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProviderListResponse? _responseData;
+    ApiResponseProviderListResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -72,8 +72,8 @@ class ProvidersApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProviderListResponse),
-            ) as ProviderListResponse;
+              specifiedType: const FullType(ApiResponseProviderListResponse),
+            ) as ApiResponseProviderListResponse;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -84,7 +84,7 @@ class ProvidersApi {
       );
     }
 
-    return Response<ProviderListResponse>(
+    return Response<ApiResponseProviderListResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
