@@ -5,11 +5,12 @@ import 'package:video_server_api/video_server_api.dart';
 NativeSessionResponse testSession({
   UserRole role = UserRole.user,
   String suffix = 'test',
+  String userId = '00000000-0000-0000-0000-000000000001',
 }) {
   final now = DateTime.utc(2026, 8, 30);
   final user = UserResponse(
     (builder) => builder
-      ..id = '00000000-0000-0000-0000-000000000001'
+      ..id = userId
       ..username = 'member'
       ..email = 'member@example.com'
       ..role = role
@@ -46,7 +47,7 @@ final class FakeAuthGateway implements NativeAuthGateway {
   FakeAuthGateway({this.failure, this.session});
 
   final AuthFailureKind? failure;
-  final NativeSessionResponse? session;
+  NativeSessionResponse? session;
   int logoutCalls = 0;
 
   @override

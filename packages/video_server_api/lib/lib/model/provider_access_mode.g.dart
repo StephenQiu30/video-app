@@ -7,6 +7,7 @@ part of 'provider_access_mode.dart';
 // **************************************************************************
 
 const ProviderAccessMode _$anonymous = const ProviderAccessMode._('anonymous');
+const ProviderAccessMode _$guest = const ProviderAccessMode._('guest');
 const ProviderAccessMode _$operatorManaged =
     const ProviderAccessMode._('operatorManaged');
 const ProviderAccessMode _$unknownDefaultOpenApi =
@@ -16,6 +17,8 @@ ProviderAccessMode _$valueOf(String name) {
   switch (name) {
     case 'anonymous':
       return _$anonymous;
+    case 'guest':
+      return _$guest;
     case 'operatorManaged':
       return _$operatorManaged;
     case 'unknownDefaultOpenApi':
@@ -28,6 +31,7 @@ ProviderAccessMode _$valueOf(String name) {
 final BuiltSet<ProviderAccessMode> _$values =
     BuiltSet<ProviderAccessMode>(const <ProviderAccessMode>[
   _$anonymous,
+  _$guest,
   _$operatorManaged,
   _$unknownDefaultOpenApi,
 ]);
@@ -35,6 +39,7 @@ final BuiltSet<ProviderAccessMode> _$values =
 class _$ProviderAccessModeMeta {
   const _$ProviderAccessModeMeta();
   ProviderAccessMode get anonymous => _$anonymous;
+  ProviderAccessMode get guest => _$guest;
   ProviderAccessMode get operatorManaged => _$operatorManaged;
   ProviderAccessMode get unknownDefaultOpenApi => _$unknownDefaultOpenApi;
   ProviderAccessMode valueOf(String name) => _$valueOf(name);
@@ -54,11 +59,13 @@ class _$ProviderAccessModeSerializer
     implements PrimitiveSerializer<ProviderAccessMode> {
   static const Map<String, Object> _toWire = const <String, Object>{
     'anonymous': 'anonymous',
+    'guest': 'guest',
     'operatorManaged': 'operator_managed',
     'unknownDefaultOpenApi': 'unknown_default_open_api',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
     'anonymous': 'anonymous',
+    'guest': 'guest',
     'operator_managed': 'operatorManaged',
     'unknown_default_open_api': 'unknownDefaultOpenApi',
   };

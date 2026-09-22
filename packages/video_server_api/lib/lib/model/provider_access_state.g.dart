@@ -10,6 +10,10 @@ const ProviderAccessState _$publicProbe =
     const ProviderAccessState._('publicProbe');
 const ProviderAccessState _$publicReady =
     const ProviderAccessState._('publicReady');
+const ProviderAccessState _$guestProbe =
+    const ProviderAccessState._('guestProbe');
+const ProviderAccessState _$guestReady =
+    const ProviderAccessState._('guestReady');
 const ProviderAccessState _$authorizationRequired =
     const ProviderAccessState._('authorizationRequired');
 const ProviderAccessState _$operatorProbe =
@@ -30,6 +34,10 @@ ProviderAccessState _$valueOf(String name) {
       return _$publicProbe;
     case 'publicReady':
       return _$publicReady;
+    case 'guestProbe':
+      return _$guestProbe;
+    case 'guestReady':
+      return _$guestReady;
     case 'authorizationRequired':
       return _$authorizationRequired;
     case 'operatorProbe':
@@ -55,6 +63,8 @@ final BuiltSet<ProviderAccessState> _$values =
     BuiltSet<ProviderAccessState>(const <ProviderAccessState>[
   _$publicProbe,
   _$publicReady,
+  _$guestProbe,
+  _$guestReady,
   _$authorizationRequired,
   _$operatorProbe,
   _$operatorReady,
@@ -69,6 +79,8 @@ class _$ProviderAccessStateMeta {
   const _$ProviderAccessStateMeta();
   ProviderAccessState get publicProbe => _$publicProbe;
   ProviderAccessState get publicReady => _$publicReady;
+  ProviderAccessState get guestProbe => _$guestProbe;
+  ProviderAccessState get guestReady => _$guestReady;
   ProviderAccessState get authorizationRequired => _$authorizationRequired;
   ProviderAccessState get operatorProbe => _$operatorProbe;
   ProviderAccessState get operatorReady => _$operatorReady;
@@ -95,6 +107,8 @@ class _$ProviderAccessStateSerializer
   static const Map<String, Object> _toWire = const <String, Object>{
     'publicProbe': 'public_probe',
     'publicReady': 'public_ready',
+    'guestProbe': 'guest_probe',
+    'guestReady': 'guest_ready',
     'authorizationRequired': 'authorization_required',
     'operatorProbe': 'operator_probe',
     'operatorReady': 'operator_ready',
@@ -107,6 +121,8 @@ class _$ProviderAccessStateSerializer
   static const Map<Object, String> _fromWire = const <Object, String>{
     'public_probe': 'publicProbe',
     'public_ready': 'publicReady',
+    'guest_probe': 'guestProbe',
+    'guest_ready': 'guestReady',
     'authorization_required': 'authorizationRequired',
     'operator_probe': 'operatorProbe',
     'operator_ready': 'operatorReady',

@@ -1,4 +1,5 @@
 import 'package:framegrab/features/download/data/download_intake_repository.dart';
+import 'package:framegrab/features/download/data/download_intent_repository.dart';
 import 'package:video_server_api/video_server_api.dart';
 
 final class FakeDownloadIntakeRepository implements DownloadIntakeRepository {
@@ -71,6 +72,98 @@ final class FakeDownloadIntakeRepository implements DownloadIntakeRepository {
   }
 }
 
+final class FakeDownloadIntentRepository implements DownloadIntentRepository {
+  FakeDownloadIntentRepository(this.intake);
+
+  final FakeDownloadIntakeRepository intake;
+  IntentStatus status = IntentStatus.ready;
+  Object? createError;
+  Object? findError;
+  Object? getError;
+  Object? inspectionError;
+  Object? refreshError;
+  Object? cancelError;
+  Future<IntentResponse>? pendingCreate;
+  Future<IntentResponse>? pendingGet;
+  final Map<String?, IntentHistoryResponse> historyPages = {};
+  final List<String?> historyBefore = [];
+  final List<String> inputs = [];
+  final List<String> keys = [];
+  final List<String> reads = [];
+  int refreshCount = 0;
+  int historyReads = 0;
+  int cancelCount = 0;
+
+  @override
+  Future<IntentResponse> create({
+    required String input,
+    required String idempotencyKey,
+  }) async {
+    inputs.add(input);
+    keys.add(idempotencyKey);
+    if (createError case final failure?) throw failure;
+    if (pendingCreate case final pending?) return pending;
+    return intentFixture(status: status);
+  }
+
+  @override
+  Future<IntentResponse> find(String idempotencyKey) async {
+    reads.add('key:$idempotencyKey');
+    if (findError case final failure?) throw failure;
+    return intentFixture(status: status);
+  }
+
+  @override
+  Future<IntentResponse> get(String id) async {
+    reads.add(id);
+    if (getError case final failure?) throw failure;
+    if (pendingGet case final pending?) return pending;
+    return intentFixture(status: status);
+  }
+
+  @override
+  Future<IntentHistoryResponse> history({String? before}) async {
+    historyReads++;
+    historyBefore.add(before);
+    return historyPages[before] ??
+        IntentHistoryResponse((builder) => builder..items.replace([]));
+  }
+
+  @override
+  Future<IntentResponse> refresh(String id) async {
+    refreshCount++;
+    if (refreshError case final failure?) throw failure;
+    return intentFixture(status: status, version: 3);
+  }
+
+  @override
+  Future<IntentResponse> cancel(String id) async {
+    cancelCount++;
+    if (cancelError case final failure?) throw failure;
+    return intentFixture(status: IntentStatus.cancelled, version: 3);
+  }
+
+  @override
+  Future<InspectionResponse> inspection(String id) async {
+    if (inspectionError case final failure?) throw failure;
+    return intake.inspection;
+  }
+}
+
+IntentResponse intentFixture({
+  IntentStatus status = IntentStatus.ready,
+  int version = 2,
+  String? reasonCode,
+}) => IntentResponse(
+  (builder) => builder
+    ..id = '00000000-0000-4000-8000-000000000301'
+    ..version = version
+    ..status = status
+    ..reasonCode = reasonCode
+    ..deadline = DateTime.utc(2099, 8, 30, 13)
+    ..inspectionId = '00000000-0000-0000-0000-000000000301',
+);
+
 InspectionResponse inspectionFixture({
   AccessDecision decision = AccessDecision.downloadable,
   bool includeFormats = true,
@@ -92,7 +185,7 @@ InspectionResponse inspectionFixture({
       ..assetCount = 1
       ..thumbnailUrl =
           '/api/inspections/00000000-0000-0000-0000-000000000301/thumbnail'
-      ..expiresAt = DateTime.utc(2026, 8, 30, 13)
+      ..expiresAt = DateTime.utc(2099, 8, 30, 13)
       ..formats.replace(formats)
       ..sourceOrigin = SourceOrigin.publicUrl
       ..executionMode = ExecutionMode.providerRunner

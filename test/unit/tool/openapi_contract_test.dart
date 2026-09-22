@@ -28,13 +28,13 @@ void main() {
         (selectedUsers['get'] as Map<String, dynamic>)['parameters']
             as List<dynamic>;
 
-    expect(selectedPaths, hasLength(48));
+    expect(selectedPaths, hasLength(53));
     expect(
       selectedPaths.values.cast<Map<String, dynamic>>().fold<int>(
         0,
         (total, path) => total + path.length,
       ),
-      56,
+      62,
     );
     expect(selectedPaths['/api/users/me'], contains('patch'));
     expect(selectedPaths['/api/admin/ai-providers'], contains('post'));
@@ -47,6 +47,15 @@ void main() {
     expect(selectedPaths, contains('/api/source-discoveries'));
     expect(selectedPaths, contains('/api/source-discoveries/{discovery_id}'));
     expect(selectedPaths, contains('/api/inspections'));
+    expect(selectedPaths['/api/download-intents'], contains('post'));
+    expect(selectedPaths['/api/download-intents'], contains('get'));
+    expect(selectedPaths, contains('/api/download-intents/history'));
+    expect(selectedPaths, contains('/api/download-intents/{intent_id}'));
+    expect(
+      selectedPaths,
+      contains('/api/download-intents/{intent_id}/refresh'),
+    );
+    expect(selectedPaths, contains('/api/download-intents/{intent_id}/cancel'));
     expect(selectedPaths, contains('/api/inspections/{inspection_id}'));
     expect(selectedPaths, contains('/api/downloads'));
     expect(selectedPaths, contains('/api/downloads/{job_id}'));

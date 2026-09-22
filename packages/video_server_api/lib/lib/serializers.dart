@@ -43,6 +43,8 @@ import 'package:video_server_api/lib/model/api_response_download_history_respons
 import 'package:video_server_api/lib/model/api_response_download_response.dart';
 import 'package:video_server_api/lib/model/api_response_download_url_response.dart';
 import 'package:video_server_api/lib/model/api_response_inspection_response.dart';
+import 'package:video_server_api/lib/model/api_response_intent_history_response.dart';
+import 'package:video_server_api/lib/model/api_response_intent_response.dart';
 import 'package:video_server_api/lib/model/api_response_managed_user_list_response.dart';
 import 'package:video_server_api/lib/model/api_response_managed_user_response.dart';
 import 'package:video_server_api/lib/model/api_response_media_import_response.dart';
@@ -109,6 +111,11 @@ import 'package:video_server_api/lib/model/import_source_format.dart';
 import 'package:video_server_api/lib/model/import_status.dart';
 import 'package:video_server_api/lib/model/inspection_request.dart';
 import 'package:video_server_api/lib/model/inspection_response.dart';
+import 'package:video_server_api/lib/model/intent_history_item_response.dart';
+import 'package:video_server_api/lib/model/intent_history_response.dart';
+import 'package:video_server_api/lib/model/intent_request.dart';
+import 'package:video_server_api/lib/model/intent_response.dart';
+import 'package:video_server_api/lib/model/intent_status.dart';
 import 'package:video_server_api/lib/model/managed_user_list_response.dart';
 import 'package:video_server_api/lib/model/managed_user_response.dart';
 import 'package:video_server_api/lib/model/media_import_request.dart';
@@ -126,6 +133,7 @@ import 'package:video_server_api/lib/model/provider_access_mode.dart';
 import 'package:video_server_api/lib/model/provider_access_policy.dart';
 import 'package:video_server_api/lib/model/provider_access_policy_response.dart';
 import 'package:video_server_api/lib/model/provider_access_state.dart';
+import 'package:video_server_api/lib/model/provider_authorization_action.dart';
 import 'package:video_server_api/lib/model/provider_capability.dart';
 import 'package:video_server_api/lib/model/provider_catalog_entry_response.dart';
 import 'package:video_server_api/lib/model/provider_catalog_list_response.dart';
@@ -206,6 +214,8 @@ part 'serializers.g.dart';
   ApiResponseDownloadResponse,
   ApiResponseDownloadUrlResponse,
   ApiResponseInspectionResponse,
+  ApiResponseIntentHistoryResponse,
+  ApiResponseIntentResponse,
   ApiResponseManagedUserListResponse,
   ApiResponseManagedUserResponse,
   ApiResponseMediaImportResponse,
@@ -272,6 +282,11 @@ part 'serializers.g.dart';
   ImportStatus,
   InspectionRequest,
   InspectionResponse,
+  IntentHistoryItemResponse,
+  IntentHistoryResponse,
+  IntentRequest,
+  IntentResponse,
+  IntentStatus,
   ManagedUserListResponse,
   ManagedUserResponse,
   MediaImportRequest,
@@ -289,6 +304,7 @@ part 'serializers.g.dart';
   ProviderAccessPolicy,
   ProviderAccessPolicyResponse,
   ProviderAccessState,
+  ProviderAuthorizationAction,
   ProviderCapability,
   ProviderCatalogEntryResponse,
   ProviderCatalogListResponse,

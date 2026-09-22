@@ -10,10 +10,19 @@ import 'package:built_value/serializer.dart';
 part 'provider_access_mode.g.dart';
 
 class ProviderAccessMode extends EnumClass {
+  /// Privilege boundary for one provider operation.  GUEST may use automatically maintained visitor material but has no account entitlement. OPERATOR_MANAGED is the only account-bearing mode.
   @BuiltValueEnumConst(wireName: r'anonymous')
   static const ProviderAccessMode anonymous = _$anonymous;
+
+  /// Privilege boundary for one provider operation.  GUEST may use automatically maintained visitor material but has no account entitlement. OPERATOR_MANAGED is the only account-bearing mode.
+  @BuiltValueEnumConst(wireName: r'guest')
+  static const ProviderAccessMode guest = _$guest;
+
+  /// Privilege boundary for one provider operation.  GUEST may use automatically maintained visitor material but has no account entitlement. OPERATOR_MANAGED is the only account-bearing mode.
   @BuiltValueEnumConst(wireName: r'operator_managed')
   static const ProviderAccessMode operatorManaged = _$operatorManaged;
+
+  /// Privilege boundary for one provider operation.  GUEST may use automatically maintained visitor material but has no account entitlement. OPERATOR_MANAGED is the only account-bearing mode.
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ProviderAccessMode unknownDefaultOpenApi =
       _$unknownDefaultOpenApi;

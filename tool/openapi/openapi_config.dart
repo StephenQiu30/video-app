@@ -63,6 +63,24 @@ const appOpenApiConfig = AppOpenApiConfig(
       method: 'get',
       path: '/api/source-discoveries/{discovery_id}',
     ),
+    OpenApiOperationSelection(method: 'get', path: '/api/download-intents'),
+    OpenApiOperationSelection(method: 'post', path: '/api/download-intents'),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/download-intents/history',
+    ),
+    OpenApiOperationSelection(
+      method: 'get',
+      path: '/api/download-intents/{intent_id}',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/download-intents/{intent_id}/refresh',
+    ),
+    OpenApiOperationSelection(
+      method: 'post',
+      path: '/api/download-intents/{intent_id}/cancel',
+    ),
     OpenApiOperationSelection(method: 'post', path: '/api/inspections'),
     OpenApiOperationSelection(
       method: 'get',

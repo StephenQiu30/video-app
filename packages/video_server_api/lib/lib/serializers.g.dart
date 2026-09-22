@@ -36,6 +36,8 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(ApiResponseDownloadResponse.serializer)
       ..add(ApiResponseDownloadUrlResponse.serializer)
       ..add(ApiResponseInspectionResponse.serializer)
+      ..add(ApiResponseIntentHistoryResponse.serializer)
+      ..add(ApiResponseIntentResponse.serializer)
       ..add(ApiResponseManagedUserListResponse.serializer)
       ..add(ApiResponseManagedUserResponse.serializer)
       ..add(ApiResponseMediaImportResponse.serializer)
@@ -103,6 +105,13 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(ImportStatus.serializer)
       ..add(InspectionRequest.serializer)
       ..add(InspectionResponse.serializer)
+      ..add(IntentHistoryItemResponse.serializer)
+      ..add(IntentHistoryItemResponseNextActionEnum.serializer)
+      ..add(IntentHistoryResponse.serializer)
+      ..add(IntentRequest.serializer)
+      ..add(IntentResponse.serializer)
+      ..add(IntentResponseNextActionEnum.serializer)
+      ..add(IntentStatus.serializer)
       ..add(ManagedUserListResponse.serializer)
       ..add(ManagedUserResponse.serializer)
       ..add(MediaImportRequest.serializer)
@@ -121,6 +130,7 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(ProviderAccessPolicy.serializer)
       ..add(ProviderAccessPolicyResponse.serializer)
       ..add(ProviderAccessState.serializer)
+      ..add(ProviderAuthorizationAction.serializer)
       ..add(ProviderCapability.serializer)
       ..add(ProviderCatalogEntryResponse.serializer)
       ..add(ProviderCatalogListResponse.serializer)
@@ -216,6 +226,10 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(FormatResponse)]),
           () => ListBuilder<FormatResponse>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(IntentHistoryItemResponse)]),
+          () => ListBuilder<IntentHistoryItemResponse>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ManagedUserResponse)]),

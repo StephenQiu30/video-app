@@ -810,6 +810,60 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inspectMedia => '解析媒体';
 
   @override
+  String get accessPolicyPublicSession => '服务端自动准备公开访问';
+
+  @override
+  String get intentAutomaticAccess => '系统会自动选择公开访问路线。仅在明确获得授权时选择其他策略。';
+
+  @override
+  String get intentHistoryTitle => '解析记录';
+
+  @override
+  String get intentHistoryEmpty => '暂无解析记录';
+
+  @override
+  String get intentQueued => '等待解析';
+
+  @override
+  String get intentPreparing => '正在准备公开访问';
+
+  @override
+  String get intentResolving => '正在解析媒体';
+
+  @override
+  String get intentRetryWait => '等待重试解析';
+
+  @override
+  String get intentActionRequired => '需要进一步操作';
+
+  @override
+  String get intentExpired => '解析结果已过期';
+
+  @override
+  String get intentFailed => '解析未能完成';
+
+  @override
+  String get intentCancelled => '解析已取消';
+
+  @override
+  String get intentRefreshAction => '更新解析结果';
+
+  @override
+  String get intentCancelAction => '取消解析';
+
+  @override
+  String get intentRestoreAction => '打开历史解析';
+
+  @override
+  String get intentHistoryAction => '查看解析记录';
+
+  @override
+  String get intentHandedOff => '已创建下载任务';
+
+  @override
+  String get intentRefreshHint => '更新后需重新确认下载规格。';
+
+  @override
   String get inspectingMedia => '解析中…';
 
   @override

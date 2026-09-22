@@ -32,6 +32,8 @@ doc/ApiResponseDownloadHistoryResponse.md
 doc/ApiResponseDownloadResponse.md
 doc/ApiResponseDownloadUrlResponse.md
 doc/ApiResponseInspectionResponse.md
+doc/ApiResponseIntentHistoryResponse.md
+doc/ApiResponseIntentResponse.md
 doc/ApiResponseManagedUserListResponse.md
 doc/ApiResponseManagedUserResponse.md
 doc/ApiResponseMediaImportResponse.md
@@ -78,6 +80,7 @@ doc/DownloadErrorCode.md
 doc/DownloadHistoryItemResponse.md
 doc/DownloadHistoryResponse.md
 doc/DownloadHistorySummaryResponse.md
+doc/DownloadIntentsApi.md
 doc/DownloadRequest.md
 doc/DownloadResponse.md
 doc/DownloadSourceKind.md
@@ -102,6 +105,11 @@ doc/ImportStatus.md
 doc/InspectionRequest.md
 doc/InspectionResponse.md
 doc/InspectionsApi.md
+doc/IntentHistoryItemResponse.md
+doc/IntentHistoryResponse.md
+doc/IntentRequest.md
+doc/IntentResponse.md
+doc/IntentStatus.md
 doc/ManagedUserListResponse.md
 doc/ManagedUserResponse.md
 doc/MediaImportRequest.md
@@ -120,6 +128,7 @@ doc/ProviderAccessMode.md
 doc/ProviderAccessPolicy.md
 doc/ProviderAccessPolicyResponse.md
 doc/ProviderAccessState.md
+doc/ProviderAuthorizationAction.md
 doc/ProviderCapability.md
 doc/ProviderCatalogEntryResponse.md
 doc/ProviderCatalogListResponse.md
@@ -175,6 +184,7 @@ lib/lib/api/admin_api.dart
 lib/lib/api/analyses_api.dart
 lib/lib/api/app_auth_api.dart
 lib/lib/api/documents_api.dart
+lib/lib/api/download_intents_api.dart
 lib/lib/api/downloads_api.dart
 lib/lib/api/inspections_api.dart
 lib/lib/api/media_imports_api.dart
@@ -217,6 +227,8 @@ lib/lib/model/api_response_download_history_response.dart
 lib/lib/model/api_response_download_response.dart
 lib/lib/model/api_response_download_url_response.dart
 lib/lib/model/api_response_inspection_response.dart
+lib/lib/model/api_response_intent_history_response.dart
+lib/lib/model/api_response_intent_response.dart
 lib/lib/model/api_response_managed_user_list_response.dart
 lib/lib/model/api_response_managed_user_response.dart
 lib/lib/model/api_response_media_import_response.dart
@@ -284,6 +296,11 @@ lib/lib/model/import_source_format.dart
 lib/lib/model/import_status.dart
 lib/lib/model/inspection_request.dart
 lib/lib/model/inspection_response.dart
+lib/lib/model/intent_history_item_response.dart
+lib/lib/model/intent_history_response.dart
+lib/lib/model/intent_request.dart
+lib/lib/model/intent_response.dart
+lib/lib/model/intent_status.dart
 lib/lib/model/managed_user_list_response.dart
 lib/lib/model/managed_user_response.dart
 lib/lib/model/media_import_request.dart
@@ -301,6 +318,7 @@ lib/lib/model/provider_access_mode.dart
 lib/lib/model/provider_access_policy.dart
 lib/lib/model/provider_access_policy_response.dart
 lib/lib/model/provider_access_state.dart
+lib/lib/model/provider_authorization_action.dart
 lib/lib/model/provider_capability.dart
 lib/lib/model/provider_catalog_entry_response.dart
 lib/lib/model/provider_catalog_list_response.dart

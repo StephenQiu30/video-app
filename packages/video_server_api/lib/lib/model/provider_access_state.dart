@@ -19,6 +19,14 @@ class ProviderAccessState extends EnumClass {
   static const ProviderAccessState publicReady = _$publicReady;
 
   /// User-facing access state projected from support and runtime evidence.
+  @BuiltValueEnumConst(wireName: r'guest_probe')
+  static const ProviderAccessState guestProbe = _$guestProbe;
+
+  /// User-facing access state projected from support and runtime evidence.
+  @BuiltValueEnumConst(wireName: r'guest_ready')
+  static const ProviderAccessState guestReady = _$guestReady;
+
+  /// User-facing access state projected from support and runtime evidence.
   @BuiltValueEnumConst(wireName: r'authorization_required')
   static const ProviderAccessState authorizationRequired =
       _$authorizationRequired;

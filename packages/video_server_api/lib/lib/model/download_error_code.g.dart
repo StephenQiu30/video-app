@@ -19,6 +19,8 @@ const DownloadErrorCode _$mediaValidationFailed =
     const DownloadErrorCode._('mediaValidationFailed');
 const DownloadErrorCode _$outputLimitExceeded =
     const DownloadErrorCode._('outputLimitExceeded');
+const DownloadErrorCode _$providerAccessPolicyNotAllowed =
+    const DownloadErrorCode._('providerAccessPolicyNotAllowed');
 const DownloadErrorCode _$providerAuthRequired =
     const DownloadErrorCode._('providerAuthRequired');
 const DownloadErrorCode _$providerContentRestricted =
@@ -27,6 +29,8 @@ const DownloadErrorCode _$providerDrmProtected =
     const DownloadErrorCode._('providerDrmProtected');
 const DownloadErrorCode _$providerGeoRestricted =
     const DownloadErrorCode._('providerGeoRestricted');
+const DownloadErrorCode _$providerGuestContextRequired =
+    const DownloadErrorCode._('providerGuestContextRequired');
 const DownloadErrorCode _$providerLinkUnavailable =
     const DownloadErrorCode._('providerLinkUnavailable');
 const DownloadErrorCode _$providerMediaUnsupported =
@@ -69,6 +73,8 @@ DownloadErrorCode _$valueOf(String name) {
       return _$mediaValidationFailed;
     case 'outputLimitExceeded':
       return _$outputLimitExceeded;
+    case 'providerAccessPolicyNotAllowed':
+      return _$providerAccessPolicyNotAllowed;
     case 'providerAuthRequired':
       return _$providerAuthRequired;
     case 'providerContentRestricted':
@@ -77,6 +83,8 @@ DownloadErrorCode _$valueOf(String name) {
       return _$providerDrmProtected;
     case 'providerGeoRestricted':
       return _$providerGeoRestricted;
+    case 'providerGuestContextRequired':
+      return _$providerGuestContextRequired;
     case 'providerLinkUnavailable':
       return _$providerLinkUnavailable;
     case 'providerMediaUnsupported':
@@ -117,10 +125,12 @@ final BuiltSet<DownloadErrorCode> _$values =
   _$internalError,
   _$mediaValidationFailed,
   _$outputLimitExceeded,
+  _$providerAccessPolicyNotAllowed,
   _$providerAuthRequired,
   _$providerContentRestricted,
   _$providerDrmProtected,
   _$providerGeoRestricted,
+  _$providerGuestContextRequired,
   _$providerLinkUnavailable,
   _$providerMediaUnsupported,
   _$providerRateLimited,
@@ -145,11 +155,15 @@ class _$DownloadErrorCodeMeta {
   DownloadErrorCode get internalError => _$internalError;
   DownloadErrorCode get mediaValidationFailed => _$mediaValidationFailed;
   DownloadErrorCode get outputLimitExceeded => _$outputLimitExceeded;
+  DownloadErrorCode get providerAccessPolicyNotAllowed =>
+      _$providerAccessPolicyNotAllowed;
   DownloadErrorCode get providerAuthRequired => _$providerAuthRequired;
   DownloadErrorCode get providerContentRestricted =>
       _$providerContentRestricted;
   DownloadErrorCode get providerDrmProtected => _$providerDrmProtected;
   DownloadErrorCode get providerGeoRestricted => _$providerGeoRestricted;
+  DownloadErrorCode get providerGuestContextRequired =>
+      _$providerGuestContextRequired;
   DownloadErrorCode get providerLinkUnavailable => _$providerLinkUnavailable;
   DownloadErrorCode get providerMediaUnsupported => _$providerMediaUnsupported;
   DownloadErrorCode get providerRateLimited => _$providerRateLimited;
@@ -188,10 +202,12 @@ class _$DownloadErrorCodeSerializer
     'internalError': 'internal_error',
     'mediaValidationFailed': 'media_validation_failed',
     'outputLimitExceeded': 'output_limit_exceeded',
+    'providerAccessPolicyNotAllowed': 'provider_access_policy_not_allowed',
     'providerAuthRequired': 'provider_auth_required',
     'providerContentRestricted': 'provider_content_restricted',
     'providerDrmProtected': 'provider_drm_protected',
     'providerGeoRestricted': 'provider_geo_restricted',
+    'providerGuestContextRequired': 'provider_guest_context_required',
     'providerLinkUnavailable': 'provider_link_unavailable',
     'providerMediaUnsupported': 'provider_media_unsupported',
     'providerRateLimited': 'provider_rate_limited',
@@ -214,10 +230,12 @@ class _$DownloadErrorCodeSerializer
     'internal_error': 'internalError',
     'media_validation_failed': 'mediaValidationFailed',
     'output_limit_exceeded': 'outputLimitExceeded',
+    'provider_access_policy_not_allowed': 'providerAccessPolicyNotAllowed',
     'provider_auth_required': 'providerAuthRequired',
     'provider_content_restricted': 'providerContentRestricted',
     'provider_drm_protected': 'providerDrmProtected',
     'provider_geo_restricted': 'providerGeoRestricted',
+    'provider_guest_context_required': 'providerGuestContextRequired',
     'provider_link_unavailable': 'providerLinkUnavailable',
     'provider_media_unsupported': 'providerMediaUnsupported',
     'provider_rate_limited': 'providerRateLimited',

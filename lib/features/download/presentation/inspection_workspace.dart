@@ -29,6 +29,7 @@ final class InspectionWorkspace extends StatelessWidget {
     final theme = Theme.of(context);
     final downloadable =
         inspection.accessDecision == AccessDecision.downloadable;
+    final expired = !inspection.expiresAt.isAfter(DateTime.now());
     return Column(
       key: const Key('inspection-workspace'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,7 +69,12 @@ final class InspectionWorkspace extends StatelessWidget {
           Text(
             '${localizations.accessPolicyLabel}: ${accessPolicyLabel(localizations, inspection.accessPolicyId!)}',
           ),
-        if (!downloadable)
+        if (expired)
+          DownloadInlineStatus(
+            message: localizations.intentExpired,
+            tone: DownloadNoticeTone.neutral,
+          )
+        else if (!downloadable)
           DownloadInlineStatus(
             message:
                 inspection.userAction ??

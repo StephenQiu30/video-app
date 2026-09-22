@@ -223,7 +223,12 @@ void main() {
     tester,
   ) async {
     final repository = FakeDownloadIntakeRepository();
-    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+    final intents = FakeDownloadIntentRepository(repository);
+    await pumpFramegrabApp(
+      tester,
+      downloadIntakeRepository: repository,
+      downloadIntentRepository: intents,
+    );
 
     await tester.enterText(
       find.byKey(const Key('media-url-input')),
@@ -232,7 +237,7 @@ void main() {
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(repository.publicUrls, ['https://media.example/video']);
+    expect(intents.inputs, ['https://media.example/video']);
     expect(find.byKey(const Key('inspection-workspace')), findsOneWidget);
     expect(find.text('真实解析视频'), findsWidgets);
     expect(find.text('1080p MP4'), findsOneWidget);
@@ -244,7 +249,12 @@ void main() {
     'passes the original share message to the generated client flow',
     (tester) async {
       final repository = FakeDownloadIntakeRepository();
-      await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+      final intents = FakeDownloadIntentRepository(repository);
+      await pumpFramegrabApp(
+        tester,
+        downloadIntakeRepository: repository,
+        downloadIntentRepository: intents,
+      );
 
       await tester.enterText(
         find.byKey(const Key('media-url-input')),
@@ -253,9 +263,7 @@ void main() {
       await tester.tap(find.byKey(const Key('inspect-media-button')));
       await tester.pumpAndSettle();
 
-      expect(repository.publicUrls, [
-        '复制链接 https://media.example/video?id=42。 打开帧取',
-      ]);
+      expect(intents.inputs, ['复制链接 https://media.example/video?id=42。 打开帧取']);
     },
   );
 
@@ -263,7 +271,12 @@ void main() {
     tester,
   ) async {
     final repository = FakeDownloadIntakeRepository();
-    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+    final intents = FakeDownloadIntentRepository(repository);
+    await pumpFramegrabApp(
+      tester,
+      downloadIntakeRepository: repository,
+      downloadIntentRepository: intents,
+    );
 
     const shareMessage =
         '漫剧《死对头校花竟是我网恋女友》 - 免费好剧，尽在红果\n'
@@ -276,14 +289,19 @@ void main() {
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(repository.publicUrls, [shareMessage]);
+    expect(intents.inputs, [shareMessage]);
   });
 
   testWidgets('submits the URL embedded in a copied Douyin share message', (
     tester,
   ) async {
     final repository = FakeDownloadIntakeRepository();
-    await pumpFramegrabApp(tester, downloadIntakeRepository: repository);
+    final intents = FakeDownloadIntentRepository(repository);
+    await pumpFramegrabApp(
+      tester,
+      downloadIntakeRepository: repository,
+      downloadIntentRepository: intents,
+    );
 
     const shareMessage =
         '0.53 复制打开抖音，看看【喵了个喵-的图文作品】你笑面如花 '
@@ -296,7 +314,7 @@ void main() {
     await tester.tap(find.byKey(const Key('inspect-media-button')));
     await tester.pumpAndSettle();
 
-    expect(repository.publicUrls, [shareMessage]);
+    expect(intents.inputs, [shareMessage]);
   });
 
   testWidgets('discovers and opens an article candidate', (tester) async {

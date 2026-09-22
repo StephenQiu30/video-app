@@ -103,6 +103,12 @@ Class | Method | HTTP request | Description
 [*DocumentsApi*](doc/DocumentsApi.md) | [**deleteDocument**](doc/DocumentsApi.md#deletedocument) | **DELETE** /api/documents/{document_id} | 删除剧本文档及其制品
 [*DocumentsApi*](doc/DocumentsApi.md) | [**getDocumentImport**](doc/DocumentsApi.md#getdocumentimport) | **GET** /api/documents/{document_id} | 查询剧本文档导入
 [*DocumentsApi*](doc/DocumentsApi.md) | [**listDocuments**](doc/DocumentsApi.md#listdocuments) | **GET** /api/documents | 查询剧本文档列表
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**cancelDownloadIntent**](doc/DownloadIntentsApi.md#canceldownloadintent) | **POST** /api/download-intents/{intent_id}/cancel | 取消当前用户的解析意图
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**createDownloadIntent**](doc/DownloadIntentsApi.md#createdownloadintent) | **POST** /api/download-intents | 提交持久解析意图
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**findDownloadIntent**](doc/DownloadIntentsApi.md#finddownloadintent) | **GET** /api/download-intents | 按幂等键找回当前用户已提交的解析意图
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**getDownloadIntent**](doc/DownloadIntentsApi.md#getdownloadintent) | **GET** /api/download-intents/{intent_id} | 查询当前用户的解析意图
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**listDownloadIntents**](doc/DownloadIntentsApi.md#listdownloadintents) | **GET** /api/download-intents/history | 分页查询当前用户的解析记录
+[*DownloadIntentsApi*](doc/DownloadIntentsApi.md) | [**refreshDownloadIntent**](doc/DownloadIntentsApi.md#refreshdownloadintent) | **POST** /api/download-intents/{intent_id}/refresh | 在原意图与剩余预算内更新过期解析结果
 [*DownloadsApi*](doc/DownloadsApi.md) | [**cancelDownload**](doc/DownloadsApi.md#canceldownload) | **POST** /api/downloads/{job_id}/cancel | 取消下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**createDownload**](doc/DownloadsApi.md#createdownload) | **POST** /api/downloads | 创建下载任务
 [*DownloadsApi*](doc/DownloadsApi.md) | [**deleteDownload**](doc/DownloadsApi.md#deletedownload) | **DELETE** /api/downloads/{job_id} | 删除下载任务及其私有文件
@@ -154,6 +160,8 @@ Class | Method | HTTP request | Description
  - [ApiResponseDownloadResponse](doc/ApiResponseDownloadResponse.md)
  - [ApiResponseDownloadUrlResponse](doc/ApiResponseDownloadUrlResponse.md)
  - [ApiResponseInspectionResponse](doc/ApiResponseInspectionResponse.md)
+ - [ApiResponseIntentHistoryResponse](doc/ApiResponseIntentHistoryResponse.md)
+ - [ApiResponseIntentResponse](doc/ApiResponseIntentResponse.md)
  - [ApiResponseManagedUserListResponse](doc/ApiResponseManagedUserListResponse.md)
  - [ApiResponseManagedUserResponse](doc/ApiResponseManagedUserResponse.md)
  - [ApiResponseMediaImportResponse](doc/ApiResponseMediaImportResponse.md)
@@ -220,6 +228,11 @@ Class | Method | HTTP request | Description
  - [ImportStatus](doc/ImportStatus.md)
  - [InspectionRequest](doc/InspectionRequest.md)
  - [InspectionResponse](doc/InspectionResponse.md)
+ - [IntentHistoryItemResponse](doc/IntentHistoryItemResponse.md)
+ - [IntentHistoryResponse](doc/IntentHistoryResponse.md)
+ - [IntentRequest](doc/IntentRequest.md)
+ - [IntentResponse](doc/IntentResponse.md)
+ - [IntentStatus](doc/IntentStatus.md)
  - [ManagedUserListResponse](doc/ManagedUserListResponse.md)
  - [ManagedUserResponse](doc/ManagedUserResponse.md)
  - [MediaImportRequest](doc/MediaImportRequest.md)
@@ -237,6 +250,7 @@ Class | Method | HTTP request | Description
  - [ProviderAccessPolicy](doc/ProviderAccessPolicy.md)
  - [ProviderAccessPolicyResponse](doc/ProviderAccessPolicyResponse.md)
  - [ProviderAccessState](doc/ProviderAccessState.md)
+ - [ProviderAuthorizationAction](doc/ProviderAuthorizationAction.md)
  - [ProviderCapability](doc/ProviderCapability.md)
  - [ProviderCatalogEntryResponse](doc/ProviderCatalogEntryResponse.md)
  - [ProviderCatalogListResponse](doc/ProviderCatalogListResponse.md)

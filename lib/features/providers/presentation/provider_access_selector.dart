@@ -7,6 +7,7 @@ import 'package:video_server_api/video_server_api.dart';
 String accessPolicyLabel(AppLocalizations l10n, ProviderAccessPolicy policy) =>
     switch (policy) {
       ProviderAccessPolicy.public => l10n.accessPolicyPublic,
+      ProviderAccessPolicy.publicSession => l10n.accessPolicyPublicSession,
       ProviderAccessPolicy.operatorPublic => l10n.accessPolicyOperator,
       ProviderAccessPolicy.personalEntitled => l10n.accessPolicyPersonal,
       _ => l10n.accessPolicyUnavailable,
@@ -53,6 +54,11 @@ final class ProviderAccessSelector extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
+        if (selected == null)
+          Text(
+            l10n.intentAutomaticAccess,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         Text(
           l10n.accessPolicyDescription,
           style: Theme.of(context).textTheme.bodySmall,

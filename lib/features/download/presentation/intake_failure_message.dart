@@ -23,6 +23,7 @@ String intakeFailureMessage(AppLocalizations localizations, Object error) {
     'provider_unsupported' => localizations.providerUnsupportedError,
     'duration_limit_exceeded' => localizations.durationLimitError,
     'format_unavailable' => localizations.noFormatsAvailable,
+    'resource_expired' => localizations.intentExpired,
     'article_access_restricted' => localizations.articleRestrictedError,
     'article_discovery_failed' => localizations.articleDiscoveryError,
     _ => switch (error.kind) {

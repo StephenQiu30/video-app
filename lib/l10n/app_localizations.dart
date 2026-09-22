@@ -1682,6 +1682,114 @@ abstract class AppLocalizations {
   /// **'解析媒体'**
   String get inspectMedia;
 
+  /// No description provided for @accessPolicyPublicSession.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端自动准备公开访问'**
+  String get accessPolicyPublicSession;
+
+  /// No description provided for @intentAutomaticAccess.
+  ///
+  /// In zh, this message translates to:
+  /// **'系统会自动选择公开访问路线。仅在明确获得授权时选择其他策略。'**
+  String get intentAutomaticAccess;
+
+  /// No description provided for @intentHistoryTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析记录'**
+  String get intentHistoryTitle;
+
+  /// No description provided for @intentHistoryEmpty.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无解析记录'**
+  String get intentHistoryEmpty;
+
+  /// No description provided for @intentQueued.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待解析'**
+  String get intentQueued;
+
+  /// No description provided for @intentPreparing.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在准备公开访问'**
+  String get intentPreparing;
+
+  /// No description provided for @intentResolving.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在解析媒体'**
+  String get intentResolving;
+
+  /// No description provided for @intentRetryWait.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待重试解析'**
+  String get intentRetryWait;
+
+  /// No description provided for @intentActionRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'需要进一步操作'**
+  String get intentActionRequired;
+
+  /// No description provided for @intentExpired.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析结果已过期'**
+  String get intentExpired;
+
+  /// No description provided for @intentFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析未能完成'**
+  String get intentFailed;
+
+  /// No description provided for @intentCancelled.
+  ///
+  /// In zh, this message translates to:
+  /// **'解析已取消'**
+  String get intentCancelled;
+
+  /// No description provided for @intentRefreshAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'更新解析结果'**
+  String get intentRefreshAction;
+
+  /// No description provided for @intentCancelAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'取消解析'**
+  String get intentCancelAction;
+
+  /// No description provided for @intentRestoreAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'打开历史解析'**
+  String get intentRestoreAction;
+
+  /// No description provided for @intentHistoryAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看解析记录'**
+  String get intentHistoryAction;
+
+  /// No description provided for @intentHandedOff.
+  ///
+  /// In zh, this message translates to:
+  /// **'已创建下载任务'**
+  String get intentHandedOff;
+
+  /// No description provided for @intentRefreshHint.
+  ///
+  /// In zh, this message translates to:
+  /// **'更新后需重新确认下载规格。'**
+  String get intentRefreshHint;
+
   /// No description provided for @inspectingMedia.
   ///
   /// In zh, this message translates to:

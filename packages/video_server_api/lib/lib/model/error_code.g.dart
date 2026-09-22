@@ -87,6 +87,8 @@ const ErrorCode _$providerCatalogNotFound =
     const ErrorCode._('providerCatalogNotFound');
 const ErrorCode _$providerConfigurationMissing =
     const ErrorCode._('providerConfigurationMissing');
+const ErrorCode _$providerGuestContextRequired =
+    const ErrorCode._('providerGuestContextRequired');
 const ErrorCode _$providerContentRestricted =
     const ErrorCode._('providerContentRestricted');
 const ErrorCode _$providerDrmProtected =
@@ -243,6 +245,8 @@ ErrorCode _$valueOf(String name) {
       return _$providerCatalogNotFound;
     case 'providerConfigurationMissing':
       return _$providerConfigurationMissing;
+    case 'providerGuestContextRequired':
+      return _$providerGuestContextRequired;
     case 'providerContentRestricted':
       return _$providerContentRestricted;
     case 'providerDrmProtected':
@@ -362,6 +366,7 @@ final BuiltSet<ErrorCode> _$values = BuiltSet<ErrorCode>(const <ErrorCode>[
   _$providerCatalogConflict,
   _$providerCatalogNotFound,
   _$providerConfigurationMissing,
+  _$providerGuestContextRequired,
   _$providerContentRestricted,
   _$providerDrmProtected,
   _$providerFailure,
@@ -451,6 +456,7 @@ class _$ErrorCodeMeta {
   ErrorCode get providerCatalogConflict => _$providerCatalogConflict;
   ErrorCode get providerCatalogNotFound => _$providerCatalogNotFound;
   ErrorCode get providerConfigurationMissing => _$providerConfigurationMissing;
+  ErrorCode get providerGuestContextRequired => _$providerGuestContextRequired;
   ErrorCode get providerContentRestricted => _$providerContentRestricted;
   ErrorCode get providerDrmProtected => _$providerDrmProtected;
   ErrorCode get providerFailure => _$providerFailure;
@@ -548,6 +554,7 @@ class _$ErrorCodeSerializer implements PrimitiveSerializer<ErrorCode> {
     'providerCatalogConflict': 'provider_catalog_conflict',
     'providerCatalogNotFound': 'provider_catalog_not_found',
     'providerConfigurationMissing': 'provider_configuration_missing',
+    'providerGuestContextRequired': 'provider_guest_context_required',
     'providerContentRestricted': 'provider_content_restricted',
     'providerDrmProtected': 'provider_drm_protected',
     'providerFailure': 'provider_failure',
@@ -633,6 +640,7 @@ class _$ErrorCodeSerializer implements PrimitiveSerializer<ErrorCode> {
     'provider_catalog_conflict': 'providerCatalogConflict',
     'provider_catalog_not_found': 'providerCatalogNotFound',
     'provider_configuration_missing': 'providerConfigurationMissing',
+    'provider_guest_context_required': 'providerGuestContextRequired',
     'provider_content_restricted': 'providerContentRestricted',
     'provider_drm_protected': 'providerDrmProtected',
     'provider_failure': 'providerFailure',

@@ -25,6 +25,9 @@ class DownloadErrorCode extends EnumClass {
       _$mediaValidationFailed;
   @BuiltValueEnumConst(wireName: r'output_limit_exceeded')
   static const DownloadErrorCode outputLimitExceeded = _$outputLimitExceeded;
+  @BuiltValueEnumConst(wireName: r'provider_access_policy_not_allowed')
+  static const DownloadErrorCode providerAccessPolicyNotAllowed =
+      _$providerAccessPolicyNotAllowed;
   @BuiltValueEnumConst(wireName: r'provider_auth_required')
   static const DownloadErrorCode providerAuthRequired = _$providerAuthRequired;
   @BuiltValueEnumConst(wireName: r'provider_content_restricted')
@@ -35,6 +38,9 @@ class DownloadErrorCode extends EnumClass {
   @BuiltValueEnumConst(wireName: r'provider_geo_restricted')
   static const DownloadErrorCode providerGeoRestricted =
       _$providerGeoRestricted;
+  @BuiltValueEnumConst(wireName: r'provider_guest_context_required')
+  static const DownloadErrorCode providerGuestContextRequired =
+      _$providerGuestContextRequired;
   @BuiltValueEnumConst(wireName: r'provider_link_unavailable')
   static const DownloadErrorCode providerLinkUnavailable =
       _$providerLinkUnavailable;

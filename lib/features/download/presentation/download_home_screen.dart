@@ -7,11 +7,13 @@ import 'package:framegrab/app/router/app_router.dart';
 import 'package:framegrab/features/documents/application/document_list_provider.dart';
 import 'package:framegrab/features/documents/presentation/document_list_screen.dart';
 import 'package:framegrab/features/download/application/download_intake_controller.dart';
+import 'package:framegrab/features/download/application/download_intent_history_controller.dart';
 import 'package:framegrab/features/download/application/public_input.dart';
 import 'package:framegrab/features/download/presentation/content_intake_controls.dart';
 import 'package:framegrab/features/download/presentation/download_app_bar.dart';
 import 'package:framegrab/features/download/presentation/download_home_content.dart';
 import 'package:framegrab/features/download/presentation/download_intake_workspace.dart';
+import 'package:framegrab/features/download/presentation/download_intent_history.dart';
 import 'package:framegrab/features/download/presentation/download_status.dart';
 import 'package:framegrab/features/download/presentation/intake_failure_message.dart';
 import 'package:framegrab/features/history/application/download_history_provider.dart';
@@ -33,7 +35,8 @@ final class DownloadHomeScreen extends ConsumerStatefulWidget {
   ConsumerState<DownloadHomeScreen> createState() => _DownloadHomeScreenState();
 }
 
-final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
+final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen>
+    with WidgetsBindingObserver {
   final _urlController = TextEditingController();
   ProviderAccessPolicy? _accessPolicy;
   String? _error;
@@ -46,19 +49,26 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     unawaited(
-      Future<void>.microtask(() async {
-        try {
-          await ref.read(providerStatusProvider.future);
-        } catch (_) {
-          // The status page exposes the retryable error when the user opens it.
+      Future<void>.microtask(() {
+        if (mounted) {
+          return ref.read(downloadIntentHistoryProvider.notifier).load();
         }
       }),
     );
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    ref
+        .read(downloadIntakeControllerProvider.notifier)
+        .setForeground(state == AppLifecycleState.resumed);
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _urlController.dispose();
     super.dispose();
   }
@@ -80,16 +90,9 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
       _urlInvalid = false;
       _statusTone = DownloadNoticeTone.destructive;
     });
-    final provider = providerForInput(
-      input,
-      ref.read(providerStatusProvider).value?.items ?? [],
-    );
     await ref
         .read(downloadIntakeControllerProvider.notifier)
-        .inspect(
-          input,
-          accessPolicy: _accessPolicy ?? provider?.defaultAccessPolicyId,
-        );
+        .inspect(input, accessPolicy: _accessPolicy);
   }
 
   void _clear() {
@@ -140,6 +143,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final intake = ref.watch(downloadIntakeControllerProvider);
+    final intentHistory = ref.watch(downloadIntentHistoryProvider);
     final upload = ref.watch(contentUploadControllerProvider);
     final providers = ref.watch(providerStatusProvider);
     final provider = providerForInput(
@@ -168,7 +172,7 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
                 ? null
                 : ProviderAccessSelector(
                     provider: provider,
-                    selected: _accessPolicy ?? provider.defaultAccessPolicyId,
+                    selected: _accessPolicy,
                     busy: intake.busy || upload.busy,
                     onChanged: (policy) {
                       ref
@@ -183,6 +187,21 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             busy: intake.busy || upload.busy,
             controller: _urlController,
             error: error,
+            history: DownloadIntentHistory(
+              busy: intake.busy,
+              onLoad: () => unawaited(
+                ref.read(downloadIntentHistoryProvider.notifier).load(),
+              ),
+              onMore: () => unawaited(
+                ref
+                    .read(downloadIntentHistoryProvider.notifier)
+                    .load(more: true),
+              ),
+              onResume: (id) => unawaited(
+                ref.read(downloadIntakeControllerProvider.notifier).resume(id),
+              ),
+              state: intentHistory,
+            ),
             invalid: _urlInvalid,
             mode: _selectedIntakeMode,
             onChanged: (_) {
@@ -215,13 +234,29 @@ final class _DownloadHomeScreenState extends ConsumerState<DownloadHomeScreen> {
             onUploadAction: (kind) {
               ref.read(contentUploadControllerProvider.notifier).start(kind);
             },
-            result:
-                _selectedIntakeMode == ContentIntakeMode.link &&
-                    (intake.discovery != null || intake.inspection != null)
+            result: _selectedIntakeMode == ContentIntakeMode.link
                 ? DownloadIntakeWorkspace(
+                    onCancelIntent: () => unawaited(
+                      ref
+                          .read(downloadIntakeControllerProvider.notifier)
+                          .cancelIntent(),
+                    ),
                     onCreate: () {
                       _createDownload();
                     },
+                    onOpenJob: (id) => unawaited(
+                      DownloadDetailRoute(jobId: id).push<void>(context),
+                    ),
+                    onRefreshIntent: () => unawaited(
+                      ref
+                          .read(downloadIntakeControllerProvider.notifier)
+                          .refreshIntent(),
+                    ),
+                    onRetryInspection: () => unawaited(
+                      ref
+                          .read(downloadIntakeControllerProvider.notifier)
+                          .resume(intake.intent!.id),
+                    ),
                     onSelectFormat: ref
                         .read(downloadIntakeControllerProvider.notifier)
                         .selectFormat,

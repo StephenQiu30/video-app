@@ -8,6 +8,7 @@ import 'package:framegrab/features/auth/data/native_auth_gateway.dart';
 import 'package:framegrab/features/auth/data/refresh_credential_store.dart';
 import 'package:framegrab/features/documents/data/document_repository.dart';
 import 'package:framegrab/features/download/data/download_intake_repository.dart';
+import 'package:framegrab/features/download/data/download_intent_repository.dart';
 import 'package:framegrab/features/history/data/download_history_repository.dart';
 import 'package:framegrab/features/providers/data/provider_status_repository.dart';
 import 'package:framegrab/features/upload/data/content_upload_repository.dart';
@@ -27,6 +28,7 @@ Future<void> pumpFramegrabApp(
   RefreshCredentialStore? credentialStore,
   DocumentRepository? documentRepository,
   DownloadIntakeRepository? downloadIntakeRepository,
+  DownloadIntentRepository? downloadIntentRepository,
   DownloadHistoryRepository? downloadHistoryRepository,
   ProviderStatusRepository? providerStatusRepository,
   ThemePreferenceStore? themePreferenceStore,
@@ -34,14 +36,19 @@ Future<void> pumpFramegrabApp(
   LocalContentPicker? localContentPicker,
   Locale locale = const Locale('zh'),
 }) async {
+  final intake = downloadIntakeRepository ?? FakeDownloadIntakeRepository();
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         analysisRepositoryProvider.overrideWithValue(
           analysisRepository ?? FakeAnalysisRepository(),
         ),
-        downloadIntakeRepositoryProvider.overrideWithValue(
-          downloadIntakeRepository ?? FakeDownloadIntakeRepository(),
+        downloadIntakeRepositoryProvider.overrideWithValue(intake),
+        downloadIntentRepositoryProvider.overrideWithValue(
+          downloadIntentRepository ??
+              FakeDownloadIntentRepository(
+                intake as FakeDownloadIntakeRepository,
+              ),
         ),
         nativeAuthGatewayProvider.overrideWithValue(
           authGateway ?? FakeAuthGateway(),

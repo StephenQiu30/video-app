@@ -123,6 +123,9 @@ class ErrorCode extends EnumClass {
   @BuiltValueEnumConst(wireName: r'provider_configuration_missing')
   static const ErrorCode providerConfigurationMissing =
       _$providerConfigurationMissing;
+  @BuiltValueEnumConst(wireName: r'provider_guest_context_required')
+  static const ErrorCode providerGuestContextRequired =
+      _$providerGuestContextRequired;
   @BuiltValueEnumConst(wireName: r'provider_content_restricted')
   static const ErrorCode providerContentRestricted =
       _$providerContentRestricted;

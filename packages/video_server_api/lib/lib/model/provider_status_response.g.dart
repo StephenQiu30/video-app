@@ -49,6 +49,8 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
   final BuiltList<String> hostSuffixes;
   @override
   final DateTime? routeRetryAt;
+  @override
+  final ProviderAuthorizationAction authorizationAction;
 
   factory _$ProviderStatusResponse(
           [void Function(ProviderStatusResponseBuilder)? updates]) =>
@@ -75,7 +77,8 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
       required this.evidenceState,
       required this.hosts,
       required this.hostSuffixes,
-      this.routeRetryAt})
+      this.routeRetryAt,
+      required this.authorizationAction})
       : super._();
   @override
   ProviderStatusResponse rebuild(
@@ -110,7 +113,8 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
         evidenceState == other.evidenceState &&
         hosts == other.hosts &&
         hostSuffixes == other.hostSuffixes &&
-        routeRetryAt == other.routeRetryAt;
+        routeRetryAt == other.routeRetryAt &&
+        authorizationAction == other.authorizationAction;
   }
 
   @override
@@ -137,6 +141,7 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
     _$hash = $jc(_$hash, hosts.hashCode);
     _$hash = $jc(_$hash, hostSuffixes.hashCode);
     _$hash = $jc(_$hash, routeRetryAt.hashCode);
+    _$hash = $jc(_$hash, authorizationAction.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -164,7 +169,8 @@ class _$ProviderStatusResponse extends ProviderStatusResponse {
           ..add('evidenceState', evidenceState)
           ..add('hosts', hosts)
           ..add('hostSuffixes', hostSuffixes)
-          ..add('routeRetryAt', routeRetryAt))
+          ..add('routeRetryAt', routeRetryAt)
+          ..add('authorizationAction', authorizationAction))
         .toString();
   }
 }
@@ -278,6 +284,12 @@ class ProviderStatusResponseBuilder
   set routeRetryAt(DateTime? routeRetryAt) =>
       _$this._routeRetryAt = routeRetryAt;
 
+  ProviderAuthorizationAction? _authorizationAction;
+  ProviderAuthorizationAction? get authorizationAction =>
+      _$this._authorizationAction;
+  set authorizationAction(ProviderAuthorizationAction? authorizationAction) =>
+      _$this._authorizationAction = authorizationAction;
+
   ProviderStatusResponseBuilder() {
     ProviderStatusResponse._defaults(this);
   }
@@ -306,6 +318,7 @@ class ProviderStatusResponseBuilder
       _hosts = $v.hosts.toBuilder();
       _hostSuffixes = $v.hostSuffixes.toBuilder();
       _routeRetryAt = $v.routeRetryAt;
+      _authorizationAction = $v.authorizationAction;
       _$v = null;
     }
     return this;
@@ -363,6 +376,10 @@ class ProviderStatusResponseBuilder
             hosts: hosts.build(),
             hostSuffixes: hostSuffixes.build(),
             routeRetryAt: routeRetryAt,
+            authorizationAction: BuiltValueNullFieldError.checkNotNull(
+                authorizationAction,
+                r'ProviderStatusResponse',
+                'authorizationAction'),
           );
     } catch (_) {
       late String _$failedField;

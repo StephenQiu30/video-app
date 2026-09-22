@@ -869,6 +869,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inspectMedia => 'Inspect media';
 
   @override
+  String get accessPolicyPublicSession =>
+      'Public access prepared by the server';
+
+  @override
+  String get intentAutomaticAccess =>
+      'The system chooses a public route automatically. Select another policy only with explicit authorization.';
+
+  @override
+  String get intentHistoryTitle => 'Recent inspections';
+
+  @override
+  String get intentHistoryEmpty => 'No previous inspections';
+
+  @override
+  String get intentQueued => 'Waiting to inspect';
+
+  @override
+  String get intentPreparing => 'Preparing public access';
+
+  @override
+  String get intentResolving => 'Inspecting media';
+
+  @override
+  String get intentRetryWait => 'Waiting to retry inspection';
+
+  @override
+  String get intentActionRequired => 'Action required to continue';
+
+  @override
+  String get intentExpired => 'Inspection result expired';
+
+  @override
+  String get intentFailed => 'Inspection could not finish';
+
+  @override
+  String get intentCancelled => 'Inspection cancelled';
+
+  @override
+  String get intentRefreshAction => 'Update inspection';
+
+  @override
+  String get intentCancelAction => 'Cancel inspection';
+
+  @override
+  String get intentRestoreAction => 'Open previous inspection';
+
+  @override
+  String get intentHistoryAction => 'View recent inspections';
+
+  @override
+  String get intentHandedOff => 'Download task created';
+
+  @override
+  String get intentRefreshHint =>
+      'New download formats must be confirmed again.';
+
+  @override
   String get inspectingMedia => 'Inspecting…';
 
   @override

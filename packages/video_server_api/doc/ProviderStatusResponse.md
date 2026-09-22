@@ -29,5 +29,6 @@ Name | Type | Description | Notes
 **hosts** | **BuiltList&lt;String&gt;** |  |
 **hostSuffixes** | **BuiltList&lt;String&gt;** |  |
 **routeRetryAt** | [**DateTime**](DateTime.md) |  | [optional]
+**authorizationAction** | [**ProviderAuthorizationAction**](ProviderAuthorizationAction.md) |  |
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
