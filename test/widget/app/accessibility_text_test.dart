@@ -185,6 +185,29 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('opens the complete public guide without requiring a session', (
+    tester,
+  ) async {
+    await setMobileViewport(tester);
+    await pumpFramegrabApp(
+      tester,
+      authGateway: FakeAuthGateway(),
+      credentialStore: MemoryCredentialStore(),
+    );
+
+    final guide = find.byKey(const Key('public-home-guide'));
+    await tester.ensureVisible(guide);
+    await tester.pumpAndSettle();
+    await tester.tap(guide);
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('public-guide-screen')), findsOneWidget);
+    expect(find.text('从素材到分析报告'), findsOneWidget);
+    expect(find.text('如何处理剧本文档？'), findsOneWidget);
+    expect(find.text('Web 与 iOS / Android 客户端如何选择？'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('keeps the AI analysis entry usable with accessibility text', (
     tester,
   ) async {

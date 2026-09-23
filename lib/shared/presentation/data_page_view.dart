@@ -112,10 +112,7 @@ final class DataMetricGrid extends StatelessWidget {
               SizedBox(
                 key: Key('$keyPrefix-${metric.key}'),
                 width: width,
-                child: _CenteredDataMetric(
-                  label: metric.label,
-                  value: metric.value,
-                ),
+                child: _DataMetric(label: metric.label, value: metric.value),
               ),
           ],
         );
@@ -124,8 +121,8 @@ final class DataMetricGrid extends StatelessWidget {
   }
 }
 
-final class _CenteredDataMetric extends StatelessWidget {
-  const _CenteredDataMetric({required this.label, required this.value});
+final class _DataMetric extends StatelessWidget {
+  const _DataMetric({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -145,15 +142,17 @@ final class _CenteredDataMetric extends StatelessWidget {
       label: '$label: $value',
       child: ExcludeSemantics(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: valueLine.height,
               child: FittedBox(
                 fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   value,
                   maxLines: 1,
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.start,
                   style: valueStyle,
                 ),
               ),
@@ -163,7 +162,7 @@ final class _CenteredDataMetric extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
               style: theme.textTheme.labelMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -204,6 +203,7 @@ final class DataStateMessage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxLarge),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(icon, color: theme.colorScheme.onSurfaceVariant, size: 28),
             const SizedBox(height: AppSpacing.medium),
@@ -211,7 +211,7 @@ final class DataStateMessage extends StatelessWidget {
             const SizedBox(height: AppSpacing.xSmall),
             Text(
               description,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

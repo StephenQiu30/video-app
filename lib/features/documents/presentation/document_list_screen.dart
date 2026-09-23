@@ -41,9 +41,9 @@ final class DocumentListScreen extends ConsumerWidget {
         loading: () => [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 64),
-            child: Center(child: AppSpinner()),
+            child: Align(alignment: Alignment.centerLeft, child: AppSpinner()),
           ),
-          Center(child: Text(localizations.loadingData)),
+          Text(localizations.loadingData),
         ],
       ),
     );

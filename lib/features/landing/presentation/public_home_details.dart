@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 typedef PublicHomeCapability = ({
   String description,
   String eyebrow,
-  IconData icon,
   String title,
 });
 
@@ -20,40 +20,37 @@ final class PublicHomeCapabilities extends StatelessWidget {
     return Column(
       key: const Key('public-home-capabilities'),
       children: [
-        for (final item in items)
+        for (final (index, item) in items.indexed)
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.xLarge),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Icon(
-                  item.icon,
-                  size: 22,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: AppSpacing.medium),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ShadBadge.secondary(
+                      child: Text('${index + 1}'.padLeft(2, '0')),
+                    ),
+                    Expanded(
+                      child: Text(
                         item.eyebrow,
+                        textAlign: TextAlign.end,
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                           fontWeight: FontWeight.w600,
-                          letterSpacing: 1.1,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.xSmall),
-                      Text(item.title, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: AppSpacing.xSmall),
-                      Text(
-                        item.description,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.medium),
+                Text(item.title, style: theme.textTheme.titleMedium),
+                const SizedBox(height: AppSpacing.xSmall),
+                Text(
+                  item.description,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

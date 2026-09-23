@@ -908,6 +908,24 @@ abstract class AppLocalizations {
   /// **'账户'**
   String get accountSection;
 
+  /// No description provided for @helpSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'帮助与产品'**
+  String get helpSection;
+
+  /// No description provided for @guideNavigation.
+  ///
+  /// In zh, this message translates to:
+  /// **'使用指南'**
+  String get guideNavigation;
+
+  /// No description provided for @guideEntryDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'了解素材导入、AI 分析、客户端分工与自托管边界。'**
+  String get guideEntryDescription;
+
   /// No description provided for @darkThemeLabel.
   ///
   /// In zh, this message translates to:
@@ -935,7 +953,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicHomeEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'FrameFetch · Open Source'**
+  /// **'帧取 FrameFetch · 开源视频工作流'**
   String get publicHomeEyebrow;
 
   /// No description provided for @publicHomeTitle.
@@ -1019,13 +1037,13 @@ abstract class AppLocalizations {
   /// No description provided for @publicCapabilitiesEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'Product capabilities'**
+  /// **'核心功能'**
   String get publicCapabilitiesEyebrow;
 
   /// No description provided for @publicHomeCapabilitiesTitle.
   ///
   /// In zh, this message translates to:
-  /// **'从公开媒体到可验证制品'**
+  /// **'视频解析、剧本处理与 AI 分析'**
   String get publicHomeCapabilitiesTitle;
 
   /// No description provided for @publicHomeCapabilitiesDescription.
@@ -1037,7 +1055,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicVideoEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'01 · MEDIA'**
+  /// **'公开视频'**
   String get publicVideoEyebrow;
 
   /// No description provided for @publicVideoTitle.
@@ -1055,7 +1073,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicDocumentEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'02 · SCREENPLAY'**
+  /// **'剧本文档'**
   String get publicDocumentEyebrow;
 
   /// No description provided for @publicDocumentTitle.
@@ -1073,7 +1091,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicAnalysisEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'03 · ANALYSIS'**
+  /// **'AI 分析'**
   String get publicAnalysisEyebrow;
 
   /// No description provided for @publicAnalysisTitle.
@@ -1091,7 +1109,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicTrustEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'Built for self-hosting'**
+  /// **'自托管架构'**
   String get publicTrustEyebrow;
 
   /// No description provided for @publicTrustTitle.
@@ -1130,10 +1148,124 @@ abstract class AppLocalizations {
   /// **'公开视频并不等于可自由使用，请仅处理已获授权的内容。'**
   String get publicSafeguardAuthorization;
 
+  /// No description provided for @publicSafetyEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'安全边界'**
+  String get publicSafetyEyebrow;
+
+  /// No description provided for @publicSafetyTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'运行与授权边界'**
+  String get publicSafetyTitle;
+
+  /// No description provided for @publicSafetyDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'把访问、执行和交付拆成可检查的边界。'**
+  String get publicSafetyDescription;
+
+  /// No description provided for @publicFaqEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'常见问题'**
+  String get publicFaqEyebrow;
+
+  /// No description provided for @publicFaqTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开始使用前，先了解这些'**
+  String get publicFaqTitle;
+
+  /// No description provided for @publicFaqDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'了解输入、分析结果、运行成本与移动端支持范围。'**
+  String get publicFaqDescription;
+
+  /// No description provided for @publicFaqWhatQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'帧取 FrameFetch 是什么？'**
+  String get publicFaqWhatQuestion;
+
+  /// No description provided for @publicFaqWhatAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'帧取是面向创作者、内容研究者和开发者的 MIT 开源自托管视频解析与 AI 分析平台。它把已获授权的媒体链接、本地视频和剧本文档组织为任务，并提供素材管理、结构化分析与报告导出。'**
+  String get publicFaqWhatAnswer;
+
+  /// No description provided for @publicFaqReportsQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 视频分析可以输出什么？'**
+  String get publicFaqReportsQuestion;
+
+  /// No description provided for @publicFaqReportsAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'按所选分析能力生成场景、分镜、时间轴和关键帧证据等结构化结果，报告可导出为 Markdown 或 DOCX。AI 分析需要配置可用的模型服务与 AI Worker；模型结论需要结合原始素材复核。'**
+  String get publicFaqReportsAnswer;
+
+  /// No description provided for @publicFaqImportQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'可以直接分析本地视频和剧本吗？'**
+  String get publicFaqImportQuestion;
+
+  /// No description provided for @publicFaqImportAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'可以导入自己有权处理的本地视频与剧本文档。剧本支持 Markdown、Fountain、TXT、PDF 和 DOCX；导入后可在工作区阅读和发起分析，无需先提供第三方平台链接。'**
+  String get publicFaqImportAnswer;
+
+  /// No description provided for @publicFaqCostQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'开源免费是否意味着运行没有成本？'**
+  String get publicFaqCostQuestion;
+
+  /// No description provided for @publicFaqCostAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'源代码以 MIT 许可证开放，可自行部署、使用和修改。服务器、对象存储、网络流量和外部 AI 模型可能产生费用；本项目不承诺免费托管或免费模型额度。'**
+  String get publicFaqCostAnswer;
+
+  /// No description provided for @publicFaqPlatformsQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'是否支持所有视频平台和所有链接？'**
+  String get publicFaqPlatformsQuestion;
+
+  /// No description provided for @publicFaqPlatformsAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'不保证所有平台或链接可用。实际能力取决于部署实例的 Provider 配置、内容授权、访问条件和最近验证结果；应先检查链接再选择格式。公开可访问不等于获得使用授权。'**
+  String get publicFaqPlatformsAnswer;
+
+  /// No description provided for @publicFaqMobileQuestion.
+  ///
+  /// In zh, this message translates to:
+  /// **'手机端是否能独立运行 AI 分析？'**
+  String get publicFaqMobileQuestion;
+
+  /// No description provided for @publicFaqMobileAnswer.
+  ///
+  /// In zh, this message translates to:
+  /// **'iOS 和 Android 客户端位于独立的 video-app 仓库，使用 Flutter 构建并连接自托管 video-server。媒体处理与 AI 推理由服务端执行，手机端不内置离线提取器或离线 AI 模型。'**
+  String get publicFaqMobileAnswer;
+
+  /// No description provided for @publicGuideAction.
+  ///
+  /// In zh, this message translates to:
+  /// **'阅读视频分析与自托管使用指南'**
+  String get publicGuideAction;
+
   /// No description provided for @publicStartEyebrow.
   ///
   /// In zh, this message translates to:
-  /// **'Start locally'**
+  /// **'快速开始'**
   String get publicStartEyebrow;
 
   /// No description provided for @publicStartTitle.
@@ -1153,6 +1285,162 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'阅读部署说明'**
   String get publicDeploymentAction;
+
+  /// No description provided for @publicGuideEyebrow.
+  ///
+  /// In zh, this message translates to:
+  /// **'FrameFetch 使用指南'**
+  String get publicGuideEyebrow;
+
+  /// No description provided for @publicGuideTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'从素材到分析报告'**
+  String get publicGuideTitle;
+
+  /// No description provided for @publicGuideDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'了解 FrameFetch 如何导入授权视频与剧本文档、执行 AI 分镜分析并导出 Markdown / DOCX 报告，以及 Web、Flutter 客户端和自托管服务端的分工。'**
+  String get publicGuideDescription;
+
+  /// No description provided for @publicGuideNotice.
+  ///
+  /// In zh, this message translates to:
+  /// **'本指南介绍当前产品流程。配置与实现以链接的仓库文档为准，实例可用性以实际检查结果为准。'**
+  String get publicGuideNotice;
+
+  /// No description provided for @publicGuideVideoTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'如何从视频得到可复核的 AI 分析报告？'**
+  String get publicGuideVideoTitle;
+
+  /// No description provided for @publicGuideVideoParagraphOne.
+  ///
+  /// In zh, this message translates to:
+  /// **'先导入自己拥有或已获授权的本地视频，也可以检查公开媒体链接、确认可用格式并创建任务。视频完成处理后，在任务详情选择分析能力并提交 AI 分析任务。'**
+  String get publicGuideVideoParagraphOne;
+
+  /// No description provided for @publicGuideVideoParagraphTwo.
+  ///
+  /// In zh, this message translates to:
+  /// **'服务端 AI Worker 执行分析，页面展示场景、分镜时间轴、关键帧证据等结构化结果。不同分析能力输出不同内容；报告支持 Markdown 与 DOCX 导出，便于继续整理、审阅和分享。关键结论应对照视频与证据复核。'**
+  String get publicGuideVideoParagraphTwo;
+
+  /// No description provided for @publicGuideVideoParagraphThree.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体处理成功不代表分析已经完成；AI 服务不可用时，检查管理员配置的模型 Provider 与 AI Worker 状态。'**
+  String get publicGuideVideoParagraphThree;
+
+  /// No description provided for @publicGuideVideoSource.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看 AI 视频分析与报告能力'**
+  String get publicGuideVideoSource;
+
+  /// No description provided for @publicGuideScreenplayTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'如何处理剧本文档？'**
+  String get publicGuideScreenplayTitle;
+
+  /// No description provided for @publicGuideScreenplayParagraphOne.
+  ///
+  /// In zh, this message translates to:
+  /// **'在剧本文档工作区导入 Markdown、Fountain、TXT、PDF 或 DOCX。导入后可阅读规范化文档、查看目录并发起分析或改写，结果与处理记录保存在同一工作区。'**
+  String get publicGuideScreenplayParagraphOne;
+
+  /// No description provided for @publicGuideScreenplayParagraphTwo.
+  ///
+  /// In zh, this message translates to:
+  /// **'文档是否能够完整提取取决于原文件结构。扫描件、复杂版式或缺失文本的文件需要检查导入结果，不能仅凭任务成功就判断原文已经完整保留。'**
+  String get publicGuideScreenplayParagraphTwo;
+
+  /// No description provided for @publicGuideScreenplaySource.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看当前文档处理能力'**
+  String get publicGuideScreenplaySource;
+
+  /// No description provided for @publicGuideDeploymentTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'自托管需要部署哪些服务？'**
+  String get publicGuideDeploymentTitle;
+
+  /// No description provided for @publicGuideDeploymentParagraphOne.
+  ///
+  /// In zh, this message translates to:
+  /// **'video-server 包含 Next.js Web 页面、FastAPI API，以及独立的下载、媒体处理与 AI Worker。Docker Compose 管理业务服务，并连接部署者已有的 PostgreSQL、RabbitMQ、Redis 和 MinIO。默认 Web 端口为 8101，API 端口为 8111。'**
+  String get publicGuideDeploymentParagraphOne;
+
+  /// No description provided for @publicGuideDeploymentParagraphTwo.
+  ///
+  /// In zh, this message translates to:
+  /// **'使用根 README 的快速开始说明安装和配置，按实际需求启用模型服务与媒体 Provider。MIT 许可证开放源代码；基础设施、存储、流量和外部模型的费用由部署者承担。'**
+  String get publicGuideDeploymentParagraphTwo;
+
+  /// No description provided for @publicGuideDeploymentParagraphThree.
+  ///
+  /// In zh, this message translates to:
+  /// **'自托管不表示数据永远不离开设备：使用外部 AI Provider 时，分析所需内容会发送到该服务。启用模型前应核对其数据处理约定，并确认素材可用于该分析。'**
+  String get publicGuideDeploymentParagraphThree;
+
+  /// No description provided for @publicGuideDeploymentSource.
+  ///
+  /// In zh, this message translates to:
+  /// **'阅读自托管部署步骤'**
+  String get publicGuideDeploymentSource;
+
+  /// No description provided for @publicGuideClientsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'Web 与 iOS / Android 客户端如何选择？'**
+  String get publicGuideClientsTitle;
+
+  /// No description provided for @publicGuideClientsParagraphOne.
+  ///
+  /// In zh, this message translates to:
+  /// **'Web 随 video-server 部署，适合在浏览器中管理素材、任务、分析报告与管理员配置。video-app 是单独维护的 Flutter 原生客户端，面向 iOS 和 Android，需要连接可访问的 video-server。'**
+  String get publicGuideClientsParagraphOne;
+
+  /// No description provided for @publicGuideClientsParagraphTwo.
+  ///
+  /// In zh, this message translates to:
+  /// **'手机端负责上传、任务操作与结果展示，媒体处理与 AI 推理仍由服务端完成。当前移动端从源码构建，不提供 App Store 或 Google Play 预构建安装包，也不提供离线 AI。'**
+  String get publicGuideClientsParagraphTwo;
+
+  /// No description provided for @publicGuideClientsSource.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看 Flutter 移动客户端与构建说明'**
+  String get publicGuideClientsSource;
+
+  /// No description provided for @publicGuideAvailabilityTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'为什么同一个平台的不同链接会有不同结果？'**
+  String get publicGuideAvailabilityTitle;
+
+  /// No description provided for @publicGuideAvailabilityParagraphOne.
+  ///
+  /// In zh, this message translates to:
+  /// **'平台支持由部署实例、Provider 版本、访问条件和内容授权共同决定。存在某个平台的适配器，并不意味着该平台的所有链接均可处理。以当前实例的链接检查、Provider 状态与最终文件验证为准。'**
+  String get publicGuideAvailabilityParagraphOne;
+
+  /// No description provided for @publicGuideAvailabilityParagraphTwo.
+  ///
+  /// In zh, this message translates to:
+  /// **'默认匿名流程面向可正向确认的公开、免费、非 DRM 内容。只处理自己有权使用的素材；账号能看到内容不能替代下载、导出或后续使用授权。'**
+  String get publicGuideAvailabilityParagraphTwo;
+
+  /// No description provided for @publicGuideAvailabilitySource.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看能力范围与运行边界'**
+  String get publicGuideAvailabilitySource;
 
   /// No description provided for @publicExternalLinkError.
   ///

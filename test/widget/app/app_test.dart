@@ -468,7 +468,7 @@ void main() {
     expect(providerRepository.calls, 1);
   });
 
-  testWidgets('centers download metrics in a full-width phone summary', (
+  testWidgets('keeps left-aligned metrics in an even phone summary grid', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
@@ -1088,7 +1088,7 @@ void main() {
     );
 
     expect(find.byKey(const Key('public-home-screen')), findsOneWidget);
-    expect(find.text('FrameFetch · Open Source'), findsOneWidget);
+    expect(find.text('帧取 FrameFetch · 开源视频工作流'), findsOneWidget);
     expect(find.text('把素材，\n带回本地。'), findsOneWidget);
     expect(find.textContaining('数据与运行边界由你掌控'), findsOneWidget);
     expect(find.text('创建本地账户'), findsOneWidget);
@@ -1098,8 +1098,12 @@ void main() {
     expect(find.text('选择'), findsOneWidget);
     expect(find.text('执行'), findsOneWidget);
     expect(find.text('交付'), findsOneWidget);
-    expect(find.text('从公开媒体到可验证制品'), findsOneWidget);
+    expect(find.text('视频解析、剧本处理与 AI 分析'), findsOneWidget);
     expect(find.text('开源，不交出数据控制权'), findsOneWidget);
+    expect(find.text('运行与授权边界'), findsOneWidget);
+    expect(find.text('开始使用前，先了解这些'), findsOneWidget);
+    expect(find.text('帧取 FrameFetch 是什么？'), findsOneWidget);
+    expect(find.byKey(const Key('public-home-guide')), findsOneWidget);
     expect(find.text('在自己的基础设施上运行 FrameFetch'), findsOneWidget);
     expect(find.text('阅读部署说明'), findsOneWidget);
     expect(find.byKey(const Key('public-home-login')), findsOneWidget);

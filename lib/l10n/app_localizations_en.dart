@@ -449,6 +449,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSection => 'Account';
 
   @override
+  String get helpSection => 'Help and product';
+
+  @override
+  String get guideNavigation => 'User guide';
+
+  @override
+  String get guideEntryDescription =>
+      'Learn about content imports, AI analysis, client responsibilities, and self-hosting boundaries.';
+
+  @override
   String get darkThemeLabel => 'Dark appearance';
 
   @override
@@ -461,7 +471,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get switchToLightTheme => 'Switch to light theme';
 
   @override
-  String get publicHomeEyebrow => 'FrameFetch · Open Source';
+  String get publicHomeEyebrow => 'FrameFetch · Open-source video workflow';
 
   @override
   String get publicHomeTitle => 'Bring content\nback to your device.';
@@ -508,18 +518,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Preview or retrieve artifacts through authorized short-lived access';
 
   @override
-  String get publicCapabilitiesEyebrow => 'Product capabilities';
+  String get publicCapabilitiesEyebrow => 'Core capabilities';
 
   @override
   String get publicHomeCapabilitiesTitle =>
-      'From public media to verifiable artifacts';
+      'Video parsing, screenplay workflows, and AI analysis';
 
   @override
   String get publicHomeCapabilitiesDescription =>
       'The Web console, API, and workers share one permission, task, and artifact model for personal use and team self-hosting.';
 
   @override
-  String get publicVideoEyebrow => '01 · MEDIA';
+  String get publicVideoEyebrow => 'Public video';
 
   @override
   String get publicVideoTitle => 'Public video workflows';
@@ -529,7 +539,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Parse authorized public links, select real available formats, and track downloads through their final artifacts.';
 
   @override
-  String get publicDocumentEyebrow => '02 · SCREENPLAY';
+  String get publicDocumentEyebrow => 'Screenplay documents';
 
   @override
   String get publicDocumentTitle => 'Screenplay and document workflows';
@@ -539,7 +549,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Import authorized screenplay documents, then normalize, analyze, and retain processing records in one workspace.';
 
   @override
-  String get publicAnalysisEyebrow => '03 · ANALYSIS';
+  String get publicAnalysisEyebrow => 'AI analysis';
 
   @override
   String get publicAnalysisTitle => 'Structured AI video analysis';
@@ -549,7 +559,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Generate structured results and execution evidence for scenes, shots, highlights, and content assets.';
 
   @override
-  String get publicTrustEyebrow => 'Built for self-hosting';
+  String get publicTrustEyebrow => 'Self-hosted architecture';
 
   @override
   String get publicTrustTitle => 'Open source without giving up data control';
@@ -575,7 +585,77 @@ class AppLocalizationsEn extends AppLocalizations {
       'Public media is not automatically free to use. Only process content you are authorized to handle.';
 
   @override
-  String get publicStartEyebrow => 'Start locally';
+  String get publicSafetyEyebrow => 'Security boundaries';
+
+  @override
+  String get publicSafetyTitle => 'Execution and authorization boundaries';
+
+  @override
+  String get publicSafetyDescription =>
+      'Keep access, execution, and delivery as separate, inspectable boundaries.';
+
+  @override
+  String get publicFaqEyebrow => 'Common questions';
+
+  @override
+  String get publicFaqTitle => 'What to know before you begin';
+
+  @override
+  String get publicFaqDescription =>
+      'Understand supported inputs, analysis results, operating costs, and the mobile client boundary.';
+
+  @override
+  String get publicFaqWhatQuestion => 'What is FrameFetch?';
+
+  @override
+  String get publicFaqWhatAnswer =>
+      'FrameFetch is an MIT-licensed, open-source, self-hosted video parsing and AI analysis platform for creators, content researchers, and developers. It organizes authorized media links, local videos, and screenplay documents into tasks with artifact management, structured analysis, and report exports.';
+
+  @override
+  String get publicFaqReportsQuestion => 'What can AI video analysis produce?';
+
+  @override
+  String get publicFaqReportsAnswer =>
+      'Selected analysis capabilities can produce structured scenes, shots, timelines, and keyframe evidence, with Markdown and DOCX report exports. A configured model service and AI worker are required, and important conclusions should be checked against the original media.';
+
+  @override
+  String get publicFaqImportQuestion =>
+      'Can I analyze local videos and screenplays directly?';
+
+  @override
+  String get publicFaqImportAnswer =>
+      'Yes. Import local videos and screenplay documents that you are authorized to process. Screenplays support Markdown, Fountain, TXT, PDF, and DOCX, and can be read and analyzed without first supplying a third-party platform link.';
+
+  @override
+  String get publicFaqCostQuestion =>
+      'Does open source mean there are no operating costs?';
+
+  @override
+  String get publicFaqCostAnswer =>
+      'The source is available under the MIT license for self-hosting, use, and modification. Servers, object storage, network traffic, and external AI models may still incur costs; the project does not promise free hosting or model credits.';
+
+  @override
+  String get publicFaqPlatformsQuestion =>
+      'Does it support every platform and link?';
+
+  @override
+  String get publicFaqPlatformsAnswer =>
+      'No. Availability depends on the deployed instance, provider configuration, authorization, access conditions, and recent verification. Inspect a link before selecting a format. Public accessibility is not the same as permission to use the content.';
+
+  @override
+  String get publicFaqMobileQuestion =>
+      'Can the mobile app run AI analysis by itself?';
+
+  @override
+  String get publicFaqMobileAnswer =>
+      'The Flutter iOS and Android client connects to a self-hosted video-server. Media processing and AI inference run on the server; the mobile client does not bundle an offline extractor or offline AI model.';
+
+  @override
+  String get publicGuideAction =>
+      'Read the video analysis and self-hosting guide';
+
+  @override
+  String get publicStartEyebrow => 'Quick start';
 
   @override
   String get publicStartTitle => 'Run FrameFetch on your own infrastructure';
@@ -586,6 +666,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get publicDeploymentAction => 'Read deployment guide';
+
+  @override
+  String get publicGuideEyebrow => 'FrameFetch guide';
+
+  @override
+  String get publicGuideTitle => 'From source material to an analysis report';
+
+  @override
+  String get publicGuideDescription =>
+      'Learn how FrameFetch imports authorized videos and screenplay documents, runs AI shot analysis, exports Markdown and DOCX reports, and divides responsibilities among the Web UI, Flutter client, and self-hosted server.';
+
+  @override
+  String get publicGuideNotice =>
+      'This guide describes the current product flow. Follow the linked repository documentation for configuration and implementation details, and verify availability on the deployed instance.';
+
+  @override
+  String get publicGuideVideoTitle =>
+      'How do I produce a reviewable AI analysis report from a video?';
+
+  @override
+  String get publicGuideVideoParagraphOne =>
+      'Import a local video you own or are authorized to process, or inspect a public media link, confirm an available format, and create a task. After processing finishes, choose an analysis capability from the task details and submit an AI analysis task.';
+
+  @override
+  String get publicGuideVideoParagraphTwo =>
+      'The server-side AI worker produces structured scenes, shot timelines, and keyframe evidence. Outputs vary by capability, and reports can be exported as Markdown or DOCX for review and further editing. Check important conclusions against the original media and evidence.';
+
+  @override
+  String get publicGuideVideoParagraphThree =>
+      'Successful media processing does not mean analysis is complete. If AI is unavailable, check the configured model provider and AI worker status.';
+
+  @override
+  String get publicGuideVideoSource =>
+      'Review AI video analysis and report capabilities';
+
+  @override
+  String get publicGuideScreenplayTitle =>
+      'How do I work with screenplay documents?';
+
+  @override
+  String get publicGuideScreenplayParagraphOne =>
+      'Import Markdown, Fountain, TXT, PDF, or DOCX files into the screenplay workspace. You can read the normalized document, inspect its outline, and start analysis or rewriting while retaining the results and processing history in one workspace.';
+
+  @override
+  String get publicGuideScreenplayParagraphTwo =>
+      'Extraction quality depends on the source structure. Scans, complex layouts, and files with missing text require manual review; a successful task alone does not prove that every part of the original document was preserved.';
+
+  @override
+  String get publicGuideScreenplaySource =>
+      'Review current document processing capabilities';
+
+  @override
+  String get publicGuideDeploymentTitle =>
+      'Which services are required for self-hosting?';
+
+  @override
+  String get publicGuideDeploymentParagraphOne =>
+      'video-server includes the Next.js Web interface, FastAPI API, and separate download, media-processing, and AI workers. Docker Compose manages the business services and connects to PostgreSQL, RabbitMQ, Redis, and MinIO. The default Web and API ports are 8101 and 8111.';
+
+  @override
+  String get publicGuideDeploymentParagraphTwo =>
+      'Use the root README quick start to install and configure the system, then enable model services and media providers as needed. The MIT license opens the source; infrastructure, storage, traffic, and external model costs remain the deployer\'s responsibility.';
+
+  @override
+  String get publicGuideDeploymentParagraphThree =>
+      'Self-hosting does not guarantee that data never leaves the device. When an external AI provider is enabled, required analysis content is sent to that service. Review its data terms and confirm that the material may be used for analysis.';
+
+  @override
+  String get publicGuideDeploymentSource =>
+      'Read the self-hosting deployment steps';
+
+  @override
+  String get publicGuideClientsTitle =>
+      'When should I use the Web or iOS / Android client?';
+
+  @override
+  String get publicGuideClientsParagraphOne =>
+      'The Web UI ships with video-server and is suited to managing media, tasks, analysis reports, and administrator configuration. video-app is the separately maintained Flutter client for iOS and Android and connects to a reachable video-server.';
+
+  @override
+  String get publicGuideClientsParagraphTwo =>
+      'The mobile client handles uploads, task operations, and result presentation while media processing and AI inference remain server-side. It is currently built from source, with no App Store or Google Play package and no offline AI.';
+
+  @override
+  String get publicGuideClientsSource =>
+      'Review the Flutter mobile client and build instructions';
+
+  @override
+  String get publicGuideAvailabilityTitle =>
+      'Why can links from the same platform produce different results?';
+
+  @override
+  String get publicGuideAvailabilityParagraphOne =>
+      'Platform support depends on the deployed instance, provider version, access conditions, and content authorization. The presence of a platform adapter does not mean every link is processable. Use current link inspection, provider status, and final-file verification as the source of truth.';
+
+  @override
+  String get publicGuideAvailabilityParagraphTwo =>
+      'The default anonymous flow targets clearly public, free, non-DRM media. Only process material you are authorized to use; account access does not replace permission to download, export, or reuse content.';
+
+  @override
+  String get publicGuideAvailabilitySource =>
+      'Review capability and execution boundaries';
 
   @override
   String get publicExternalLinkError => 'The external link could not be opened';

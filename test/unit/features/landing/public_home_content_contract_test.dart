@@ -6,7 +6,7 @@ void main() {
   test('matches the Web public project introduction content baseline', () {
     final l10n = AppLocalizationsZh();
 
-    expect(l10n.publicHomeEyebrow, 'FrameFetch · Open Source');
+    expect(l10n.publicHomeEyebrow, '帧取 FrameFetch · 开源视频工作流');
     expect(l10n.publicHomeTitle, '把素材，\n带回本地。');
     expect(
       l10n.publicHomeDescription,
@@ -36,7 +36,8 @@ void main() {
         ('交付', '通过授权短时入口预览或获取制品'),
       ],
     );
-    expect(l10n.publicHomeCapabilitiesTitle, '从公开媒体到可验证制品');
+    expect(l10n.publicCapabilitiesEyebrow, '核心功能');
+    expect(l10n.publicHomeCapabilitiesTitle, '视频解析、剧本处理与 AI 分析');
     expect(
       l10n.publicHomeCapabilitiesDescription,
       'Web 控制面、API 与 Worker 共享同一套权限、任务和制品模型，适合个人本地使用，也便于团队自托管。',
@@ -72,6 +73,27 @@ void main() {
         '公开视频并不等于可自由使用，请仅处理已获授权的内容。',
       ],
     );
+    expect(l10n.publicSafetyTitle, '运行与授权边界');
+    expect(l10n.publicFaqTitle, '开始使用前，先了解这些');
+    expect(
+      [
+        l10n.publicFaqWhatQuestion,
+        l10n.publicFaqReportsQuestion,
+        l10n.publicFaqImportQuestion,
+        l10n.publicFaqCostQuestion,
+        l10n.publicFaqPlatformsQuestion,
+        l10n.publicFaqMobileQuestion,
+      ],
+      [
+        '帧取 FrameFetch 是什么？',
+        'AI 视频分析可以输出什么？',
+        '可以直接分析本地视频和剧本吗？',
+        '开源免费是否意味着运行没有成本？',
+        '是否支持所有视频平台和所有链接？',
+        '手机端是否能独立运行 AI 分析？',
+      ],
+    );
+    expect(l10n.publicGuideAction, '阅读视频分析与自托管使用指南');
     expect(l10n.publicStartTitle, '在自己的基础设施上运行 FrameFetch');
     expect(
       l10n.publicStartDescription,
@@ -87,6 +109,10 @@ void main() {
     expect(
       PublicHomeLinks.quickStart.toString(),
       'https://github.com/StephenQiu30/video-server/blob/main/README.md#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B',
+    );
+    expect(
+      PublicHomeLinks.mobileRepository.toString(),
+      'https://github.com/StephenQiu30/video-app',
     );
   });
 }

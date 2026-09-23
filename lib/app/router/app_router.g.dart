@@ -14,6 +14,7 @@ List<RouteBase> get $appRoutes => [
   $adminProvidersRoute,
   $adminAiProvidersRoute,
   $downloadHomeRoute,
+  $publicGuideRoute,
   $downloadDetailRoute,
   $documentDetailRoute,
   $loginRoute,
@@ -195,6 +196,33 @@ mixin $DownloadHomeRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $publicGuideRoute => GoRouteData.$route(
+  path: '/guide',
+  hasOverriddenOnExit: false,
+  factory: $PublicGuideRoute._fromState,
+);
+
+mixin $PublicGuideRoute on GoRouteData {
+  static PublicGuideRoute _fromState(GoRouterState state) =>
+      const PublicGuideRoute();
+
+  @override
+  String get location => GoRouteData.$location('/guide');
 
   @override
   void go(BuildContext context) => context.go(location);

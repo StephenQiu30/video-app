@@ -416,6 +416,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accountSection => '账户';
 
   @override
+  String get helpSection => '帮助与产品';
+
+  @override
+  String get guideNavigation => '使用指南';
+
+  @override
+  String get guideEntryDescription => '了解素材导入、AI 分析、客户端分工与自托管边界。';
+
+  @override
   String get darkThemeLabel => '深色外观';
 
   @override
@@ -428,7 +437,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get switchToLightTheme => '切换到浅色主题';
 
   @override
-  String get publicHomeEyebrow => 'FrameFetch · Open Source';
+  String get publicHomeEyebrow => '帧取 FrameFetch · 开源视频工作流';
 
   @override
   String get publicHomeTitle => '把素材，\n带回本地。';
@@ -471,17 +480,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get publicWorkflowDeliverDescription => '通过授权短时入口预览或获取制品';
 
   @override
-  String get publicCapabilitiesEyebrow => 'Product capabilities';
+  String get publicCapabilitiesEyebrow => '核心功能';
 
   @override
-  String get publicHomeCapabilitiesTitle => '从公开媒体到可验证制品';
+  String get publicHomeCapabilitiesTitle => '视频解析、剧本处理与 AI 分析';
 
   @override
   String get publicHomeCapabilitiesDescription =>
       'Web 控制面、API 与 Worker 共享同一套权限、任务和制品模型，适合个人本地使用，也便于团队自托管。';
 
   @override
-  String get publicVideoEyebrow => '01 · MEDIA';
+  String get publicVideoEyebrow => '公开视频';
 
   @override
   String get publicVideoTitle => '公开视频工作流';
@@ -490,7 +499,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get publicVideoDescription => '解析有权处理的公开链接，选择真实可用格式，并跟踪下载与最终制品。';
 
   @override
-  String get publicDocumentEyebrow => '02 · SCREENPLAY';
+  String get publicDocumentEyebrow => '剧本文档';
 
   @override
   String get publicDocumentTitle => '剧本与文档处理';
@@ -499,7 +508,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get publicDocumentDescription => '导入获授权的剧本文档，在同一工作区完成规范化、分析与处理记录。';
 
   @override
-  String get publicAnalysisEyebrow => '03 · ANALYSIS';
+  String get publicAnalysisEyebrow => 'AI 分析';
 
   @override
   String get publicAnalysisTitle => '结构化 AI 视频分析';
@@ -508,7 +517,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get publicAnalysisDescription => '围绕场景、分镜、高光和内容资产生成结构化结果与运行证据。';
 
   @override
-  String get publicTrustEyebrow => 'Built for self-hosting';
+  String get publicTrustEyebrow => '自托管架构';
 
   @override
   String get publicTrustTitle => '开源，不交出数据控制权';
@@ -530,7 +539,70 @@ class AppLocalizationsZh extends AppLocalizations {
   String get publicSafeguardAuthorization => '公开视频并不等于可自由使用，请仅处理已获授权的内容。';
 
   @override
-  String get publicStartEyebrow => 'Start locally';
+  String get publicSafetyEyebrow => '安全边界';
+
+  @override
+  String get publicSafetyTitle => '运行与授权边界';
+
+  @override
+  String get publicSafetyDescription => '把访问、执行和交付拆成可检查的边界。';
+
+  @override
+  String get publicFaqEyebrow => '常见问题';
+
+  @override
+  String get publicFaqTitle => '开始使用前，先了解这些';
+
+  @override
+  String get publicFaqDescription => '了解输入、分析结果、运行成本与移动端支持范围。';
+
+  @override
+  String get publicFaqWhatQuestion => '帧取 FrameFetch 是什么？';
+
+  @override
+  String get publicFaqWhatAnswer =>
+      '帧取是面向创作者、内容研究者和开发者的 MIT 开源自托管视频解析与 AI 分析平台。它把已获授权的媒体链接、本地视频和剧本文档组织为任务，并提供素材管理、结构化分析与报告导出。';
+
+  @override
+  String get publicFaqReportsQuestion => 'AI 视频分析可以输出什么？';
+
+  @override
+  String get publicFaqReportsAnswer =>
+      '按所选分析能力生成场景、分镜、时间轴和关键帧证据等结构化结果，报告可导出为 Markdown 或 DOCX。AI 分析需要配置可用的模型服务与 AI Worker；模型结论需要结合原始素材复核。';
+
+  @override
+  String get publicFaqImportQuestion => '可以直接分析本地视频和剧本吗？';
+
+  @override
+  String get publicFaqImportAnswer =>
+      '可以导入自己有权处理的本地视频与剧本文档。剧本支持 Markdown、Fountain、TXT、PDF 和 DOCX；导入后可在工作区阅读和发起分析，无需先提供第三方平台链接。';
+
+  @override
+  String get publicFaqCostQuestion => '开源免费是否意味着运行没有成本？';
+
+  @override
+  String get publicFaqCostAnswer =>
+      '源代码以 MIT 许可证开放，可自行部署、使用和修改。服务器、对象存储、网络流量和外部 AI 模型可能产生费用；本项目不承诺免费托管或免费模型额度。';
+
+  @override
+  String get publicFaqPlatformsQuestion => '是否支持所有视频平台和所有链接？';
+
+  @override
+  String get publicFaqPlatformsAnswer =>
+      '不保证所有平台或链接可用。实际能力取决于部署实例的 Provider 配置、内容授权、访问条件和最近验证结果；应先检查链接再选择格式。公开可访问不等于获得使用授权。';
+
+  @override
+  String get publicFaqMobileQuestion => '手机端是否能独立运行 AI 分析？';
+
+  @override
+  String get publicFaqMobileAnswer =>
+      'iOS 和 Android 客户端位于独立的 video-app 仓库，使用 Flutter 构建并连接自托管 video-server。媒体处理与 AI 推理由服务端执行，手机端不内置离线提取器或离线 AI 模型。';
+
+  @override
+  String get publicGuideAction => '阅读视频分析与自托管使用指南';
+
+  @override
+  String get publicStartEyebrow => '快速开始';
 
   @override
   String get publicStartTitle => '在自己的基础设施上运行 FrameFetch';
@@ -541,6 +613,97 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get publicDeploymentAction => '阅读部署说明';
+
+  @override
+  String get publicGuideEyebrow => 'FrameFetch 使用指南';
+
+  @override
+  String get publicGuideTitle => '从素材到分析报告';
+
+  @override
+  String get publicGuideDescription =>
+      '了解 FrameFetch 如何导入授权视频与剧本文档、执行 AI 分镜分析并导出 Markdown / DOCX 报告，以及 Web、Flutter 客户端和自托管服务端的分工。';
+
+  @override
+  String get publicGuideNotice => '本指南介绍当前产品流程。配置与实现以链接的仓库文档为准，实例可用性以实际检查结果为准。';
+
+  @override
+  String get publicGuideVideoTitle => '如何从视频得到可复核的 AI 分析报告？';
+
+  @override
+  String get publicGuideVideoParagraphOne =>
+      '先导入自己拥有或已获授权的本地视频，也可以检查公开媒体链接、确认可用格式并创建任务。视频完成处理后，在任务详情选择分析能力并提交 AI 分析任务。';
+
+  @override
+  String get publicGuideVideoParagraphTwo =>
+      '服务端 AI Worker 执行分析，页面展示场景、分镜时间轴、关键帧证据等结构化结果。不同分析能力输出不同内容；报告支持 Markdown 与 DOCX 导出，便于继续整理、审阅和分享。关键结论应对照视频与证据复核。';
+
+  @override
+  String get publicGuideVideoParagraphThree =>
+      '媒体处理成功不代表分析已经完成；AI 服务不可用时，检查管理员配置的模型 Provider 与 AI Worker 状态。';
+
+  @override
+  String get publicGuideVideoSource => '查看 AI 视频分析与报告能力';
+
+  @override
+  String get publicGuideScreenplayTitle => '如何处理剧本文档？';
+
+  @override
+  String get publicGuideScreenplayParagraphOne =>
+      '在剧本文档工作区导入 Markdown、Fountain、TXT、PDF 或 DOCX。导入后可阅读规范化文档、查看目录并发起分析或改写，结果与处理记录保存在同一工作区。';
+
+  @override
+  String get publicGuideScreenplayParagraphTwo =>
+      '文档是否能够完整提取取决于原文件结构。扫描件、复杂版式或缺失文本的文件需要检查导入结果，不能仅凭任务成功就判断原文已经完整保留。';
+
+  @override
+  String get publicGuideScreenplaySource => '查看当前文档处理能力';
+
+  @override
+  String get publicGuideDeploymentTitle => '自托管需要部署哪些服务？';
+
+  @override
+  String get publicGuideDeploymentParagraphOne =>
+      'video-server 包含 Next.js Web 页面、FastAPI API，以及独立的下载、媒体处理与 AI Worker。Docker Compose 管理业务服务，并连接部署者已有的 PostgreSQL、RabbitMQ、Redis 和 MinIO。默认 Web 端口为 8101，API 端口为 8111。';
+
+  @override
+  String get publicGuideDeploymentParagraphTwo =>
+      '使用根 README 的快速开始说明安装和配置，按实际需求启用模型服务与媒体 Provider。MIT 许可证开放源代码；基础设施、存储、流量和外部模型的费用由部署者承担。';
+
+  @override
+  String get publicGuideDeploymentParagraphThree =>
+      '自托管不表示数据永远不离开设备：使用外部 AI Provider 时，分析所需内容会发送到该服务。启用模型前应核对其数据处理约定，并确认素材可用于该分析。';
+
+  @override
+  String get publicGuideDeploymentSource => '阅读自托管部署步骤';
+
+  @override
+  String get publicGuideClientsTitle => 'Web 与 iOS / Android 客户端如何选择？';
+
+  @override
+  String get publicGuideClientsParagraphOne =>
+      'Web 随 video-server 部署，适合在浏览器中管理素材、任务、分析报告与管理员配置。video-app 是单独维护的 Flutter 原生客户端，面向 iOS 和 Android，需要连接可访问的 video-server。';
+
+  @override
+  String get publicGuideClientsParagraphTwo =>
+      '手机端负责上传、任务操作与结果展示，媒体处理与 AI 推理仍由服务端完成。当前移动端从源码构建，不提供 App Store 或 Google Play 预构建安装包，也不提供离线 AI。';
+
+  @override
+  String get publicGuideClientsSource => '查看 Flutter 移动客户端与构建说明';
+
+  @override
+  String get publicGuideAvailabilityTitle => '为什么同一个平台的不同链接会有不同结果？';
+
+  @override
+  String get publicGuideAvailabilityParagraphOne =>
+      '平台支持由部署实例、Provider 版本、访问条件和内容授权共同决定。存在某个平台的适配器，并不意味着该平台的所有链接均可处理。以当前实例的链接检查、Provider 状态与最终文件验证为准。';
+
+  @override
+  String get publicGuideAvailabilityParagraphTwo =>
+      '默认匿名流程面向可正向确认的公开、免费、非 DRM 内容。只处理自己有权使用的素材；账号能看到内容不能替代下载、导出或后续使用授权。';
+
+  @override
+  String get publicGuideAvailabilitySource => '查看能力范围与运行边界';
 
   @override
   String get publicExternalLinkError => '暂时无法打开外部链接';

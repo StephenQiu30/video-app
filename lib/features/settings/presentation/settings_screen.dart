@@ -53,11 +53,23 @@ final class SettingsScreen extends ConsumerWidget {
                     const AccountSessionSection(),
                     const SizedBox(height: AppSpacing.large),
                     const ProfileEditor(),
+                    const SizedBox(height: AppSpacing.section),
+                    _SectionLabel(label: localizations.helpSection),
+                    const SizedBox(height: AppSpacing.small),
+                    _NavigationEntry(
+                      key: const Key('public-guide-entry'),
+                      icon: PhosphorIconsRegular.bookOpenText,
+                      onTap: () => context.push('/guide'),
+                      title: localizations.guideNavigation,
+                      description: localizations.guideEntryDescription,
+                    ),
                     if (isAdmin) ...[
                       const SizedBox(height: AppSpacing.section),
                       _SectionLabel(label: localizations.adminCenterTitle),
                       const SizedBox(height: AppSpacing.small),
-                      _AdminEntry(
+                      _NavigationEntry(
+                        key: const Key('admin-center-entry'),
+                        icon: PhosphorIconsRegular.shieldCheck,
                         onTap: () => context.push('/admin'),
                         title: localizations.adminCenterTitle,
                         description: localizations.adminCenterDescription,
@@ -112,21 +124,23 @@ final class _LogoutAction extends ConsumerWidget {
   }
 }
 
-final class _AdminEntry extends StatelessWidget {
-  const _AdminEntry({
+final class _NavigationEntry extends StatelessWidget {
+  const _NavigationEntry({
     required this.description,
+    required this.icon,
     required this.onTap,
     required this.title,
+    super.key,
   });
 
   final String description;
+  final IconData icon;
   final VoidCallback onTap;
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return ShadButton.ghost(
-      key: const Key('admin-center-entry'),
       onPressed: onTap,
       padding: EdgeInsets.zero,
       height: 0,
@@ -136,7 +150,7 @@ final class _AdminEntry extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.medium),
         child: Row(
           children: [
-            const Icon(PhosphorIconsRegular.shieldCheck),
+            Icon(icon),
             const SizedBox(width: AppSpacing.medium),
             Expanded(
               child: Column(

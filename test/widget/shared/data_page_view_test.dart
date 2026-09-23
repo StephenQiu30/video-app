@@ -36,4 +36,38 @@ void main() {
       ),
     );
   });
+
+  testWidgets('keeps metrics and state messages left aligned', (tester) async {
+    await pumpShadWidget(
+      tester,
+      const ShadTestApp(
+        home: Scaffold(
+          body: Column(
+            children: [
+              DataMetricGrid(
+                keyPrefix: 'summary',
+                metrics: [
+                  DataMetricValue(key: 'total', label: '全部', value: '81'),
+                ],
+              ),
+              DataStateMessage(title: '暂时无法读取数据', description: '请检查网络连接后重试。'),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    expect(tester.widget<Text>(find.text('81')).textAlign, TextAlign.start);
+    expect(tester.widget<Text>(find.text('全部')).textAlign, TextAlign.start);
+    expect(
+      tester.widget<Text>(find.text('请检查网络连接后重试。')).textAlign,
+      TextAlign.start,
+    );
+    final stateColumn = tester.widget<Column>(
+      find
+          .ancestor(of: find.text('暂时无法读取数据'), matching: find.byType(Column))
+          .first,
+    );
+    expect(stateColumn.crossAxisAlignment, CrossAxisAlignment.start);
+  });
 }

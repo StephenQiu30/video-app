@@ -6,4 +6,8 @@ abstract final class PublicHomeLinks {
   static final Uri quickStart = Uri.parse(
     'https://github.com/StephenQiu30/video-server/blob/main/README.md#快速开始',
   );
+
+  static final Uri mobileRepository = Uri.parse(
+    'https://github.com/StephenQiu30/video-app',
+  );
 }

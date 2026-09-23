@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:framegrab/core/theme/app_spacing.dart';
 import 'package:framegrab/features/landing/domain/public_home_links.dart';
 import 'package:framegrab/features/landing/presentation/public_home_details.dart';
+import 'package:framegrab/features/landing/presentation/public_home_faq.dart';
 import 'package:framegrab/features/landing/presentation/public_home_section_intro.dart';
 import 'package:framegrab/features/landing/presentation/public_home_workflow.dart';
 import 'package:framegrab/l10n/app_localizations.dart';
@@ -149,19 +150,16 @@ final class PublicHomeScreen extends StatelessWidget {
                               eyebrow: l10n.publicVideoEyebrow,
                               title: l10n.publicVideoTitle,
                               description: l10n.publicVideoDescription,
-                              icon: PhosphorIconsRegular.videoCamera,
                             ),
                             (
                               eyebrow: l10n.publicDocumentEyebrow,
                               title: l10n.publicDocumentTitle,
                               description: l10n.publicDocumentDescription,
-                              icon: PhosphorIconsRegular.fileText,
                             ),
                             (
                               eyebrow: l10n.publicAnalysisEyebrow,
                               title: l10n.publicAnalysisTitle,
                               description: l10n.publicAnalysisDescription,
-                              icon: PhosphorIconsRegular.sparkle,
                             ),
                           ],
                         ),
@@ -172,6 +170,12 @@ final class PublicHomeScreen extends StatelessWidget {
                           title: l10n.publicTrustTitle,
                         ),
                         const SizedBox(height: AppSpacing.xLarge),
+                        PublicHomeSectionIntro(
+                          description: l10n.publicSafetyDescription,
+                          eyebrow: l10n.publicSafetyEyebrow,
+                          title: l10n.publicSafetyTitle,
+                        ),
+                        const SizedBox(height: AppSpacing.xLarge),
                         PublicHomeSafeguards(
                           items: [
                             l10n.publicSafeguardSession,
@@ -179,6 +183,52 @@ final class PublicHomeScreen extends StatelessWidget {
                             l10n.publicSafeguardArtifacts,
                             l10n.publicSafeguardAuthorization,
                           ],
+                        ),
+                        const SizedBox(height: AppSpacing.section),
+                        PublicHomeFaq(
+                          description: l10n.publicFaqDescription,
+                          eyebrow: l10n.publicFaqEyebrow,
+                          title: l10n.publicFaqTitle,
+                          items: [
+                            (
+                              question: l10n.publicFaqWhatQuestion,
+                              answer: l10n.publicFaqWhatAnswer,
+                            ),
+                            (
+                              question: l10n.publicFaqReportsQuestion,
+                              answer: l10n.publicFaqReportsAnswer,
+                            ),
+                            (
+                              question: l10n.publicFaqImportQuestion,
+                              answer: l10n.publicFaqImportAnswer,
+                            ),
+                            (
+                              question: l10n.publicFaqCostQuestion,
+                              answer: l10n.publicFaqCostAnswer,
+                            ),
+                            (
+                              question: l10n.publicFaqPlatformsQuestion,
+                              answer: l10n.publicFaqPlatformsAnswer,
+                            ),
+                            (
+                              question: l10n.publicFaqMobileQuestion,
+                              answer: l10n.publicFaqMobileAnswer,
+                            ),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: ShadButton.link(
+                            key: const Key('public-home-guide'),
+                            onPressed: () => context.push('/guide'),
+                            trailing: const Icon(
+                              PhosphorIconsRegular.arrowRight,
+                              size: 18,
+                            ),
+                            child: Flexible(
+                              child: Text(l10n.publicGuideAction),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: AppSpacing.section),
                         PublicHomeSectionIntro(

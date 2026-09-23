@@ -13,6 +13,7 @@ import 'package:framegrab/features/auth/presentation/register_screen.dart';
 import 'package:framegrab/features/auth/presentation/session_restore_screen.dart';
 import 'package:framegrab/features/documents/presentation/document_detail_screen.dart';
 import 'package:framegrab/features/history/presentation/download_detail_screen.dart';
+import 'package:framegrab/features/landing/presentation/public_guide_screen.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_router.g.dart';
@@ -25,13 +26,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ),
     (_, _) => refresh.notify(),
   );
+  final platformRoute =
+      WidgetsBinding.instance.platformDispatcher.defaultRouteName;
+  const routeOverride = String.fromEnvironment('FRAMEGRAB_INITIAL_ROUTE');
   final router = GoRouter(
+    initialLocation: routeOverride.isNotEmpty
+        ? routeOverride
+        : platformRoute.isEmpty
+        ? '/'
+        : platformRoute,
+    overridePlatformDefaultLocation: true,
     routes: $appRoutes,
     refreshListenable: refresh,
-    redirect: (_, state) => _redirectForAuth(
+    redirect: (_, state) => authRedirect(
       phase: ref.read(authSessionProvider).phase,
       isAdmin: ref.read(authSessionProvider).user?.role.name == 'admin',
-      location: state.matchedLocation,
+      uri: state.uri,
     ),
   );
   ref.onDispose(refresh.dispose);
@@ -39,22 +49,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return router;
 });
 
-String? _redirectForAuth({
+String? authRedirect({
   required AuthSessionPhase phase,
   required bool isAdmin,
-  required String location,
+  required Uri uri,
 }) {
+  final location = uri.path;
   final isEntry = location == '/auth/login' || location == '/auth/register';
   final isRestore = location == '/auth/restoring';
   final isAuthLocation = location.startsWith('/auth/');
   final isPublicHome = location == '/';
+  final isPublicGuide = location == '/guide';
 
   if (phase == AuthSessionPhase.restoring) {
-    return isRestore ? null : '/auth/restoring';
+    if (isRestore || isPublicHome || isPublicGuide) return null;
+    return Uri(
+      path: '/auth/restoring',
+      queryParameters: {'from': uri.toString()},
+    ).toString();
   }
   if (phase == AuthSessionPhase.signedOut) {
     if (isRestore) return '/';
-    return isEntry || isPublicHome ? null : '/auth/login';
+    return isEntry || isPublicHome || isPublicGuide ? null : '/auth/login';
+  }
+  if (phase == AuthSessionPhase.signedIn && isRestore) {
+    return _safeReturnLocation(uri.queryParameters['from']);
   }
   if (phase == AuthSessionPhase.signedIn && isAuthLocation) return '/';
   if (phase == AuthSessionPhase.signedIn &&
@@ -63,6 +82,16 @@ String? _redirectForAuth({
     return '/';
   }
   return null;
+}
+
+String _safeReturnLocation(String? location) {
+  if (location == null ||
+      !location.startsWith('/') ||
+      location.startsWith('//') ||
+      location.startsWith('/auth/')) {
+    return '/';
+  }
+  return location;
 }
 
 @TypedGoRoute<AdminHomeRoute>(path: '/admin')
@@ -137,6 +166,16 @@ final class DownloadHomeRoute extends GoRouteData with $DownloadHomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const RootScreen();
+  }
+}
+
+@TypedGoRoute<PublicGuideRoute>(path: '/guide')
+final class PublicGuideRoute extends GoRouteData with $PublicGuideRoute {
+  const PublicGuideRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const PublicGuideScreen();
   }
 }
 

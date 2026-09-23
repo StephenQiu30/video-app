@@ -169,6 +169,8 @@ video-app/
 - Button、Input、Select、Dialog、Sheet、Tabs、Card、Table/List、Alert、Toast 等状态必须覆盖默认、按下/悬停（适用时）、聚焦、禁用、加载、错误和深浅色。
 - 组件缺口先补共享封装和对应 Widget/视觉测试，再用于 feature 页面；不得用 Material/Cupertino 外观临时占位后长期保留。
 - 图标只使用 Phosphor 语义映射；平台规定必须使用系统控件的场景作为明确例外记录。
+- 页面标题、正文、指标、空状态、错误状态与动作区默认左对齐；只有底部导航标签、单纯图标按钮等控件内容可居中。
+- Web 新增面向用户的页面或内容章节时，App 必须同步更新路由/入口、信息层级、ARB 文案和 Widget 内容契约；若因平台边界不实现，必须在 Design/Acceptance 明确记录。
 - 每次 Web Token 或核心组件变更，都要同时更新 App 映射、组件预览/视觉基线和 Design/Acceptance 记录。
 
 ## 7. 接口与运行边界
