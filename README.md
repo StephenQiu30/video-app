@@ -5,6 +5,7 @@
 [![Flutter quality](https://github.com/StephenQiu30/video-app/actions/workflows/flutter-quality.yml/badge.svg)](https://github.com/StephenQiu30/video-app/actions/workflows/flutter-quality.yml)
 [![Flutter 3.44.7](https://img.shields.io/badge/Flutter-3.44.7-02569B?logo=flutter)](https://flutter.dev/)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android-111827)](#支持范围与限制)
+[![Release](https://img.shields.io/github/v/release/StephenQiu30/video-app?color=111827)](https://github.com/StephenQiu30/video-app/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-16a34a.svg)](LICENSE)
 
 **FrameFetch（帧取）是面向自托管 `video-server` 的开源 Flutter 移动客户端。** 它让 iOS 与 Android 用户在原生界面中检查有权处理的公开视频、上传本地 MP4 与剧本文档、创建与跟踪下载任务，并按需发起由服务端执行的 AI 视频分析。
@@ -192,6 +193,10 @@ flutter build ios --simulator --no-codesign
 - 问题与建议：[GitHub Issues](https://github.com/StephenQiu30/video-app/issues)
 
 提交 Issue 前请区分 App 与 Server：移动界面、原生会话和设备行为提交到本仓库；API、Web、Provider、队列、对象存储和 AI Worker 提交到 [`video-server`](https://github.com/StephenQiu30/video-server/issues)。
+
+## 引用
+
+在论文、报告或课程材料中使用本客户端时，可点击仓库侧栏的 “Cite this repository”，或使用根目录的 [`CITATION.cff`](CITATION.cff)。版本变更见 [Releases](https://github.com/StephenQiu30/video-app/releases)。
 
 ## 许可证
 

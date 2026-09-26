@@ -5,6 +5,7 @@
 [![Flutter quality](https://github.com/StephenQiu30/video-app/actions/workflows/flutter-quality.yml/badge.svg)](https://github.com/StephenQiu30/video-app/actions/workflows/flutter-quality.yml)
 [![Flutter 3.44.7](https://img.shields.io/badge/Flutter-3.44.7-02569B?logo=flutter)](https://flutter.dev/)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android-111827)](#scope-and-limitations)
+[![Release](https://img.shields.io/github/v/release/StephenQiu30/video-app?color=111827)](https://github.com/StephenQiu30/video-app/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-16a34a.svg)](LICENSE)
 
 **FrameFetch is an open-source Flutter client for self-hosted media workflows on iOS and Android.** It connects to [`video-server`](https://github.com/StephenQiu30/video-server) to inspect authorized public-video links, upload local MP4 videos and screenplays, create and track download jobs, access completed media, inspect provider health, and run server-side AI video analysis.
@@ -149,6 +150,10 @@ Integration tests require a usable server and device/simulator environment. See 
 ## Contributing
 
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), and [`SECURITY.md`](SECURITY.md). Use this repository for mobile UI, native-session, and device issues. Report API, Web, provider, queue, storage, or AI Worker issues to [`video-server`](https://github.com/StephenQiu30/video-server/issues).
+
+## Citation
+
+To cite this client in papers, reports or course material, use “Cite this repository” in the GitHub sidebar or the root [`CITATION.cff`](CITATION.cff). See [Releases](https://github.com/StephenQiu30/video-app/releases) for version history.
 
 ## License
 
