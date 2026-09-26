@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use the FrameFetch mobile client in research or publications, please cite it as below."
+title: "FrameFetch (帧取) App: Flutter iOS and Android client for self-hosted media workflows"
+abstract: >-
+  Open-source Flutter client for a self-hosted FrameFetch video-server,
+  covering authorized media inspection, local uploads, download task
+  tracking and server-side AI video analysis results.
+type: software
+authors:
+  - alias: StephenQiu30
+repository-code: "https://github.com/StephenQiu30/video-app"
+license: MIT
+keywords:
+  - flutter
+  - ios
+  - android
+  - self-hosted
+  - video-analysis
